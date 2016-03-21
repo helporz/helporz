@@ -1,0 +1,10 @@
+/**
+ * Created by binfeng on 16/3/17.
+ */
+var appConfig = {
+  WECHATAPPID:"wx83baa5a0812afb2c",
+  APP_ID:"",
+  //API_SVC_URL:"http://api.helporz.com:8080/api",
+  API_SVC_URL:"http://127.0.0.1:8080/api",
+  JPUSH_APPKEY:"eb3ccc662104edc368b17281"
+};

@@ -1,0 +1,45 @@
+<ion-view>
+  <style type="text/css">
+    ion-slide{
+      height:100%;
+      width:100%;
+      text-align:center;
+    }
+
+    ion-slide img{
+      /*max-width:720px;*/
+      /*max-height:1280px;*/
+      height:auto;
+      width:100%;
+    }
+
+  </style>
+
+  <ion-content>
+    <ion-slide-box does-continue="false" on-slide-changed="onChanged(index)"  show-pager="false" >
+      <ion-slide>
+        <img src="img/intro/jieshao1@2x.png">
+      </ion-slide>
+      <ion-slide>
+        <img src="img/intro/jieshao2@2x.png">
+      </ion-slide>
+      <ion-slide>
+        <img src="img/intro/jieshao3@2x.png">
+      </ion-slide>
+      <ion-slide>
+        <img src="img/intro/jieshao4@2x.png">
+        <!--
+        后续在第四页增加进入app按钮
+        -->
+      </ion-slide>
+
+      <!--后续去掉第五页-->
+      <ion-slide>
+        <div class="row">
+            <h1  class="col-50 col-offset-10">进入大侠拜托</h1>
+        </div>
+      </ion-slide>
+
+    </ion-slide-box>
+  </ion-content>
+</ion-view>
