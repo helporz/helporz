@@ -13,6 +13,7 @@
     angular.module('starter', ['ionic',
       'ngResource',
       'ngCordova',
+      'pusher',
       'starter.controllers',
       'starter.services',
       'service.login',
@@ -25,6 +26,7 @@
         '$timeout',
         '$cordovaDialogs',
         '$state',
+        'pushService',
         init
       ])
 
@@ -35,7 +37,7 @@
 
 
     //function init($ionicPlatform, $cordovaDevice, $cordovaNetwork, $timeout, $cordovaDialogs, $state) {
-      function init($ionicPlatform,  $timeout, $cordovaDialogs, $state) {
+      function init($ionicPlatform,  $timeout, $cordovaDialogs, $state,pushService) {
       $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -47,6 +49,101 @@
           // org.apache.cordova.statusbar required
           StatusBar.styleDefault();
         }
+
+
+        ////推送初始化
+        //var setTagsWithAliasCallback=function(event){
+        //  window.alert('result code:'+event.resultCode+' tags:'+event.tags+' alias:'+event.alias);
+        //}
+        //
+        //var openNotificationInAndroidCallback=function(data){
+        //  var json=data;
+        //  window.alert(json);
+        //  if(typeof data === 'string'){
+        //    json=JSON.parse(data);
+        //  }
+        //  var id=json.extras['cn.jpush.android.EXTRA'].id;
+        //  //window.alert(id);
+        //  $state.go('detail',{id:id});
+        //}
+
+        var onOpenNotification = function (event) {
+          console.log(" index onOpenNotification");
+
+          try {
+            var alertContent;
+            if (device.platform == "Android") {
+              alertContent = event.alert;
+            } else {
+              alertContent = event.aps.alert;
+            }
+            alert("open Notificaiton:" + alertContent);
+
+          }
+          catch (exception) {
+            console.log("JPushPlugin:onOpenNotification" + exception);
+          }
+        }
+
+        var onReceiveNotification = function (event) {
+          console.log(" index onReceiveNotification");
+          try {
+            var alertContent;
+            if (device.platform == "Android") {
+              //alertContent = window.plugins.jPushPlugin.receiveNotification.alert;
+              alertContent = event.alert;
+            } else {
+              alertContent = event.aps.alert;
+            }
+            alert("Receive Notificaiton:" + alertContent);
+            //$("#notificationResult").html(alertContent);
+
+          }
+          catch (exeption) {
+            console.log(exception)
+          }
+        }
+
+        var onReceivePushMessage = function (event) {
+          try {
+            var message;
+            if (device.platform == "Android") {
+              message = event.message;
+            } else {
+              message = event.content;
+            }
+            console.log(message);
+            alert("Receive Push Message:" + message );
+            //$("#messageResult").html(message);
+          }
+          catch (exception) {
+            console.log("JPushPlugin:onReceivePushMessage-->" + exception);
+          }
+        }
+
+        var onSetTagsWithAlias = function (event) {
+          try {
+            console.log("onSetTagsWithAlias");
+            var result = "result code:" + event.resultCode + " ";
+            result += "tags:" + event.tags + " ";
+            result += "alias:" + event.alias + " ";
+            $("#tagAliasResult").html(result);
+          }
+          catch (exception) {
+            console.log(exception)
+          }
+        }
+
+        var config={
+          onOpenNotification: onOpenNotification,
+          onReceiveNotification: onReceiveNotification,
+          onReceivePushMessage: onReceivePushMessage,
+          onSetTagsWithAlias: onSetTagsWithAlias
+        };
+
+        pushService.init(config);
+
+        pushService.getReistrationID();
 
         //var device = $cordovaDevice.getDevice();
         //var newtork = $cordovaNetwork.getNetwork();
