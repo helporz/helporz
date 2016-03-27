@@ -10,10 +10,11 @@
   function(window) {
     "use strict";
 
-    angular.module('starter', ['ionic',
+    angular.module('app', ['ionic',
       'ngResource',
       'ngCordova',
       'pusher',
+      'app.routes',
       'starter.controllers',
       'starter.services',
       'service.login',
@@ -31,13 +32,13 @@
       ])
 
       .config(['$stateProvider','$urlRouterProvider','$httpProvider',function($stateProvider, $urlRouterProvider,$httpProvider) {
-        configRouter($stateProvider,$urlRouterProvider);
+        //configRouter($stateProvider,$urlRouterProvider);
         setHttpProvider($httpProvider);
       }]);
 
 
     //function init($ionicPlatform, $cordovaDevice, $cordovaNetwork, $timeout, $cordovaDialogs, $state) {
-      function init($ionicPlatform,  $timeout, $cordovaDialogs, $state,pushService) {
+      function init($ionicPlatform,$cordovaDevice, $cordovaNetwork,  $timeout, $cordovaDialogs, $state,pushService) {
       $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -141,9 +142,23 @@
           onSetTagsWithAlias: onSetTagsWithAlias
         };
 
-        pushService.init(config);
+        document.addEventListener("deviceready", function () {
+          pushService.init(config);
 
-        pushService.getReistrationID();
+          pushService.getReistrationID();
+
+          if (device.platform != "Android") {
+            window.plugins.jPushPlugin.setDebugModeFromIos();
+            window.plugins.jPushPlugin.setApplicationIconBadgeNumber(0);
+          } else {
+            window.plugins.jPushPlugin.setDebugMode(true);
+          }
+        }, false);
+
+        document.addEventListener("jpush.setTagsWithAlias",onSetTagsWithAlias, false);
+        document.addEventListener("jpush.openNotification", onOpenNotification, false);
+        document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
+        document.addEventListener("jpush.receiveMessage", onReceivePushMessage, false);
 
         //var device = $cordovaDevice.getDevice();
         //var newtork = $cordovaNetwork.getNetwork();
@@ -272,73 +287,74 @@
       // Learn more here: https://github.com/angular-ui/ui-router
       // Set up the various states which the app can be in.
       // Each state's controller can be found in controllers.js
-      $stateProvider
-
-        // setup an abstract state for the tabs directive
-        .state('tab', {
-          url: '/tab',
-          abstract: true,
-          templateUrl: 'templates/tabs.html'
-        })
-
-        // Each tab has its own nav history stack:
-
-        .state('tab.dash', {
-          url: '/dash',
-          views: {
-            'tab-dash': {
-              templateUrl: 'templates/tab-dash.html',
-              controller: 'DashCtrl'
-            }
-          }
-        })
-
-        .state('tab.chats', {
-          url: '/chats',
-          views: {
-            'tab-chats': {
-              templateUrl: 'templates/tab-chats.html',
-              controller: 'ChatsCtrl'
-            }
-          }
-        })
-        .state('tab.chat-detail', {
-          url: '/chats/:chatId',
-          views: {
-            'tab-chats': {
-              templateUrl: 'templates/chat-detail.html',
-              controller: 'ChatDetailCtrl'
-            }
-          }
-        })
-
-        .state('tab.account', {
-          url: '/account',
-          views: {
-            'tab-account': {
-              templateUrl: 'templates/tab-account.html',
-              controller: 'AccountCtrl'
-            }
-          }
-        });
-
-      $stateProvider.state('login',{
-        url:'/login',
-        templateUrl: 'templates/login/login.html',
-        controller: 'loginCtrl'
-      });
-      $stateProvider.state('intro',{
-        url:'/intro',
-        templateUrl: 'templates/intro.html',
-        controller: 'introCtrl'
-      });
-
-      $stateProvider.state('userProto',{
-        url:'/user/proto',
-        templateUrl:'templates/user-proto.html'
-      });
-      // if none of the above states are matched, use this as the fallback
-      $urlRouterProvider.otherwise('/intro');
+      //$stateProvider
+      //
+      //  // setup an abstract state for the tabs directive
+      //  .state('tab', {
+      //    url: '/tab',
+      //    abstract: true,
+      //    templateUrl: 'templates/temp/tabs.html'
+      //  })
+      //
+      //  // Each tab has its own nav history stack:
+      //
+      //  .state('tab.dash', {
+      //    url: '/dash',
+      //    views: {
+      //      'tab-dash': {
+      //        templateUrl: 'templates/temp/tab-dash.html',
+      //        controller: 'DashCtrl'
+      //      }
+      //    }
+      //  })
+      //
+      //  .state('tab.chats', {
+      //    url: '/chats',
+      //    views: {
+      //      'tab-chats': {
+      //        templateUrl: 'templates/temp/tab-chats.html',
+      //        controller: 'ChatsCtrl'
+      //      }
+      //    }
+      //  })
+      //  .state('tab.chat-detail', {
+      //    url: '/chats/:chatId',
+      //    views: {
+      //      'tab-chats': {
+      //        templateUrl: 'templates/temp/chat-detail.html',
+      //        controller: 'ChatDetailCtrl'
+      //      }
+      //    }
+      //  })
+      //
+      //  .state('tab.account', {
+      //    url: '/account',
+      //    views: {
+      //      'tab-account': {
+      //        templateUrl: 'templates/temp/tab-account.html',
+      //        controller: 'AccountCtrl'
+      //      }
+      //    }
+      //  });
+      //
+      //$stateProvider.state('login',{
+      //  url:'/login',
+      //  templateUrl: 'templates/login/login.html',
+      //  controller: 'loginCtrl'
+      //});
+      //$stateProvider.state('intro',{
+      //  url:'/intro',
+      //  templateUrl: 'templates/intro.html',
+      //  controller: 'introCtrl'
+      //});
+      //
+      //$stateProvider.state('userProto',{
+      //  url:'/user/proto',
+      //  templateUrl:'templates/user-proto.html'
+      //});
+      //// if none of the above states are matched, use this as the fallback
+      //$urlRouterProvider.otherwise('/user/proto');
+      ////$urlRouterProvider.otherwise('/intro');
     }
   }
 )(this);

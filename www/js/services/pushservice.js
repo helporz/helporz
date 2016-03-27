@@ -4,16 +4,18 @@
 ;(
   function(window) {
     'use strict';
-    var pusher = angular.module('pusher',['ionic']);
-    pusher.factory('pushService',['$http','$window','$document',pushServiceFactoryFn]);
+    angular.module('pusher',['ionic']).
+    factory('pushService',['$http','$window','$document',pushServiceFactoryFn]);
 
-    function pushServiceFactoryFn($http,$windows,$document) {
+    function pushServiceFactoryFn($http,$window,$document) {
       var jpushServiceFactory={};
       var registrationId = '';
 
       //启动极光推送
       var _init=function(config){
+        console.log($document);
         $window.plugins.jPushPlugin.init();
+        $window.plugins.jmessagePlugin.init();
         //设置tag和Alias触发事件处理
 
         document.addEventListener("jpush.setTagsWithAlias", config.onSetTagsWithAlias, false);
