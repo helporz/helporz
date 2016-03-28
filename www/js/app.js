@@ -18,7 +18,9 @@
       'starter.controllers',
       'starter.services',
       'service.login',
-      'service.intro'])
+      'service.intro',
+      'topnav',
+    ])
 
       .run([
         '$ionicPlatform',

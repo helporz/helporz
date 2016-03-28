@@ -4,7 +4,7 @@
 ;(function(window) {
   "use strict;"
 
-  angular.module('service.login',['ngCordova']).controller('loginCtrl',['$scope','$http',loginCtrl])
+  angular.module('service.login',['ngCordova']).controller('loginCtrl',['$scope','$http', '$state', loginCtrl])
     .controller('dynamicLogin',function($scope) {
 
       $http.post('login/dynamic_login',{}).success(
@@ -64,7 +64,7 @@
     }]);
 
 
-  function loginCtrl($scope,$http) {
+  function loginCtrl($scope,$http,$state) {
     $scope.phoneno = '';
     $scope.smscode = '';
 
@@ -80,6 +80,9 @@
         }).error(function(event) {
           console.log(event);
         });
+
+      // lkj test:
+      $state.go("topnav.near")
     }
 
     //document.addEventListener("deviceready", function () {
