@@ -4,65 +4,93 @@
 ;(
   function() {
     'use strict';
-    angular.module('im.controllers', [])
-      .controller('messageController', function($scope, $state, $ionicPopup, localStorageService, messageService) {
+    angular.module('com.helporz.im',['com.helporz.im.controllers',
+      'com.helporz.im.services',
+      'monospaced.elastic']);
 
-        // $scope.messages = messageService.getAllMessages();
+    angular.module('com.helporz.im.controllers', ['com.helporz.im.services'])
+      .controller('imMessageListController', function($scope, $state, $ionicPopup, localStorageService,
+                                                      messageService,jimService,imConversationService) {
+
+        $scope.imConversations = imConversationService.getLocalConversation();
+
         // console.log($scope.messages);
-        $scope.onSwipeLeft = function() {
-          $state.go("tab.friends");
+        //$scope.onSwipeLeft = function() {
+        //  $state.go("tab.friends");
+        //};
+
+        console.log('im message list controller');
+        $scope.updateConversationList = function() {
+          imConversationService.updateConversationFromImServer(function(newConversationList) {
+              $scop.imConversations = newConversationList;
+            //for( var nc in newConversation)
+            //$scope.imConversations.push(nc);
+          },
+          function(failedInfo) {
+            alert("更新会话信息失败");
+          });
         };
-        $scope.popupMessageOpthins = function(message) {
-          $scope.popup.index = $scope.messages.indexOf(message);
+
+        //imConversationService.updateConversation(function(data){
+        //  $scope.imUsers = data;
+        //},function(data) {
+        //  alert('updateConversationList failed');
+        //});
+
+        $scope.popupConversationOptions = function(message) {
+          $scope.popup.index = $scope.imConversations.indexOf(message);
           $scope.popup.optionsPopup = $ionicPopup.show({
-            templateUrl: "templates/popup.html",
+            templateUrl: "modules/im/popup.html",
             scope: $scope,
           });
           $scope.popup.isPopup = true;
         };
-        $scope.markMessage = function() {
+        $scope.markConversation = function() {
           var index = $scope.popup.index;
-          var message = $scope.messages[index];
-          if (message.showHints) {
-            message.showHints = false;
-            message.noReadMessages = 0;
+          var conversation = $scope.imConversations[index];
+          if (conversation.showHints) {
+            conversation.showHints = false;
+            conversation.noReadMessages = 0;
           } else {
-            message.showHints = true;
-            message.noReadMessages = 1;
+            conversation.showHints = true;
+            conversation.noReadMessages = 1;
           }
           $scope.popup.optionsPopup.close();
           $scope.popup.isPopup = false;
-          messageService.updateMessage(message);
+
+          imConversationService.updateConversation2Local(conversation);
         };
-        $scope.deleteMessage = function() {
+        $scope.deleteConversation = function() {
           var index = $scope.popup.index;
-          var message = $scope.messages[index];
-          $scope.messages.splice(index, 1);
+          var conversation = $scope.imConversations[index];
+          $scope.imConversations.splice(index, 1);
           $scope.popup.optionsPopup.close();
           $scope.popup.isPopup = false;
-          messageService.deleteMessageId(message.id);
-          messageService.clearMessage(message);
+          imConversationService.deleteConversation4Local(conversation);
+          //messageService.deleteMessageId(message.id);
+          //messageService.clearMessage(message);
         };
-        $scope.topMessage = function() {
+        $scope.topConversation = function() {
           var index = $scope.popup.index;
-          var message = $scope.messages[index];
-          if (message.isTop) {
-            message.isTop = 0;
+          var conversation = $scope.imConversations[index];
+          if (conversation.isTop) {
+            conversation.isTop = 0;
           } else {
-            message.isTop = new Date().getTime();
+            conversation.isTop = new Date().getTime();
           }
           $scope.popup.optionsPopup.close();
           $scope.popup.isPopup = false;
-          messageService.updateMessage(message);
+          imConversationService.updateConversation2Local(conversation);
+          //messageService.updateMessage(message);
         };
-        $scope.messageDetils = function(message) {
-          $state.go("messageDetail", {
-            "messageId": message.id
+        $scope.conversationDetails = function(conversation) {
+          $state.go("im-message-detail", {
+            "messageId": conversation.toUsername
           });
         };
         $scope.$on("$ionicView.beforeEnter", function(){
           // console.log($scope.messages);
-          $scope.messages = messageService.getAllMessages();
+          $scope.imConversations = imConversationService.getLocalConversation();//messageService.getAllMessages();
           $scope.popup = {
             isPopup: false,
             index: 0
@@ -70,26 +98,7 @@
         });
 
       })
-
-      .controller('friendsCtrl', function($scope, $state) {
-        $scope.onSwipeLeft = function() {
-          $state.go("tab.find");
-        };
-        $scope.onSwipeRight = function() {
-          $state.go("tab.message");
-        };
-        $scope.contacts_right_bar_swipe = function(e){
-          console.log(e);
-        };
-      })
-
-      .controller('settingCtrl', function($scope, $state) {
-        $scope.onSwipeRight = function() {
-          $state.go("tab.find");
-        };
-      })
-
-      .controller('messageDetailController', ['$scope', '$stateParams',
+      .controller('imMessageDetailController', ['$scope', '$stateParams',
         'messageService', '$ionicScrollDelegate', '$timeout',
         function($scope, $stateParams, messageService, $ionicScrollDelegate, $timeout) {
           var viewScroll = $ionicScrollDelegate.$getByHandle('messageDetailsScroll');

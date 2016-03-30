@@ -14,11 +14,12 @@
       'ngResource',
       'ngCordova',
       'pusher',
+      'com.helporz.im',
       'app.routes',
       'starter.controllers',
       'starter.services',
-      'service.login',
-      'service.intro'])
+      'com.helporz.login',
+      'com.helporz.intro'])
 
       .run([
         '$ionicPlatform',
@@ -28,6 +29,8 @@
         '$cordovaDialogs',
         '$state',
         'pushService',
+        'jimService',
+        'imConversationService',
         init
       ])
 
@@ -38,7 +41,7 @@
 
 
     //function init($ionicPlatform, $cordovaDevice, $cordovaNetwork, $timeout, $cordovaDialogs, $state) {
-      function init($ionicPlatform,$cordovaDevice, $cordovaNetwork,  $timeout, $cordovaDialogs, $state,pushService) {
+      function init($ionicPlatform,$cordovaDevice, $cordovaNetwork,  $timeout, $cordovaDialogs, $state,pushService,jimService,imConversationService) {
       $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -160,6 +163,23 @@
         document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
         document.addEventListener("jpush.receiveMessage", onReceivePushMessage, false);
 
+
+        jimService.login('xixi','xixi',function() {
+          alert('login success');
+        },function() {
+          alert('login failed');
+        });
+
+        imConversationService.updateConversation(function(data){
+            //$scope.imUsers = data;
+          },function(data) {
+            alert('updateConversationList failed');
+          });
+        //jimService.getUserInfo(function (data) {
+        //  console.log('getUserInfo:' + JSON.stringify(data));
+        //},function(data) {
+        //  console.log('getUserInfo failed:' + data);
+        //});
         //var device = $cordovaDevice.getDevice();
         //var newtork = $cordovaNetwork.getNetwork();
 

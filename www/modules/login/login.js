@@ -4,7 +4,7 @@
 ;(function(window) {
   "use strict;"
 
-  angular.module('service.login',['ngCordova']).controller('loginCtrl',['$scope','$http',loginCtrl])
+  angular.module('com.helporz.login',['ngCordova']).controller('loginCtrl',['$scope','$http',loginCtrl])
     .controller('dynamicLogin',function($scope) {
 
       $http.post('login/dynamic_login',{}).success(

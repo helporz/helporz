@@ -14,20 +14,22 @@
       //启动极光推送
       var _init=function(config){
         console.log($document);
-        $window.plugins.jPushPlugin.init();
-        $window.plugins.jmessagePlugin.init();
-        //设置tag和Alias触发事件处理
+        if(typeof(device) !== 'undefined') {
+          $window.plugins.jPushPlugin.init();
+          $window.plugins.jmessagePlugin.init();
+          //设置tag和Alias触发事件处理
 
-        document.addEventListener("jpush.setTagsWithAlias", config.onSetTagsWithAlias, false);
-        document.addEventListener("jpush.openNotification", config.onOpenNotification, false);
-        document.addEventListener("jpush.receiveNotification", config.onReceiveNotification, false);
-        document.addEventListener("jpush.receiveMessage", config.onReceivePushMessage, false);
+          document.addEventListener("jpush.setTagsWithAlias", config.onSetTagsWithAlias, false);
+          document.addEventListener("jpush.openNotification", config.onOpenNotification, false);
+          document.addEventListener("jpush.receiveNotification", config.onReceiveNotification, false);
+          document.addEventListener("jpush.receiveMessage", config.onReceivePushMessage, false);
 
-        //document.addEventListener('jpush.setTagsWithAlias',config.stac,false);
-        //打开推送消息事件处理
-        //$window.plugins.jPushPlugin.openNotificationInAndroidCallback=config.oniac;
+          //document.addEventListener('jpush.setTagsWithAlias',config.stac,false);
+          //打开推送消息事件处理
+          //$window.plugins.jPushPlugin.openNotificationInAndroidCallback=config.oniac;
 
-        $window.plugins.jPushPlugin.setDebugMode(true);
+          $window.plugins.jPushPlugin.setDebugMode(true);
+        }
       }
       //获取状态
       var _isPushStopped=function(fun){

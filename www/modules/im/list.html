@@ -1,5 +1,5 @@
 <ion-header-bar align-title="left" class="bar-dark">
-  <div class="h1 title">微信(16)</div>
+  <div class="h1 title">会话</div>
   <div class="buttons">
     <button class="button no-animation button-icon icon ion-android-search">
     </button>
@@ -8,14 +8,15 @@
   </div>
 </ion-header-bar>
 <ion-view>
-  <ion-content on-swipe-left="onSwipeLeft()">
+  <!--<ion-content on-swipe-left="onSwipeLeft()">-->
+  <ion-content>
     <ion-list rj-close-back-drop>
-      <ion-item class="item-avatar" ng-class="{'rj-item-top': message.isTop}" on-hold="popupMessageOpthins(message)" rj-hold-active ng-repeat="message in messages | orderBy:['isTop', 'lastMessage.timeFrome1970']:true" ng-click="messageDetils(message)">
-        <img ng-src="{{message.pic}}">
-        <span class="rj-sm-red-icon" ng-show="message.showHints"><p ng-bind="message.noReadMessages"></p></span>
-        <h2 ng-bind="message.name"></h2>
-        <p class="rj-list-p" ng-bind="message.lastMessage.content"></p>
-        <span class="rj-push-right" ng-bind="message.lastMessage.time"></span>
+      <ion-item class="item-avatar" ng-class="{'rj-item-top': user.isTop}" on-hold="popupMessageOpthins(user)" rj-hold-active ng-repeat="user in imConversations | orderBy:['isTop', 'lastMessage.timeFrome1970']:true" ng-click="conversationDetails(user)">
+        <img ng-src="{{user.pic}}">
+        <span class="rj-sm-red-icon" ng-show="user.showHints"><p ng-bind="user.noReadMessages"></p></span>
+        <h2 ng-bind="user.name"></h2>
+        <p class="rj-list-p" ng-bind="user.lastMessage.content"></p>
+        <span class="rj-push-right" ng-bind="user.lastMessage.time"></span>
       </ion-item>
     </ion-list>
   </ion-content>
