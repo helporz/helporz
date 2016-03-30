@@ -81,8 +81,8 @@
           console.log(event);
         });
 
-      // lkj test:
-      $state.go("topnav.near")
+      //lkj test:
+      $state.go("main.near")
     }
 
     //document.addEventListener("deviceready", function () {

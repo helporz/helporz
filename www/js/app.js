@@ -19,7 +19,8 @@
       'starter.services',
       'service.login',
       'service.intro',
-      'topnav',
+
+      'main'
     ])
 
       .run([
@@ -295,7 +296,7 @@
       //  .state('tab', {
       //    url: '/tab',
       //    abstract: true,
-      //    templateUrl: 'templates/temp/tabs.html'
+      //    templateUrl: 'templates/temp/main.html'
       //  })
       //
       //  // Each tab has its own nav history stack:
@@ -304,7 +305,7 @@
       //    url: '/dash',
       //    views: {
       //      'tab-dash': {
-      //        templateUrl: 'templates/temp/tab-dash.html',
+      //        templateUrl: 'templates/temp/near.html',
       //        controller: 'DashCtrl'
       //      }
       //    }
