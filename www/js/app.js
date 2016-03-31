@@ -19,7 +19,9 @@
       'starter.controllers',
       'starter.services',
       'com.helporz.login',
-      'com.helporz.intro'])
+      'com.helporz.intro',
+      'main'
+    ])
 
       .run([
         '$ionicPlatform',

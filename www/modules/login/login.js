@@ -64,7 +64,7 @@
     }]);
 
 
-  function loginCtrl($scope,$http) {
+  function loginCtrl($scope,$http,$state) {
     $scope.phoneno = '';
     $scope.smscode = '';
 
@@ -80,6 +80,9 @@
         }).error(function(event) {
           console.log(event);
         });
+
+      //lkj test:
+      $state.go("main.near")
     }
 
     //document.addEventListener("deviceready", function () {

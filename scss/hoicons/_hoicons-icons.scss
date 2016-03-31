@@ -1,0 +1,11 @@
+// Icons
+// --------------------------
+
+.#{$hoicons-prefix}faxian-outline:before,
+.#{$hoicons-prefix}faxian:before,
+
+{
+  @extend .ion;
+}
+.#{$hoicons-prefix}faxian-outline:before { content: $hoicon-var-faxian-outline; }
+.#{$hoicons-prefix}faxian:before { content: $hoicon-var-faxian; }
