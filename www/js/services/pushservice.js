@@ -14,15 +14,15 @@
       //启动极光推送
       var _init=function(config){
         console.log($document);
-        if(typeof(device) !== 'undefined') {
-          $window.plugins.jPushPlugin.init();
-          $window.plugins.jmessagePlugin.init();
+        if(typeof($window.plugins) !== 'undefined') {
+          //$window.plugins.jPushPlugin.init();
+          //$window.plugins.jmessagePlugin.init();
           //设置tag和Alias触发事件处理
 
-          document.addEventListener("jpush.setTagsWithAlias", config.onSetTagsWithAlias, false);
-          document.addEventListener("jpush.openNotification", config.onOpenNotification, false);
-          document.addEventListener("jpush.receiveNotification", config.onReceiveNotification, false);
-          document.addEventListener("jpush.receiveMessage", config.onReceivePushMessage, false);
+          $document.on("jpush.setTagsWithAlias", config.onSetTagsWithAlias);
+          $document.on("jpush.openNotification", config.onOpenNotification);
+          $document.on("jpush.receiveNotification", config.onReceiveNotification);
+          $document.on("jpush.receiveMessage", config.onReceivePushMessage);
 
           //document.addEventListener('jpush.setTagsWithAlias',config.stac,false);
           //打开推送消息事件处理

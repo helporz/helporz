@@ -39,14 +39,9 @@
           templateUrl:'modules/login/user-proto.html'
         })
         // if none of the above states are matched, use this as the fallback
-        //$urlRouterProvider.otherwise('/user/proto');
 
-
-        //////////////////////////////////////////////////
-        //$urlRouterProvider.otherwise('/intro');
-        //$urlRouterProvider.otherwise('im-list');
-
-        $urlRouterProvider.otherwise('/main/near');
+        //$urlRouterProvider.otherwise('/main/near');
+        $urlRouterProvider.otherwise('/im/list');
       }
     );
   }

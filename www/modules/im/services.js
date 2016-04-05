@@ -1,10 +1,10 @@
 ;(
   function() {
     'use strict';
-    angular.module('com.helporz.im.services', ['com.helporz.jim.services']).run(['jimService',init])
+    angular.module('com.helporz.im.services', ['com.helporz.jim.services'])
       .factory('imConversationService',['jimService','localStorageService','imMessageService',imConversationServiceFactoryFn])
-      .factory('imMessageStorageService',['localStorageService',imMessageStorageServiceFactoryFn])
-      .factory('imMessageService',['localStorageService',imMessageServiceFactoryFn])
+      .factory('imMessageStorageService',['$log','localStorageService',imMessageStorageServiceFactoryFn])
+      .factory('imMessageService',['jimService','imMessageStorageService',imMessageServiceFactoryFn])
       .factory("userService", function($http) {
         var users = [];
         return {
@@ -29,7 +29,7 @@
             } catch (error) {
               stored = null;
             }
-            if (defaultValue && stored === null) {
+            if (stored === null || stored.length == 0 ) {
               stored = defaultValue;
             }
             return stored;
@@ -236,15 +236,6 @@
         }
       ]);
 
-    var onConversatinoChange = function (data) {
-      alert("onConversatinoChange");
-      console.log(data);
-    };
-
-    var updateConversationList = function (data) {
-      alert("updateConversationList");
-      console.log(data);
-    };
 
     function imConversationServiceFactoryFn (jimService,localStorageService,imMessageService) {
       var imConversationServiceFactoryFactory = {};
@@ -264,7 +255,7 @@
             var conversation = {};
             conversation.name = item.name;
             conversation.nickname = item.nickname;
-            conversation.isTop = fales;
+            conversation.isTop = false;
             conversation.lastMessage.content = item.lastMessage;
             conversation.noReadMessages = item.noReadMessages;
             conversation.pic = '';
@@ -282,9 +273,23 @@
 
       };
 
+      var _addConversation2Local = function(conversation) {
+          var conversationList = _getLocalConversation();
+        if( conversationList == null ) {
+          conversationList = new Array();
+        }
+
+        conversationList.push(conversation);
+        localStorageService.update('conversation-list',conversationList);
+      };
+
       var _deleteConversation4Local = function(conversation) {
         // delete conversation from localstorage
           imMessageSerivce.deleteMessageList(conversation.username,conversation.toUsername);
+      }
+
+      var _clearConversation4Local = function() {
+        localStorageService.clear('conversation-list');
       }
 
       imConversationServiceFactoryFactory.getLocalConversation = _getLocalConversation;
@@ -295,10 +300,13 @@
 
       imConversationServiceFactoryFactory.deleteConversation4Local = _deleteConversation4Local;
 
+      imConversationServiceFactoryFactory.addConversation2Local = _addConversation2Local;
+
+      imConversationServiceFactoryFactory.clearConversation4Local = _clearConversation4Local;
       return imConversationServiceFactoryFactory;
     };
 
-    function imMessageStorageServiceFactoryFn(localStorageService) {
+    function imMessageStorageServiceFactoryFn($log,localStorageService) {
 
       var imMessage = {
         usename:'',
@@ -323,15 +331,66 @@
       }
 
       var _getMessageList = function(username,toUsername) {
-        return localStorageService.get(username + toUsername,null);
+        var messageList =  localStorageService.get(username + toUsername,null);
+        //if( messageList != null  && messageList.length > 0 ) {
+        //  //$log.debug('messageList length:' + messageList.length);
+        //  //$log.debug(messageList);
+        //  for(var i = 0; i < messageList.length; ++i) {
+        //    var m = messageList[i];
+        //    //$log.debug(m);
+        //    $log.debug('message:' + m.content + ' sendState:' + m.sendState);
+        //  }
+        //
+        //}
+        return messageList;
       }
 
       var _deleteMessageList = function(username,toUsername) {
         localStorageService.clear(username+toUsername);
       }
 
+      var _updateMessage = function(username,toUsername,message) {
+        var messageList = _getMessageList(username,toUsername);
+        if( messageList == null || messageList.length == 0 ) {
+          console.log('没有聊天记录');
+          return ;
+        }
+
+        for(var index = 0; index < messageList.length; ++index) {
+          var m = messageList[index];
+          //console.log('message content:' + message.content + ' time:' + message.time);
+          //console.log('m content:' + m.content + ' time:' + m.time);
+          if( message.content === m.content && m.time  === message.time  ) {
+            m.sendState = message.sendState;
+            console.log('查找到对于的消息,content:'+ m.content + ' sendState:' + m.sendState);
+
+            localStorageService.update(username+toUsername,messageList);
+            return;
+          }
+        }
+      };
+
+      var _deleteMessage = function(username,toUsername,message) {
+        var messageList = _getMessageList(username,toUsername);
+        if( messageList == null || messageList.length == 0 ) {
+          console.log('没有聊天记录');
+          return ;
+        }
+
+        for(var index = 0; index < messsageList.length; ++index  ) {
+          var m = messageList[index];
+          if( message.content === message.content && m.time  === message.time  ) {
+            //messageList.splice(index,1);
+            messageList.remove(index);
+            localStorageService.update(username+toUsername,messageList);
+            return;
+          }
+        }
+      };
       return {
         addMessage:_addMessage,
+        deleteMessage: _deleteMessage,
+        updateMessage: _updateMessage,
         getMessageList:_getMessageList,
         deleteMessageList:_deleteMessageList
       };
@@ -360,23 +419,19 @@
         imMessageStorageService.deleteMessageList(username,toUsername);
       }
 
+      var _sendMessage= function (username,toUsername,msgType,msgContent,onSuccessFn,onFailedFn,cbObj) {
+        jimService.sendTextMessage(toUsername,msgContent,onSuccessFn,onFailedFn,cbObj);
+      }
       return {
         getLocalMessageList:_getLocalMessageList,
         getHistoryMessageList:_getHistoryMessageList,
         addMessage:_addMessage,
-        deleteMessageList:_deleteMessageList
+        deleteMessageList:_deleteMessageList,
+        sendMessage:_sendMessage,
+        deleteMessage: imMessageStorageService.deleteMessage,
+        updateMessage: imMessageStorageService.updateMessage
       };
     }
-
-    function init(jimService) {
-      var config = {
-        onConversatinoChange:onConversatinoChange,
-        onSingleReceiveMessage:onSingleReceiveMessage
-      };
-      jimService.init(config);
-    };
-
-
   }
 )();
 

@@ -8,24 +8,63 @@
       factory('jimService',['$window','$document',imServiceFactoryFn]);
 
     function imServiceFactoryFn($window,$document) {
+      // for browser
+      //var _jmessagePlugin = {
+      //  login:function() {},
+      //  logout:function() {},
+      //  getSingleHistoryMessage:function() {},
+      //  sendSingleTextMessage:function() {},
+      //  getSingleConversationList:function() {}
+      //};
+      //
+      //var _jPlushPlugin = {
+      //
+      //};
+      //
+      //$window.plugins = {};
+      //$window.plugins.jPushPlugin = _jPlushPlugin;
+      //$window.plugins.jmessagePlugin = _jmessagePlugin;
+      // end for browser
+
       var jimServiceFactory = {};
 
-      var _init = function(config) {
-        if(typeof(device) !== 'undefined') {
+      var _init = function() {
+        if(typeof($window.plugins) !== 'undefined') {
           $window.plugins.jPushPlugin.init();
           $window.plugins.jmessagePlugin.init();
-          $document.addEventListener("jmessage.conversationChange", config.onConversatinoChange, false);
-          $document.addEventListener("jmessage.singleReceiveMessage", config.onSingleReceiveMessage, false);
+          //$document.on("jmessage.conversationChange", config.onConversatinoChange);
+          //$document.on("jmessage.singleReceiveMessage", config.onSingleReceiveMessage);
+        }
+        else {
+          console.log(typeof(device));
+          console.log('test for browser');
+          var _jmessagePlugin = {
+            login:function() {},
+            logout:function() {},
+            getSingleHistoryMessage:function() {},
+            sendSingleTextMessage:function() {},
+            getSingleConversationList:function() {}
+          };
+
+          var _jPlushPlugin = {
+
+          };
+
+          $window.plugins = {};
+          $window.plugins.jPushPlugin = _jPlushPlugin;
+          $window.plugins.jmessagePlugin = _jmessagePlugin;
         }
 
       }
 
       var _login = function($username,$password,onSuccessFn,onFailedFn) {
+        //登录前清空用户名
+        $window.plugins.jmessagePlugin.username  = '';
+
         $window.plugins.jmessagePlugin.login($username, $password, function (response) {
           var ss = JSON.stringify(response);
           console.log("login callback sucess" + ss);
           $window.plugins.jmessagePlugin.username = $username;
-          alert("login ok");
           //gotoConversation();
           onSuccessFn(response);
         }, function (response) {
@@ -40,9 +79,8 @@
           onFailedFn(response);
 
           if(response.errorCode == "801003"){
-            alert("用户未注册");
+            console.log("用户未注册");
           }
-
         });
       };
 
@@ -50,10 +88,10 @@
         console.log("logout");
 
         $window.plugins.jmessagePlugin.logout(function (response) {
-          alert("logout success");
+          console.log("logout success");
+          $window.plugins.jmessagePlugin.username = '';
         }, function (response) {
-
-          alert("logout fail");
+          console.log("logout fail");
         });
       };
 
@@ -78,16 +116,17 @@
         });
       };
 
-      var _sendTextMessage = function(toUsername,messageContentString,onSuccessFn,onFailedFn) {
+      var _sendTextMessage = function(toUsername,messageContentString,onSuccessFn,onFailedFn,cbObj) {
+        console.log("send message to " + toUsername + " :content is " + messageContentString);
         $window.plugins.jmessagePlugin.sendSingleTextMessage(toUsername, messageContentString, function (response) {
           var ss = JSON.stringify(response);
           console.log("send message sucess" + ss);
-          alert(ss);
+          //alert(ss);
           var msg_body = new Object();
           msg_body.text = messageContentString;
           var dict = new Object();
-          dict.msg_type = msgType;
-          dict.from_name = getUserDisplayName();
+          dict.msg_type = 'text';
+          dict.from_name = window.plugins.jmessagePlugin.username;
           dict.from_id=window.plugins.jmessagePlugin.username;
           dict.msg_body = 'text';
           dict.create_time = new Date().getTime();
@@ -95,12 +134,12 @@
           //tempMessageDataSource.unshift(dict);
           //refreshConversation();
           <!--insertMessage(dict);-->
-          onSuccessFn(response);
+          onSuccessFn(cbObj,response);
         }, function (response) {
           console.log("send message fail" + response);
-          alert("send message fail" + response);
+          //alert("send message fail" + response);
 
-          onFailedFn(response);
+          onFailedFn(cbObj,response);
         });
       };
 
@@ -125,6 +164,14 @@
         });
       };
 
+      var _getUsername = function() {
+        return $window.plugins.jmessagePlugin.username;
+      }
+
+      var _updateMessageNotifyCB = function(config) {
+        $document.on("jmessage.conversationChange", config.onConversatinoChange);
+        $document.on("jmessage.singleReceiveMessage", config.onSingleReceiveMessage);
+      }
       //var _getUserInfo = function(onSuccessFn,onFailedFn) {
       //  console.log('get user information');
       //  $window.plugins.jmessagePlugin.getUserInfo(onSuccessFn,onFailedFn);
@@ -136,6 +183,8 @@
       jimServiceFactory.getMessageHistory = _getMessageHistory;
       jimServiceFactory.sendTextMessage = _sendTextMessage;
       jimServiceFactory.updateConversationList = _updateConversationList;
+      jimServiceFactory.getUsername = _getUsername;
+      jimServiceFactory.updateMessageNotifyCB = _updateMessageNotifyCB;
       //jimServiceFactory.getUserInfo = _getUserInfo;
       return jimServiceFactory;
     }

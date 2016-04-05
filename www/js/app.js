@@ -33,18 +33,40 @@
         'pushService',
         'jimService',
         'imConversationService',
+        'imMessageService',
         init
       ])
 
       .config(['$stateProvider','$urlRouterProvider','$httpProvider',function($stateProvider, $urlRouterProvider,$httpProvider) {
         //configRouter($stateProvider,$urlRouterProvider);
         setHttpProvider($httpProvider);
-      }]);
+      }]).directive('errSrc', function() {
+      return {
+        link: function(scope, element, attrs) {
+          element.bind('error', function() {
+            if (attrs.src != attrs.errSrc) {
+              attrs.$set('src', attrs.errSrc);
+            }
+          });
+        }
+      }
+    });
 
 
     //function init($ionicPlatform, $cordovaDevice, $cordovaNetwork, $timeout, $cordovaDialogs, $state) {
-      function init($ionicPlatform,$cordovaDevice, $cordovaNetwork,  $timeout, $cordovaDialogs, $state,pushService,jimService,imConversationService) {
+      function init($ionicPlatform,
+                    $cordovaDevice,
+                    $cordovaNetwork,
+                    $timeout,
+                    $cordovaDialogs,
+                    $state,
+                    pushService,
+                    jimService,
+                    imConversationService,
+                    imMessageService) {
+        console.log('app.run.init');
       $ionicPlatform.ready(function() {
+        console.log('ionicPlatform.ready');
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -140,16 +162,101 @@
           }
         }
 
-        var config={
-          onOpenNotification: onOpenNotification,
-          onReceiveNotification: onReceiveNotification,
-          onReceivePushMessage: onReceivePushMessage,
-          onSetTagsWithAlias: onSetTagsWithAlias
-        };
+
+
+
+
+        //document.addEventListener("jpush.setTagsWithAlias",onSetTagsWithAlias, false);
+        //document.addEventListener("jpush.openNotification", onOpenNotification, false);
+        //document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
+        //document.addEventListener("jpush.receiveMessage", onReceivePushMessage, false);
+
+        function obj2string(o){
+          var r=[];
+          if(typeof o=="string"){
+            return "\""+o.replace(/([\'\"\\])/g,"\\$1").replace(/(\n)/g,"\\n").replace(/(\r)/g,"\\r").replace(/(\t)/g,"\\t")+"\"";
+          }
+          if(typeof o=="object"){
+            if(!o.sort){
+              for(var i in o){
+                r.push(i+":"+obj2string(o[i]));
+              }
+              if(!!document.all&&!/^\n?function\s*toString\(\)\s*\{\n?\s*\[native code\]\n?\s*\}\n?\s*$/.test(o.toString)){
+                r.push("toString:"+o.toString.toString());
+              }
+              r="{"+r.join()+"}";
+            }else{
+              for(var i=0;i<o.length;i++){
+                r.push(obj2string(o[i]))
+              }
+              r="["+r.join()+"]";
+            }
+            return r;
+          }
+          return o.toString();
+        }
+
+        function writeObj(obj){
+          var description = "";
+          for(var i in obj){
+            var property=obj[i];
+            description+=i+" = "+property+"\n";
+          }
+          return description;
+        }
+
+
+
+        //var onConversatinoChange = function (data) {
+        //  alert("onConversatinoChange:" + writeObj(data));
+        //  console.log(data);
+        //};
+        //
+        //var onSingleReceiveMessage = function (data) {
+        //  console.log("receive im message");
+        //  if( typeof(data.msg_type) === 'undefined') {
+        //    console.log('receive invalid message:'+ writeObj(data));
+        //  }
+        //  else {
+        //    console.log('receive message:'+ data.msg_body.text + " username:" +data.target_id + " toUserName:" + data.from_id);
+        //
+        //    var messageDetail = {
+        //      username:jimService.getUsername(), //由于data.target_id 与 data.from_id相等，因此用当前登录的用户名
+        //      toUsername:data.from_id,
+        //      type:'text',
+        //      content:data.msg_body.text,
+        //      time: data.create_time,
+        //      isFromMe:false,
+        //      sendState:1
+        //    };
+        //    imMessageService.addMessage(messageDetail.username,messageDetail.toUsername,messageDetail);
+        //  }
+        //};
+
+        //var config = {
+        //  onConversatinoChange:onConversatinoChange,
+        //  onSingleReceiveMessage:onSingleReceiveMessage
+        //};
+
+
 
         document.addEventListener("deviceready", function () {
-          pushService.init(config);
+          var config={
+            onOpenNotification: onOpenNotification,
+            onReceiveNotification: onReceiveNotification,
+            onReceivePushMessage: onReceivePushMessage,
+            onSetTagsWithAlias: onSetTagsWithAlias
+          };
 
+          jimService.init();
+          pushService.init(config);
+          console.log('jimService.login');
+          jimService.login('xixi','xixi',function() {
+            //jimService.login('dada','dada',function() {
+            alert('login success');
+          },function() {
+            alert('login failed');
+          });
           pushService.getReistrationID();
 
           if (device.platform != "Android") {
@@ -160,23 +267,14 @@
           }
         }, false);
 
-        document.addEventListener("jpush.setTagsWithAlias",onSetTagsWithAlias, false);
-        document.addEventListener("jpush.openNotification", onOpenNotification, false);
-        document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
-        document.addEventListener("jpush.receiveMessage", onReceivePushMessage, false);
 
 
-        jimService.login('xixi','xixi',function() {
-          alert('login success');
-        },function() {
-          alert('login failed');
-        });
-
-        imConversationService.updateConversation(function(data){
-            //$scope.imUsers = data;
-          },function(data) {
-            alert('updateConversationList failed');
-          });
+        //console.log('imConversationService.updateConversationFromImServer');
+        //imConversationService.updateConversationFromImServer(function(data){
+        //    //$scope.imUsers = data;
+        //  },function(data) {
+        //    alert('updateConversationList failed');
+        //  });
         //jimService.getUserInfo(function (data) {
         //  console.log('getUserInfo:' + JSON.stringify(data));
         //},function(data) {
