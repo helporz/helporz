@@ -5,6 +5,6 @@ var appConfig = {
   WECHATAPPID:"wx83baa5a0812afb2c",
   APP_ID:"",
   //API_SVC_URL:"http://api.helporz.com:8080/api",
-  API_SVC_URL:"http://127.0.0.1:8080/api",
+  API_SVC_URL:"http://192.168.5.108:8080/api",
   JPUSH_APPKEY:"eb3ccc662104edc368b17281"
 };

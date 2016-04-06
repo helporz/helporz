@@ -1,7 +1,7 @@
 ;(
   function() {
     'use strict';
-    angular.module('com.helporz.im.services', ['com.helporz.jim.services'])
+    angular.module('com.helporz.im.services', ['com.helporz.jim.services','com.helporz.utils.service'])
       .factory('imConversationService',['jimService','localStorageService','imMessageService',imConversationServiceFactoryFn])
       .factory('imMessageStorageService',['$log','localStorageService',imMessageStorageServiceFactoryFn])
       .factory('imMessageService',['jimService','imMessageStorageService',imMessageServiceFactoryFn])
@@ -20,30 +20,30 @@
         };
       })
 
-      .factory('localStorageService', [function() {
-        return {
-          get: function localStorageServiceGet(key, defaultValue) {
-            var stored = localStorage.getItem(key);
-            try {
-              stored = angular.fromJson(stored);
-            } catch (error) {
-              stored = null;
-            }
-            if (stored === null || stored.length == 0 ) {
-              stored = defaultValue;
-            }
-            return stored;
-          },
-          update: function localStorageServiceUpdate(key, value) {
-            if (value) {
-              localStorage.setItem(key, angular.toJson(value));
-            }
-          },
-          clear: function localStorageServiceClear(key) {
-            localStorage.removeItem(key);
-          }
-        };
-      }])
+      //.factory('localStorageService', [function() {
+      //  return {
+      //    get: function localStorageServiceGet(key, defaultValue) {
+      //      var stored = localStorage.getItem(key);
+      //      try {
+      //        stored = angular.fromJson(stored);
+      //      } catch (error) {
+      //        stored = null;
+      //      }
+      //      if (stored === null || stored.length == 0 ) {
+      //        stored = defaultValue;
+      //      }
+      //      return stored;
+      //    },
+      //    update: function localStorageServiceUpdate(key, value) {
+      //      if (value) {
+      //        localStorage.setItem(key, angular.toJson(value));
+      //      }
+      //    },
+      //    clear: function localStorageServiceClear(key) {
+      //      localStorage.removeItem(key);
+      //    }
+      //  };
+      //}])
       .factory('dateService', [function() {
         return {
           handleMessageDate: function(messages) {
