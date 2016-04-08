@@ -1,0 +1,55 @@
+//////////////////////////////////////////////////
+// 通用颜色
+.color-white {
+  color: #fff !important;
+}
+.color-black {
+  color: #000 !important;
+}
+
+//////////////////////////////////////////////////
+// 性别颜色
+.color-man {
+  color: $gender-man-color;
+}
+.color-woman {
+  color: $gender-woman-color;
+}
+
+
+///////////////////////////////////////////////////////
+// 用户标签(评价,头像旁显示等)颜色
+
+.user-tag-color-0 {
+  color: $user-tag-color-0 !important;
+  background-color: $user-tag-bgcolor-0 !important;
+}
+
+.user-tag-color-1 {
+  color: $user-tag-color-1 !important;
+  background-color: $user-tag-bgcolor-1 !important;
+}
+
+$user-tag-colors:
+$user-tag-color-0
+$user-tag-color-1
+;
+
+@mixin user-tag-color($index){
+  color: nth($user-tag-colors, $index);
+}
+
+//////////////////////////////////////////////////
+// 文字形式的标签(标签,酬谢)
+.text-tag {
+  padding: 0.2em !important;
+  font-size: 11px !important;
+   -webkit-border-radius: 3px !important;
+  -moz-border-radius: 3px !important;
+  border-radius: 3px !important;
+}
+
+///////////////////////////////////////////////////////
+.nopadding {
+  padding: 0 !important;
+}

@@ -1,20 +1,70 @@
 <ion-view view-title="华中科技大学" >
 <!--<ion-view>-->
+  <ion-nav-buttons side="right">
+    <button class="button button-icon icon ion-share" ng-click=""></button>
+  </ion-nav-buttons>
+
+  <ion-content class="padding" >
+    <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()">
+    </ion-refresher>
+
+    <ion-list>
+      <ion-item   class="topics" ng-repeat="item in vm.items">
+        <div class="row nopadding">
+          <div class="col col-25 content-left">
+            <img class="task-img" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g"   reset-img>
+            <p class="task-type">超市捎带</p>
+          </div>
+          <div class="col col-75 content-right">
+            <div class="row user-panel nopadding">
+              <div class="col col-20 nopadding">
+                <img class="col avatar nopadding" src="http://avatar.csdn.net/8/1/D/1_xundh.jpg">
+              </div>
+              <div class="col col-80 user-detail nopadding">
+                <div class="top">
+                  <p class="elem color-black">王小丫</p>
+                  <i class="elem2 icon ion-ios-help color-woman"></i>
+                  <p class="time">5分钟前</p>
+                </div>
+                <div class="bottom">
+                  <p class="elem text-tag user-tag-color-0">女神</p>
+                  <p class="elem text-tag user-tag-color-1">娇气包</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="div-line"></div>
+
+            <div class="summary-panel">
+              <p class="color-black">我想吃汉堡,帮忙从代卖带一份回来,非常感谢!!就在南门外第一家~多谢多谢</p>
+              <div class="appendix">
+                <i class="icon ion-ios-clock-outline deadline"></i>
+                <p>17:30截止</p>
+              </div>
+              <div class="appendix">
+                <i class="icon ion-ios-location-outline address"></i>
+                <p>17:30截止</p>
+              </div>
+              <div>
+                <p class="thank">感谢</p>
+                <p class="thank-what text-tag tabs-color-light">请你喝饮料</p>
+              </div>
+            </div>
+            <div class="bottom-panel">
+
+            </div>
+          </div>
+        </div>
 
 
-  <ion-content class="padding" ng-controller="mainNearCtrl">
-    <h2>Welcome to Ionic</h2>
-    <p>
-    This is the Ionic starter for tabs-based apps. For other starters and ready-made templates, check out the <a href="http://market.ionic.io/starters" target="_blank">Ionic Market</a>.
-    </p>
-    <p>
-      To edit the content of each tab, edit the corresponding template file in <code>www/templates/</code>. This template is <code>www/templates/tab-dash.html</code>
-    </p>
-    <p>
-    If you need help with your app, join the Ionic Community on the <a href="http://forum.ionicframework.com" target="_blank">Ionic Forum</a>. Make sure to <a href="http://twitter.com/ionicframework" target="_blank">follow us</a> on Twitter to get important updates and announcements for Ionic developers.
-    </p>
-    <p>
-      For help sending push notifications, join the <a href="https://apps.ionic.io/signup" target="_blank">Ionic Platform</a> and check out <a href="http://docs.ionic.io/docs/push-overview" target="_blank">Ionic Push</a>. We also have other services available.
-    </p>
+        <!--<p class="summary">-->
+          <!--<span ng-if="true" class="tab">vm.xx</span>-->
+          <!--<span ng-if="false" class="tab hl">置顶</span>-->
+          <!--<span ng-if="false" class="tab hl">精华</span>-->
+          <!--<span class="item-note ago" am-time-ago="topic.last_reply_at">-->
+          <!--</span>-->
+        <!--</p>-->
+      </ion-item>
+    </ion-list>
   </ion-content>
 </ion-view>
