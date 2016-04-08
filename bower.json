@@ -8,6 +8,7 @@
   "dependencies": {
     "pouchdb": "~5.2.1",
     "ngCordova": "~0.1.24-alpha",
-    "angular-resource": "~1.5.2"
+    "angular-resource": "~1.5.2",
+    "ionic-filter-bar": "~1.1.1"
   }
 }

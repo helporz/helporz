@@ -14,12 +14,13 @@
       'ngResource',
       'ngCordova',
       'pusher',
+      'com.helporz.im',
       'app.routes',
       'starter.controllers',
       'starter.services',
-      'service.login',
-      'service.intro',
-
+      'com.helporz.login',
+      'com.helporz.intro',
+      'com.helporz.utils.service',
       'main'
     ])
 
@@ -31,18 +32,46 @@
         '$cordovaDialogs',
         '$state',
         'pushService',
+        'jimService',
+        'imConversationService',
+        'imMessageService',
+        'fileService',
+        'userImgFileService',
         init
       ])
 
       .config(['$stateProvider','$urlRouterProvider','$httpProvider',function($stateProvider, $urlRouterProvider,$httpProvider) {
         //configRouter($stateProvider,$urlRouterProvider);
         setHttpProvider($httpProvider);
-      }]);
+      }]).directive('errSrc', function() {
+      return {
+        link: function(scope, element, attrs) {
+          element.bind('error', function() {
+            if (attrs.src != attrs.errSrc) {
+              attrs.$set('src', attrs.errSrc);
+            }
+          });
+        }
+      }
+    });
 
 
     //function init($ionicPlatform, $cordovaDevice, $cordovaNetwork, $timeout, $cordovaDialogs, $state) {
-      function init($ionicPlatform,$cordovaDevice, $cordovaNetwork,  $timeout, $cordovaDialogs, $state,pushService) {
+      function init($ionicPlatform,
+                    $cordovaDevice,
+                    $cordovaNetwork,
+                    $timeout,
+                    $cordovaDialogs,
+                    $state,
+                    pushService,
+                    jimService,
+                    imConversationService,
+                    imMessageService,
+                    fileService,
+                    userImgFileService) {
+        console.log('app.run.init');
       $ionicPlatform.ready(function() {
+        console.log('ionicPlatform.ready');
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -138,16 +167,89 @@
           }
         }
 
-        var config={
-          onOpenNotification: onOpenNotification,
-          onReceiveNotification: onReceiveNotification,
-          onReceivePushMessage: onReceivePushMessage,
-          onSetTagsWithAlias: onSetTagsWithAlias
-        };
+
+
+
+
+        //document.addEventListener("jpush.setTagsWithAlias",onSetTagsWithAlias, false);
+        //document.addEventListener("jpush.openNotification", onOpenNotification, false);
+        //document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
+        //document.addEventListener("jpush.receiveMessage", onReceivePushMessage, false);
+
+
+
+        //var onConversatinoChange = function (data) {
+        //  alert("onConversatinoChange:" + writeObj(data));
+        //  console.log(data);
+        //};
+        //
+        //var onSingleReceiveMessage = function (data) {
+        //  console.log("receive im message");
+        //  if( typeof(data.msg_type) === 'undefined') {
+        //    console.log('receive invalid message:'+ writeObj(data));
+        //  }
+        //  else {
+        //    console.log('receive message:'+ data.msg_body.text + " username:" +data.target_id + " toUserName:" + data.from_id);
+        //
+        //    var messageDetail = {
+        //      username:jimService.getUsername(), //由于data.target_id 与 data.from_id相等，因此用当前登录的用户名
+        //      toUsername:data.from_id,
+        //      type:'text',
+        //      content:data.msg_body.text,
+        //      time: data.create_time,
+        //      isFromMe:false,
+        //      sendState:1
+        //    };
+        //    imMessageService.addMessage(messageDetail.username,messageDetail.toUsername,messageDetail);
+        //  }
+        //};
+
+        //var config = {
+        //  onConversatinoChange:onConversatinoChange,
+        //  onSingleReceiveMessage:onSingleReceiveMessage
+        //};
+
+
 
         document.addEventListener("deviceready", function () {
-          pushService.init(config);
+          fileService.init(function() {
+            //userImgFileService.saveUserImg('1','hello world',function() {
+            //  alert('success');
+            //},function() {
+            //  alert('failed');
+            //});
 
+            var data = fileService.readFromFile('user/','1.png',function(data) {
+              alert('success: read data:' + data);
+            },function() {
+              alert('failed');
+            });
+
+            console.log('read from file:' + data);
+          },function() {
+            alert('failed');
+          });
+
+          //fileService.writeToFile('user/img/','test.txt','hello world new');
+
+
+          //console.log(fileService.readFromFile('user/img/','test.txt'));
+          var config={
+            onOpenNotification: onOpenNotification,
+            onReceiveNotification: onReceiveNotification,
+            onReceivePushMessage: onReceivePushMessage,
+            onSetTagsWithAlias: onSetTagsWithAlias
+          };
+
+          jimService.init();
+          pushService.init(config);
+          //console.log('jimService.login');
+          //jimService.login('xixi','xixi',function() {
+          //  //jimService.login('dada','dada',function() {
+          //  alert('login success');
+          //},function() {
+          //  alert('login failed');
+          //});
           pushService.getReistrationID();
 
           if (device.platform != "Android") {
@@ -158,11 +260,19 @@
           }
         }, false);
 
-        document.addEventListener("jpush.setTagsWithAlias",onSetTagsWithAlias, false);
-        document.addEventListener("jpush.openNotification", onOpenNotification, false);
-        document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
-        document.addEventListener("jpush.receiveMessage", onReceivePushMessage, false);
 
+
+        //console.log('imConversationService.updateConversationFromImServer');
+        //imConversationService.updateConversationFromImServer(function(data){
+        //    //$scope.imUsers = data;
+        //  },function(data) {
+        //    alert('updateConversationList failed');
+        //  });
+        //jimService.getUserInfo(function (data) {
+        //  console.log('getUserInfo:' + JSON.stringify(data));
+        //},function(data) {
+        //  console.log('getUserInfo failed:' + data);
+        //});
         //var device = $cordovaDevice.getDevice();
         //var newtork = $cordovaNetwork.getNetwork();
 
@@ -296,7 +406,7 @@
       //  .state('tab', {
       //    url: '/tab',
       //    abstract: true,
-      //    templateUrl: 'templates/temp/main.html'
+      //    templateUrl: 'templates/temp/tabs.html'
       //  })
       //
       //  // Each tab has its own nav history stack:
@@ -305,7 +415,7 @@
       //    url: '/dash',
       //    views: {
       //      'tab-dash': {
-      //        templateUrl: 'templates/temp/near.html',
+      //        templateUrl: 'templates/temp/tab-dash.html',
       //        controller: 'DashCtrl'
       //      }
       //    }

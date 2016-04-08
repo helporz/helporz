@@ -12,13 +12,15 @@
         $stateProvider.state('im-list',{
           url:'/im/list',
           templateUrl:'modules/im/list.html',
-          controller:'imMessageListController'
+          controller:'imMessageListController',
+          controllerAs:'imMessageList'
         });
 
         $stateProvider.state('im-message-detail',{
           url:'/im/detail',
           templateUrl:'modules/im/detail.html',
-          controller:'imMessageDetailController'
+          controller:'imMessageDetailController',
+          controllerAs:'imMessageDetail'
         });
 
         $stateProvider.state('login',{
@@ -37,14 +39,10 @@
           templateUrl:'modules/login/user-proto.html'
         })
         // if none of the above states are matched, use this as the fallback
+
+        //$urlRouterProvider.otherwise('/main/near');
+        $urlRouterProvider.otherwise('/login');
         //$urlRouterProvider.otherwise('/user/proto');
-
-
-        //////////////////////////////////////////////////
-        //$urlRouterProvider.otherwise('/intro');
-        //$urlRouterProvider.otherwise('im-list');
-
-        $urlRouterProvider.otherwise('/main/near');
       }
     );
   }

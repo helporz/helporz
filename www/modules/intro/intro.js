@@ -3,7 +3,7 @@
  */
 ;(function(window) {
   "use strict";
-    var intro = angular.module("service.intro",["ionic"]);
+    var intro = angular.module("com.helporz.intro",["ionic"]);
     intro.controller("introCtrl",["$scope","$state",function($scope,$state) {
       $scope.index = 0;
       $scope.onChanged = function(index) {
