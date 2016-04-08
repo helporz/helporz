@@ -4,8 +4,10 @@
 ;(function(window) {
   "use strict;"
 
-  angular.module('com.helporz.login',['ngCordova','com.helporz.utils.service']).controller('loginCtrl',['$scope','$http','$state','$log',
-    '$ionicLoading', 'deviceService','errorCodeService','httpErrorCodeService','userLoginInfoService',loginCtrl])
+  angular.module('com.helporz.login',['ngCordova','com.helporz.utils.service','com.helporz.user.netservice','com.helporz.jim.services'])
+    .controller('loginCtrl',['$q','$scope','$http','$state','$log',
+    '$ionicLoading', 'deviceService','errorCodeService','httpErrorCodeService','userLoginInfoService','userNetService',
+      'jimService','debugHelpService',loginCtrl])
 
     .directive('getsmscode', [ '$http','$log','pushService',function($http,$log,pushService) {
       return {
@@ -73,7 +75,9 @@
     }]);
 
 
-  function loginCtrl($scope,$http,$state,$log,$ionicLoading,deviceService,errorCodeService,httpErrorCodeService,userLoginInfoService) {
+  function loginCtrl($q,$scope,$http,$state,$log,$ionicLoading,
+                     deviceService,errorCodeService,httpErrorCodeService,
+                     userLoginInfoService,userNetService,jimService,debugHelpService) {
     $scope.phoneno = '';
     $scope.smscode = '';
 
@@ -86,30 +90,67 @@
       $ionicLoading.show({
         template:"登录中..."
       });
-        $http({method:'POST',url:appConfig.API_SVC_URL + "/user/verify_sms",data:{ type:deviceInfo.type,
-            userinfo:phoneNo,smscode:smscode},headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }}).success(function(data,status,headers,config) {
-          $log.info("success data:" + data + " status:" + status + " headers:" + headers +  " config:" + config);
-          var loginResponse = angular.json.parse(data);
-          if( errorCodeService.isSuccess(loginResponse.code)) {
-            var ticket = loginResponse.data.ticket;
-            userLoginInfoService.saveLoginInfo(ticket,phoneNo);
 
-            $ionicLoading.hide();
-            $state.go('main.near');
+      var loginTicket;
 
-          }
-          else {
-            $ionicLoading.hide();
-              alert(errorCodeService.getErrorCodeDescription(loginResponse.code));
-          }
-        }).error(function(data,status,headers,config) {
+      $http({method:'POST',url:appConfig.API_SVC_URL + "/user/verify_sms",data:{ type:deviceInfo.type,
+        userinfo:phoneNo,smscode:smscode},headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }})
+        .then(processLoginResponse,processLoginFailedResponse)
+        .then(getSelfInfo,processFailed)
+        .then(loginIM,processFailed)
+        .then(function(){
           $ionicLoading.hide();
-          $log.error("failed data:" + data + " status:" + status + " headers:" + headers +  " config:" + config);
-          alert(httpErrorCodeService.getErrorCodeDescription(status));
+          $state.go('main.near');
+        },function(error) {
+          $ionicLoading.hide();
+          alert(error);
         });
 
+      return ;
+
+      // 下面是内部方法定义
+      function processLoginResponse(response) {
+        var data = response.data,status = response.status,headers = response.headers,config = response.config;
+        var httpSuccessDef = $q.defer();
+        $log.info("success data:" + data + " status:" + status + " headers:" + headers +  " config:" + config);
+
+        debugHelpService.writeObj(data);
+
+        var loginResponse = data;
+        if( errorCodeService.isSuccess(loginResponse.code)) {
+          httpSuccessDef.resolve(loginResponse.data.ticket);
+          userLoginInfoService.saveLoginInfo(loginResponse.data.ticket,phoneNo);
+        }
+        else {
+          httpSuccessDef.reject(errorCodeService.getErrorCodeDescription(loginResponse.code));
+        }
+        return httpSuccessDef.promise;
+      }
+
+      function processLoginFailedResponse(response) {
+        var httpFailedDefer = $q.defer();
+        httpFailedDefer.reject('访问服务器失败，网络状态码为'+response.status);
+        return httpFailedDefer.promise;
+      }
+
+
+      function getSelfInfo(ticket) {
+        loginTicket = ticket;
+        return userNetService.getSelfInfoForPromise();
+      }
+
+      function processFailed(error) {
+        var getUserInfoFailedDefer = $q.defer();
+        getUserInfoFailedDefer.reject(error);
+        return getUserInfoFailedDefer.promise;
+      }
+
+      function loginIM(userInfo) {
+        userLoginInfoService.saveLoginInfo(loginTicket,userInfo);
+        return jimService.loginForPromise(userInfo.phoneNo + "-" + userInfo.userId,userInfo.imPassword);
+      }
     }
 
   }

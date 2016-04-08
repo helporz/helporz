@@ -5,10 +5,10 @@
   function() {
     'use strict';
 
-    angular.module('com.helporz.user.netservice',['com.helporz.utils.service']).factory('userNetService',['$log','httpBaseService',
+    angular.module('com.helporz.user.netservice',['com.helporz.utils.service']).factory('userNetService',['$q','$log','httpBaseService',
       'errorCodeService','httpErrorCodeService',UserNetServiceFactoryFn])
 
-    function UserNetServiceFactoryFn($log,httpBaseService,errorCodeService,httpErrorCodeService) {
+    function UserNetServiceFactoryFn($q,$log,httpBaseService,errorCodeService,httpErrorCodeService) {
         var _loginByTicket=function(ticket,sign,onSuccessFn,onFailedFn) {
           var data = { ticket:ticket,sign:sign};
           httpBaseService.post("/user/login_by_ticket",data,function(resp,status,headers,config) {
@@ -58,6 +58,18 @@
         });
       }
 
+      var _getSelfInfoForPromise = function() {
+        var getSelfDefer = $q.defer();
+        httpBaseService.get('/user/get_self_info',null,function(resp,status,headers,config) {
+          getSelfDefer.resolve(resp.data);
+        },function(code,data,status,headers,config) {
+          getSelfDefer.reject(errorCodeService.getErrorCodeDescription(code));
+        },function(data,status,headers,config){
+          getSelfDefer.reject(httpErrorCodeService.getErrorCodeDescription(status));
+        });
+        return getSelfDefer.promise;
+      };
+
       var _getUserInfo = function(userId,onSuccessFn,onFailedFn) {
         httpBaseService.get('/user/' + userId + '/get_user_info',null,function(resp,status,headers,config) {
           onSuccessFn(resp.data);
@@ -73,7 +85,8 @@
         logout:_logout,
         checkUpdatePackage:_checkUpdatePackage,
         getSelfInfo:_getSelfInfo,
-        getUserInfo:_getUserInfo
+        getUserInfo:_getUserInfo,
+        getSelfInfoForPromise:_getSelfInfoForPromise
       };
     }
   }

@@ -115,10 +115,11 @@
     }).factory("httpErrorCodeService",function() {
       var httpErrorCodeServiceFactory = {};
       var _getErrCodeDescription = function(errCode) {
-        return "网络不给力,请调整后重试";
+        return "网络不给力,请调整后重试:" + errCode;
       }
 
       httpErrorCodeServiceFactory.getErrCodeDescription = _getErrCodeDescription;
+      httpErrorCodeServiceFactory.getErrorCodeDescription = _getErrCodeDescription;
       return httpErrorCodeServiceFactory;
     }).factory("userLoginInfoService",['localStorageService',function(localStorageService) {
       var userLoginInfoServiceFactory = {};
@@ -200,11 +201,11 @@
             method:'POST',url:appConfig.API_SVC_URL + url,data:data,
             headers: {
               'Content-Type':'application/x-www-form-urlencoded',
-              'x-login-key':userLoginInfoService.getLoginTicket
+              'x-login-key':userLoginInfoService.getLoginTicket()
             }
           }).success(function(data,status,headers,config)
           {
-            var resp = angular.json.parse(data);
+            var resp = data;
             if( errorCodeService.isSuccess(resp.code) ) {
               onSuccessFn(resp,status,headers,config);
             }
@@ -221,11 +222,11 @@
           $http({
             method:'GET',url:appConfig.API_SVC_URL + url,params:params,headers: {
               'Content-Type':'application/x-www-form-urlencoded',
-              'x-login-key':userLoginInfoService.getLoginTicket
+              'x-login-key':userLoginInfoService.getLoginTicket()
             }
           }).success(function(data,status,headers,config)
             {
-              var resp = angular.json.parse(data);
+              var resp = data;
               if( errorCodeService.isSuccess(resp.code) ) {
                 onSuccessFn(resp,status,headers,config);
               }
@@ -243,7 +244,54 @@
           get:_get
         }
       }]).factory('uploadService',['$log',UploadServiceFactoryFn])
-      .factory('downloadService',['$log',DownloadServiceFactoryFn]);
+      .factory('downloadService',['$log',DownloadServiceFactoryFn])
+    .factory('debugHelpService',['$log',DebugHelpServiceFactoryFn]);
+
+    function DebugHelpServiceFactoryFn($log) {
+      var obj2String = function (o){
+        var r=[];
+        if( o == null ) {
+          return '';
+        }
+        if(typeof o=="string"){
+          return "\""+o.replace(/([\'\"\\])/g,"\\$1").replace(/(\n)/g,"\\n").replace(/(\r)/g,"\\r").replace(/(\t)/g,"\\t")+"\"";
+        }
+        if(typeof o=="object"){
+
+          if(!o.sort){
+            for(var i in o){
+              r.push(i+":"+obj2String(o[i]));
+            }
+            if(!!document.all&&!/^\n?function\s*toString\(\)\s*\{\n?\s*\[native code\]\n?\s*\}\n?\s*$/.test(o.toString)){
+              r.push("toString:"+o.toString.toString());
+            }
+            r="{"+r.join()+"}";
+          }else{
+            for(var i=0;i<o.length;i++){
+              r.push(obj2String(o[i]))
+            }
+            r="["+r.join()+"]";
+          }
+          return r;
+        }
+        return o.toString();
+      }
+
+      var writeObj = function (obj){
+        var description = "";
+        for(var i in obj){
+          var property=obj[i];
+          description+=i+" = "+obj2String(property)+"\n";
+        }
+        $log.debug(description);
+        return description;
+      }
+
+      return {
+        writeObj:writeObj
+      }
+    }
+
     function UploadServiceFactoryFn($log) {
       var _uploadFile = function(fileUrl,serverUrl,headers,mimeType,onSuccess,onFailed) {
         var win = function (r) {

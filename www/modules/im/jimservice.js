@@ -5,9 +5,9 @@
   function(){
     'use strict';
     angular.module('com.helporz.jim.services',['ionic']).
-      factory('jimService',['$window','$document',imServiceFactoryFn]);
+      factory('jimService',['$window','$document','$q',imServiceFactoryFn]);
 
-    function imServiceFactoryFn($window,$document) {
+    function imServiceFactoryFn($window,$document,$q) {
       // for browser
       //var _jmessagePlugin = {
       //  login:function() {},
@@ -83,6 +83,35 @@
           }
         });
       };
+
+      var _loginForPromise = function($username,$password) {
+        //登录前清空用户名
+        var imLoginDefer = $q.defer();
+        $window.plugins.jmessagePlugin.username  = '';
+
+        $window.plugins.jmessagePlugin.login($username, $password, function (response) {
+          var ss = JSON.stringify(response);
+          console.log("login callback sucess" + ss);
+          $window.plugins.jmessagePlugin.username = $username;
+          imLoginDefer.resolve();
+        }, function (response) {
+          var ss = JSON.stringify(response);
+          console.log("login callback fail" + ss);
+
+          console.log("login fail. errcode:"+ response.errorCode + "  error discription:" +  response.errorDscription);
+
+          //error code 请参考 http://docs.jpush.io/client/im_errorcode/
+          console.log(device.platform);
+          console.log(response.errorCode);
+
+          if(response.errorCode == "801003"){
+            console.log("用户未注册");
+          }
+          imLoginDefer.reject("im登录失败，错误码为" + response.errorCode);
+        });
+        return imLoginDefer.promise;
+      };
+
 
       var _logout = function() {
         console.log("logout");
@@ -186,6 +215,7 @@
       jimServiceFactory.getUsername = _getUsername;
       jimServiceFactory.updateMessageNotifyCB = _updateMessageNotifyCB;
       //jimServiceFactory.getUserInfo = _getUserInfo;
+      jimServiceFactory.loginForPromise = _loginForPromise;
       return jimServiceFactory;
     }
 
