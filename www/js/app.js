@@ -20,6 +20,7 @@
       'starter.services',
       'com.helporz.login',
       'com.helporz.intro',
+      'com.helporz.utils.service',
       'main'
     ])
 
@@ -34,6 +35,8 @@
         'jimService',
         'imConversationService',
         'imMessageService',
+        'fileService',
+        'userImgFileService',
         init
       ])
 
@@ -63,7 +66,9 @@
                     pushService,
                     jimService,
                     imConversationService,
-                    imMessageService) {
+                    imMessageService,
+                    fileService,
+                    userImgFileService) {
         console.log('app.run.init');
       $ionicPlatform.ready(function() {
         console.log('ionicPlatform.ready');
@@ -241,6 +246,28 @@
 
 
         document.addEventListener("deviceready", function () {
+          fileService.init(function() {
+            //userImgFileService.saveUserImg('1','hello world',function() {
+            //  alert('success');
+            //},function() {
+            //  alert('failed');
+            //});
+
+            var data = fileService.readFromFile('user/','1.png',function(data) {
+              alert('success: read data:' + data);
+            },function() {
+              alert('failed');
+            });
+
+            console.log('read from file:' + data);
+          },function() {
+            alert('failed');
+          });
+
+          //fileService.writeToFile('user/img/','test.txt','hello world new');
+
+
+          //console.log(fileService.readFromFile('user/img/','test.txt'));
           var config={
             onOpenNotification: onOpenNotification,
             onReceiveNotification: onReceiveNotification,

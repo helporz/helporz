@@ -133,9 +133,27 @@
         return localStorageService.get('userLoginInfo',null);
       };
 
+      var _getLoginTicket = function() {
+        var loginInfo = _getLoginInfo();
+        if( loginInfo == null ) {
+          return null;
+        }
+        return loginInfo.ticket;
+      }
+
+      var _getLoginPhoneno = function() {
+        var loginInfo = _getLoginInfo();
+        if( loginInfo == null ) {
+          return null;
+        }
+        return loginInfo.userInfo;
+      }
+
       return {
         saveLoginInfo:_saveLoginInfo,
-        getLoginInfo:_getLoginInfo
+        getLoginInfo:_getLoginInfo,
+        getLoginTicket:_getLoginTicket,
+        getLoginPhoneno:_getLoginPhoneno
       };
     }]).factory('deviceService',['$log',function($log) {
       var deviceServiceFactory = {};
@@ -175,6 +193,143 @@
 
       deviceServiceFactory.getDeviceInfo = _getDeviceInfo;
       return deviceServiceFactory;
-    }]);
+    }])
+    .factory('httpBaseService',['$http','userLoginInfoService','errorCodeService',function($http,userLoginInfoService,errorCodeService) {
+        var _post = function(url,data,onSuccessFn,onFailedFn,onHttpFailedFn) {
+          $http({
+            method:'POST',url:appConfig.API_SVC_URL + url,data:data,
+            headers: {
+              'Content-Type':'application/x-www-form-urlencoded',
+              'x-login-key':userLoginInfoService.getLoginTicket
+            }
+          }).success(function(data,status,headers,config)
+          {
+            var resp = angular.json.parse(data);
+            if( errorCodeService.isSuccess(resp.code) ) {
+              onSuccessFn(resp,status,headers,config);
+            }
+            else {
+              onFailedFn(resp.code,data,status,headers,config);
+            }
+          }).error(function(data,status,headers,config)
+          {
+            onHttpFailedFn(data,status,headers,config);
+          });
+        };
+
+        var _get = function(url,params,onSuccessFn,onFailedFn,onHttpFailedFn) {
+          $http({
+            method:'GET',url:appConfig.API_SVC_URL + url,params:params,headers: {
+              'Content-Type':'application/x-www-form-urlencoded',
+              'x-login-key':userLoginInfoService.getLoginTicket
+            }
+          }).success(function(data,status,headers,config)
+            {
+              var resp = angular.json.parse(data);
+              if( errorCodeService.isSuccess(resp.code) ) {
+                onSuccessFn(resp,status,headers,config);
+              }
+              else {
+                onFailedFn(resp.code,data,status,headers,config);
+              }
+            }).error(function(data,status,headers,config)
+            {
+              onHttpFailedFn(data,status,headers,config);
+            });
+        };
+
+        return {
+          post:_post,
+          get:_get
+        }
+      }]).factory('uploadService',['$log',UploadServiceFactoryFn])
+      .factory('downloadService',['$log',DownloadServiceFactoryFn]);
+    function UploadServiceFactoryFn($log) {
+      var _uploadFile = function(fileUrl,serverUrl,headers,mimeType,onSuccess,onFailed) {
+        var win = function (r) {
+          $log.info("Code = " + r.responseCode);
+          $log.info("Response = " + r.response);
+          $log.info("Sent = " + r.bytesSent);
+          onSuccess(fileUrl);
+        }
+
+        var fail = function (error) {
+          $log.error("An error has occurred: Code = " + error.code);
+          $log.error("upload error source " + error.source);
+          $log.error("upload error target " + error.target);
+          onFailed(fileUrl,error.code);
+        }
+
+        var options = new FileUploadOptions();
+        options.fileKey = "file";
+        options.fileName = fileURL.substr(fileUrl.lastIndexOf('/') + 1);
+        options.mimeType = mimeType;
+
+        options.headers = headers;
+
+        options.params = params;
+
+        var ft = new FileTransfer();
+        ft.upload(fileUrl, encodeURI(serverUrl), win, fail, options);
+        return ft;
+      };
+
+      var _uploadImgFile = function(fileUrl,serverUrl,header,onSuccess,onFailed) {
+        return _uploadFile(fileUrl,serverUrl,header,'image/jpeg',onSuccess,onFailed);
+      }
+      var _uploadAudioFile = function(fileUrl,serverUrl,header,onSuccess,onFailed) {
+
+      };
+
+      var _abortUpload = function(ftObject) {
+        if( ftObject != null ) {
+          ftObject.abort();
+        }
+      }
+
+      return {
+        uploadImgFile:_uploadImgFile,
+        uploadAudioFile:_uploadAudioFile,
+        abortUpload:_abortUpload
+      };
+    };
+
+    function DownloadServiceFactoryFn($log) {
+      var _downloadFile = function(fileUrl,serverUrl,headers,onSuccess,onFailed) {
+        var fileTransfer = new FileTransfer();
+        var uri = encodeURI(serverUrl);
+
+        fileTransfer.download(
+          uri,
+          fileUrl,
+          function(entry) {
+            console.log("download complete: " + entry.toURL());
+            onSuccess(fileUrl,serverUrl);
+          },
+          function(error) {
+            console.log("download error source " + error.source);
+            console.log("download error target " + error.target);
+            console.log("upload error code" + error.code);
+            onFailed(fileUrl,serverUrl,error.code);
+          },
+          false,
+          {
+            headers: headers
+          });
+        return fileTransfer;
+      }
+
+      var _abortDownload = function(ftObject) {
+        if( ftObject != null ) {
+          ftObject.abort();
+        }
+      }
+
+      return {
+        downloadFile:_downloadFile,
+        abortDownload:_abortDownload
+      };
+    };
+
   }
 )();

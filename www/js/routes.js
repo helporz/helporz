@@ -41,7 +41,7 @@
         // if none of the above states are matched, use this as the fallback
 
         //$urlRouterProvider.otherwise('/main/near');
-        $urlRouterProvider.otherwise('/login');
+        $urlRouterProvider.otherwise('/user/proto');
       }
     );
   }
