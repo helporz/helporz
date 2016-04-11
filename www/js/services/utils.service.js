@@ -56,10 +56,10 @@
         else if ( errCode == 502 ) {
           return "上传文件失败";
         }
-        else if ( errCode = 503 ) {
+        else if ( errCode == 503 ) {
           return "用户已经注册";
         }
-        else if ( errCode = 504 ) {
+        else if ( errCode == 504 ) {
           return "无效的序列号";
         }
         else if ( errCode == 505) {
@@ -195,7 +195,8 @@
       deviceServiceFactory.getDeviceInfo = _getDeviceInfo;
       return deviceServiceFactory;
     }])
-    .factory('httpBaseService',['$http','userLoginInfoService','errorCodeService',function($http,userLoginInfoService,errorCodeService) {
+    .factory('httpBaseService',['$q','$http','$log','userLoginInfoService','errorCodeService','httpErrorCodeService',
+        function($q,$http,$log,userLoginInfoService,errorCodeService,httpErrorCodeService) {
         var _post = function(url,data,onSuccessFn,onFailedFn,onHttpFailedFn) {
           $http({
             method:'POST',url:appConfig.API_SVC_URL + url,data:data,
@@ -218,6 +219,32 @@
           });
         };
 
+
+          var _postForPromise = function(url,data) {
+            var _postDefer = $q.defer();
+
+            $http({
+              method:'POST',url:appConfig.API_SVC_URL + url,data:data,
+              headers: {
+                'Content-Type':'application/x-www-form-urlencoded',
+                'x-login-key':userLoginInfoService.getLoginTicket()
+              }
+            }).success(function(data,status,headers,config)
+            {
+              var resp = data;
+              if( errorCodeService.isSuccess(resp.code) ) {
+                _postDefer.resolve(resp);
+              }
+              else {
+                _postDefer.reject(errorCodeService.getErrorCodeDescription(resp.code));
+              }
+            }).error(function(data,status)
+            {
+              _postDefer.reject(httpErrorCodeService.getErrCodeDescription(status));
+            });
+            return _postDefer.promise;
+          };
+
         var _get = function(url,params,onSuccessFn,onFailedFn,onHttpFailedFn) {
           $http({
             method:'GET',url:appConfig.API_SVC_URL + url,params:params,headers: {
@@ -239,9 +266,35 @@
             });
         };
 
+        var _getForPromise = function(url,params) {
+          var _getDefer = $q.defer();
+          $http({
+            method:'GET',url:appConfig.API_SVC_URL + url,params:params,headers: {
+              'Content-Type':'application/x-www-form-urlencoded',
+              'x-login-key':userLoginInfoService.getLoginTicket()
+            }
+          }).success(function(data,status,headers,config)
+          {
+            //$log.info('getForPromise url=' + url + ' response data=' + JSON.stringify(data));
+            var resp = data;
+            if( errorCodeService.isSuccess(resp.code) ) {
+              _getDefer.resolve(resp.data);
+            }
+            else {
+              _getDefer.reject(errorCodeService.getErrorCodeDescription(resp.code));
+            }
+          }).error(function(data,status)
+          {
+            _getDefer.reject(httpErrorCodeService.getErrorCodeDescription(status));
+          });
+          return _getDefer.promise;
+        };
+
         return {
           post:_post,
-          get:_get
+          get:_get,
+          getForPromise:_getForPromise,
+          postForPromise:_postForPromise
         }
       }]).factory('uploadService',['$log',UploadServiceFactoryFn])
       .factory('downloadService',['$log',DownloadServiceFactoryFn])

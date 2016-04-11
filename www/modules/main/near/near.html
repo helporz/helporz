@@ -5,7 +5,7 @@
   </ion-nav-buttons>
 
   <ion-content class="padding" >
-    <ion-refresher pulling-text="下拉刷新..." on-refresh="doRefresh()">
+    <ion-refresher pulling-text="下拉刷新..." on-refresh="vm.doRefresh()">
     </ion-refresher>
 
     <ion-list>
@@ -13,7 +13,7 @@
         <div class="row nopadding">
           <div class="col col-25 content-left">
             <img class="task-img" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g"   reset-img>
-            <p class="task-type">超市捎带</p>
+            <p class="task-type">{{item.taskSubTypeDescription}}</p>
           </div>
           <div class="col col-75 content-right">
             <div class="row user-panel nopadding">
@@ -22,9 +22,9 @@
               </div>
               <div class="col col-80 user-detail nopadding">
                 <div class="top">
-                  <p class="elem color-black">王小丫</p>
+                  <p class="elem color-black">{{item.poster.nickname}}</p>
                   <i class="elem2 icon ion-ios-help color-woman"></i>
-                  <p class="time">5分钟前</p>
+                  <p class="time">{{item.created}}</p>
                 </div>
                 <div class="bottom">
                   <p class="elem text-tag user-tag-color-0">女神</p>
@@ -36,18 +36,18 @@
             <div class="div-line"></div>
 
             <div class="summary-panel">
-              <p class="color-black">我想吃汉堡,帮忙从代卖带一份回来,非常感谢!!就在南门外第一家~多谢多谢</p>
+              <p class="color-black">{{item.summary}}</p>
               <div class="appendix">
                 <i class="icon ion-ios-clock-outline deadline"></i>
-                <p>17:30截止</p>
+                <p>{{item.deadline}}截止</p>
               </div>
               <div class="appendix">
                 <i class="icon ion-ios-location-outline address"></i>
-                <p>17:30截止</p>
+                <p>{{item.pubLocation}}</p>
               </div>
               <div>
                 <p class="thank">感谢</p>
-                <p class="thank-what text-tag tabs-color-light">请你喝饮料</p>
+                <p class="thank-what text-tag tabs-color-light">{{item.rewardDescription}} </p>
               </div>
             </div>
             <div class="bottom-panel">
