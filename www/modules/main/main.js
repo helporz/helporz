@@ -8,6 +8,7 @@
   angular.module('main', [
     'ionic',
     'main.near',
+    'main.near.task-detail',
     'main.me'
   ]).config(mainConfig);
 
@@ -26,6 +27,15 @@
           'near': {
             templateUrl: 'modules/main/near/near.html',
             controller: 'mainNearCtrl'
+          }
+        }
+      })
+      .state('main.task-detail', {
+        url: '/task-detail',
+        views: {
+          'near': {
+            templateUrl: 'modules/main/near/task-detail/task-detail.html',
+            controller: 'mainNearTaskDetailCtrl'
           }
         }
       })

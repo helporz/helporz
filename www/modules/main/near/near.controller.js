@@ -11,7 +11,7 @@
   function mainNearCtrl($scope) {
     var vm = $scope.vm = {};
     vm.items = [];
-    for (var i = 0; i < 30; i++) {
+    for (var i = 0; i < 10; i++) {
       vm.items.push('Item ' + i);
     }
   }

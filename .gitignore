@@ -7,3 +7,12 @@ plugins/
 resources/android
 resources/ios
 
+# scss tool cache
+.sass-cache/
+*.css.map
+
+# temp file
+.io-config.json
+
+# idea
+.idea/
