@@ -56,10 +56,10 @@
         else if ( errCode == 502 ) {
           return "上传文件失败";
         }
-        else if ( errCode = 503 ) {
+        else if ( errCode == 503 ) {
           return "用户已经注册";
         }
-        else if ( errCode = 504 ) {
+        else if ( errCode == 504 ) {
           return "无效的序列号";
         }
         else if ( errCode == 505) {
@@ -195,8 +195,8 @@
       deviceServiceFactory.getDeviceInfo = _getDeviceInfo;
       return deviceServiceFactory;
     }])
-    .factory('httpBaseService',['$q','$http','userLoginInfoService','errorCodeService','httpErrorCodeService',
-        function($q,$http,userLoginInfoService,errorCodeService,httpErrorCodeService) {
+    .factory('httpBaseService',['$q','$http','$log','userLoginInfoService','errorCodeService','httpErrorCodeService',
+        function($q,$http,$log,userLoginInfoService,errorCodeService,httpErrorCodeService) {
         var _post = function(url,data,onSuccessFn,onFailedFn,onHttpFailedFn) {
           $http({
             method:'POST',url:appConfig.API_SVC_URL + url,data:data,
@@ -229,18 +229,18 @@
                 'Content-Type':'application/x-www-form-urlencoded',
                 'x-login-key':userLoginInfoService.getLoginTicket()
               }
-            }).success(function(response)
+            }).success(function(data,status,headers,config)
             {
-              var resp = response.data;
+              var resp = data;
               if( errorCodeService.isSuccess(resp.code) ) {
                 _postDefer.resolve(resp);
               }
               else {
                 _postDefer.reject(errorCodeService.getErrorCodeDescription(resp.code));
               }
-            }).error(function(response)
+            }).error(function(data,status)
             {
-              _postDefer.reject(httpErrorCodeService.getErrCodeDescription(response.status));
+              _postDefer.reject(httpErrorCodeService.getErrCodeDescription(status));
             });
             return _postDefer.promise;
           };
@@ -273,18 +273,19 @@
               'Content-Type':'application/x-www-form-urlencoded',
               'x-login-key':userLoginInfoService.getLoginTicket()
             }
-          }).success(function(response)
+          }).success(function(data,status,headers,config)
           {
-            var resp = response.data;
+            //$log.info('getForPromise url=' + url + ' response data=' + JSON.stringify(data));
+            var resp = data;
             if( errorCodeService.isSuccess(resp.code) ) {
               _getDefer.resolve(resp.data);
             }
             else {
               _getDefer.reject(errorCodeService.getErrorCodeDescription(resp.code));
             }
-          }).error(function(response)
+          }).error(function(data,status)
           {
-            _getDefer.reject(httpErrorCodeService.getErrorCodeDescription(response.status));
+            _getDefer.reject(httpErrorCodeService.getErrorCodeDescription(status));
           });
           return _getDefer.promise;
         };
