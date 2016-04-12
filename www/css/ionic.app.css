@@ -251,6 +251,771 @@ $dark:                            #444 !default;
   background-color: rgba(0, 0, 0, 0.5); }
 
 /*!
+  hoicons, v1.0.0
+  add by lkj.
+  follow : http://wenku.baidu.com/link?url=mNTaYmk3r_-ijnYatTLSoHwuQ6Hiz6sIMnkGUgylbPJ0TCwSM002tz5UShBto6aTJAnhMLaLHAFdQFvTAGA8VDj9AulkHEMUEm5Ysqc1ksK
+  using: https://icomoon.io/app/#/select  to create font files
+*/
+@font-face {
+  font-family: "Hoicons";
+  src: url("../fonts/Hoicons.eot?v=1.0.2");
+  src: url("../fonts/Hoicons.eot?v=1.0.2#iefix") format("embedded-opentype"), url("../fonts/Hoicons.ttf?v=1.0.2") format("truetype"), url("../fonts/Hoicons.woff?v=1.0.2") format("woff"), url("../fonts/Hoicons.woff") format("woff"), url("../fonts/Hoicons.svg?v=1.0.2#Hoicons") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+.ion, .ho-faxian-outline:before,
+.ho-faxian:before, .ionicons,
+.ion-alert:before,
+.ion-alert-circled:before,
+.ion-android-add:before,
+.ion-android-add-circle:before,
+.ion-android-alarm-clock:before,
+.ion-android-alert:before,
+.ion-android-apps:before,
+.ion-android-archive:before,
+.ion-android-arrow-back:before,
+.ion-android-arrow-down:before,
+.ion-android-arrow-dropdown:before,
+.ion-android-arrow-dropdown-circle:before,
+.ion-android-arrow-dropleft:before,
+.ion-android-arrow-dropleft-circle:before,
+.ion-android-arrow-dropright:before,
+.ion-android-arrow-dropright-circle:before,
+.ion-android-arrow-dropup:before,
+.ion-android-arrow-dropup-circle:before,
+.ion-android-arrow-forward:before,
+.ion-android-arrow-up:before,
+.ion-android-attach:before,
+.ion-android-bar:before,
+.ion-android-bicycle:before,
+.ion-android-boat:before,
+.ion-android-bookmark:before,
+.ion-android-bulb:before,
+.ion-android-bus:before,
+.ion-android-calendar:before,
+.ion-android-call:before,
+.ion-android-camera:before,
+.ion-android-cancel:before,
+.ion-android-car:before,
+.ion-android-cart:before,
+.ion-android-chat:before,
+.ion-android-checkbox:before,
+.ion-android-checkbox-blank:before,
+.ion-android-checkbox-outline:before,
+.ion-android-checkbox-outline-blank:before,
+.ion-android-checkmark-circle:before,
+.ion-android-clipboard:before,
+.ion-android-close:before,
+.ion-android-cloud:before,
+.ion-android-cloud-circle:before,
+.ion-android-cloud-done:before,
+.ion-android-cloud-outline:before,
+.ion-android-color-palette:before,
+.ion-android-compass:before,
+.ion-android-contact:before,
+.ion-android-contacts:before,
+.ion-android-contract:before,
+.ion-android-create:before,
+.ion-android-delete:before,
+.ion-android-desktop:before,
+.ion-android-document:before,
+.ion-android-done:before,
+.ion-android-done-all:before,
+.ion-android-download:before,
+.ion-android-drafts:before,
+.ion-android-exit:before,
+.ion-android-expand:before,
+.ion-android-favorite:before,
+.ion-android-favorite-outline:before,
+.ion-android-film:before,
+.ion-android-folder:before,
+.ion-android-folder-open:before,
+.ion-android-funnel:before,
+.ion-android-globe:before,
+.ion-android-hand:before,
+.ion-android-hangout:before,
+.ion-android-happy:before,
+.ion-android-home:before,
+.ion-android-image:before,
+.ion-android-laptop:before,
+.ion-android-list:before,
+.ion-android-locate:before,
+.ion-android-lock:before,
+.ion-android-mail:before,
+.ion-android-map:before,
+.ion-android-menu:before,
+.ion-android-microphone:before,
+.ion-android-microphone-off:before,
+.ion-android-more-horizontal:before,
+.ion-android-more-vertical:before,
+.ion-android-navigate:before,
+.ion-android-notifications:before,
+.ion-android-notifications-none:before,
+.ion-android-notifications-off:before,
+.ion-android-open:before,
+.ion-android-options:before,
+.ion-android-people:before,
+.ion-android-person:before,
+.ion-android-person-add:before,
+.ion-android-phone-landscape:before,
+.ion-android-phone-portrait:before,
+.ion-android-pin:before,
+.ion-android-plane:before,
+.ion-android-playstore:before,
+.ion-android-print:before,
+.ion-android-radio-button-off:before,
+.ion-android-radio-button-on:before,
+.ion-android-refresh:before,
+.ion-android-remove:before,
+.ion-android-remove-circle:before,
+.ion-android-restaurant:before,
+.ion-android-sad:before,
+.ion-android-search:before,
+.ion-android-send:before,
+.ion-android-settings:before,
+.ion-android-share:before,
+.ion-android-share-alt:before,
+.ion-android-star:before,
+.ion-android-star-half:before,
+.ion-android-star-outline:before,
+.ion-android-stopwatch:before,
+.ion-android-subway:before,
+.ion-android-sunny:before,
+.ion-android-sync:before,
+.ion-android-textsms:before,
+.ion-android-time:before,
+.ion-android-train:before,
+.ion-android-unlock:before,
+.ion-android-upload:before,
+.ion-android-volume-down:before,
+.ion-android-volume-mute:before,
+.ion-android-volume-off:before,
+.ion-android-volume-up:before,
+.ion-android-walk:before,
+.ion-android-warning:before,
+.ion-android-watch:before,
+.ion-android-wifi:before,
+.ion-aperture:before,
+.ion-archive:before,
+.ion-arrow-down-a:before,
+.ion-arrow-down-b:before,
+.ion-arrow-down-c:before,
+.ion-arrow-expand:before,
+.ion-arrow-graph-down-left:before,
+.ion-arrow-graph-down-right:before,
+.ion-arrow-graph-up-left:before,
+.ion-arrow-graph-up-right:before,
+.ion-arrow-left-a:before,
+.ion-arrow-left-b:before,
+.ion-arrow-left-c:before,
+.ion-arrow-move:before,
+.ion-arrow-resize:before,
+.ion-arrow-return-left:before,
+.ion-arrow-return-right:before,
+.ion-arrow-right-a:before,
+.ion-arrow-right-b:before,
+.ion-arrow-right-c:before,
+.ion-arrow-shrink:before,
+.ion-arrow-swap:before,
+.ion-arrow-up-a:before,
+.ion-arrow-up-b:before,
+.ion-arrow-up-c:before,
+.ion-asterisk:before,
+.ion-at:before,
+.ion-backspace:before,
+.ion-backspace-outline:before,
+.ion-bag:before,
+.ion-battery-charging:before,
+.ion-battery-empty:before,
+.ion-battery-full:before,
+.ion-battery-half:before,
+.ion-battery-low:before,
+.ion-beaker:before,
+.ion-beer:before,
+.ion-bluetooth:before,
+.ion-bonfire:before,
+.ion-bookmark:before,
+.ion-bowtie:before,
+.ion-briefcase:before,
+.ion-bug:before,
+.ion-calculator:before,
+.ion-calendar:before,
+.ion-camera:before,
+.ion-card:before,
+.ion-cash:before,
+.ion-chatbox:before,
+.ion-chatbox-working:before,
+.ion-chatboxes:before,
+.ion-chatbubble:before,
+.ion-chatbubble-working:before,
+.ion-chatbubbles:before,
+.ion-checkmark:before,
+.ion-checkmark-circled:before,
+.ion-checkmark-round:before,
+.ion-chevron-down:before,
+.ion-chevron-left:before,
+.ion-chevron-right:before,
+.ion-chevron-up:before,
+.ion-clipboard:before,
+.ion-clock:before,
+.ion-close:before,
+.ion-close-circled:before,
+.ion-close-round:before,
+.ion-closed-captioning:before,
+.ion-cloud:before,
+.ion-code:before,
+.ion-code-download:before,
+.ion-code-working:before,
+.ion-coffee:before,
+.ion-compass:before,
+.ion-compose:before,
+.ion-connection-bars:before,
+.ion-contrast:before,
+.ion-crop:before,
+.ion-cube:before,
+.ion-disc:before,
+.ion-document:before,
+.ion-document-text:before,
+.ion-drag:before,
+.ion-earth:before,
+.ion-easel:before,
+.ion-edit:before,
+.ion-egg:before,
+.ion-eject:before,
+.ion-email:before,
+.ion-email-unread:before,
+.ion-erlenmeyer-flask:before,
+.ion-erlenmeyer-flask-bubbles:before,
+.ion-eye:before,
+.ion-eye-disabled:before,
+.ion-female:before,
+.ion-filing:before,
+.ion-film-marker:before,
+.ion-fireball:before,
+.ion-flag:before,
+.ion-flame:before,
+.ion-flash:before,
+.ion-flash-off:before,
+.ion-folder:before,
+.ion-fork:before,
+.ion-fork-repo:before,
+.ion-forward:before,
+.ion-funnel:before,
+.ion-gear-a:before,
+.ion-gear-b:before,
+.ion-grid:before,
+.ion-hammer:before,
+.ion-happy:before,
+.ion-happy-outline:before,
+.ion-headphone:before,
+.ion-heart:before,
+.ion-heart-broken:before,
+.ion-help:before,
+.ion-help-buoy:before,
+.ion-help-circled:before,
+.ion-home:before,
+.ion-icecream:before,
+.ion-image:before,
+.ion-images:before,
+.ion-information:before,
+.ion-information-circled:before,
+.ion-ionic:before,
+.ion-ios-alarm:before,
+.ion-ios-alarm-outline:before,
+.ion-ios-albums:before,
+.ion-ios-albums-outline:before,
+.ion-ios-americanfootball:before,
+.ion-ios-americanfootball-outline:before,
+.ion-ios-analytics:before,
+.ion-ios-analytics-outline:before,
+.ion-ios-arrow-back:before,
+.ion-ios-arrow-down:before,
+.ion-ios-arrow-forward:before,
+.ion-ios-arrow-left:before,
+.ion-ios-arrow-right:before,
+.ion-ios-arrow-thin-down:before,
+.ion-ios-arrow-thin-left:before,
+.ion-ios-arrow-thin-right:before,
+.ion-ios-arrow-thin-up:before,
+.ion-ios-arrow-up:before,
+.ion-ios-at:before,
+.ion-ios-at-outline:before,
+.ion-ios-barcode:before,
+.ion-ios-barcode-outline:before,
+.ion-ios-baseball:before,
+.ion-ios-baseball-outline:before,
+.ion-ios-basketball:before,
+.ion-ios-basketball-outline:before,
+.ion-ios-bell:before,
+.ion-ios-bell-outline:before,
+.ion-ios-body:before,
+.ion-ios-body-outline:before,
+.ion-ios-bolt:before,
+.ion-ios-bolt-outline:before,
+.ion-ios-book:before,
+.ion-ios-book-outline:before,
+.ion-ios-bookmarks:before,
+.ion-ios-bookmarks-outline:before,
+.ion-ios-box:before,
+.ion-ios-box-outline:before,
+.ion-ios-briefcase:before,
+.ion-ios-briefcase-outline:before,
+.ion-ios-browsers:before,
+.ion-ios-browsers-outline:before,
+.ion-ios-calculator:before,
+.ion-ios-calculator-outline:before,
+.ion-ios-calendar:before,
+.ion-ios-calendar-outline:before,
+.ion-ios-camera:before,
+.ion-ios-camera-outline:before,
+.ion-ios-cart:before,
+.ion-ios-cart-outline:before,
+.ion-ios-chatboxes:before,
+.ion-ios-chatboxes-outline:before,
+.ion-ios-chatbubble:before,
+.ion-ios-chatbubble-outline:before,
+.ion-ios-checkmark:before,
+.ion-ios-checkmark-empty:before,
+.ion-ios-checkmark-outline:before,
+.ion-ios-circle-filled:before,
+.ion-ios-circle-outline:before,
+.ion-ios-clock:before,
+.ion-ios-clock-outline:before,
+.ion-ios-close:before,
+.ion-ios-close-empty:before,
+.ion-ios-close-outline:before,
+.ion-ios-cloud:before,
+.ion-ios-cloud-download:before,
+.ion-ios-cloud-download-outline:before,
+.ion-ios-cloud-outline:before,
+.ion-ios-cloud-upload:before,
+.ion-ios-cloud-upload-outline:before,
+.ion-ios-cloudy:before,
+.ion-ios-cloudy-night:before,
+.ion-ios-cloudy-night-outline:before,
+.ion-ios-cloudy-outline:before,
+.ion-ios-cog:before,
+.ion-ios-cog-outline:before,
+.ion-ios-color-filter:before,
+.ion-ios-color-filter-outline:before,
+.ion-ios-color-wand:before,
+.ion-ios-color-wand-outline:before,
+.ion-ios-compose:before,
+.ion-ios-compose-outline:before,
+.ion-ios-contact:before,
+.ion-ios-contact-outline:before,
+.ion-ios-copy:before,
+.ion-ios-copy-outline:before,
+.ion-ios-crop:before,
+.ion-ios-crop-strong:before,
+.ion-ios-download:before,
+.ion-ios-download-outline:before,
+.ion-ios-drag:before,
+.ion-ios-email:before,
+.ion-ios-email-outline:before,
+.ion-ios-eye:before,
+.ion-ios-eye-outline:before,
+.ion-ios-fastforward:before,
+.ion-ios-fastforward-outline:before,
+.ion-ios-filing:before,
+.ion-ios-filing-outline:before,
+.ion-ios-film:before,
+.ion-ios-film-outline:before,
+.ion-ios-flag:before,
+.ion-ios-flag-outline:before,
+.ion-ios-flame:before,
+.ion-ios-flame-outline:before,
+.ion-ios-flask:before,
+.ion-ios-flask-outline:before,
+.ion-ios-flower:before,
+.ion-ios-flower-outline:before,
+.ion-ios-folder:before,
+.ion-ios-folder-outline:before,
+.ion-ios-football:before,
+.ion-ios-football-outline:before,
+.ion-ios-game-controller-a:before,
+.ion-ios-game-controller-a-outline:before,
+.ion-ios-game-controller-b:before,
+.ion-ios-game-controller-b-outline:before,
+.ion-ios-gear:before,
+.ion-ios-gear-outline:before,
+.ion-ios-glasses:before,
+.ion-ios-glasses-outline:before,
+.ion-ios-grid-view:before,
+.ion-ios-grid-view-outline:before,
+.ion-ios-heart:before,
+.ion-ios-heart-outline:before,
+.ion-ios-help:before,
+.ion-ios-help-empty:before,
+.ion-ios-help-outline:before,
+.ion-ios-home:before,
+.ion-ios-home-outline:before,
+.ion-ios-infinite:before,
+.ion-ios-infinite-outline:before,
+.ion-ios-information:before,
+.ion-ios-information-empty:before,
+.ion-ios-information-outline:before,
+.ion-ios-ionic-outline:before,
+.ion-ios-keypad:before,
+.ion-ios-keypad-outline:before,
+.ion-ios-lightbulb:before,
+.ion-ios-lightbulb-outline:before,
+.ion-ios-list:before,
+.ion-ios-list-outline:before,
+.ion-ios-location:before,
+.ion-ios-location-outline:before,
+.ion-ios-locked:before,
+.ion-ios-locked-outline:before,
+.ion-ios-loop:before,
+.ion-ios-loop-strong:before,
+.ion-ios-medical:before,
+.ion-ios-medical-outline:before,
+.ion-ios-medkit:before,
+.ion-ios-medkit-outline:before,
+.ion-ios-mic:before,
+.ion-ios-mic-off:before,
+.ion-ios-mic-outline:before,
+.ion-ios-minus:before,
+.ion-ios-minus-empty:before,
+.ion-ios-minus-outline:before,
+.ion-ios-monitor:before,
+.ion-ios-monitor-outline:before,
+.ion-ios-moon:before,
+.ion-ios-moon-outline:before,
+.ion-ios-more:before,
+.ion-ios-more-outline:before,
+.ion-ios-musical-note:before,
+.ion-ios-musical-notes:before,
+.ion-ios-navigate:before,
+.ion-ios-navigate-outline:before,
+.ion-ios-nutrition:before,
+.ion-ios-nutrition-outline:before,
+.ion-ios-paper:before,
+.ion-ios-paper-outline:before,
+.ion-ios-paperplane:before,
+.ion-ios-paperplane-outline:before,
+.ion-ios-partlysunny:before,
+.ion-ios-partlysunny-outline:before,
+.ion-ios-pause:before,
+.ion-ios-pause-outline:before,
+.ion-ios-paw:before,
+.ion-ios-paw-outline:before,
+.ion-ios-people:before,
+.ion-ios-people-outline:before,
+.ion-ios-person:before,
+.ion-ios-person-outline:before,
+.ion-ios-personadd:before,
+.ion-ios-personadd-outline:before,
+.ion-ios-photos:before,
+.ion-ios-photos-outline:before,
+.ion-ios-pie:before,
+.ion-ios-pie-outline:before,
+.ion-ios-pint:before,
+.ion-ios-pint-outline:before,
+.ion-ios-play:before,
+.ion-ios-play-outline:before,
+.ion-ios-plus:before,
+.ion-ios-plus-empty:before,
+.ion-ios-plus-outline:before,
+.ion-ios-pricetag:before,
+.ion-ios-pricetag-outline:before,
+.ion-ios-pricetags:before,
+.ion-ios-pricetags-outline:before,
+.ion-ios-printer:before,
+.ion-ios-printer-outline:before,
+.ion-ios-pulse:before,
+.ion-ios-pulse-strong:before,
+.ion-ios-rainy:before,
+.ion-ios-rainy-outline:before,
+.ion-ios-recording:before,
+.ion-ios-recording-outline:before,
+.ion-ios-redo:before,
+.ion-ios-redo-outline:before,
+.ion-ios-refresh:before,
+.ion-ios-refresh-empty:before,
+.ion-ios-refresh-outline:before,
+.ion-ios-reload:before,
+.ion-ios-reverse-camera:before,
+.ion-ios-reverse-camera-outline:before,
+.ion-ios-rewind:before,
+.ion-ios-rewind-outline:before,
+.ion-ios-rose:before,
+.ion-ios-rose-outline:before,
+.ion-ios-search:before,
+.ion-ios-search-strong:before,
+.ion-ios-settings:before,
+.ion-ios-settings-strong:before,
+.ion-ios-shuffle:before,
+.ion-ios-shuffle-strong:before,
+.ion-ios-skipbackward:before,
+.ion-ios-skipbackward-outline:before,
+.ion-ios-skipforward:before,
+.ion-ios-skipforward-outline:before,
+.ion-ios-snowy:before,
+.ion-ios-speedometer:before,
+.ion-ios-speedometer-outline:before,
+.ion-ios-star:before,
+.ion-ios-star-half:before,
+.ion-ios-star-outline:before,
+.ion-ios-stopwatch:before,
+.ion-ios-stopwatch-outline:before,
+.ion-ios-sunny:before,
+.ion-ios-sunny-outline:before,
+.ion-ios-telephone:before,
+.ion-ios-telephone-outline:before,
+.ion-ios-tennisball:before,
+.ion-ios-tennisball-outline:before,
+.ion-ios-thunderstorm:before,
+.ion-ios-thunderstorm-outline:before,
+.ion-ios-time:before,
+.ion-ios-time-outline:before,
+.ion-ios-timer:before,
+.ion-ios-timer-outline:before,
+.ion-ios-toggle:before,
+.ion-ios-toggle-outline:before,
+.ion-ios-trash:before,
+.ion-ios-trash-outline:before,
+.ion-ios-undo:before,
+.ion-ios-undo-outline:before,
+.ion-ios-unlocked:before,
+.ion-ios-unlocked-outline:before,
+.ion-ios-upload:before,
+.ion-ios-upload-outline:before,
+.ion-ios-videocam:before,
+.ion-ios-videocam-outline:before,
+.ion-ios-volume-high:before,
+.ion-ios-volume-low:before,
+.ion-ios-wineglass:before,
+.ion-ios-wineglass-outline:before,
+.ion-ios-world:before,
+.ion-ios-world-outline:before,
+.ion-ipad:before,
+.ion-iphone:before,
+.ion-ipod:before,
+.ion-jet:before,
+.ion-key:before,
+.ion-knife:before,
+.ion-laptop:before,
+.ion-leaf:before,
+.ion-levels:before,
+.ion-lightbulb:before,
+.ion-link:before,
+.ion-load-a:before,
+.ion-load-b:before,
+.ion-load-c:before,
+.ion-load-d:before,
+.ion-location:before,
+.ion-lock-combination:before,
+.ion-locked:before,
+.ion-log-in:before,
+.ion-log-out:before,
+.ion-loop:before,
+.ion-magnet:before,
+.ion-male:before,
+.ion-man:before,
+.ion-map:before,
+.ion-medkit:before,
+.ion-merge:before,
+.ion-mic-a:before,
+.ion-mic-b:before,
+.ion-mic-c:before,
+.ion-minus:before,
+.ion-minus-circled:before,
+.ion-minus-round:before,
+.ion-model-s:before,
+.ion-monitor:before,
+.ion-more:before,
+.ion-mouse:before,
+.ion-music-note:before,
+.ion-navicon:before,
+.ion-navicon-round:before,
+.ion-navigate:before,
+.ion-network:before,
+.ion-no-smoking:before,
+.ion-nuclear:before,
+.ion-outlet:before,
+.ion-paintbrush:before,
+.ion-paintbucket:before,
+.ion-paper-airplane:before,
+.ion-paperclip:before,
+.ion-pause:before,
+.ion-person:before,
+.ion-person-add:before,
+.ion-person-stalker:before,
+.ion-pie-graph:before,
+.ion-pin:before,
+.ion-pinpoint:before,
+.ion-pizza:before,
+.ion-plane:before,
+.ion-planet:before,
+.ion-play:before,
+.ion-playstation:before,
+.ion-plus:before,
+.ion-plus-circled:before,
+.ion-plus-round:before,
+.ion-podium:before,
+.ion-pound:before,
+.ion-power:before,
+.ion-pricetag:before,
+.ion-pricetags:before,
+.ion-printer:before,
+.ion-pull-request:before,
+.ion-qr-scanner:before,
+.ion-quote:before,
+.ion-radio-waves:before,
+.ion-record:before,
+.ion-refresh:before,
+.ion-reply:before,
+.ion-reply-all:before,
+.ion-ribbon-a:before,
+.ion-ribbon-b:before,
+.ion-sad:before,
+.ion-sad-outline:before,
+.ion-scissors:before,
+.ion-search:before,
+.ion-settings:before,
+.ion-share:before,
+.ion-shuffle:before,
+.ion-skip-backward:before,
+.ion-skip-forward:before,
+.ion-social-android:before,
+.ion-social-android-outline:before,
+.ion-social-angular:before,
+.ion-social-angular-outline:before,
+.ion-social-apple:before,
+.ion-social-apple-outline:before,
+.ion-social-bitcoin:before,
+.ion-social-bitcoin-outline:before,
+.ion-social-buffer:before,
+.ion-social-buffer-outline:before,
+.ion-social-chrome:before,
+.ion-social-chrome-outline:before,
+.ion-social-codepen:before,
+.ion-social-codepen-outline:before,
+.ion-social-css3:before,
+.ion-social-css3-outline:before,
+.ion-social-designernews:before,
+.ion-social-designernews-outline:before,
+.ion-social-dribbble:before,
+.ion-social-dribbble-outline:before,
+.ion-social-dropbox:before,
+.ion-social-dropbox-outline:before,
+.ion-social-euro:before,
+.ion-social-euro-outline:before,
+.ion-social-facebook:before,
+.ion-social-facebook-outline:before,
+.ion-social-foursquare:before,
+.ion-social-foursquare-outline:before,
+.ion-social-freebsd-devil:before,
+.ion-social-github:before,
+.ion-social-github-outline:before,
+.ion-social-google:before,
+.ion-social-google-outline:before,
+.ion-social-googleplus:before,
+.ion-social-googleplus-outline:before,
+.ion-social-hackernews:before,
+.ion-social-hackernews-outline:before,
+.ion-social-html5:before,
+.ion-social-html5-outline:before,
+.ion-social-instagram:before,
+.ion-social-instagram-outline:before,
+.ion-social-javascript:before,
+.ion-social-javascript-outline:before,
+.ion-social-linkedin:before,
+.ion-social-linkedin-outline:before,
+.ion-social-markdown:before,
+.ion-social-nodejs:before,
+.ion-social-octocat:before,
+.ion-social-pinterest:before,
+.ion-social-pinterest-outline:before,
+.ion-social-python:before,
+.ion-social-reddit:before,
+.ion-social-reddit-outline:before,
+.ion-social-rss:before,
+.ion-social-rss-outline:before,
+.ion-social-sass:before,
+.ion-social-skype:before,
+.ion-social-skype-outline:before,
+.ion-social-snapchat:before,
+.ion-social-snapchat-outline:before,
+.ion-social-tumblr:before,
+.ion-social-tumblr-outline:before,
+.ion-social-tux:before,
+.ion-social-twitch:before,
+.ion-social-twitch-outline:before,
+.ion-social-twitter:before,
+.ion-social-twitter-outline:before,
+.ion-social-usd:before,
+.ion-social-usd-outline:before,
+.ion-social-vimeo:before,
+.ion-social-vimeo-outline:before,
+.ion-social-whatsapp:before,
+.ion-social-whatsapp-outline:before,
+.ion-social-windows:before,
+.ion-social-windows-outline:before,
+.ion-social-wordpress:before,
+.ion-social-wordpress-outline:before,
+.ion-social-yahoo:before,
+.ion-social-yahoo-outline:before,
+.ion-social-yen:before,
+.ion-social-yen-outline:before,
+.ion-social-youtube:before,
+.ion-social-youtube-outline:before,
+.ion-soup-can:before,
+.ion-soup-can-outline:before,
+.ion-speakerphone:before,
+.ion-speedometer:before,
+.ion-spoon:before,
+.ion-star:before,
+.ion-stats-bars:before,
+.ion-steam:before,
+.ion-stop:before,
+.ion-thermometer:before,
+.ion-thumbsdown:before,
+.ion-thumbsup:before,
+.ion-toggle:before,
+.ion-toggle-filled:before,
+.ion-transgender:before,
+.ion-trash-a:before,
+.ion-trash-b:before,
+.ion-trophy:before,
+.ion-tshirt:before,
+.ion-tshirt-outline:before,
+.ion-umbrella:before,
+.ion-university:before,
+.ion-unlocked:before,
+.ion-upload:before,
+.ion-usb:before,
+.ion-videocamera:before,
+.ion-volume-high:before,
+.ion-volume-low:before,
+.ion-volume-medium:before,
+.ion-volume-mute:before,
+.ion-wand:before,
+.ion-waterdrop:before,
+.ion-wifi:before,
+.ion-wineglass:before,
+.ion-woman:before,
+.ion-wrench:before,
+.ion-xbox:before {
+  display: inline-block;
+  font-family: "Hoicons";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.ho-faxian-outline:before {
+  content: ""; }
+
+.ho-faxian:before {
+  content: ""; }
+
+/*!
   Ionicons, v2.0.1
   Created by Ben Sperry for the Ionic Framework, http://ionicons.com/
   https://twitter.com/benjsperry  https://twitter.com/ionicframework
@@ -267,8 +1032,8 @@ $dark:                            #444 !default;
   src: url("../lib/ionic/fonts/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"), url("../lib/ionic/fonts/ionicons.ttf?v=2.0.1") format("truetype"), url("../lib/ionic/fonts/ionicons.woff?v=2.0.1") format("woff"), url("../lib/ionic/fonts/ionicons.woff") format("woff"), url("../lib/ionic/fonts/ionicons.svg?v=2.0.1#Ionicons") format("svg");
   font-weight: normal;
   font-style: normal; }
-
-.ion, .ionicons,
+.ion, .ho-faxian-outline:before,
+.ho-faxian:before, .ionicons,
 .ion-alert:before,
 .ion-alert-circled:before,
 .ion-android-add:before,
@@ -3643,7 +4408,6 @@ body.grade-c {
  */
 @-ms-viewport {
   width: device-width; }
-
 .scroll-bar {
   position: absolute;
   z-index: 9999; }
@@ -4051,7 +4815,6 @@ a.subdued {
 
 .platform-android .action-sheet-backdrop.active {
   background-color: rgba(0, 0, 0, 0.2); }
-
 .platform-android .action-sheet {
   margin: 0; }
   .platform-android .action-sheet .action-sheet-title,
@@ -4067,15 +4830,12 @@ a.subdued {
   .platform-android .action-sheet .button.active,
   .platform-android .action-sheet .button.activated {
     background: #e8e8e8; }
-
 .platform-android .action-sheet-group {
   margin: 0;
   border-radius: 0;
   background-color: #fafafa; }
-
 .platform-android .action-sheet-cancel {
   display: none; }
-
 .platform-android .action-sheet-has-icons .button {
   padding-left: 56px; }
 
@@ -4325,10 +5085,8 @@ a.subdued {
 
 .platform-android .nav-bar-has-subheader .bar {
   background-image: none; }
-
 .platform-android .bar .back-button .icon:before {
   font-size: 24px; }
-
 .platform-android .bar .title {
   font-size: 19px;
   line-height: 44px; }
@@ -4708,7 +5466,6 @@ a.subdued {
   border: none;
   border-bottom: 1px solid #ddd;
   padding-top: 0; }
-
 .tabs-striped .tab-item.tab-item-active, .tabs-striped .tab-item.active, .tabs-striped .tab-item.activated {
   margin-top: 0;
   border-style: solid;
@@ -4717,10 +5474,8 @@ a.subdued {
   .tabs-striped .tab-item.tab-item-active .badge, .tabs-striped .tab-item.active .badge, .tabs-striped .tab-item.activated .badge {
     top: 0;
     opacity: 1; }
-
 .tabs-striped.tabs-light .tabs {
   background-color: #fff; }
-
 .tabs-striped.tabs-light .tab-item {
   color: rgba(68, 68, 68, 0.4);
   opacity: 1; }
@@ -4732,13 +5487,10 @@ a.subdued {
     border-style: solid;
     border-width: 0 0 0 0;
     border-color: #444; }
-
 .tabs-striped.tabs-top .tab-item.tab-item-active .badge, .tabs-striped.tabs-top .tab-item.active .badge, .tabs-striped.tabs-top .tab-item.activated .badge {
   top: 4%; }
-
 .tabs-striped.tabs-stable .tabs {
   background-color: #f8f8f8; }
-
 .tabs-striped.tabs-stable .tab-item {
   color: rgba(68, 68, 68, 0.4);
   opacity: 1; }
@@ -4750,13 +5502,10 @@ a.subdued {
     border-style: solid;
     border-width: 0 0 0 0;
     border-color: #444; }
-
 .tabs-striped.tabs-top .tab-item.tab-item-active .badge, .tabs-striped.tabs-top .tab-item.active .badge, .tabs-striped.tabs-top .tab-item.activated .badge {
   top: 4%; }
-
 .tabs-striped.tabs-positive .tabs {
   background-color: #387ef5; }
-
 .tabs-striped.tabs-positive .tab-item {
   color: rgba(255, 255, 255, 0.4);
   opacity: 1; }
@@ -4768,13 +5517,10 @@ a.subdued {
     border-style: solid;
     border-width: 0 0 0 0;
     border-color: #fff; }
-
 .tabs-striped.tabs-top .tab-item.tab-item-active .badge, .tabs-striped.tabs-top .tab-item.active .badge, .tabs-striped.tabs-top .tab-item.activated .badge {
   top: 4%; }
-
 .tabs-striped.tabs-calm .tabs {
   background-color: #11c1f3; }
-
 .tabs-striped.tabs-calm .tab-item {
   color: rgba(255, 255, 255, 0.4);
   opacity: 1; }
@@ -4786,13 +5532,10 @@ a.subdued {
     border-style: solid;
     border-width: 0 0 0 0;
     border-color: #fff; }
-
 .tabs-striped.tabs-top .tab-item.tab-item-active .badge, .tabs-striped.tabs-top .tab-item.active .badge, .tabs-striped.tabs-top .tab-item.activated .badge {
   top: 4%; }
-
 .tabs-striped.tabs-assertive .tabs {
   background-color: #ef473a; }
-
 .tabs-striped.tabs-assertive .tab-item {
   color: rgba(255, 255, 255, 0.4);
   opacity: 1; }
@@ -4804,13 +5547,10 @@ a.subdued {
     border-style: solid;
     border-width: 0 0 0 0;
     border-color: #fff; }
-
 .tabs-striped.tabs-top .tab-item.tab-item-active .badge, .tabs-striped.tabs-top .tab-item.active .badge, .tabs-striped.tabs-top .tab-item.activated .badge {
   top: 4%; }
-
 .tabs-striped.tabs-balanced .tabs {
   background-color: #33cd5f; }
-
 .tabs-striped.tabs-balanced .tab-item {
   color: rgba(255, 255, 255, 0.4);
   opacity: 1; }
@@ -4822,13 +5562,10 @@ a.subdued {
     border-style: solid;
     border-width: 0 0 0 0;
     border-color: #fff; }
-
 .tabs-striped.tabs-top .tab-item.tab-item-active .badge, .tabs-striped.tabs-top .tab-item.active .badge, .tabs-striped.tabs-top .tab-item.activated .badge {
   top: 4%; }
-
 .tabs-striped.tabs-energized .tabs {
   background-color: #ffc900; }
-
 .tabs-striped.tabs-energized .tab-item {
   color: rgba(255, 255, 255, 0.4);
   opacity: 1; }
@@ -4840,13 +5577,10 @@ a.subdued {
     border-style: solid;
     border-width: 0 0 0 0;
     border-color: #fff; }
-
 .tabs-striped.tabs-top .tab-item.tab-item-active .badge, .tabs-striped.tabs-top .tab-item.active .badge, .tabs-striped.tabs-top .tab-item.activated .badge {
   top: 4%; }
-
 .tabs-striped.tabs-royal .tabs {
   background-color: #886aea; }
-
 .tabs-striped.tabs-royal .tab-item {
   color: rgba(255, 255, 255, 0.4);
   opacity: 1; }
@@ -4858,13 +5592,10 @@ a.subdued {
     border-style: solid;
     border-width: 0 0 0 0;
     border-color: #fff; }
-
 .tabs-striped.tabs-top .tab-item.tab-item-active .badge, .tabs-striped.tabs-top .tab-item.active .badge, .tabs-striped.tabs-top .tab-item.activated .badge {
   top: 4%; }
-
 .tabs-striped.tabs-dark .tabs {
   background-color: #444; }
-
 .tabs-striped.tabs-dark .tab-item {
   color: rgba(255, 255, 255, 0.4);
   opacity: 1; }
@@ -4876,46 +5607,35 @@ a.subdued {
     border-style: solid;
     border-width: 0 0 0 0;
     border-color: #fff; }
-
 .tabs-striped.tabs-top .tab-item.tab-item-active .badge, .tabs-striped.tabs-top .tab-item.active .badge, .tabs-striped.tabs-top .tab-item.activated .badge {
   top: 4%; }
-
 .tabs-striped.tabs-background-light .tabs {
   background-color: #fff;
   background-image: none; }
-
 .tabs-striped.tabs-background-stable .tabs {
   background-color: #f8f8f8;
   background-image: none; }
-
 .tabs-striped.tabs-background-positive .tabs {
   background-color: #387ef5;
   background-image: none; }
-
 .tabs-striped.tabs-background-calm .tabs {
   background-color: #11c1f3;
   background-image: none; }
-
 .tabs-striped.tabs-background-assertive .tabs {
   background-color: #ef473a;
   background-image: none; }
-
 .tabs-striped.tabs-background-balanced .tabs {
   background-color: #33cd5f;
   background-image: none; }
-
 .tabs-striped.tabs-background-energized .tabs {
   background-color: #ffc900;
   background-image: none; }
-
 .tabs-striped.tabs-background-royal .tabs {
   background-color: #886aea;
   background-image: none; }
-
 .tabs-striped.tabs-background-dark .tabs {
   background-color: #444;
   background-image: none; }
-
 .tabs-striped.tabs-color-light .tab-item {
   color: rgba(255, 255, 255, 0.4);
   opacity: 1; }
@@ -4929,7 +5649,6 @@ a.subdued {
     .tabs-striped.tabs-color-light .tab-item.tab-item-active .badge, .tabs-striped.tabs-color-light .tab-item.active .badge, .tabs-striped.tabs-color-light .tab-item.activated .badge {
       top: 0;
       opacity: 1; }
-
 .tabs-striped.tabs-color-stable .tab-item {
   color: rgba(248, 248, 248, 0.4);
   opacity: 1; }
@@ -4943,7 +5662,6 @@ a.subdued {
     .tabs-striped.tabs-color-stable .tab-item.tab-item-active .badge, .tabs-striped.tabs-color-stable .tab-item.active .badge, .tabs-striped.tabs-color-stable .tab-item.activated .badge {
       top: 0;
       opacity: 1; }
-
 .tabs-striped.tabs-color-positive .tab-item {
   color: rgba(56, 126, 245, 0.4);
   opacity: 1; }
@@ -4957,7 +5675,6 @@ a.subdued {
     .tabs-striped.tabs-color-positive .tab-item.tab-item-active .badge, .tabs-striped.tabs-color-positive .tab-item.active .badge, .tabs-striped.tabs-color-positive .tab-item.activated .badge {
       top: 0;
       opacity: 1; }
-
 .tabs-striped.tabs-color-calm .tab-item {
   color: rgba(17, 193, 243, 0.4);
   opacity: 1; }
@@ -4971,7 +5688,6 @@ a.subdued {
     .tabs-striped.tabs-color-calm .tab-item.tab-item-active .badge, .tabs-striped.tabs-color-calm .tab-item.active .badge, .tabs-striped.tabs-color-calm .tab-item.activated .badge {
       top: 0;
       opacity: 1; }
-
 .tabs-striped.tabs-color-assertive .tab-item {
   color: rgba(239, 71, 58, 0.4);
   opacity: 1; }
@@ -4985,7 +5701,6 @@ a.subdued {
     .tabs-striped.tabs-color-assertive .tab-item.tab-item-active .badge, .tabs-striped.tabs-color-assertive .tab-item.active .badge, .tabs-striped.tabs-color-assertive .tab-item.activated .badge {
       top: 0;
       opacity: 1; }
-
 .tabs-striped.tabs-color-balanced .tab-item {
   color: rgba(51, 205, 95, 0.4);
   opacity: 1; }
@@ -4999,7 +5714,6 @@ a.subdued {
     .tabs-striped.tabs-color-balanced .tab-item.tab-item-active .badge, .tabs-striped.tabs-color-balanced .tab-item.active .badge, .tabs-striped.tabs-color-balanced .tab-item.activated .badge {
       top: 0;
       opacity: 1; }
-
 .tabs-striped.tabs-color-energized .tab-item {
   color: rgba(255, 201, 0, 0.4);
   opacity: 1; }
@@ -5013,7 +5727,6 @@ a.subdued {
     .tabs-striped.tabs-color-energized .tab-item.tab-item-active .badge, .tabs-striped.tabs-color-energized .tab-item.active .badge, .tabs-striped.tabs-color-energized .tab-item.activated .badge {
       top: 0;
       opacity: 1; }
-
 .tabs-striped.tabs-color-royal .tab-item {
   color: rgba(136, 106, 234, 0.4);
   opacity: 1; }
@@ -5027,7 +5740,6 @@ a.subdued {
     .tabs-striped.tabs-color-royal .tab-item.tab-item-active .badge, .tabs-striped.tabs-color-royal .tab-item.active .badge, .tabs-striped.tabs-color-royal .tab-item.activated .badge {
       top: 0;
       opacity: 1; }
-
 .tabs-striped.tabs-color-dark .tab-item {
   color: rgba(68, 68, 68, 0.4);
   opacity: 1; }
@@ -5042,56 +5754,47 @@ a.subdued {
       top: 0;
       opacity: 1; }
 
-.tabs-background-light .tabs,
-.tabs-background-light > .tabs {
+.tabs-background-light .tabs, .tabs-background-light > .tabs {
   background-color: #fff;
   background-image: linear-gradient(0deg, #ddd, #ddd 50%, transparent 50%);
   border-color: #ddd; }
 
-.tabs-background-stable .tabs,
-.tabs-background-stable > .tabs {
+.tabs-background-stable .tabs, .tabs-background-stable > .tabs {
   background-color: #f8f8f8;
   background-image: linear-gradient(0deg, #b2b2b2, #b2b2b2 50%, transparent 50%);
   border-color: #b2b2b2; }
 
-.tabs-background-positive .tabs,
-.tabs-background-positive > .tabs {
+.tabs-background-positive .tabs, .tabs-background-positive > .tabs {
   background-color: #387ef5;
   background-image: linear-gradient(0deg, #0c60ee, #0c60ee 50%, transparent 50%);
   border-color: #0c60ee; }
 
-.tabs-background-calm .tabs,
-.tabs-background-calm > .tabs {
+.tabs-background-calm .tabs, .tabs-background-calm > .tabs {
   background-color: #11c1f3;
   background-image: linear-gradient(0deg, #0a9dc7, #0a9dc7 50%, transparent 50%);
   border-color: #0a9dc7; }
 
-.tabs-background-assertive .tabs,
-.tabs-background-assertive > .tabs {
+.tabs-background-assertive .tabs, .tabs-background-assertive > .tabs {
   background-color: #ef473a;
   background-image: linear-gradient(0deg, #e42112, #e42112 50%, transparent 50%);
   border-color: #e42112; }
 
-.tabs-background-balanced .tabs,
-.tabs-background-balanced > .tabs {
+.tabs-background-balanced .tabs, .tabs-background-balanced > .tabs {
   background-color: #33cd5f;
   background-image: linear-gradient(0deg, #28a54c, #28a54c 50%, transparent 50%);
   border-color: #28a54c; }
 
-.tabs-background-energized .tabs,
-.tabs-background-energized > .tabs {
+.tabs-background-energized .tabs, .tabs-background-energized > .tabs {
   background-color: #ffc900;
   background-image: linear-gradient(0deg, #e6b500, #e6b500 50%, transparent 50%);
   border-color: #e6b500; }
 
-.tabs-background-royal .tabs,
-.tabs-background-royal > .tabs {
+.tabs-background-royal .tabs, .tabs-background-royal > .tabs {
   background-color: #886aea;
   background-image: linear-gradient(0deg, #6b46e5, #6b46e5 50%, transparent 50%);
   border-color: #6b46e5; }
 
-.tabs-background-dark .tabs,
-.tabs-background-dark > .tabs {
+.tabs-background-dark .tabs, .tabs-background-dark > .tabs {
   background-color: #444;
   background-image: linear-gradient(0deg, #111, #111 50%, transparent 50%);
   border-color: #111; }
@@ -5199,42 +5902,34 @@ ion-tabs.tabs-color-active-light .tab-item {
   color: #444; }
   ion-tabs.tabs-color-active-light .tab-item.tab-item-active, ion-tabs.tabs-color-active-light .tab-item.active, ion-tabs.tabs-color-active-light .tab-item.activated {
     color: #fff; }
-
 ion-tabs.tabs-color-active-stable .tab-item {
   color: #444; }
   ion-tabs.tabs-color-active-stable .tab-item.tab-item-active, ion-tabs.tabs-color-active-stable .tab-item.active, ion-tabs.tabs-color-active-stable .tab-item.activated {
     color: #f8f8f8; }
-
 ion-tabs.tabs-color-active-positive .tab-item {
   color: #444; }
   ion-tabs.tabs-color-active-positive .tab-item.tab-item-active, ion-tabs.tabs-color-active-positive .tab-item.active, ion-tabs.tabs-color-active-positive .tab-item.activated {
     color: #387ef5; }
-
 ion-tabs.tabs-color-active-calm .tab-item {
   color: #444; }
   ion-tabs.tabs-color-active-calm .tab-item.tab-item-active, ion-tabs.tabs-color-active-calm .tab-item.active, ion-tabs.tabs-color-active-calm .tab-item.activated {
     color: #11c1f3; }
-
 ion-tabs.tabs-color-active-assertive .tab-item {
   color: #444; }
   ion-tabs.tabs-color-active-assertive .tab-item.tab-item-active, ion-tabs.tabs-color-active-assertive .tab-item.active, ion-tabs.tabs-color-active-assertive .tab-item.activated {
     color: #ef473a; }
-
 ion-tabs.tabs-color-active-balanced .tab-item {
   color: #444; }
   ion-tabs.tabs-color-active-balanced .tab-item.tab-item-active, ion-tabs.tabs-color-active-balanced .tab-item.active, ion-tabs.tabs-color-active-balanced .tab-item.activated {
     color: #33cd5f; }
-
 ion-tabs.tabs-color-active-energized .tab-item {
   color: #444; }
   ion-tabs.tabs-color-active-energized .tab-item.tab-item-active, ion-tabs.tabs-color-active-energized .tab-item.active, ion-tabs.tabs-color-active-energized .tab-item.activated {
     color: #ffc900; }
-
 ion-tabs.tabs-color-active-royal .tab-item {
   color: #444; }
   ion-tabs.tabs-color-active-royal .tab-item.tab-item-active, ion-tabs.tabs-color-active-royal .tab-item.active, ion-tabs.tabs-color-active-royal .tab-item.activated {
     color: #886aea; }
-
 ion-tabs.tabs-color-active-dark .tab-item {
   color: #fff; }
   ion-tabs.tabs-color-active-dark .tab-item.tab-item-active, ion-tabs.tabs-color-active-dark .tab-item.active, ion-tabs.tabs-color-active-dark .tab-item.activated {
@@ -5539,8 +6234,10 @@ ion-tabs.tabs-color-active-dark .tab-item {
     left: 20%;
     min-height: 240px;
     width: 60%; }
+
   .modal.ng-leave-active {
     bottom: 0; }
+
   .platform-ios.platform-cordova .modal-wrapper .modal .bar-header:not(.bar-subheader) {
     height: 44px; }
     .platform-ios.platform-cordova .modal-wrapper .modal .bar-header:not(.bar-subheader) > * {
@@ -5557,14 +6254,15 @@ ion-tabs.tabs-color-active-dark .tab-item {
     top: 93px; }
   .platform-ios.platform-cordova .modal-wrapper .modal .has-header.has-subheader.has-tabs-top {
     top: 137px; }
+
   .modal-backdrop-bg {
     -webkit-transition: opacity 300ms ease-in-out;
     transition: opacity 300ms ease-in-out;
     background-color: #000;
     opacity: 0; }
+
   .active .modal-backdrop-bg {
     opacity: 0.5; } }
-
 .modal-open {
   pointer-events: none; }
   .modal-open .modal,
@@ -5632,20 +6330,16 @@ ion-tabs.tabs-color-active-dark .tab-item {
 .platform-ios .popover {
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.08);
   border-radius: 10px; }
-
 .platform-ios .popover .bar-header {
   -webkit-border-top-right-radius: 10px;
   border-top-right-radius: 10px;
   -webkit-border-top-left-radius: 10px;
   border-top-left-radius: 10px; }
-
 .platform-ios .popover .scroll-content {
   margin: 8px 0;
   border-radius: 10px; }
-
 .platform-ios .popover .scroll-content.has-header {
   margin-top: 0; }
-
 .platform-ios .popover-arrow {
   position: absolute;
   display: block;
@@ -5664,7 +6358,6 @@ ion-tabs.tabs-color-active-dark .tab-item {
     content: '';
     -webkit-transform: rotate(-45deg);
     transform: rotate(-45deg); }
-
 .platform-ios .popover-bottom .popover-arrow {
   top: auto;
   bottom: -10px; }
@@ -5681,7 +6374,6 @@ ion-tabs.tabs-color-active-dark .tab-item {
     color: #4d4d4d; }
   .platform-android .popover.popover-bottom {
     margin-top: 32px; }
-
 .platform-android .popover-backdrop,
 .platform-android .popover-backdrop.active {
   background-color: transparent; }
@@ -5699,7 +6391,6 @@ ion-tabs.tabs-color-active-dark .tab-item {
   .popover {
     width: 360px;
     margin-left: -180px; } }
-
 /**
  * Popups
  * --------------------------------------------------
@@ -5859,8 +6550,7 @@ ion-tabs.tabs-color-active-dark .tab-item {
   transition: 0.2s opacity linear;
   visibility: hidden;
   opacity: 0; }
-  .loading-container:not(.visible) .icon,
-  .loading-container:not(.visible) .spinner {
+  .loading-container:not(.visible) .icon, .loading-container:not(.visible) .spinner {
     display: none; }
   .loading-container.visible {
     visibility: visible; }
@@ -6233,7 +6923,6 @@ a.item-content {
     .item-complex.item-light > .item-content.active.item-complex > .item-content, .item-complex.item-light > .item-content:active.item-complex > .item-content {
       border-color: #ccc;
       background-color: #fafafa; }
-
 .item-complex.item-stable > .item-content {
   border-color: #b2b2b2;
   background-color: #f8f8f8;
@@ -6244,7 +6933,6 @@ a.item-content {
     .item-complex.item-stable > .item-content.active.item-complex > .item-content, .item-complex.item-stable > .item-content:active.item-complex > .item-content {
       border-color: #a2a2a2;
       background-color: #e5e5e5; }
-
 .item-complex.item-positive > .item-content {
   border-color: #0c60ee;
   background-color: #387ef5;
@@ -6255,7 +6943,6 @@ a.item-content {
     .item-complex.item-positive > .item-content.active.item-complex > .item-content, .item-complex.item-positive > .item-content:active.item-complex > .item-content {
       border-color: #0c60ee;
       background-color: #0c60ee; }
-
 .item-complex.item-calm > .item-content {
   border-color: #0a9dc7;
   background-color: #11c1f3;
@@ -6266,7 +6953,6 @@ a.item-content {
     .item-complex.item-calm > .item-content.active.item-complex > .item-content, .item-complex.item-calm > .item-content:active.item-complex > .item-content {
       border-color: #0a9dc7;
       background-color: #0a9dc7; }
-
 .item-complex.item-assertive > .item-content {
   border-color: #e42112;
   background-color: #ef473a;
@@ -6277,7 +6963,6 @@ a.item-content {
     .item-complex.item-assertive > .item-content.active.item-complex > .item-content, .item-complex.item-assertive > .item-content:active.item-complex > .item-content {
       border-color: #e42112;
       background-color: #e42112; }
-
 .item-complex.item-balanced > .item-content {
   border-color: #28a54c;
   background-color: #33cd5f;
@@ -6288,7 +6973,6 @@ a.item-content {
     .item-complex.item-balanced > .item-content.active.item-complex > .item-content, .item-complex.item-balanced > .item-content:active.item-complex > .item-content {
       border-color: #28a54c;
       background-color: #28a54c; }
-
 .item-complex.item-energized > .item-content {
   border-color: #e6b500;
   background-color: #ffc900;
@@ -6299,7 +6983,6 @@ a.item-content {
     .item-complex.item-energized > .item-content.active.item-complex > .item-content, .item-complex.item-energized > .item-content:active.item-complex > .item-content {
       border-color: #e6b500;
       background-color: #e6b500; }
-
 .item-complex.item-royal > .item-content {
   border-color: #6b46e5;
   background-color: #886aea;
@@ -6310,7 +6993,6 @@ a.item-content {
     .item-complex.item-royal > .item-content.active.item-complex > .item-content, .item-complex.item-royal > .item-content:active.item-complex > .item-content {
       border-color: #6b46e5;
       background-color: #6b46e5; }
-
 .item-complex.item-dark > .item-content {
   border-color: #111;
   background-color: #444;
@@ -6624,7 +7306,6 @@ button.item.item-button-right {
 .item-remove-animate.ng-leave {
   -webkit-transition-duration: 300ms;
   transition-duration: 300ms; }
-
 .item-remove-animate.ng-leave .item-content, .item-remove-animate.ng-leave:last-of-type {
   -webkit-transition-duration: 300ms;
   transition-duration: 300ms;
@@ -6632,15 +7313,12 @@ button.item.item-button-right {
   transition-timing-function: ease-in;
   -webkit-transition-property: all;
   transition-property: all; }
-
 .item-remove-animate.ng-leave.ng-leave-active .item-content {
   opacity: 0;
   -webkit-transform: translate3d(-100%, 0, 0) !important;
   transform: translate3d(-100%, 0, 0) !important; }
-
 .item-remove-animate.ng-leave.ng-leave-active:last-of-type {
   opacity: 0; }
-
 .item-remove-animate.ng-leave.ng-leave-active ~ ion-item:not(.ng-leave) {
   -webkit-transform: translate3d(0, -webkit-calc(-100% + 1px), 0);
   transform: translate3d(0, calc(-100% + 1px), 0);
@@ -6853,7 +7531,6 @@ button.item.item-button-right {
   .padding > .list .item:first-child .item-content {
     border-top-left-radius: 2px;
     border-top-right-radius: 2px; }
-
 .card .item:last-child,
 .list-inset .item:last-child,
 .padding > .list .item:last-child {
@@ -6912,42 +7589,34 @@ button.item.item-button-right {
 .badge.badge-light {
   background-color: #fff;
   color: #444; }
-
 .tabs .tab-item .badge.badge-stable,
 .badge.badge-stable {
   background-color: #f8f8f8;
   color: #444; }
-
 .tabs .tab-item .badge.badge-positive,
 .badge.badge-positive {
   background-color: #387ef5;
   color: #fff; }
-
 .tabs .tab-item .badge.badge-calm,
 .badge.badge-calm {
   background-color: #11c1f3;
   color: #fff; }
-
 .tabs .tab-item .badge.badge-assertive,
 .badge.badge-assertive {
   background-color: #ef473a;
   color: #fff; }
-
 .tabs .tab-item .badge.badge-balanced,
 .badge.badge-balanced {
   background-color: #33cd5f;
   color: #fff; }
-
 .tabs .tab-item .badge.badge-energized,
 .badge.badge-energized {
   background-color: #ffc900;
   color: #fff; }
-
 .tabs .tab-item .badge.badge-royal,
 .badge.badge-royal {
   background-color: #886aea;
   color: #fff; }
-
 .tabs .tab-item .badge.badge-dark,
 .badge.badge-dark {
   background-color: #444;
@@ -7006,7 +7675,6 @@ button.item.item-button-right {
 .slider-pager-page.ng-animate {
   -webkit-transition: none !important;
   transition: none !important; }
-
 .slider-slide.ng-animate,
 .slider-pager-page.ng-animate {
   -webkit-animation: none 0s;
@@ -7474,11 +8142,9 @@ button.swiper-pagination-bullet {
 @-webkit-keyframes swiper-preloader-spin {
   100% {
     -webkit-transform: rotate(360deg); } }
-
 @keyframes swiper-preloader-spin {
   100% {
     transform: rotate(360deg); } }
-
 ion-slides {
   width: 100%;
   height: 100%;
@@ -7598,25 +8264,21 @@ ion-slides {
     -webkit-transform: translate3d(0, 0, 0) rotate(0); }
   100% {
     -webkit-transform: translate3d(0, 0, 0) rotate(180deg); } }
-
 @keyframes refresh-spin {
   0% {
     transform: translate3d(0, 0, 0) rotate(0); }
   100% {
     transform: translate3d(0, 0, 0) rotate(180deg); } }
-
 @-webkit-keyframes refresh-spin-back {
   0% {
     -webkit-transform: translate3d(0, 0, 0) rotate(180deg); }
   100% {
     -webkit-transform: translate3d(0, 0, 0) rotate(0); } }
-
 @keyframes refresh-spin-back {
   0% {
     transform: translate3d(0, 0, 0) rotate(180deg); }
   100% {
     transform: translate3d(0, 0, 0) rotate(0); } }
-
 /**
  * Spinners
  * --------------------------------------------------
@@ -7665,34 +8327,24 @@ ion-slides {
 .spinner-spiral .stop1 {
   stop-color: #fff;
   stop-opacity: 0; }
-
 .spinner-spiral.spinner-light .stop1 {
   stop-color: #444; }
-
 .spinner-spiral.spinner-light .stop2 {
   stop-color: #fff; }
-
 .spinner-spiral.spinner-stable .stop2 {
   stop-color: #f8f8f8; }
-
 .spinner-spiral.spinner-positive .stop2 {
   stop-color: #387ef5; }
-
 .spinner-spiral.spinner-calm .stop2 {
   stop-color: #11c1f3; }
-
 .spinner-spiral.spinner-balanced .stop2 {
   stop-color: #33cd5f; }
-
 .spinner-spiral.spinner-assertive .stop2 {
   stop-color: #ef473a; }
-
 .spinner-spiral.spinner-energized .stop2 {
   stop-color: #ffc900; }
-
 .spinner-spiral.spinner-royal .stop2 {
   stop-color: #886aea; }
-
 .spinner-spiral.spinner-dark .stop2 {
   stop-color: #444; }
 
@@ -7998,11 +8650,9 @@ input[type="file"] {
 input::-moz-placeholder,
 textarea::-moz-placeholder {
   color: #aaaaaa; }
-
 input:-ms-input-placeholder,
 textarea:-ms-input-placeholder {
   color: #aaaaaa; }
-
 input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
   color: #aaaaaa;
@@ -8032,92 +8682,63 @@ input[type="checkbox"][readonly] {
   display: inline-block;
   padding: 7px 7px;
   cursor: pointer; }
-  .checkbox input:before,
-  .checkbox .checkbox-icon:before {
+  .checkbox input:before, .checkbox .checkbox-icon:before {
     border-color: #ddd; }
-  .checkbox input:checked:before,
-  .checkbox input:checked + .checkbox-icon:before {
+  .checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before {
     background: #387ef5;
     border-color: #387ef5; }
 
-.checkbox-light input:before,
-.checkbox-light .checkbox-icon:before {
+.checkbox-light input:before, .checkbox-light .checkbox-icon:before {
   border-color: #ddd; }
-
-.checkbox-light input:checked:before,
-.checkbox-light input:checked + .checkbox-icon:before {
+.checkbox-light input:checked:before, .checkbox-light input:checked + .checkbox-icon:before {
   background: #ddd;
   border-color: #ddd; }
 
-.checkbox-stable input:before,
-.checkbox-stable .checkbox-icon:before {
+.checkbox-stable input:before, .checkbox-stable .checkbox-icon:before {
   border-color: #b2b2b2; }
-
-.checkbox-stable input:checked:before,
-.checkbox-stable input:checked + .checkbox-icon:before {
+.checkbox-stable input:checked:before, .checkbox-stable input:checked + .checkbox-icon:before {
   background: #b2b2b2;
   border-color: #b2b2b2; }
 
-.checkbox-positive input:before,
-.checkbox-positive .checkbox-icon:before {
+.checkbox-positive input:before, .checkbox-positive .checkbox-icon:before {
   border-color: #387ef5; }
-
-.checkbox-positive input:checked:before,
-.checkbox-positive input:checked + .checkbox-icon:before {
+.checkbox-positive input:checked:before, .checkbox-positive input:checked + .checkbox-icon:before {
   background: #387ef5;
   border-color: #387ef5; }
 
-.checkbox-calm input:before,
-.checkbox-calm .checkbox-icon:before {
+.checkbox-calm input:before, .checkbox-calm .checkbox-icon:before {
   border-color: #11c1f3; }
-
-.checkbox-calm input:checked:before,
-.checkbox-calm input:checked + .checkbox-icon:before {
+.checkbox-calm input:checked:before, .checkbox-calm input:checked + .checkbox-icon:before {
   background: #11c1f3;
   border-color: #11c1f3; }
 
-.checkbox-assertive input:before,
-.checkbox-assertive .checkbox-icon:before {
+.checkbox-assertive input:before, .checkbox-assertive .checkbox-icon:before {
   border-color: #ef473a; }
-
-.checkbox-assertive input:checked:before,
-.checkbox-assertive input:checked + .checkbox-icon:before {
+.checkbox-assertive input:checked:before, .checkbox-assertive input:checked + .checkbox-icon:before {
   background: #ef473a;
   border-color: #ef473a; }
 
-.checkbox-balanced input:before,
-.checkbox-balanced .checkbox-icon:before {
+.checkbox-balanced input:before, .checkbox-balanced .checkbox-icon:before {
   border-color: #33cd5f; }
-
-.checkbox-balanced input:checked:before,
-.checkbox-balanced input:checked + .checkbox-icon:before {
+.checkbox-balanced input:checked:before, .checkbox-balanced input:checked + .checkbox-icon:before {
   background: #33cd5f;
   border-color: #33cd5f; }
 
-.checkbox-energized input:before,
-.checkbox-energized .checkbox-icon:before {
+.checkbox-energized input:before, .checkbox-energized .checkbox-icon:before {
   border-color: #ffc900; }
-
-.checkbox-energized input:checked:before,
-.checkbox-energized input:checked + .checkbox-icon:before {
+.checkbox-energized input:checked:before, .checkbox-energized input:checked + .checkbox-icon:before {
   background: #ffc900;
   border-color: #ffc900; }
 
-.checkbox-royal input:before,
-.checkbox-royal .checkbox-icon:before {
+.checkbox-royal input:before, .checkbox-royal .checkbox-icon:before {
   border-color: #886aea; }
-
-.checkbox-royal input:checked:before,
-.checkbox-royal input:checked + .checkbox-icon:before {
+.checkbox-royal input:checked:before, .checkbox-royal input:checked + .checkbox-icon:before {
   background: #886aea;
   border-color: #886aea; }
 
-.checkbox-dark input:before,
-.checkbox-dark .checkbox-icon:before {
+.checkbox-dark input:before, .checkbox-dark .checkbox-icon:before {
   border-color: #444; }
-
-.checkbox-dark input:checked:before,
-.checkbox-dark input:checked + .checkbox-icon:before {
+.checkbox-dark input:checked:before, .checkbox-dark input:checked + .checkbox-icon:before {
   background: #444;
   border-color: #444; }
 
@@ -8260,35 +8881,27 @@ input:checked + .checkbox-icon:after {
 .toggle.toggle-light input:checked + .track {
   border-color: #ddd;
   background-color: #ddd; }
-
 .toggle.toggle-stable input:checked + .track {
   border-color: #b2b2b2;
   background-color: #b2b2b2; }
-
 .toggle.toggle-positive input:checked + .track {
   border-color: #387ef5;
   background-color: #387ef5; }
-
 .toggle.toggle-calm input:checked + .track {
   border-color: #11c1f3;
   background-color: #11c1f3; }
-
 .toggle.toggle-assertive input:checked + .track {
   border-color: #ef473a;
   background-color: #ef473a; }
-
 .toggle.toggle-balanced input:checked + .track {
   border-color: #33cd5f;
   background-color: #33cd5f; }
-
 .toggle.toggle-energized input:checked + .track {
   border-color: #ffc900;
   background-color: #ffc900; }
-
 .toggle.toggle-royal input:checked + .track {
   border-color: #886aea;
   background-color: #886aea; }
-
 .toggle.toggle-dark input:checked + .track {
   border-color: #444;
   background-color: #444; }
@@ -8372,76 +8985,54 @@ input:checked + .checkbox-icon:after {
   width: 34px;
   height: 15px;
   background: #9e9e9e; }
-
 .toggle-small input:checked + .track {
   background: rgba(0, 150, 137, 0.5); }
-
 .toggle-small .handle {
   top: 2px;
   left: 4px;
   width: 21px;
   height: 21px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25); }
-
 .toggle-small input:checked + .track .handle {
   -webkit-transform: translate3d(16px, 0, 0);
   transform: translate3d(16px, 0, 0);
   background: #009689; }
-
 .toggle-small.item-toggle .toggle {
   top: 19px; }
-
 .toggle-small .toggle-light input:checked + .track {
   background-color: rgba(221, 221, 221, 0.5); }
-
 .toggle-small .toggle-light input:checked + .track .handle {
   background-color: #ddd; }
-
 .toggle-small .toggle-stable input:checked + .track {
   background-color: rgba(178, 178, 178, 0.5); }
-
 .toggle-small .toggle-stable input:checked + .track .handle {
   background-color: #b2b2b2; }
-
 .toggle-small .toggle-positive input:checked + .track {
   background-color: rgba(56, 126, 245, 0.5); }
-
 .toggle-small .toggle-positive input:checked + .track .handle {
   background-color: #387ef5; }
-
 .toggle-small .toggle-calm input:checked + .track {
   background-color: rgba(17, 193, 243, 0.5); }
-
 .toggle-small .toggle-calm input:checked + .track .handle {
   background-color: #11c1f3; }
-
 .toggle-small .toggle-assertive input:checked + .track {
   background-color: rgba(239, 71, 58, 0.5); }
-
 .toggle-small .toggle-assertive input:checked + .track .handle {
   background-color: #ef473a; }
-
 .toggle-small .toggle-balanced input:checked + .track {
   background-color: rgba(51, 205, 95, 0.5); }
-
 .toggle-small .toggle-balanced input:checked + .track .handle {
   background-color: #33cd5f; }
-
 .toggle-small .toggle-energized input:checked + .track {
   background-color: rgba(255, 201, 0, 0.5); }
-
 .toggle-small .toggle-energized input:checked + .track .handle {
   background-color: #ffc900; }
-
 .toggle-small .toggle-royal input:checked + .track {
   background-color: rgba(136, 106, 234, 0.5); }
-
 .toggle-small .toggle-royal input:checked + .track .handle {
   background-color: #886aea; }
-
 .toggle-small .toggle-dark input:checked + .track {
   background-color: rgba(68, 68, 68, 0.5); }
-
 .toggle-small .toggle-dark input:checked + .track .handle {
   background-color: #444; }
 
@@ -9456,7 +10047,6 @@ a.button {
       margin-left: 0;
       max-width: 100%;
       width: 100%; } }
-
 @media (max-width: 767px) {
   .responsive-md {
     -webkit-box-direction: normal;
@@ -9477,7 +10067,6 @@ a.button {
       margin-left: 0;
       max-width: 100%;
       width: 100%; } }
-
 @media (max-width: 1023px) {
   .responsive-lg {
     -webkit-box-direction: normal;
@@ -9498,7 +10087,6 @@ a.button {
       margin-left: 0;
       max-width: 100%;
       width: 100%; } }
-
 /**
  * Utility Classes
  * --------------------------------------------------
@@ -9755,45 +10343,35 @@ a.button {
     margin-top: 19px !important; }
   .platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) > * {
     margin-top: 20px; }
-
 .platform-ios.platform-cordova:not(.fullscreen) .tabs-top > .tabs,
 .platform-ios.platform-cordova:not(.fullscreen) .tabs.tabs-top {
   top: 64px; }
-
 .platform-ios.platform-cordova:not(.fullscreen) .has-header,
 .platform-ios.platform-cordova:not(.fullscreen) .bar-subheader {
   top: 64px; }
-
 .platform-ios.platform-cordova:not(.fullscreen) .has-subheader {
   top: 108px; }
-
 .platform-ios.platform-cordova:not(.fullscreen) .has-header.has-tabs-top {
   top: 113px; }
-
 .platform-ios.platform-cordova:not(.fullscreen) .has-header.has-subheader.has-tabs-top {
   top: 157px; }
-
 .platform-ios.platform-cordova .popover .bar-header:not(.bar-subheader) {
   height: 44px; }
   .platform-ios.platform-cordova .popover .bar-header:not(.bar-subheader).item-input-inset .item-input-wrapper {
     margin-top: -1px; }
   .platform-ios.platform-cordova .popover .bar-header:not(.bar-subheader) > * {
     margin-top: 0; }
-
 .platform-ios.platform-cordova .popover .has-header,
 .platform-ios.platform-cordova .popover .bar-subheader {
   top: 44px; }
-
 .platform-ios.platform-cordova .popover .has-subheader {
   top: 88px; }
-
 .platform-ios.platform-cordova.status-bar-hide {
   margin-bottom: 20px; }
 
 @media (orientation: landscape) {
   .platform-ios.platform-browser.platform-ipad {
     position: fixed; } }
-
 .platform-c:not(.enable-transitions) * {
   -webkit-transition: none !important;
   transition: none !important; }
@@ -9824,7 +10402,6 @@ a.button {
   to {
     -webkit-transform: scale(0.8);
     opacity: 0; } }
-
 @keyframes scaleOut {
   from {
     transform: scale(1);
@@ -9832,7 +10409,6 @@ a.button {
   to {
     transform: scale(0.8);
     opacity: 0; } }
-
 @-webkit-keyframes superScaleIn {
   from {
     -webkit-transform: scale(1.2);
@@ -9840,7 +10416,6 @@ a.button {
   to {
     -webkit-transform: scale(1);
     opacity: 1; } }
-
 @keyframes superScaleIn {
   from {
     transform: scale(1.2);
@@ -9848,7 +10423,6 @@ a.button {
   to {
     transform: scale(1);
     opacity: 1; } }
-
 [nav-view-transition="ios"] [nav-view="entering"],
 [nav-view-transition="ios"] [nav-view="leaving"] {
   -webkit-transition-duration: 500ms;
@@ -9857,17 +10431,11 @@ a.button {
   transition-timing-function: cubic-bezier(0.36, 0.66, 0.04, 1);
   -webkit-transition-property: opacity, -webkit-transform, box-shadow;
   transition-property: opacity, transform, box-shadow; }
-
 [nav-view-transition="ios"][nav-view-direction="forward"], [nav-view-transition="ios"][nav-view-direction="back"] {
   background-color: #000; }
-
-[nav-view-transition="ios"] [nav-view="active"],
-[nav-view-transition="ios"][nav-view-direction="forward"] [nav-view="entering"],
-[nav-view-transition="ios"][nav-view-direction="back"] [nav-view="leaving"] {
+[nav-view-transition="ios"] [nav-view="active"], [nav-view-transition="ios"][nav-view-direction="forward"] [nav-view="entering"], [nav-view-transition="ios"][nav-view-direction="back"] [nav-view="leaving"] {
   z-index: 3; }
-
-[nav-view-transition="ios"][nav-view-direction="back"] [nav-view="entering"],
-[nav-view-transition="ios"][nav-view-direction="forward"] [nav-view="leaving"] {
+[nav-view-transition="ios"][nav-view-direction="back"] [nav-view="entering"], [nav-view-transition="ios"][nav-view-direction="forward"] [nav-view="leaving"] {
   z-index: 2; }
 
 [nav-bar-transition="ios"] .title,
@@ -9879,14 +10447,12 @@ a.button {
   transition-timing-function: cubic-bezier(0.36, 0.66, 0.04, 1);
   -webkit-transition-property: opacity, -webkit-transform;
   transition-property: opacity, transform; }
-
 [nav-bar-transition="ios"] [nav-bar="active"],
 [nav-bar-transition="ios"] [nav-bar="entering"] {
   z-index: 10; }
   [nav-bar-transition="ios"] [nav-bar="active"] .bar,
   [nav-bar-transition="ios"] [nav-bar="entering"] .bar {
     background: transparent; }
-
 [nav-bar-transition="ios"] [nav-bar="cached"] {
   display: block; }
   [nav-bar-transition="ios"] [nav-bar="cached"] .header-item {
@@ -9900,14 +10466,9 @@ a.button {
   transition-timing-function: cubic-bezier(0.4, 0.6, 0.2, 1);
   -webkit-transition-property: -webkit-transform;
   transition-property: transform; }
-
-[nav-view-transition="android"] [nav-view="active"],
-[nav-view-transition="android"][nav-view-direction="forward"] [nav-view="entering"],
-[nav-view-transition="android"][nav-view-direction="back"] [nav-view="leaving"] {
+[nav-view-transition="android"] [nav-view="active"], [nav-view-transition="android"][nav-view-direction="forward"] [nav-view="entering"], [nav-view-transition="android"][nav-view-direction="back"] [nav-view="leaving"] {
   z-index: 3; }
-
-[nav-view-transition="android"][nav-view-direction="back"] [nav-view="entering"],
-[nav-view-transition="android"][nav-view-direction="forward"] [nav-view="leaving"] {
+[nav-view-transition="android"][nav-view-direction="back"] [nav-view="entering"], [nav-view-transition="android"][nav-view-direction="forward"] [nav-view="leaving"] {
   z-index: 2; }
 
 [nav-bar-transition="android"] .title,
@@ -9918,14 +10479,12 @@ a.button {
   transition-timing-function: cubic-bezier(0.4, 0.6, 0.2, 1);
   -webkit-transition-property: opacity;
   transition-property: opacity; }
-
 [nav-bar-transition="android"] [nav-bar="active"],
 [nav-bar-transition="android"] [nav-bar="entering"] {
   z-index: 10; }
   [nav-bar-transition="android"] [nav-bar="active"] .bar,
   [nav-bar-transition="android"] [nav-bar="entering"] .bar {
     background: transparent; }
-
 [nav-bar-transition="android"] [nav-bar="cached"] {
   display: block; }
   [nav-bar-transition="android"] [nav-bar="cached"] .header-item {
@@ -9965,3 +10524,5 @@ a.button {
   opacity: 0;
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
+
+/*# sourceMappingURL=ionic.app.css.map */
