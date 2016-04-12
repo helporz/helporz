@@ -71,7 +71,6 @@
                     userImgFileService) {
         console.log('app.run.init');
       $ionicPlatform.ready(function() {
-        navigator.splashscreen.hide();
         console.log('ionicPlatform.ready');
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
