@@ -6,8 +6,8 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 
-;(
-  function(window) {
+;
+(function (window) {
     "use strict";
 
     angular.module('app', ['ionic',
@@ -21,6 +21,7 @@
       'com.helporz.login',
       'com.helporz.intro',
       'com.helporz.utils.service',
+      'com.helproz.task.publish',
       'main'
     ])
 
@@ -41,39 +42,41 @@
         init
       ])
 
-      .config(['$stateProvider','$urlRouterProvider','$httpProvider',function($stateProvider, $urlRouterProvider,$httpProvider) {
+      .config(['$stateProvider', '$urlRouterProvider', '$httpProvider', function ($stateProvider, $urlRouterProvider, $httpProvider) {
         //configRouter($stateProvider,$urlRouterProvider);
         setHttpProvider($httpProvider);
-      }]).directive('errSrc', function() {
-      return {
-        link: function(scope, element, attrs) {
-          element.bind('error', function() {
-            if (attrs.src != attrs.errSrc) {
-              attrs.$set('src', attrs.errSrc);
-            }
-          });
+      }]).directive('errSrc', function () {
+        return {
+          link: function (scope, element, attrs) {
+            element.bind('error', function () {
+              if (attrs.src != attrs.errSrc) {
+                attrs.$set('src', attrs.errSrc);
+              }
+            });
+          }
         }
-      }
-    });
+      });
 
 
     //function init($ionicPlatform, $cordovaDevice, $cordovaNetwork, $timeout, $cordovaDialogs, $state) {
-      function init($ionicPlatform,
-                    $cordovaDevice,
-                    $cordovaNetwork,
-                    $timeout,
-                    $cordovaDialogs,
-                    $state,
-                    $log,
-                    pushService,
-                    jimService,
-                    imConversationService,
-                    imMessageService,
-                    fileService,
-                    userImgFileService) {
-        console.log('app.run.init');
-      $ionicPlatform.ready(function() {
-        navigator.splashscreen.hide();
+    function init($ionicPlatform,
+                  $cordovaDevice,
+                  $cordovaNetwork,
+                  $timeout,
+                  $cordovaDialogs,
+                  $state,
+                  $log,
+                  pushService,
+                  jimService,
+                  imConversationService,
+                  imMessageService,
+                  fileService,
+                  userImgFileService) {
+      $log.info('app.run.init');
+      $ionicPlatform.ready(function () {
+        if (navigator.splashscreen) {
+          navigator.splashscreen.hide();
+        }
         console.log('ionicPlatform.ready');
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -154,14 +157,14 @@
         }
 
         document.addEventListener("deviceready", function () {
-          fileService.init(function() {
+          fileService.init(function () {
             $log.info("存储服务初始化成功");
-          },function() {
+          }, function () {
             $log.info("存储服务初始化失败");
             alert('failed');
           });
 
-          var config={
+          var config = {
             onOpenNotification: onOpenNotification,
             onReceiveNotification: onReceiveNotification,
             onReceivePushMessage: onReceivePushMessage,
@@ -233,6 +236,5 @@
       }];
     }
 
-  }
-)(this);
+  })(this);
 
