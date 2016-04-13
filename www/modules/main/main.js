@@ -8,7 +8,8 @@
   angular.module('main', [
     'ionic',
     'main.near',
-    'main.near.task-detail',
+    //'main.near.task-detail',
+    'main.post',
     'main.me'
   ]).config(mainConfig);
 
@@ -21,6 +22,7 @@
         abstract: true,
         templateUrl: 'modules/main/main.html'
       })
+
       .state('main.near', {
         url: '/near',
         views: {
@@ -31,7 +33,7 @@
         }
       })
       .state('main.task-detail', {
-        url: '/task-detail',
+        url: '/near/task-detail',
         views: {
           'near': {
             templateUrl: 'modules/main/near/task-detail/task-detail.html',
@@ -39,6 +41,17 @@
           }
         }
       })
+
+      .state('main.post', {
+        url: '/post',
+        views: {
+          'post': {
+            templateUrl: 'modules/main/post/post.html',
+            controller: 'mainPostCtrl'
+          }
+        }
+      })
+
       .state('main.me', {
         url: '/me',
         views: {

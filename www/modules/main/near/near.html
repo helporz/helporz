@@ -9,7 +9,7 @@
     </ion-refresher>
 
     <ion-list>
-      <ion-item   class="topics" ng-repeat="item in vm.items" href="#/main/task-detail">
+      <ion-item   class="topics" ng-repeat="item in vm.items" href="#/main/near/task-detail">
         <div class="row nopadding">
           <div class="col col-25 content-left">
             <img class="task-img" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g"   reset-img>
@@ -18,7 +18,8 @@
           <div class="col col-75 content-right">
             <div class="row user-panel nopadding">
               <div class="col col-20 nopadding">
-                <img class="col avatar nopadding" src="http://avatar.csdn.net/8/1/D/1_xundh.jpg">
+                <!--<img class="col avatar nopadding" src="http://avatar.csdn.net/8/1/D/1_xundh.jpg">-->
+                <img class="col avatar nopadding" ng-src={{item.poster.avator}}>
               </div>
               <div class="col col-80 user-detail nopadding">
                 <div class="top">

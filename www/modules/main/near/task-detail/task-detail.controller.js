@@ -5,7 +5,7 @@
 (function(){
   'use strict';
 
-  angular.module('main.near.task-detail')
+  angular.module('main.near')
     .controller('mainNearTaskDetailCtrl', ['$scope', mainNearTaskDetailCtrl]);
 
   function mainNearTaskDetailCtrl($scope) {

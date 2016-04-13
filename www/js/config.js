@@ -9,3 +9,20 @@ var appConfig = {
   API_SVC_URL:"http://testapi.helporz.com:8080",
   JPUSH_APPKEY:"eb3ccc662104edc368b17281"
 };
+
+
+// 测试flag
+var enumTestFlag = {
+  NONE: 0,
+  NEAR: 1,
+};
+var g_TestFlag;
+ g_TestFlag = enumTestFlag.NEAR;
+//g_TestFlag = enumTestFlag.NONE;
+
+
+
+
+
+
+
