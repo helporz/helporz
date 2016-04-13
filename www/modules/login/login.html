@@ -5,7 +5,7 @@
       .login-title-wrap {
         width:100%;
         height:160px;
-        /*height:30%;*/
+        height:30%;
         display:table;
       }
 
@@ -13,11 +13,11 @@
         display:table-cell;
         width:100%;
         vertical-align: middle;
+        text-align: center;
       }
 
-      .login-title h1 {
-        color: #ffffff;
-        text-align: center;
+      .login-title img {
+        width:80px;
       }
 
       .group-wrapper {
@@ -129,19 +129,20 @@
 
     <div class="login-title-wrap" >
       <div class="login-title">
-        <h1>大侠拜托</h1>
+        <!--<h1>大侠拜托</h1>-->
+        <img src="./img/login/login-log.png">
       </div>
     </div>
 
     <div class="group-wrapper" >
       <div class="group-item group-item-input no-border">
-        <img class="icon" src="./img/login/dengru-phone-n@2x.png"/>
+        <img class="icon" src="./img/login/phone.png"/>
         <input class="col-80" type="text" placeholder="请输入手机号码" ng-model="phoneno"/>
         <getsmscode></getsmscode>
       </div>
       <div class="split"></div>
       <div class="group-item group-item-input no-border">
-        <img class="icon" src="./img/login/dengru-key-n@2x.png"/>
+        <img class="icon" src="./img/login/key.png"/>
         <input class="col-80"  type="text" placeholder="请输入验证码" ng-model="smscode"/>
       </div>
     </div>
@@ -186,6 +187,8 @@
     </div>
 
 
-
+    <div style="position:absolute; bottom:0px;width:100%;">
+      <img style="width:100%" src="./img/login/login-footer.png">
+    </div>
   </ion-content>
 </ion-view>

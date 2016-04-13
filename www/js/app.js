@@ -31,6 +31,7 @@
         '$timeout',
         '$cordovaDialogs',
         '$state',
+        '$log',
         'pushService',
         'jimService',
         'imConversationService',
@@ -63,6 +64,7 @@
                     $timeout,
                     $cordovaDialogs,
                     $state,
+                    $log,
                     pushService,
                     jimService,
                     imConversationService,
@@ -84,23 +86,6 @@
           StatusBar.styleDefault();
         }
 
-
-        ////推送初始化
-        //var setTagsWithAliasCallback=function(event){
-        //  window.alert('result code:'+event.resultCode+' tags:'+event.tags+' alias:'+event.alias);
-        //}
-        //
-        //var openNotificationInAndroidCallback=function(data){
-        //  var json=data;
-        //  window.alert(json);
-        //  if(typeof data === 'string'){
-        //    json=JSON.parse(data);
-        //  }
-        //  var id=json.extras['cn.jpush.android.EXTRA'].id;
-        //  //window.alert(id);
-        //  $state.go('detail',{id:id});
-        //}
-
         var onOpenNotification = function (event) {
           console.log(" index onOpenNotification");
 
@@ -111,7 +96,7 @@
             } else {
               alertContent = event.aps.alert;
             }
-            alert("open Notificaiton:" + alertContent);
+            //alert("open Notificaiton:" + alertContent);
 
           }
           catch (exception) {
@@ -129,7 +114,7 @@
             } else {
               alertContent = event.aps.alert;
             }
-            alert("Receive Notificaiton:" + alertContent);
+            //alert("Receive Notificaiton:" + alertContent);
             //$("#notificationResult").html(alertContent);
 
           }
@@ -147,7 +132,7 @@
               message = event.content;
             }
             console.log(message);
-            alert("Receive Push Message:" + message );
+            //alert("Receive Push Message:" + message );
             //$("#messageResult").html(message);
           }
           catch (exception) {
@@ -168,73 +153,14 @@
           }
         }
 
-
-
-
-
-        //document.addEventListener("jpush.setTagsWithAlias",onSetTagsWithAlias, false);
-        //document.addEventListener("jpush.openNotification", onOpenNotification, false);
-        //document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
-        //document.addEventListener("jpush.receiveMessage", onReceivePushMessage, false);
-
-
-
-        //var onConversatinoChange = function (data) {
-        //  alert("onConversatinoChange:" + writeObj(data));
-        //  console.log(data);
-        //};
-        //
-        //var onSingleReceiveMessage = function (data) {
-        //  console.log("receive im message");
-        //  if( typeof(data.msg_type) === 'undefined') {
-        //    console.log('receive invalid message:'+ writeObj(data));
-        //  }
-        //  else {
-        //    console.log('receive message:'+ data.msg_body.text + " username:" +data.target_id + " toUserName:" + data.from_id);
-        //
-        //    var messageDetail = {
-        //      username:jimService.getUsername(), //由于data.target_id 与 data.from_id相等，因此用当前登录的用户名
-        //      toUsername:data.from_id,
-        //      type:'text',
-        //      content:data.msg_body.text,
-        //      time: data.create_time,
-        //      isFromMe:false,
-        //      sendState:1
-        //    };
-        //    imMessageService.addMessage(messageDetail.username,messageDetail.toUsername,messageDetail);
-        //  }
-        //};
-
-        //var config = {
-        //  onConversatinoChange:onConversatinoChange,
-        //  onSingleReceiveMessage:onSingleReceiveMessage
-        //};
-
-
-
         document.addEventListener("deviceready", function () {
           fileService.init(function() {
-            //userImgFileService.saveUserImg('1','hello world',function() {
-            //  alert('success');
-            //},function() {
-            //  alert('failed');
-            //});
-
-            var data = fileService.readFromFile('user/','1.png',function(data) {
-              alert('success: read data:' + data);
-            },function() {
-              alert('failed');
-            });
-
-            console.log('read from file:' + data);
+            $log.info("存储服务初始化成功");
           },function() {
+            $log.info("存储服务初始化失败");
             alert('failed');
           });
 
-          //fileService.writeToFile('user/img/','test.txt','hello world new');
-
-
-          //console.log(fileService.readFromFile('user/img/','test.txt'));
           var config={
             onOpenNotification: onOpenNotification,
             onReceiveNotification: onReceiveNotification,
@@ -244,13 +170,7 @@
 
           jimService.init();
           pushService.init(config);
-          //console.log('jimService.login');
-          //jimService.login('xixi','xixi',function() {
-          //  //jimService.login('dada','dada',function() {
-          //  alert('login success');
-          //},function() {
-          //  alert('login failed');
-          //});
+
           pushService.getReistrationID();
 
           if (device.platform != "Android") {
@@ -260,48 +180,6 @@
             window.plugins.jPushPlugin.setDebugMode(true);
           }
         }, false);
-
-
-
-        //console.log('imConversationService.updateConversationFromImServer');
-        //imConversationService.updateConversationFromImServer(function(data){
-        //    //$scope.imUsers = data;
-        //  },function(data) {
-        //    alert('updateConversationList failed');
-        //  });
-        //jimService.getUserInfo(function (data) {
-        //  console.log('getUserInfo:' + JSON.stringify(data));
-        //},function(data) {
-        //  console.log('getUserInfo failed:' + data);
-        //});
-        //var device = $cordovaDevice.getDevice();
-        //var newtork = $cordovaNetwork.getNetwork();
-
-        //console.log(device);
-        //console.log(newtork);
-
-        //if (newtork !== 'wifi' && newtork !== 'Connection.WIFI') {
-        //  $cordovaDialogs.alert(
-        //    '检查到当前使用的网络不是 Wi-Fi，除非您使用 3G/4G 网络，不建议在非 Wi-Fi 网络下加载大图', // message
-        //    '流量提示', // title,
-        //    '继续浏览'
-        //  );
-        //}
-
-        //authPushService(device, function(installation){
-        //  console.log(installation);
-        //
-        //  // When sync device infomation success
-        //  function syncInstallationSuccess(result) {
-        //    console.log(result);
-        //  }
-        //
-        //  // Ignore the error for tmp.
-        //  function syncError(err) {
-        //    console.log(err);
-        //  }
-        //});
-
 
       });
     }
@@ -355,121 +233,6 @@
       }];
     }
 
-    function authPushService(device, callback) {
-      var options = {
-        "badge": "true",
-        "sound": "true",
-        "alert": "true"
-      };
-
-      $cordovaPush
-        .register(options)
-        .then(function(token) {
-
-          var installation = {};
-
-          installation.deviceType = device.platform ?
-            device.platform.toLowerCase() :
-            'ios';
-
-          if (installation.deviceType === 'ios')
-            installation.deviceToken = token;
-
-          if (installation.deviceType === 'android')
-            installation.installationId = token;
-
-          angular.forEach(['model', 'uuid', 'version'], function(item){
-            if (device[item])
-              installation[item] = device[item];
-          });
-
-          return callback(installation);
-        }, pushSignupError);
-
-      // Ignore the error for tmp.
-      function pushSignupError(err) {
-        $cordovaDialogs.alert(
-          err,
-          '获取推送权限失败...', // title,
-          '知道了' // button
-        )
-      }
-    }
-
-    function configRouter($stateProvider,$urlRouterProvider) {
-      // Ionic uses AngularUI Router which uses the concept of states
-      // Learn more here: https://github.com/angular-ui/ui-router
-      // Set up the various states which the app can be in.
-      // Each state's controller can be found in controllers.js
-      //$stateProvider
-      //
-      //  // setup an abstract state for the tabs directive
-      //  .state('tab', {
-      //    url: '/tab',
-      //    abstract: true,
-      //    templateUrl: 'templates/temp/tabs.html'
-      //  })
-      //
-      //  // Each tab has its own nav history stack:
-      //
-      //  .state('tab.dash', {
-      //    url: '/dash',
-      //    views: {
-      //      'tab-dash': {
-      //        templateUrl: 'templates/temp/tab-dash.html',
-      //        controller: 'DashCtrl'
-      //      }
-      //    }
-      //  })
-      //
-      //  .state('tab.chats', {
-      //    url: '/chats',
-      //    views: {
-      //      'tab-chats': {
-      //        templateUrl: 'templates/temp/tab-chats.html',
-      //        controller: 'ChatsCtrl'
-      //      }
-      //    }
-      //  })
-      //  .state('tab.chat-detail', {
-      //    url: '/chats/:chatId',
-      //    views: {
-      //      'tab-chats': {
-      //        templateUrl: 'templates/temp/chat-detail.html',
-      //        controller: 'ChatDetailCtrl'
-      //      }
-      //    }
-      //  })
-      //
-      //  .state('tab.account', {
-      //    url: '/account',
-      //    views: {
-      //      'tab-account': {
-      //        templateUrl: 'templates/temp/tab-account.html',
-      //        controller: 'AccountCtrl'
-      //      }
-      //    }
-      //  });
-      //
-      //$stateProvider.state('login',{
-      //  url:'/login',
-      //  templateUrl: 'templates/login/login.html',
-      //  controller: 'loginCtrl'
-      //});
-      //$stateProvider.state('intro',{
-      //  url:'/intro',
-      //  templateUrl: 'templates/intro.html',
-      //  controller: 'introCtrl'
-      //});
-      //
-      //$stateProvider.state('userProto',{
-      //  url:'/user/proto',
-      //  templateUrl:'templates/user-proto.html'
-      //});
-      //// if none of the above states are matched, use this as the fallback
-      //$urlRouterProvider.otherwise('/user/proto');
-      ////$urlRouterProvider.otherwise('/intro');
-    }
   }
 )(this);
 
