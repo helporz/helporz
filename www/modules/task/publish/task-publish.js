@@ -9,7 +9,7 @@
     .controller('taskPublishListController', taskPublishListControllerFn)
     .controller('shaodaiPublishController', shaodaiPublishControllerFn)
     .controller('qingbaoPublishController', qingbaoPublishControllerFn)
-    .controller('jiebaoPublishController',  jiebaoPublishControllerFn)
+    .controller('jiebaoPublishController', jiebaoPublishControllerFn)
     .factory('taskPublishModalService', taskPublishModalServiceFn);
 
   function taskPublishModalServiceFn() {
@@ -92,8 +92,8 @@
       });
   }
 
-  testTaskPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', 'taskPublishModalService'];
-  function testTaskPublishControllerFn($scope, $log, $ionicModal, taskPublishModalService) {
+  testTaskPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', '$ionicPopup', 'taskPublishModalService'];
+  function testTaskPublishControllerFn($scope, $log, $ionicModal, $ionicPopup, taskPublishModalService) {
     $ionicModal.fromTemplateUrl('modules/task/publish/modal-list.html', {
       scope: $scope,
       animation: "slide-in-up"
@@ -107,8 +107,8 @@
     }
   }
 
-  taskPublishListControllerFn.$inject = ['$scope', '$log','$ionicModal', 'taskPublishModalService'];
-  function taskPublishListControllerFn($scope, $log,$ionicModal,taskPublishModalService) {
+  taskPublishListControllerFn.$inject = ['$scope', '$log', '$ionicModal', 'taskPublishModalService'];
+  function taskPublishListControllerFn($scope, $log, $ionicModal, taskPublishModalService) {
     $ionicModal.fromTemplateUrl('modules/task/publish/shaodai.html', {
       scope: $scope,
       animation: "slide-in-up"
@@ -130,28 +130,28 @@
       taskPublishModalService.setJiebaoModal(modal);
     });
 
-    this.cancel = function() {
+    this.cancel = function () {
       var modal = taskPublishModalService.getListModal();
-      if( modal ) {
+      if (modal) {
         modal.hide();
       }
     };
 
-    this.publishShaodai = function() {
+    this.publishShaodai = function () {
       var listModal = taskPublishModalService.getListModal();
       var publishModal = taskPublishModalService.getShaodaiModal();
       listModal.hide();
       publishModal.show();
     };
 
-    this.publishQingbao = function() {
+    this.publishQingbao = function () {
       var listModal = taskPublishModalService.getListModal();
       var publishModal = taskPublishModalService.getQingbaoModal();
       listModal.hide();
       publishModal.show();
     };
 
-    this.publishJiebao = function() {
+    this.publishJiebao = function () {
       var listModal = taskPublishModalService.getListModal();
       var publishModal = taskPublishModalService.getJiebaoModal();
       listModal.hide();
@@ -159,28 +159,71 @@
     }
   }
 
-  shaodaiPublishControllerFn.$inject = ['$scope', '$log','$ionicModal', 'taskPublishModalService'];
-  function shaodaiPublishControllerFn($scope, $log,$ionicModal,taskPublishModalService) {
-      this.cancel = function() {
-        var publishModal = taskPublishModalService.getShaodaiModal();
-        publishModal.hide();
-      }
+  shaodaiPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', '$ionicPopup', 'taskPublishModalService'];
+  function shaodaiPublishControllerFn($scope, $log, $ionicModal, $ionicPopup, taskPublishModalService) {
+    this.cancel = function () {
+      var publishModal = taskPublishModalService.getShaodaiModal();
+      publishModal.hide();
+    }
+
+    this.taskTypeName = "捎带侠";
+    var subTaskArray = new Array(
+      {index:0,type: 1, name: '捎带餐饮'}, {index:1,type: 2, name: '超市捎带'}, {index:2,type: 3, name: '捎带水果'}
+    );
+
+    this.subTaskArray = subTaskArray;
+
+    this.selectedSubTask = this.subTaskArray[0];
+    $scope.shaodaiPublishController = this;
+
+
+    this.selectedSubType = function(index) {
+      $scope.shaodaiPublishController.selectedSubTask = subTaskArray[index];
+      $scope.shaodaiPublishController.popup.close();
+    }
+
+    var tempScope = $scope.$new();
+
+    tempScope.subTypeList = this.subTaskArray;
+    tempScope.selectedSubType = this.selectedSubType;
+    this.selectedRewardType = 0;
+    this.selectedSubRewardType = 0;
+    this.selectSubTaskType = function () {
+      $scope.shaodaiPublishController.popup = $ionicPopup.show(
+        {
+          templateUrl:'modules/task/publish/select-subtype-popup.html',
+          title: null,
+          subTitle: null,
+          scope: tempScope
+        }
+      );
+
+    }
+
+    this.setRewardType = function(reward,subReward) {
+      this.selectedRewardType = reward;
+      this.selectedSubRewardType = subReward;
+    }
+    this.publish = function () {
+
+    }
   }
 
-  qingbaoPublishControllerFn.$inject = ['$scope', '$log','$ionicModal', 'taskPublishModalService'];
-  function qingbaoPublishControllerFn($scope, $log,$ionicModal,taskPublishModalService) {
-    this.cancel = function() {
+  qingbaoPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', 'taskPublishModalService'];
+  function qingbaoPublishControllerFn($scope, $log, $ionicModal, taskPublishModalService) {
+    this.cancel = function () {
       var publishModal = taskPublishModalService.getQingbaoModal();
       publishModal.hide();
     }
   }
 
-  jiebaoPublishControllerFn.$inject = ['$scope', '$log','$ionicModal', 'taskPublishModalService'];
-  function jiebaoPublishControllerFn($scope, $log,$ionicModal,taskPublishModalService) {
-    this.cancel = function() {
+  jiebaoPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', 'taskPublishModalService'];
+  function jiebaoPublishControllerFn($scope, $log, $ionicModal, taskPublishModalService) {
+    this.cancel = function () {
       var publishModal = taskPublishModalService.getJiebaoModal();
       publishModal.hide();
     }
   }
-})();
+})
+();
 
