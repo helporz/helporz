@@ -12,12 +12,14 @@
 
       var _postTask  = function(type,summary,pubLocation,startTime,deadLine,posterLong,
                                 posterLat,rewardType,rewardSubType,rewardCount,payMethodType) {
+        var localeStartTime =(startTime == null)?null:startTime.toLocaleString();
+        var locateDeadline = (deadLine == null)?null:deadLine.toLocaleString();
         var taskInfo = {
          taskType:type,
          summary:summary,
          pubLocation:pubLocation,
-         startTime:startTime,
-         deadLine:deadLine,
+         startTime:localeStartTime,
+         deadLine:locateDeadline,
          posterLong:posterLong,
          posterLat:posterLat,
          rewardType:rewardType,
@@ -25,7 +27,7 @@
          rewardCount:rewardCount,
          payMethodType:payMethodType,
         };
-        return httpBaseService.postForPromise('/task/post/v2',data);
+        return httpBaseService.postForPromise('/task/post/v2',taskInfo);
       };
 
       var _acceptTask = function(taskId) {

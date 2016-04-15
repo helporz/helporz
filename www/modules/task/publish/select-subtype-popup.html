@@ -1,5 +1,56 @@
-<ion-list>
-  <ion-item ng-repeat="subType in subTypeList">
-    <button class="button button-full" ng-click="selectedSubType(subType.index)"> {{subType.name}}</button>
+<style type="text/css">
+  .select-subtype {
+    background-color: #f0f0f0;
+  }
+
+  .select-subtype  .no-border,.list{
+    border:none;
+    background-color: #f0f0f0;
+  }
+
+  .select-subtype-header {
+    width:100%;
+  }
+
+  .select-subtype-header > h1 {
+    margin-top: 10px;
+    text-align: center;
+    color:cornflowerblue;
+    font-size: 2em;
+  }
+
+  .select-subtype-header > p {
+    text-align:center;
+    color: #A7A7A7;
+  }
+
+  .select-subtype  .cancel {
+    background-color: #B3B3B3;
+  }
+
+  .select-subtype button {
+    border-radius: 4px;
+    color:white;
+  }
+  .select-subtype  .pop-button {
+    background-color: cornflowerblue;
+    color:white;
+  }
+
+</style>
+
+<ion-list class="select-subtype no-border">
+
+  <div class="select-subtype-header no-border">
+    <H1>{{typeName}}</H1>
+    <p>请选择需要帮助的种类</p>
+  </div>
+
+  <ion-item ng-repeat="subType in subTypeList" class="no-border">
+    <button class="button button-full pop-button" ng-click="selectedSubType(subType.index)"> {{subType.name}}</button>
+  </ion-item>
+
+  <ion-item class="no-border">
+    <button class="button button-full cancel" ng-click="cancel()">取消</button>
   </ion-item>
 </ion-list>

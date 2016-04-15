@@ -4,7 +4,7 @@
 ;
 (function () {
   'use strict';
-  angular.module('com.helproz.task.publish', ['ionic']).config(publishConfigFn)
+  angular.module('com.helproz.task.publish', ['ionic', 'com.helporz.task.netservice', 'ngCordova.plugins.datePicker']).config(publishConfigFn)
     .controller('testTaskPublishController', testTaskPublishControllerFn)
     .controller('taskPublishListController', taskPublishListControllerFn)
     .controller('shaodaiPublishController', shaodaiPublishControllerFn)
@@ -159,70 +159,289 @@
     }
   }
 
-  shaodaiPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', '$ionicPopup', 'taskPublishModalService'];
-  function shaodaiPublishControllerFn($scope, $log, $ionicModal, $ionicPopup, taskPublishModalService) {
-    this.cancel = function () {
-      var publishModal = taskPublishModalService.getShaodaiModal();
-      publishModal.hide();
+  function TaskPublishBaseControllerFn($scope, $log, $ionicModal, $ionicPopup, $cordovaDatePicker,
+                                       taskPublishModalService, taskNetService,ctlObj)  {
+    ctlObj.setStartTime = function () {
+      var currentDate = new Date();
+
+      var options = {
+        date: currentDate,
+        mode: 'datetime'
+      };
+      $cordovaDatePicker.show(options).then(function (date) {
+        if( date - currentDate < 0 ) {
+          alert("需要设置晚于当前时间的日期");
+        }
+        else if( ctlObj.deadline != null && ctlObj.deadline - date < 0 ) {
+          alert("开始时间要设置早于截止时间");
+        }
+        else {
+          ctlObj.startTime = date;
+        }
+      },function(error) {
+        alert(error);
+      });
     }
 
-    this.taskTypeName = "捎带侠";
-    var subTaskArray = new Array(
-      {index:0,type: 1, name: '捎带餐饮'}, {index:1,type: 2, name: '超市捎带'}, {index:2,type: 3, name: '捎带水果'}
-    );
+    ctlObj.setDeadline = function () {
+      var currentDate = new Date();
 
-    this.subTaskArray = subTaskArray;
-
-    this.selectedSubTask = this.subTaskArray[0];
-    $scope.shaodaiPublishController = this;
-
-
-    this.selectedSubType = function(index) {
-      $scope.shaodaiPublishController.selectedSubTask = subTaskArray[index];
-      $scope.shaodaiPublishController.popup.close();
+      var options = {
+        date: currentDate,
+        mode: 'datetime'
+      };
+      $cordovaDatePicker.show(options).then(function (date) {
+        if( date - currentDate < 0 ) {
+          alert("需要设置晚于当前时间的日期");
+        }
+        else if( ctlObj.startTime != null && ctlObj.startTime - date > 0) {
+          alert("截止时间要设置晚于开始时间");
+        }
+        else {
+          ctlObj.deadline = date;
+        }
+      },function(error) {
+        alert(error);
+      });
     }
 
-    var tempScope = $scope.$new();
+    ctlObj.selectedSubTask = ctlObj.subTaskArray[0];
 
-    tempScope.subTypeList = this.subTaskArray;
-    tempScope.selectedSubType = this.selectedSubType;
-    this.selectedRewardType = 0;
-    this.selectedSubRewardType = 0;
-    this.selectSubTaskType = function () {
-      $scope.shaodaiPublishController.popup = $ionicPopup.show(
+    ctlObj.selectedSubType = function (index) {
+      ctlObj.selectedSubTask = ctlObj.subTaskArray[index];
+      ctlObj.popup.close();
+    }
+
+    ctlObj.cancelSelectSubType = function () {
+      ctlObj.popup.close();
+    }
+    var popupScope = $scope.$new();
+
+    popupScope.subTypeList = ctlObj.subTaskArray;
+    popupScope.selectedSubType = ctlObj.selectedSubType;
+    popupScope.cancel = ctlObj.cancelSelectSubType;
+    popupScope.typeName = ctlObj.taskTypeName;
+
+    ctlObj.selectedRewardType = 0;
+    ctlObj.selectedSubRewardType = 0;
+    ctlObj.selectSubTaskType = function () {
+      ctlObj.popup = $ionicPopup.show(
         {
-          templateUrl:'modules/task/publish/select-subtype-popup.html',
+          templateUrl: 'modules/task/publish/select-subtype-popup.html',
           title: null,
           subTitle: null,
-          scope: tempScope
+          scope: popupScope
         }
       );
-
     }
 
-    this.setRewardType = function(reward,subReward) {
-      this.selectedRewardType = reward;
-      this.selectedSubRewardType = subReward;
+    ctlObj.setRewardType = function (reward, subReward) {
+      ctlObj.selectedRewardType = reward;
+      ctlObj.selectedSubRewardType = subReward;
     }
-    this.publish = function () {
 
+    ctlObj.publish = function () {
+      var errMsg = '';
+      if (ctlObj.selectedRewardType == 0 || ctlObj.selectedSubRewardType == 0) {
+        alert("请选择感谢方式");
+        return;
+      }
+
+      if (ctlObj.summary === '') {
+        alert("请输入求助类型");
+        return;
+      }
+
+      if (ctlObj.deadline == null) {
+        alert("请选择截止时间");
+        return;
+      }
+
+      if (ctlObj.pubLocation == null || ctlObj.pubLocation === '') {
+        alert("请见面地址");
+        return;
+      }
+
+      taskNetService.postTask(ctlObj.selectedSubTask.type,
+        ctlObj.summary,
+        ctlObj.pubLocation,
+        ctlObj.startTime, ctlObj.deadline
+        ,0.0 , 0.0,
+        ctlObj.selectedRewardType,
+        ctlObj.selectedSubRewardType, 1, 0).then(function() {
+          alert("发布任务成功");
+          ctlObj.closeModal();
+        },function(error) {
+          alert("发布任务失败:" + error);
+        });
     }
   }
 
-  qingbaoPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', 'taskPublishModalService'];
-  function qingbaoPublishControllerFn($scope, $log, $ionicModal, taskPublishModalService) {
-    this.cancel = function () {
+  function cleanTaskControllerStatus(ctlObj) {
+    ctlObj.startTime = ctlObj.deadline =ctlObj.summary = ctlObj.pubLocaction = null;
+    ctlObj.selectedRewardType = ctlObj.selectedSubRewardType = 0;
+  }
+
+  shaodaiPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', '$ionicPopup', '$cordovaDatePicker', 'taskPublishModalService', 'taskNetService'];
+  function shaodaiPublishControllerFn($scope, $log, $ionicModal, $ionicPopup, $cordovaDatePicker, taskPublishModalService, taskNetService) {
+    this.subTaskArray = new Array(
+      {index: 0, type: 1, name: '捎带餐饮'}, {index: 1, type: 2, name: '超市捎带'}, {index: 2, type: 3, name: '捎带水果'}
+    );
+    this.taskTypeName = "捎带侠";
+    this.deadline = null;
+    this.startTime = null;
+    var _ctlSelf = this;
+
+    this.closeModal = function () {
+      var publishModal = taskPublishModalService.getShaodaiModal();
+      publishModal.hide();
+      cleanTaskControllerStatus(_ctlSelf);
+    };
+
+    TaskPublishBaseControllerFn($scope, $log, $ionicModal, $ionicPopup, $cordovaDatePicker,
+      taskPublishModalService, taskNetService,this);
+
+    //this.cancel = function() {
+    //  _ctlSelf.closeModal();
+    //}
+
+
+    //this.setDeadline = function () {
+    //  var currentDate = new Date();
+    //
+    //  var options = {
+    //    date: currentDate,
+    //    mode: 'datetime'
+    //  };
+    //  $cordovaDatePicker.show(options).then(function (date) {
+    //    if( date - currentDate < 0 ) {
+    //      alert("需要设置晚于当前时间的日期");
+    //    }
+    //    else {
+    //      _ctlSelf.deadline = date;
+    //    }
+    //  },function(error) {
+    //    alert(error);
+    //  });
+    //}
+    //
+    //this.selectedSubTask = this.subTaskArray[0];
+    ////$scope.shaodaiPublishController = this;
+    //
+    //
+    //this.selectedSubType = function (index) {
+    //  _ctlSelf.selectedSubTask = _ctlSelf.subTaskArray[index];
+    //  _ctlSelf.popup.close();
+    //}
+    //
+    //this.cancelSelectSubType = function () {
+    //  _ctlSelf.popup.close();
+    //}
+    //var popupScope = $scope.$new();
+    //
+    //popupScope.subTypeList = this.subTaskArray;
+    //popupScope.selectedSubType = this.selectedSubType;
+    //popupScope.cancel = this.cancelSelectSubType;
+    //popupScope.typeName = this.taskTypeName;
+    //
+    //this.selectedRewardType = 0;
+    //this.selectedSubRewardType = 0;
+    //this.selectSubTaskType = function () {
+    //  _ctlSelf.popup = $ionicPopup.show(
+    //    {
+    //      templateUrl: 'modules/task/publish/select-subtype-popup.html',
+    //      title: null,
+    //      subTitle: null,
+    //      scope: popupScope
+    //    }
+    //  );
+    //}
+    //
+    //this.setRewardType = function (reward, subReward) {
+    //  _ctlSelf.selectedRewardType = reward;
+    //  _ctlSelf.selectedSubRewardType = subReward;
+    //}
+    //
+    //this.publish = function () {
+    //  var errMsg = '';
+    //  if (_ctlSelf.selectedRewardType == 0 || _ctlSelf.selectedSubRewardType == 0) {
+    //    alert("请选择感谢方式");
+    //    return;
+    //  }
+    //
+    //  if (_ctlSelf.summary === '') {
+    //    alert("请输入求助类型");
+    //    return;
+    //  }
+    //
+    //  //_ctlSelf.deadline = '2016/4/15 16:30:01';
+    //  if (_ctlSelf.deadline == null) {
+    //    alert("请选择截止时间");
+    //    return;
+    //  }
+    //
+    //  if (_ctlSelf.pubLocation == null || _ctlSelf.pubLocation === '') {
+    //    alert("请见面地址");
+    //    return;
+    //  }
+    //
+    //  taskNetService.postTask(_ctlSelf.selectedSubTask.type,
+    //    _ctlSelf.summary,
+    //    _ctlSelf.pubLocation,
+    //    _ctlSelf.startTime, _ctlSelf.deadline
+    //    ,0.0 , 0.0,
+    //    _ctlSelf.selectedRewardType,
+    //    _ctlSelf.selectedSubRewardType, 1, 0).then(function() {
+    //      alert("发布任务成功");
+    //      var publishModal = taskPublishModalService.getShaodaiModal();
+    //      publishModal.hide();
+    //    },function(error) {
+    //      alert("发布任务失败:" + error);
+    //    });
+    //}
+  }
+
+  qingbaoPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', '$ionicPopup', '$cordovaDatePicker', 'taskPublishModalService', 'taskNetService'];
+  function qingbaoPublishControllerFn($scope, $log, $ionicModal, $ionicPopup, $cordovaDatePicker, taskPublishModalService, taskNetService) {
+    var _ctlSelf = this;
+    this.closeModal = function () {
       var publishModal = taskPublishModalService.getQingbaoModal();
       publishModal.hide();
+      cleanTaskControllerStatus(_ctlSelf);
     }
+
+    this.subTaskArray = new Array(
+      {index: 0, type: 101, name: '打听某人'}, {index: 1, type: 102, name: '打听事情'}, {index: 2, type: 103, name: '寻物启事'},
+      {index: 3, type: 104, name: '帮忙看看'}
+    );
+    this.taskTypeName = "情报侠";
+    this.deadline = null;
+    this.startTime = null;
+
+    TaskPublishBaseControllerFn($scope, $log, $ionicModal, $ionicPopup, $cordovaDatePicker,
+      taskPublishModalService, taskNetService,this);
+
   }
 
-  jiebaoPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', 'taskPublishModalService'];
-  function jiebaoPublishControllerFn($scope, $log, $ionicModal, taskPublishModalService) {
-    this.cancel = function () {
+  jiebaoPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', '$ionicPopup', '$cordovaDatePicker', 'taskPublishModalService', 'taskNetService'];
+  function jiebaoPublishControllerFn($scope, $log, $ionicModal, $ionicPopup, $cordovaDatePicker, taskPublishModalService, taskNetService) {
+    var _ctlSelf = this;
+    this.closeModal = function () {
       var publishModal = taskPublishModalService.getJiebaoModal();
       publishModal.hide();
+      cleanTaskControllerStatus(_ctlSelf);
     }
+
+    this.subTaskArray = new Array(
+      {index: 0, type: 201, name: '借资料书籍'}, {index: 1, type: 202, name: '借运动用品'}, {index: 2, type: 203, name: '借生活工具'},
+      {index: 3, type: 204, name: '借娱乐物件'}
+    );
+    this.taskTypeName = "借宝侠";
+    this.deadline = null;
+    this.startTime = null;
+
+    TaskPublishBaseControllerFn($scope, $log, $ionicModal, $ionicPopup, $cordovaDatePicker,
+      taskPublishModalService, taskNetService,this);
   }
 })
 ();
