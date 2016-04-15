@@ -42,6 +42,7 @@
 
         if(g_TestFlag && g_TestFlag == enumTestFlag.NEAR) {
           $urlRouterProvider.otherwise('/main/near');
+          //$urlRouterProvider.otherwise('/task/publish/list');
         }
         else{
           $urlRouterProvider.otherwise('/login');

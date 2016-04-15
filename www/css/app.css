@@ -25,6 +25,21 @@
   -moz-border-radius: 3px !important;
   border-radius: 3px !important; }
 
+.button-light-red {
+  border-color: #fed1ce;
+  background-color: #ffeceb;
+  color: #f97f58; }
+
+.button-accept {
+  display: inline-block;
+  padding: 4px 30px;
+  min-width: 42px;
+  min-height: 16px;
+  border-radius: 15px;
+  border-width: 1px;
+  border-style: solid;
+  font-size: 15px; }
+
 .nopadding {
   padding: 0 !important; }
 
@@ -59,7 +74,9 @@
       height: 60px;
       border-radius: 30px; }
     .topics .content-left .task-type {
-      color: #00caf2; }
+      padding: 8px 0;
+      font-size: 12px;
+      color: #333; }
   .topics .content-right .user-panel .avatar {
     width: 40px;
     height: 40px;
@@ -81,12 +98,8 @@
     left: 10px; }
   .topics .content-right .user-panel ul li.tip {
     color: #5f9cc5; }
-  .topics .content-right .div-line {
-    margin: 10px 10px 10px 0;
-    width: 400px;
-    height: 1px;
-    background-color: #eeeeee; }
   .topics .content-right .summary-panel > p {
+    padding: 2px 0 8px;
     white-space: pre-wrap; }
   .topics .content-right .summary-panel .appendix i, .topics .content-right .summary-panel .appendix p {
     display: inline; }
@@ -106,5 +119,18 @@
     display: inline;
     color: #fff;
     background-color: #F74848; }
+  .topics .content-right .bottom-panel .count {
+    display: inline-block;
+    padding: 5px 30px 1px 5px;
+    font-size: 14px;
+    color: #999; }
+  .topics .content-right .bottom-panel .right {
+    position: absolute;
+    right: 15px; }
+  .topics .content-right .div-line {
+    margin: 7px 10px 7px 0;
+    width: 400px;
+    height: 1px;
+    background-color: #eeeeee; }
 
 /*# sourceMappingURL=app.css.map */

@@ -44,9 +44,28 @@ $user-tag-color-1
 .text-tag {
   padding: 0.2em !important;
   font-size: 11px !important;
-   -webkit-border-radius: 3px !important;
+  -webkit-border-radius: 3px !important;
   -moz-border-radius: 3px !important;
   border-radius: 3px !important;
+}
+
+///////////////////////////////////////////////////////
+// 按钮
+.button-light-red {
+  border-color: $button-accept-bordercolor;
+  background-color: $button-accept-bgcolor;
+  color: $button-accept-txtcolor;
+}
+
+.button-accept {
+  display: inline-block;
+  padding: 4px 30px;
+  min-width: 42px;
+  min-height: 16px;
+  border-radius: 15px;
+  border-width: 1px;
+  border-style: solid;
+  font-size: 15px;
 }
 
 ///////////////////////////////////////////////////////

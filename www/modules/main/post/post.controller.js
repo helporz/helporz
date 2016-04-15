@@ -24,6 +24,7 @@
       $timeout(function() {
         $scope.closeModal();
       }, 1000);
+      //ngDialog.open({ template: 'popupTmpl.html' });
     };
     $scope.closeModal = function() {
       $scope.modal.hide();

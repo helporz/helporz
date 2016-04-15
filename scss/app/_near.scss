@@ -46,7 +46,9 @@
       border-radius: 30px;
     }
     .task-type {
-      color: #00caf2;
+      padding: 8px 0;
+      font-size: 12px;
+      color: #333;
     }
   }
 
@@ -91,18 +93,11 @@
         }
       }
     }
-    .div-line {
-      //position: absolute;
-      //top: 60px;
-      margin: 10px 10px 10px 0;
-      width: 400px;
-      height: 1px;
-      background-color: $weak-line-color;
-    }
+
     .summary-panel{
       //height: 75px;
       >p {
-        //padding: 0px 5px;
+        padding: 2px 0 8px;
         white-space: pre-wrap;
       }
 
@@ -136,7 +131,25 @@
 
     }
     .bottom-panel {
+      .count {
+        display: inline-block;
+        padding: 5px 30px 1px 5px;
+        font-size: 14px;
+        color: $weak-text-color2;
+      }
+      .right {
+        position: absolute;
+        right: 15px;
+      }
+    }
 
+    .div-line {
+      //position: absolute;
+      //top: 60px;
+      margin: 7px 10px 7px 0;
+      width: 400px;
+      height: 1px;
+      background-color: $weak-line-color;
     }
   }
 }

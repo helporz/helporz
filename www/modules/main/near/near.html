@@ -12,8 +12,10 @@
       <ion-item   class="topics" ng-repeat="item in vm.items" href="#/main/near/task-detail">
         <div class="row nopadding">
           <div class="col col-25 content-left">
-            <img class="task-img" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g"   reset-img>
-            <p class="task-type">{{item.taskSubTypeDescription}}</p>
+            <!--<img class="task-img" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g"   reset-img>-->
+            <img class="task-img" src={{vm.iconByType(item.taskTypesId)}}   reset-img>
+            <!--<p class="task-type">{{item.taskSubTypeDescription}}</p>-->
+            <p class="task-type">{{vm.nameByType(item.taskTypesId)}}</p>
           </div>
           <div class="col col-75 content-right">
             <div class="row user-panel nopadding">
@@ -51,11 +53,21 @@
                 <p class="thank-what text-tag tabs-color-light">{{item.rewardDescription}} </p>
               </div>
             </div>
-            <div class="bottom-panel">
 
+            <div class="div-line"></div>
+
+            <div class="bottom-panel">
+              <i class="elem2 icon ion-ios-chatbubble-outline"></i>
+              <span class="count">10</span>
+              <i class="elem2 icon ion-usb"></i>
+              <span class="count">30</span>
+              <button class="right button-accept  button-light-red" ng-click="">
+                接单
+              </button>
             </div>
           </div>
         </div>
+
 
 
         <!--<p class="summary">-->

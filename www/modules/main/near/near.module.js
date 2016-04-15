@@ -5,7 +5,10 @@
 (function(){
   'use strict';
 
-  angular.module('main.near', ['com.helporz.task.netservice']);
+  angular.module('main.near', [
+    'com.helporz.task.netservice',
+    'app.task.utils.service'
+  ]);
 
 
 })()

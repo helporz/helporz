@@ -6,9 +6,9 @@
   'use strict';
 
   angular.module('main.near')
-    .controller('mainNearCtrl', ['$log','$ionicLoading','$scope', 'taskNetService',mainNearCtrl]);
+    .controller('mainNearCtrl', ['$log','$ionicLoading','$scope', 'taskNetService', 'taskDesc', 'taskUtils', mainNearCtrl]);
 
-  function mainNearCtrl($log,$ionicLoading,$scope,taskNetService) {
+  function mainNearCtrl($log,$ionicLoading,$scope,taskNetService, taskDesc, taskUtils) {
     var vm = $scope.vm = {};
 
     vm.doRefresh = function() {
@@ -27,6 +27,24 @@
       });
     });
 
+    vm.iconByType = function(v) {
+      //if(angular.isNumber(v)){
+      //  var main = taskDesc[taskUtils.mainByTypeValue(v)];
+      //  var sub = main.subtype[taskUtils.subByTypeValue(v)];
+      //  var relIcon = sub.icon;
+      //  var absIcon = 'img/task/icon/' + relIcon + '@2x.png';
+      //  return absIcon;
+      //} else {
+      //  return '';
+      //}
+      return taskUtils.iconByTypeValue(v);
+    }
+
+    vm.nameByType = function(v) {
+      return taskUtils.nameByTypeValue(v);
+    }
+
+    //////////////////////////////////////////////////
     //inner function
 
     function flushSuccessFn(newTaskList) {
