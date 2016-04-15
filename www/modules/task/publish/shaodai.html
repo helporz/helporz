@@ -8,7 +8,7 @@
       align-items: center;
       -webkit-border-radius: 4px;
       background: #fff;
-      margin-bottom:10px;
+      margin-bottom: 10px;
     }
 
     .group-wrapper > .no-border {
@@ -73,17 +73,17 @@
     }
 
     .group-item .logo {
-      max-width: 40px;
-      max-height: 40px;
+      /*max-width: 40px;*/
+      /*max-height: 40px;*/
       margin-left: -10px;
       margin-right: 10px;
     }
 
-    .login-page .button-login {
-      background-color: #F9E9AD;
-      border-radius: 4px;
-      color: #F55E5E;
-    }
+    /*.login-page .button-login {*/
+      /*background-color: #F9E9AD;*/
+      /*border-radius: 4px;*/
+      /*color: #F55E5E;*/
+    /*}*/
 
     .group-item > .no-border {
       border-style: none;
@@ -100,25 +100,26 @@
     }
 
     .high-light {
-      background-color:#ffc900;
+      background-color: #ffc900;
     }
   </style>
 
   <ion-header-bar align-title="center" class="bar-dark" style="background-color:#ff492f">
     <div class="buttons">
-      <a class="button" style="background-color:#ff492f" ng-click="ctl.cancel()">取消
+      <a class="button" style="background-color:#ff492f" ng-click="ctl.closeModal()">取消
       </a>
     </div>
-    <div class="h1 title col-center">发布</div>
+    <div class="title col-center">发布</div>
   </ion-header-bar>
   <ion-content class="" overflow-scroll="true" style="overflow: hidden;background-color:#efeff4">
     <div class="group-wrapper">
       <div class="row group-item group-item-input no-border">
-        <img class="logo col col-10" src="./img/task/publish/qiuzhu-shaodai@2x.png"/>
+        <img class="logo col col-10" src="./img/task/publish/shaodai-logo.png"/>
 
         <p class="col col-20">{{ctl.taskTypeName}}</p>
 
-        <button class="col col-40 button" style="background-color: #EE5757; color: #ffffff;" ng-click="ctl.selectSubTaskType()" value="{{ctl.selectedSubTask.type}}">
+        <button class="col col-40 button" style="background-color: #EE5757; color: #ffffff;"
+                ng-click="ctl.selectSubTaskType()" value="{{ctl.selectedSubTask.type}}">
           {{ctl.selectedSubTask.name}}
         </button>
       </div>
@@ -127,7 +128,7 @@
 
       <div class="row">
         <label class=" item item-input" style="border:none;width:100%">
-          <textarea placeholder="Comments" style="border:none; width: 100%;height:100px"></textarea>
+          <textarea placeholder="Comments" style="border:none; width: 100%;height:100px"  ng-model="ctl.summary"/></textarea>
         </label>
       </div>
 
@@ -135,14 +136,14 @@
 
       <div class="row group-item group-item-input no-border">
         <img class="icon" src="./img/login/phone.png"/>
-        <input class="col-80" type="text" placeholder=""/>
+        <input class="col-80" type="text" placeholder="" ng-model="ctl.pubLocation"/>
       </div>
 
       <div class="split"></div>
 
       <div class="row group-item group-item-input no-border">
         <img class="icon" src="./img/login/phone.png"/>
-        <input class="col-80" type="text" placeholder=""/>
+        <input class="col-80" type="text" placeholder="请输入截止时间" ng-model="ctl.deadline|date:'MM月dd日 HH:mm'"  ng-click="ctl.setDeadline()"/>
       </div>
 
     </div>
@@ -150,25 +151,30 @@
 
     <div class="group-wrapper">
       <p>感谢方式</p>
+
       <div class="split"></div>
       <div class="row group-item group-item-input no-border">
         <p class="col col-20">请客</p>
-        <a class="col col-25 button" ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '1' && ctl.selectedSubRewardType == '1']"
+        <a class="col col-25 button"
+           ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '1' && ctl.selectedSubRewardType == '1']"
            ng-click="ctl.setRewardType(1,1)">一杯饮料</a>
-        <a class="col col-25 button" ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '1' && ctl.selectedSubRewardType == '2']"
+        <a class="col col-25 button"
+           ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '1' && ctl.selectedSubRewardType == '2']"
            ng-click="ctl.setRewardType(1,2)">一份零食</a>
-        <a class="col col-25 button" ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '1' && ctl.selectedSubRewardType == '3']"
+        <a class="col col-25 button"
+           ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '1' && ctl.selectedSubRewardType == '3']"
            ng-click="ctl.setRewardType(1,3)">一个水果</a>
       </div>
       <div class="row group-item group-item-input no-border">
         <p class="col col-20">人情卡</p>
-        <a class="col col-35 button" ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '2' && ctl.selectedSubRewardType == '1']"
+        <a class="col col-35 button"
+           ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '2' && ctl.selectedSubRewardType == '1']"
            ng-click="ctl.setRewardType(2,1)">欠一份人情</a>
-        <a class="col col-35 button" ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '2' && ctl.selectedSubRewardType == '2']"
+        <a class="col col-35 button"
+           ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '2' && ctl.selectedSubRewardType == '2']"
            ng-click="ctl.setRewardType(2,2)">欠一份大人情</a>
       </div>
     </div>
-
 
     <div class="row">
       <button class="button button-full" ng-click="ctl.publish()">
