@@ -106,7 +106,7 @@
       })
         .then(processLoginResponse, processLoginFailedResponse)
         .then(getSelfInfo, processFailed)
-        .then(loginIM, processFailed)
+        //.then(loginIM, processFailed)
         .then(function () {
           $ionicLoading.hide();
           $state.go('main.near');
