@@ -98,6 +98,8 @@
           nameByTypeValue: nameByTypeValue
         }
 
+        // 类别值=主类值*100 + 分类值
+        // 比如 任务值103的主类是1,分类是3
         function typeValue(main, sub){
           return main * 100 + sub;
         }
@@ -114,25 +116,32 @@
         function _attrsByTypeValue(v) {
           if(angular.isNumber(v)){
             var main = taskDesc[mainByTypeValue(v)];
+            if(main == undefined){
+              console.error("task main type invalid typeValue="+v);
+              return null;
+            }
             var sub = main.subtype[subByTypeValue(v)];
-          //  var relIcon = sub.icon;
-          //  var absIcon = 'img/task/icon/' + relIcon + '@2x.png';
-          //  return absIcon;
-          //} else {
-          //  console.error('attrsByTypeValue: type is not number');
-          //  return '';
+            if(sub == undefined){
+              console.error("task sub type invalid typeValue="+v);
+            }
             return sub;
           }
         }
 
         function iconByTypeValue(v) {
           var attrs = _attrsByTypeValue(v);
+          if (attrs == null) {
+            return '';
+          }
           var icon = 'img/task/icon/' + attrs.icon + '@2x.png';
           return icon;
         }
 
         function nameByTypeValue(v) {
           var attrs = _attrsByTypeValue(v);
+          if (attrs == null){
+            return '';
+          }
           return attrs.name;
         }
       }]);

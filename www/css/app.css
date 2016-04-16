@@ -43,6 +43,11 @@
 .nopadding {
   padding: 0 !important; }
 
+.bottom-bordered {
+  border-style: solid;
+  border-bottom-width: 5px !important;
+  border-bottom-color: #eeeeee !important; }
+
 .topics-old .item-content {
   padding: 14px 16px 18px 72px; }
   .topics-old .item-content > img:not(:first-child) {

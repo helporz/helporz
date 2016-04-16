@@ -72,3 +72,9 @@ $user-tag-color-1
 .nopadding {
   padding: 0 !important;
 }
+
+.bottom-bordered {
+  border-style: solid !important;
+  border-bottom-width: 5px !important;
+  border-bottom-color: $weak-line-color !important;
+}

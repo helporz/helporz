@@ -4,18 +4,18 @@
     <button class="button button-icon icon ion-share" ng-click=""></button>
   </ion-nav-buttons>
 
-  <ion-content class="padding" >
+  <ion-content class="nopadding" >
     <ion-refresher pulling-text="下拉刷新..." on-refresh="vm.doRefresh()">
     </ion-refresher>
 
     <ion-list>
-      <ion-item   class="topics" ng-repeat="item in vm.items" href="#/main/near/task-detail">
+      <ion-item   class="topics bottom-bordered" ng-repeat="item in vm.items" href="#/main/near/{{item.id}}">
         <div class="row nopadding">
           <div class="col col-25 content-left">
             <!--<img class="task-img" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g"   reset-img>-->
-            <img class="task-img" src={{vm.iconByType(item.taskTypesId)}}   reset-img>
+            <img class="task-img" src={{item.icon}}   reset-img>
             <!--<p class="task-type">{{item.taskSubTypeDescription}}</p>-->
-            <p class="task-type">{{vm.nameByType(item.taskTypesId)}}</p>
+            <p class="task-type">{{item.typeName}}</p>
           </div>
           <div class="col col-75 content-right">
             <div class="row user-panel nopadding">
@@ -58,9 +58,9 @@
 
             <div class="bottom-panel">
               <i class="elem2 icon ion-ios-chatbubble-outline"></i>
-              <span class="count">10</span>
+              <span class="count">{{item.commentCount}}</span>
               <i class="elem2 icon ion-usb"></i>
-              <span class="count">30</span>
+              <span class="count">0</span>
               <button class="right button-accept  button-light-red" ng-click="">
                 接单
               </button>

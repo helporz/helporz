@@ -1,24 +1,24 @@
 <ion-view  view-title="Home">
-  <ion-content class="padding topics">
-    <div class="row nopadding">
+  <ion-content class="topics ">
+    <div class="row padding bottom-bordered">
       <div class="col col-25 content-left">
-        <img class="task-img" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g"   reset-img>
-        <!--<img class="task-img" ng-src={{vm.iconByType(item.taskTypesId)}}   reset-img>-->
-        <p class="task-type">111</p>
+        <!--<img class="task-img" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g"   reset-img>-->
+        <img class="task-img" ng-src={{vm.task.icon}}   reset-img>
+        <p class="task-type">{{vm.task.typeName}}</p>
       </div>
       <div class="col col-75 content-right">
         <div class="row user-panel nopadding">
           <div class="col col-20 nopadding">
-            <img class="col avatar nopadding" src="http://avatar.csdn.net/8/1/D/1_xundh.jpg">
-            <!--<img class="col avatar nopadding" ng-src={{item.poster.avator}}>-->
+            <!--<img class="col avatar nopadding" src="http://avatar.csdn.net/8/1/D/1_xundh.jpg">-->
+            <img class="col avatar nopadding" ng-src={{vm.task.poster.avator}}>
           </div>
           <div class="col col-80 user-detail nopadding">
             <div class="top">
               <!--<p class="elem color-black">{{item.poster.nickname}}</p>-->
-              <p class="elem color-black">123</p>
+              <p class="elem color-black">{{vm.task.poster.nickname}}</p>
               <i class="elem2 icon ion-ios-help color-woman"></i>
               <!--<p class="time">{{item.created}}</p>-->
-              <p class="time">123</p>
+              <p class="time">{{vm.task.created}}</p>
             </div>
             <div class="bottom">
               <p class="elem text-tag user-tag-color-0">女神</p>
@@ -30,25 +30,33 @@
         <div class="div-line"></div>
 
         <div class="summary-panel">
-          <p class="color-black">123</p>
+          <p class="color-black">{{vm.task.summary}}</p>
           <div class="appendix">
             <i class="icon ion-ios-clock-outline deadline"></i>
-            <!--<p>{{item.deadline}}截止</p>-->
-            <p>123</p>
+            <p>{{vm.task.deadline}}截止</p>
           </div>
           <div class="appendix">
             <i class="icon ion-ios-location-outline address"></i>
-            <!--<p>{{item.pubLocation}}</p>-->
-            <p>123</p>
+            <p>{{vm.task.pubLocation}}</p>
+            <!--<p>123</p>-->
           </div>
           <div>
             <p class="thank">感谢</p>
-            <!--<p class="thank-what text-tag tabs-color-light">{{item.rewardDescription}} </p>-->
-            <p class="thank-what text-tag tabs-color-light">ganxie1</p>
+            <p class="thank-what text-tag tabs-color-light">{{vm.task.rewardDescription}} </p>
+            <!--<p class="thank-what text-tag tabs-color-light">ganxie1</p>-->
           </div>
         </div>
-        <div class="bottom-panel">
 
+        <div class="div-line"></div>
+
+        <div class="bottom-panel">
+          <i class="elem2 icon ion-ios-chatbubble-outline"></i>
+          <span class="count">{{vm.task.commentCount}}</span>
+          <i class="elem2 icon ion-usb"></i>
+          <span class="count">0</span>
+          <button class="right button-accept  button-light-red" ng-click="">
+            接单
+          </button>
         </div>
       </div>
     </div>

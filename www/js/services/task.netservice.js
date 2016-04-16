@@ -10,6 +10,11 @@
 
     function TaskNetServiceFactoryFn($q,$log,httpBaseService,errorCodeService,httpErrorCodeService) {
 
+      // cache
+      var _cache = {
+          nearTaskList : []
+        };
+
       var _postTask  = function(type,summary,pubLocation,startTime,deadLine,posterLong,
                                 posterLat,rewardType,rewardSubType,rewardCount,payMethodType) {
         var localeStartTime =(startTime == null)?null:startTime.toLocaleString();
@@ -78,11 +83,21 @@
         return httpBaseService.getForPromise('/task/query/random/new',null);
       };
 
-      var _getTaskInfo = function(taskId) {
+      var _queryTaskInfo = function(taskId) {
         return httpBaseService.getForPromise('/task/' + taskId + '/detail',null);
       };
 
-
+      var _getTaskInfo = function(taskId) {
+        if(_cache.nearTaskList){
+          for(var i = 0; i < _cache.nearTaskList.length; i++){
+            if(_cache.nearTaskList[i].id == taskId){
+              return _cache.nearTaskList[i];
+            }
+          }
+          return null;
+        }
+        return null;
+      };
 
       var _getAcceptTaskList = function(pageIndex,pageSize) {
           var params = {
@@ -121,12 +136,18 @@
         confirmByPoster:_confirmByPoster,
         commentByPoster:_commentByPoster,
         commentByAcceptor:_commentByAcceptor,
-        getTaskInfo:_getTaskInfo,
+        queryTaskInfo:_queryTaskInfo,
         getAcceptTaskList:_getAcceptTaskList,
         getPostTaskList:_getPostTaskList,
         commentTask:_commentTask,
         getTaskSharePage:_getTaskSharePage,
         queryNewTaskList:_queryNewTaskList,
+
+        //cache
+        cache: _cache,
+
+        //util get
+        getTaskInfo: _getTaskInfo,
       };
     }
   }

@@ -6,50 +6,66 @@
   'use strict';
 
   angular.module('main.near')
-    .controller('mainNearCtrl', ['$log','$ionicLoading','$scope', 'taskNetService', 'taskDesc', 'taskUtils', mainNearCtrl]);
+    .controller('mainNearCtrl', ['$log','$ionicLoading','$scope', 'taskNetService',  'taskUtils', mainNearCtrl]);
 
-  function mainNearCtrl($log,$ionicLoading,$scope,taskNetService, taskDesc, taskUtils) {
+  function mainNearCtrl($log,$ionicLoading,$scope,taskNetService, taskUtils) {
     var vm = $scope.vm = {};
+
+    vm.isFirstIn = true;
+
+    //vm.iconByType = function(v) {
+    //  return taskUtils.iconByTypeValue(v);
+    //};
+    //
+    //vm.nameByType = function(v) {
+    //  return taskUtils.nameByTypeValue(v);
+    //};
+    //
+    //vm.commentCount = function(list) {
+    //  if (list == undefined) {
+    //    return 0;
+    //  } else {
+    //    return list.length;
+    //  }
+    //};
 
     vm.doRefresh = function() {
       taskNetService.queryNewTaskList().then(flushSuccessFn,flushFailedFn).finally(function() {
         $scope.$broadcast('scroll.refreshComplete');
       });
-    }
+    };
 
-    $scope.$on("$ionicView.afterEnter", function() {
-      $ionicLoading.show({
-        template:'加载数据中...'
-      });
+    $scope.$on("$ionicView.beforeEnter", function() {
+      if(vm.isFirstIn) {
+        vm.isFirstIn = false;
 
-      taskNetService.queryNewTaskList().then(flushSuccessFn,flushFailedFn).finally(function() {
-        $ionicLoading.hide();
-      });
+         $ionicLoading.show({
+           template:'加载数据中...'
+         });
+
+         taskNetService.queryNewTaskList().then(flushSuccessFn,flushFailedFn).finally(function() {
+           $ionicLoading.hide();
+         });
+      }
     });
-
-    vm.iconByType = function(v) {
-      //if(angular.isNumber(v)){
-      //  var main = taskDesc[taskUtils.mainByTypeValue(v)];
-      //  var sub = main.subtype[taskUtils.subByTypeValue(v)];
-      //  var relIcon = sub.icon;
-      //  var absIcon = 'img/task/icon/' + relIcon + '@2x.png';
-      //  return absIcon;
-      //} else {
-      //  return '';
-      //}
-      return taskUtils.iconByTypeValue(v);
-    }
-
-    vm.nameByType = function(v) {
-      return taskUtils.nameByTypeValue(v);
-    }
 
     //////////////////////////////////////////////////
     //inner function
 
     function flushSuccessFn(newTaskList) {
       $log.info('new task list:' + JSON.stringify(newTaskList));
+
+      taskNetService.cache.nearTaskList = newTaskList;
       $scope.vm.items = newTaskList;
+
+
+      // process attr
+      for(var i = 0; i < $scope.vm.items.length; i++){
+        var item = $scope.vm.items[i];
+        item.icon = taskUtils.iconByTypeValue(item.taskTypesId);
+        item.typeName = taskUtils.nameByTypeValue(item.taskTypesId);
+        item.commentCount = item.commentList? item.commentList.length: 0;
+      }
 
       //避免 $digest / $apply digest in progress
       if(!$scope.$$phase) {
@@ -60,11 +76,11 @@
       //  vm.items = newTaskList;
       //});
 
-    };
+    }
 
     function flushFailedFn(error) {
       alert(error);
-    };
+    }
 
   }
 })()
