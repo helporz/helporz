@@ -13,7 +13,7 @@
     angular.module('app', ['ionic',
       'ngResource',
       'ngCordova',
-      //'pusher',
+      'pusher',
       'com.helporz.im',
       'app.routes',
       'starter.controllers',
@@ -25,22 +25,7 @@
       'main'
     ])
 
-      .run([
-        '$ionicPlatform',
-        '$cordovaDevice',
-        '$cordovaNetwork',
-        '$timeout',
-        '$cordovaDialogs',
-        '$state',
-        '$log',
-        //'pushService',
-        'jimService',
-        'imConversationService',
-        'imMessageService',
-        'fileService',
-        'userImgFileService',
-        init
-      ])
+      .run(init)
 
       .config(['$stateProvider', '$urlRouterProvider', '$httpProvider', function ($stateProvider, $urlRouterProvider, $httpProvider) {
         //configRouter($stateProvider,$urlRouterProvider);
@@ -59,6 +44,22 @@
 
 
     //function init($ionicPlatform, $cordovaDevice, $cordovaNetwork, $timeout, $cordovaDialogs, $state) {
+  init.$inject = [
+    '$ionicPlatform',
+    '$cordovaDevice',
+    '$cordovaNetwork',
+    '$timeout',
+    '$cordovaDialogs',
+    '$state',
+    '$log',
+    'pushService',
+    'jimService',
+    'imConversationService',
+    'imMessageService',
+    'fileService',
+    'userImgFileService'
+  ];
+
     function init($ionicPlatform,
                   $cordovaDevice,
                   $cordovaNetwork,
@@ -89,100 +90,100 @@
           StatusBar.styleDefault();
         }
 
-        //var onOpenNotification = function (event) {
-        //  console.log(" index onOpenNotification");
-        //
-        //  try {
-        //    var alertContent;
-        //    if (device.platform == "Android") {
-        //      alertContent = event.alert;
-        //    } else {
-        //      alertContent = event.aps.alert;
-        //    }
-        //    //alert("open Notificaiton:" + alertContent);
-        //
-        //  }
-        //  catch (exception) {
-        //    console.log("JPushPlugin:onOpenNotification" + exception);
-        //  }
-        //}
-        //
-        //var onReceiveNotification = function (event) {
-        //  console.log(" index onReceiveNotification");
-        //  try {
-        //    var alertContent;
-        //    if (device.platform == "Android") {
-        //      //alertContent = window.plugins.jPushPlugin.receiveNotification.alert;
-        //      alertContent = event.alert;
-        //    } else {
-        //      alertContent = event.aps.alert;
-        //    }
-        //    //alert("Receive Notificaiton:" + alertContent);
-        //    //$("#notificationResult").html(alertContent);
-        //
-        //  }
-        //  catch (exeption) {
-        //    console.log(exception)
-        //  }
-        //}
-        //
-        //var onReceivePushMessage = function (event) {
-        //  try {
-        //    var message;
-        //    if (device.platform == "Android") {
-        //      message = event.message;
-        //    } else {
-        //      message = event.content;
-        //    }
-        //    console.log(message);
-        //    //alert("Receive Push Message:" + message );
-        //    //$("#messageResult").html(message);
-        //  }
-        //  catch (exception) {
-        //    console.log("JPushPlugin:onReceivePushMessage-->" + exception);
-        //  }
-        //}
-        //
-        //var onSetTagsWithAlias = function (event) {
-        //  try {
-        //    console.log("onSetTagsWithAlias");
-        //    var result = "result code:" + event.resultCode + " ";
-        //    result += "tags:" + event.tags + " ";
-        //    result += "alias:" + event.alias + " ";
-        //    $("#tagAliasResult").html(result);
-        //  }
-        //  catch (exception) {
-        //    console.log(exception)
-        //  }
-        //}
-        //
-        //document.addEventListener("deviceready", function () {
-        //  fileService.init(function () {
-        //    $log.info("存储服务初始化成功");
-        //  }, function () {
-        //    $log.info("存储服务初始化失败");
-        //    alert('failed');
-        //  });
-        //
-        //  var config = {
-        //    onOpenNotification: onOpenNotification,
-        //    onReceiveNotification: onReceiveNotification,
-        //    onReceivePushMessage: onReceivePushMessage,
-        //    onSetTagsWithAlias: onSetTagsWithAlias
-        //  };
-        //
-        //  jimService.init();
-        //  pushService.init(config);
-        //
-        //  pushService.getReistrationID();
-        //
-        //  if (device.platform != "Android") {
-        //    window.plugins.jPushPlugin.setDebugModeFromIos();
-        //    window.plugins.jPushPlugin.setApplicationIconBadgeNumber(0);
-        //  } else {
-        //    window.plugins.jPushPlugin.setDebugMode(true);
-        //  }
-        //}, false);
+        var onOpenNotification = function (event) {
+          console.log(" index onOpenNotification");
+
+          try {
+            var alertContent;
+            if (device.platform == "Android") {
+              alertContent = event.alert;
+            } else {
+              alertContent = event.aps.alert;
+            }
+            //alert("open Notificaiton:" + alertContent);
+
+          }
+          catch (exception) {
+            console.log("JPushPlugin:onOpenNotification" + exception);
+          }
+        }
+
+        var onReceiveNotification = function (event) {
+          console.log(" index onReceiveNotification");
+          try {
+            var alertContent;
+            if (device.platform == "Android") {
+              //alertContent = window.plugins.jPushPlugin.receiveNotification.alert;
+              alertContent = event.alert;
+            } else {
+              alertContent = event.aps.alert;
+            }
+            //alert("Receive Notificaiton:" + alertContent);
+            //$("#notificationResult").html(alertContent);
+
+          }
+          catch (exeption) {
+            console.log(exception)
+          }
+        }
+
+        var onReceivePushMessage = function (event) {
+          try {
+            var message;
+            if (device.platform == "Android") {
+              message = event.message;
+            } else {
+              message = event.content;
+            }
+            console.log(message);
+            //alert("Receive Push Message:" + message );
+            //$("#messageResult").html(message);
+          }
+          catch (exception) {
+            console.log("JPushPlugin:onReceivePushMessage-->" + exception);
+          }
+        }
+
+        var onSetTagsWithAlias = function (event) {
+          try {
+            console.log("onSetTagsWithAlias");
+            var result = "result code:" + event.resultCode + " ";
+            result += "tags:" + event.tags + " ";
+            result += "alias:" + event.alias + " ";
+            $("#tagAliasResult").html(result);
+          }
+          catch (exception) {
+            console.log(exception)
+          }
+        }
+
+        document.addEventListener("deviceready", function () {
+          fileService.init(function () {
+            $log.info("存储服务初始化成功");
+          }, function () {
+            $log.info("存储服务初始化失败");
+            alert('failed');
+          });
+
+          var config = {
+            onOpenNotification: onOpenNotification,
+            onReceiveNotification: onReceiveNotification,
+            onReceivePushMessage: onReceivePushMessage,
+            onSetTagsWithAlias: onSetTagsWithAlias
+          };
+
+          jimService.init();
+          pushService.init(config);
+
+          pushService.getReistrationID();
+
+          if (device.platform != "Android") {
+            window.plugins.jPushPlugin.setDebugModeFromIos();
+            window.plugins.jPushPlugin.setApplicationIconBadgeNumber(0);
+          } else {
+            window.plugins.jPushPlugin.setDebugMode(true);
+          }
+        }, false);
 
       });
     }
