@@ -14,11 +14,17 @@ var appConfig = {
 // 测试flag
 var enumTestFlag = {
   NONE: 0,
-  NEAR: 1,
+
+  USER_PROTO: 1,
+
+  NEAR: 2,
 };
-var g_TestFlag;
- g_TestFlag = enumTestFlag.NEAR;
+
+var g_TestFlag = enumTestFlag.NONE;
+
 //g_TestFlag = enumTestFlag.NONE;
+//g_TestFlag = enumTestFlag.USER_PROTO;
+g_TestFlag = enumTestFlag.NEAR;
 
 
 

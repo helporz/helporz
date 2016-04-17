@@ -11,6 +11,11 @@
   function mainNearCtrl($log,$ionicLoading,$scope,taskNetService, taskUtils) {
     var vm = $scope.vm = {};
 
+    //test:
+    $scope.items = [];
+    for(var i=0;i<100;i++)
+      $scope.items.push("line " + i);
+
     vm.isFirstIn = true;
 
     //vm.iconByType = function(v) {

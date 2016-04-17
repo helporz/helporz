@@ -40,9 +40,12 @@
         })
         // if none of the above states are matched, use this as the fallback
 
-        if(g_TestFlag && g_TestFlag == enumTestFlag.NEAR) {
+        if(g_TestFlag == enumTestFlag.NEAR) {
           $urlRouterProvider.otherwise('/main/near');
           //$urlRouterProvider.otherwise('/task/publish/list');
+        }
+        else if(g_TestFlag == enumTestFlag.USER_PROTO){
+          $urlRouterProvider.otherwise('user/proto');
         }
         else{
           $urlRouterProvider.otherwise('/login');
