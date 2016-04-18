@@ -4,7 +4,8 @@
 ;
 (function () {
   'use strict';
-  angular.module('com.helproz.task.publish', ['ionic', 'com.helporz.task.netservice', 'ngCordova.plugins.datePicker']).config(publishConfigFn)
+  angular.module('com.helproz.task.publish', ['ionic', 'com.helporz.task.netservice', 'ngCordova.plugins.datePicker',
+    'app.task.utils.service']).config(publishConfigFn)
     .controller('testTaskPublishController', testTaskPublishControllerFn)
     .controller('taskPublishListController', taskPublishListControllerFn)
     .controller('shaodaiPublishController', shaodaiPublishControllerFn)
@@ -282,11 +283,33 @@
     ctlObj.selectedRewardType = ctlObj.selectedSubRewardType = 0;
   }
 
-  shaodaiPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', '$ionicPopup', '$cordovaDatePicker', 'taskPublishModalService', 'taskNetService'];
-  function shaodaiPublishControllerFn($scope, $log, $ionicModal, $ionicPopup, $cordovaDatePicker, taskPublishModalService, taskNetService) {
-    this.subTaskArray = new Array(
-      {index: 0, type: 1, name: '捎带餐饮'}, {index: 1, type: 2, name: '超市捎带'}, {index: 2, type: 3, name: '捎带水果'}
-    );
+  function buildSubTaskTypeArray(taskUtils,taskDesc,taskIndex) {
+    var subTaskArray = new Array();
+
+    var subtypes = taskDesc[taskIndex].subtype;
+
+    for(var idx = 0; idx < subtypes.length; ++idx) {
+      var st = subtypes[idx];
+      var item = {};
+      item.index = idx;
+      item.type = taskUtils.typeValue(taskIndex,idx);
+      item.name = st.name;
+      item.holder = st.holder;
+      item.icon = taskUtils.iconByTypeValue(item.type);
+      subTaskArray.push(item);
+    }
+    return subTaskArray;
+  }
+
+  shaodaiPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', '$ionicPopup',
+    '$cordovaDatePicker', 'taskPublishModalService', 'taskNetService','taskUtils','taskDesc'];
+  function shaodaiPublishControllerFn($scope, $log, $ionicModal, $ionicPopup, $cordovaDatePicker, taskPublishModalService, taskNetService,
+  taskUtils,taskDesc) {
+    //this.subTaskArray = new Array(
+    //  {index: 0, type: 0, name: '捎带餐饮'}, {index: 1, type: 1, name: '超市捎带'}, {index: 2, type: 2, name: '捎带水果'}
+    //);
+
+    this.subTaskArray = buildSubTaskTypeArray(taskUtils,taskDesc,0);
     this.taskTypeName = "捎带侠";
     this.deadline = null;
     this.startTime = null;
@@ -401,8 +424,9 @@
     //}
   }
 
-  qingbaoPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', '$ionicPopup', '$cordovaDatePicker', 'taskPublishModalService', 'taskNetService'];
-  function qingbaoPublishControllerFn($scope, $log, $ionicModal, $ionicPopup, $cordovaDatePicker, taskPublishModalService, taskNetService) {
+  qingbaoPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', '$ionicPopup', '$cordovaDatePicker',
+    'taskPublishModalService', 'taskNetService','taskUtils','taskDesc'];
+  function qingbaoPublishControllerFn($scope, $log, $ionicModal, $ionicPopup, $cordovaDatePicker, taskPublishModalService, taskNetService,taskUtils,taskDesc) {
     var _ctlSelf = this;
     this.closeModal = function () {
       var publishModal = taskPublishModalService.getQingbaoModal();
@@ -410,10 +434,11 @@
       cleanTaskControllerStatus(_ctlSelf);
     }
 
-    this.subTaskArray = new Array(
-      {index: 0, type: 101, name: '打听某人'}, {index: 1, type: 102, name: '打听事情'}, {index: 2, type: 103, name: '寻物启事'},
-      {index: 3, type: 104, name: '帮忙看看'}
-    );
+    //this.subTaskArray = new Array(
+    //  {index: 0, type: 101, name: '打听某人'}, {index: 1, type: 102, name: '打听事情'}, {index: 2, type: 103, name: '寻物启事'},
+    //  {index: 3, type: 104, name: '帮忙看看'}
+    //);
+    this.subTaskArray = this.subTaskArray = buildSubTaskTypeArray(taskUtils,taskDesc,1);
     this.taskTypeName = "情报侠";
     this.deadline = null;
     this.startTime = null;
@@ -423,8 +448,9 @@
 
   }
 
-  jiebaoPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', '$ionicPopup', '$cordovaDatePicker', 'taskPublishModalService', 'taskNetService'];
-  function jiebaoPublishControllerFn($scope, $log, $ionicModal, $ionicPopup, $cordovaDatePicker, taskPublishModalService, taskNetService) {
+  jiebaoPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', '$ionicPopup', '$cordovaDatePicker',
+    'taskPublishModalService', 'taskNetService','taskUtils','taskDesc'];
+  function jiebaoPublishControllerFn($scope, $log, $ionicModal, $ionicPopup, $cordovaDatePicker, taskPublishModalService, taskNetService,taskUtils,taskDesc) {
     var _ctlSelf = this;
     this.closeModal = function () {
       var publishModal = taskPublishModalService.getJiebaoModal();
@@ -432,10 +458,11 @@
       cleanTaskControllerStatus(_ctlSelf);
     }
 
-    this.subTaskArray = new Array(
-      {index: 0, type: 201, name: '借资料书籍'}, {index: 1, type: 202, name: '借运动用品'}, {index: 2, type: 203, name: '借生活工具'},
-      {index: 3, type: 204, name: '借娱乐物件'}
-    );
+    //this.subTaskArray = new Array(
+    //  {index: 0, type: 201, name: '借资料书籍'}, {index: 1, type: 202, name: '借运动用品'}, {index: 2, type: 203, name: '借生活工具'},
+    //  {index: 3, type: 204, name: '借娱乐物件'}
+    //);
+    this.subTaskArray = this.subTaskArray = buildSubTaskTypeArray(taskUtils,taskDesc,2);
     this.taskTypeName = "借宝侠";
     this.deadline = null;
     this.startTime = null;

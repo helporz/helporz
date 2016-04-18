@@ -3,6 +3,11 @@
     background-color: #f0f0f0;
   }
 
+  .select-subtype .item {
+    padding: 0 16px;
+    margin: 0;
+  }
+
   .select-subtype  .no-border,.list{
     border:none;
     background-color: #f0f0f0;
@@ -13,10 +18,10 @@
   }
 
   .select-subtype-header > h1 {
-    margin-top: 10px;
+    margin-top: 0.5em;
     text-align: center;
     color:cornflowerblue;
-    font-size: 2em;
+    font-size: 1.5em;
   }
 
   .select-subtype-header > p {
@@ -31,6 +36,7 @@
   .select-subtype button {
     border-radius: 4px;
     color:white;
+    height:3em;
   }
   .select-subtype  .pop-button {
     background-color: cornflowerblue;
@@ -47,10 +53,10 @@
   </div>
 
   <ion-item ng-repeat="subType in subTypeList" class="no-border">
-    <button class="button button-full pop-button" ng-click="selectedSubType(subType.index)"> {{subType.name}}</button>
+    <button class="button button-small button-full pop-button" ng-click="selectedSubType(subType.index)"> {{subType.name}}</button>
   </ion-item>
 
   <ion-item class="no-border">
-    <button class="button button-full cancel" ng-click="cancel()">取消</button>
+    <button class="button button-small button-full cancel" ng-click="cancel()">取消</button>
   </ion-item>
 </ion-list>

@@ -1,6 +1,10 @@
 <ion-modal-view ng-controller="qingbaoPublishController as ctl">
   <style type="text/css">
-    .group-wrapper {
+    .task-publish-default {
+      background-color:#efeff4
+    }
+
+    .task-group-wrapper {
       -webkit-box-align: center;
       -ms-flex-align: center;
       -webkit-align-items: center;
@@ -9,29 +13,49 @@
       -webkit-border-radius: 4px;
       background: #fff;
       margin-bottom: 10px;
+
     }
 
-    .group-wrapper > .no-border {
+    .task-group-wrapper .no-border {
       border-style: none;
     }
 
-    .group-item {
-      /*margin-left: 10px;*/
-      /*margin-right: 10px;*/
+    .task-group-wrapper .left-align {
+      margin-left: 5%;
+    }
+    .task-group-wrapper .group-item {
+      display: -webkit-flex; /* Safari */
+      display: flex;
       border-color: #ddd;
       background-color: #fff;
       color: #444;
-      position: relative;
       z-index: 2;
-      display: block;
-      /*margin: -1px;*/
       padding: 2px;
-      border-width: 1px;
-      border-style: solid;
-      font-size: 16px;
+      font-size: 0.8em;
+      /*height:3em;*/
     }
 
-    .group-item-input {
+    /*.task-group-wrapper .group-item > *{*/
+    /*display: -webkit-box;*/
+    /*display: -webkit-flex;*/
+    /*display: -moz-box;*/
+    /*display: -moz-flex;*/
+    /*display: -ms-flexbox;*/
+    /*display: flex;*/
+    /*-webkit-box-align: center;*/
+    /*-ms-flex-align: center;*/
+    /*-webkit-align-items: center;*/
+    /*-moz-align-items: center;*/
+    /*align-items: center;*/
+    /*font-size: 0.8em;*/
+    /*}*/
+
+    .task-group-wrapper .group-item > * {
+      align-items: center;
+      font-size: 0.8em;
+    }
+
+    .task-group-wrapper .group-item-input {
       display: -webkit-box;
       display: -webkit-flex;
       display: -moz-box;
@@ -45,10 +69,9 @@
       align-items: center;
       position: relative;
       overflow: hidden;
-      /*padding: 6px 0 5px 16px;*/
     }
 
-    .group-item-input input {
+    .task-group-wrapper .group-item-input input,p,a {
       -webkit-border-radius: 0;
       border-radius: 0;
       -webkit-box-flex: 1;
@@ -62,121 +85,123 @@
       appearance: none;
       margin: 0;
       padding-right: 24px;
+      padding-left: 5px;
       background-color: transparent;
+      height:2em;
     }
 
-    .group-item .icon {
-      max-width: 10px;
-      max-height: 15px;
-      margin-left: -10px;
-      margin-right: 10px;
+    .task-group-wrapper .group-item .icon {
+      max-width: 20px;
+      max-height: 30px;
     }
 
-    .group-item .logo {
-      /*max-width: 40px;*/
-      /*max-height: 40px;*/
-      margin-left: -10px;
-      margin-right: 10px;
-    }
-
-    /*.login-page .button-login {*/
-    /*background-color: #F9E9AD;*/
-    /*border-radius: 4px;*/
-    /*color: #F55E5E;*/
-    /*}*/
-
-    .group-item > .no-border {
+    .task-group-wrapper .group-item > .no-border {
       border-style: none;
     }
 
-    .group-item:after {
-      /*margin-bottom: 2px;*/
-    }
-
-    .split {
+    .task-group-wrapper .split {
       border-bottom: 1px solid #ddd;
       margin-top: 2px;
       margin-bottom: 2px;
     }
 
-    .high-light {
-      background-color: #ffc900;
+    .task-group-wrapper .high-light {
+      background-color: #ffedea;
     }
+
+    .task-group-wrapper .button-default {
+      background-color: #f5f5f5;
+    }
+
+    .task-group-wrapper .button {
+      border-radius: 30px;
+      margin: 4px;
+      text-align: center;
+    }
+
+    .task-publish-default .button-full {
+      border-radius: 10px;
+      background-color: #e6e6e6;
+    }
+
   </style>
 
-  <ion-header-bar align-title="center" class="bar-dark" style="background-color:#ff492f">
+  <ion-header-bar align-title="center" class="bar-dark task-publish-default" style="background-color:#ff492f">
     <div class="buttons">
       <a class="button" style="background-color:#ff492f" ng-click="ctl.closeModal()">取消
       </a>
     </div>
     <div class="title col-center">发布</div>
   </ion-header-bar>
-  <ion-content class="" overflow-scroll="true" style="overflow: hidden;background-color:#efeff4">
-    <div class="group-wrapper">
-      <div class="row group-item group-item-input no-border">
+  <ion-content class="" overflow-scroll="false" style="overflow: hidden;background-color:#efeff4">
+    <div class="task-group-wrapper">
+      <div class="row group-item group-item-input no-border left-align">
         <img class="logo col col-10" src="./img/task/publish/shaodai-logo.png"/>
 
-        <p class="col col-20">{{ctl.taskTypeName}}</p>
+        <div class="col col-20" style="height:100%">{{ctl.taskTypeName}}</div>
 
-        <button class="col col-40 button" style="background-color: #EE5757; color: #ffffff;"
+        <button class="col col-33 button button-small icon-right ion-chevron-down" style="background-color: #ffeceb; color: #f78058;"
                 ng-click="ctl.selectSubTaskType()" value="{{ctl.selectedSubTask.type}}">
           {{ctl.selectedSubTask.name}}
         </button>
       </div>
 
-      <div class="split"></div>
+      <div class="left-align split"></div>
 
-      <div class="row">
-        <label class=" item item-input" style="border:none;width:100%">
-          <textarea placeholder="Comments" style="border:none; width: 100%;height:100px"  ng-model="ctl.summary"/></textarea>
-        </label>
+      <div class="row group-item group-item-input no-border left-align">
+        <textarea placeholder="{{ctl.selectedSubTask.holder}}" style="border:none; width: 100%;height:5em"  ng-model="ctl.summary"/></textarea>
       </div>
 
-      <div class="split"></div>
+      <div class="left-align  split"></div>
 
-      <div class="row group-item group-item-input no-border">
-        <img class="icon" src="./img/login/phone.png"/>
-        <input class="col-80" type="text" placeholder="" ng-model="ctl.pubLocation"/>
+      <div class="row group-item group-item-input no-border left-align">
+        <!--<img class="icon" src="./img/login/phone.png"/>-->
+        <div class="icon ion-ios-location" />
+        <input class="col-80" type="text" placeholder="你希望对方在哪里与你碰头" ng-model="ctl.pubLocation"/>
       </div>
 
-      <div class="split"></div>
+      <div class="left-align  split"></div>
 
-      <div class="row group-item group-item-input no-border">
-        <img class="icon" src="./img/login/phone.png"/>
-        <input class="col-80" type="text" placeholder="请输入截止时间" ng-model="ctl.deadline|date:'MM月dd日 HH:mm'"  ng-click="ctl.setDeadline()"/>
+      <div class="row group-item group-item-input no-border left-align">
+        <!--<img class="icon" src="./img/login/phone.png"/>-->
+        <div class="icon ion-clock" />
+        <input class="col-80" type="text" placeholder="什么时候要" ng-model="ctl.deadline|date:'MM月dd日 HH:mm'"  ng-click="ctl.setDeadline()"/>
       </div>
 
     </div>
 
 
-    <div class="group-wrapper">
-      <p>感谢方式</p>
+    <div class="task-group-wrapper">
+      <div class="left-align row" style="height:1.8em">
+        <div class="col-center" style="text-align: left; font-size: 1em ">感谢方式</div>
+      </div>
 
-      <div class="split"></div>
-      <div class="row group-item group-item-input no-border">
-        <p class="col col-20">请客</p>
-        <a class="col col-25 button"
+
+      <div class="split left-align"></div>
+      <div class="row group-item group-item-input no-border left-align">
+        <p class="col col-20 ">请客</p>
+        <a class="col col-20 button"
            ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '1' && ctl.selectedSubRewardType == '1']"
            ng-click="ctl.setRewardType(1,1)">一杯饮料</a>
-        <a class="col col-25 button"
+        <a class="col col-20 button"
            ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '1' && ctl.selectedSubRewardType == '2']"
            ng-click="ctl.setRewardType(1,2)">一份零食</a>
-        <a class="col col-25 button"
+        <a class="col col-20 button"
            ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '1' && ctl.selectedSubRewardType == '3']"
            ng-click="ctl.setRewardType(1,3)">一个水果</a>
       </div>
-      <div class="row group-item group-item-input no-border">
+      <div class="row group-item group-item-input no-border left-align">
         <p class="col col-20">人情卡</p>
-        <a class="col col-35 button"
-           ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '2' && ctl.selectedSubRewardType == '1']"
-           ng-click="ctl.setRewardType(2,1)">欠一份人情</a>
-        <a class="col col-35 button"
-           ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '2' && ctl.selectedSubRewardType == '2']"
-           ng-click="ctl.setRewardType(2,2)">欠一份大人情</a>
+        <button class="col col-33 button" style="text-align: center"
+                ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '2' && ctl.selectedSubRewardType == '1']"
+                ng-click="ctl.setRewardType(2,1)">欠一份人情</button>
+        <button class="col col-33 button"
+                ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '2' && ctl.selectedSubRewardType == '2']"
+                ng-click="ctl.setRewardType(2,2)">欠一份大人情</button>
       </div>
     </div>
 
-    <div class="row">
+    <div class="row task-publish-default">
       <button class="button button-full" ng-click="ctl.publish()">
         发布
       </button>
