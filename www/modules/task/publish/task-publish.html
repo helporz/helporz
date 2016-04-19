@@ -1,4 +1,4 @@
-<ion-modal-view ng-controller="shaodaiPublishController as ctl">
+<ion-modal-view ng-controller="taskPublishController as ctl">
 
   <ion-header-bar align-title="center" class="bar-dark task-publish-default color-header">
     <div class="buttons">
@@ -10,20 +10,20 @@
   <ion-content class="color-task-publish" overflow-scroll="false" style="overflow: hidden;">
     <div class="task-group-wrapper">
       <div class="row group-item group-item-input no-border left-align">
-        <img class="logo col col-10" src="./img/task/publish/shaodai-logo.png"/>
+        <img class="logo col col-10" ng-src="{{taskLogo}}"/>
 
-        <div class="col col-20">{{ctl.taskTypeName}}</div>
+        <div class="col col-20">{{publishTaskTypeName}}</div>
 
         <button class="col col-33 button button-small icon-right ion-chevron-down button-select-subtype"
-                ng-click="ctl.selectSubTaskType()" value="{{ctl.selectedSubTask.type}}">
-          {{ctl.selectedSubTask.name}}
+                ng-click="ctl.selectSubTaskType()" value="{{selectedSubTask.type}}">
+          {{selectedSubTask.name}}
         </button>
       </div>
 
       <div class="left-align split"></div>
 
       <div class="row group-item group-item-input no-border left-align">
-          <textarea placeholder="{{ctl.selectedSubTask.holder}}"  ng-model="ctl.summary"/></textarea>
+          <textarea placeholder="{{selectedSubTask.holder}}"  ng-model="ctl.summary"/></textarea>
       </div>
 
       <div class="left-align  split"></div>
@@ -34,12 +34,19 @@
         <input class="col-80" type="text" placeholder="你希望对方在哪里与你碰头" ng-model="ctl.pubLocation"/>
       </div>
 
+      <div class="left-align  split" ng-show="taskTypeIndex == 2"></div>
+
+      <div class="row group-item group-item-input no-border left-align" ng-show="taskTypeIndex == 2">
+        <div class="icon ion-clock" />
+        <input class="col-80" type="text" placeholder="请输入开始时间" ng-model="ctl.startTime"  ng-click="ctl.setStartTime()"/>
+      </div>
+
       <div class="left-align  split"></div>
 
       <div class="row group-item group-item-input no-border left-align">
         <!--<img class="icon" src="./img/login/phone.png"/>-->
         <div class="icon ion-clock" />
-        <input class="col-80" type="text" placeholder="什么时候要" ng-model="ctl.deadline|date:'MM月dd日 HH:mm'"  ng-click="ctl.setDeadline()"/>
+        <input class="col-80" type="text" placeholder="请输入截止时间" ng-model="ctl.deadline"  ng-click="ctl.setDeadline()"/>
       </div>
 
     </div>
@@ -53,23 +60,23 @@
 
       <div class="split left-align"></div>
       <div class="row group-item group-item-input no-border left-align">
-        <p class="col col-20 ">请客</p>
-        <a class="col col-20 button"
+        <div class="col col-20 ">请客</div>
+        <button class="col col-20 button button-small"
            ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '1' && ctl.selectedSubRewardType == '1']"
-           ng-click="ctl.setRewardType(1,1)">一杯饮料</a>
-        <a class="col col-20 button"
+           ng-click="ctl.setRewardType(1,1)">一杯饮料</button>
+        <button class="col col-20 button button-small"
            ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '1' && ctl.selectedSubRewardType == '2']"
-           ng-click="ctl.setRewardType(1,2)">一份零食</a>
-        <a class="col col-20 button"
+           ng-click="ctl.setRewardType(1,2)">一份零食</button>
+        <button class="col col-20 button button-small"
            ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '1' && ctl.selectedSubRewardType == '3']"
-           ng-click="ctl.setRewardType(1,3)">一个水果</a>
+           ng-click="ctl.setRewardType(1,3)">一个水果</button>
       </div>
       <div class="row group-item group-item-input no-border left-align">
-        <p class="col col-20">人情卡</p>
-        <button class="col col-33 button" style="text-align: center"
+        <div class="col col-20">人情卡</div>
+        <button class="col col-33 button button-small"
            ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '2' && ctl.selectedSubRewardType == '1']"
            ng-click="ctl.setRewardType(2,1)">欠一份人情</button>
-        <button class="col col-33 button"
+        <button class="col col-33 button button-small"
            ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '2' && ctl.selectedSubRewardType == '2']"
            ng-click="ctl.setRewardType(2,2)">欠一份大人情</button>
       </div>
