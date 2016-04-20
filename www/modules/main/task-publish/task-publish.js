@@ -48,21 +48,21 @@
       'publish-list',
       {
         url: '/task/publish/list',
-        templateUrl: 'modules/task/publish/test-list.html',
+        templateUrl: 'modules/main/task-publish/test-list.html',
         controller: 'testTaskPublishController'
       })
       .state(
       'task-publish',
       {
         url: '/task/publish/post',
-        templateUrl: 'modules/task/publish/task-publish.html',
+        templateUrl: 'modules/main/task-publish/task-publish.html',
         controller: 'taskPublishController'
       });
   }
 
   testTaskPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', '$ionicPopup', 'taskPublishModalService'];
   function testTaskPublishControllerFn($scope, $log, $ionicModal, $ionicPopup, taskPublishModalService) {
-    $ionicModal.fromTemplateUrl('modules/task/publish/modal-list.html', {
+    $ionicModal.fromTemplateUrl('modules/main/task-publish/modal-list.html', {
       scope: $scope,
       animation: "slide-in-up"
     }).then(function (modal) {
@@ -79,7 +79,7 @@
   function taskPublishListControllerFn($scope, $log, $ionicModal, taskPublishModalService, taskUtils, taskDesc) {
 
 
-    $ionicModal.fromTemplateUrl('modules/task/publish/task-publish.html', {
+    $ionicModal.fromTemplateUrl('modules/main/task-publish/task-publish.html', {
       scope: $scope,
       animation: "slide-in-up"
     }).then(function (modal) {
