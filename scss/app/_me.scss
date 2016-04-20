@@ -1,0 +1,90 @@
+// me page
+
+.me {
+
+  .nav {
+    position: fixed;
+    top: 0px;
+    z-index: 999;
+    padding: 20px 20px;
+
+    .button {
+      color: #ffffff;
+    }
+
+    .name {
+      margin-bottom: 0;
+      font-size: 17px;
+    }
+  }
+
+  .back-img {
+    //background-image:  url(../img/main/me/wo-zi-bg@2x.png) no-repeat 0 5px scroll;
+    background-image: url(../img/main/me/wo-zi-bg@2x.png);
+    //float: top;
+    position: fixed;
+    //top: -80px;
+    width: 100%;
+    height: 270px;
+    z-index: -999;
+  }
+
+  .mid {
+    padding-top: 84px;
+    .left {
+      margin-left: 17%;
+    }
+    .avatar {
+      width: 70px;
+      height: 70px;
+      border-radius: 35px;
+      border-style: solid;
+      border-width: 1px;
+      border-color: #fff;
+    }
+    .side-icon {
+      color: #fff;
+      transform-origin: center;
+      -webkit-transform-origin: center;
+      transform: scale(2);
+      -webkit-transform: scale(2);
+    }
+  }
+
+  .sign {
+    padding-top: 10px;
+    font-size: 15px;
+    color: #fff;
+  }
+
+  .tab-container {
+    top: 160px;
+  }
+
+  // FIXME: 这里是设置到中间生成的一个el上,效果是反复试出来的(不明觉厉)
+  .tab-nav {
+    position: relative;
+  }
+  ion-tabs {
+    display: block;
+  }
+  .tab-item {
+    max-width: 50%;
+    &.tab-item-active {
+      border-color: $theme-color;
+      border-bottom-width: 4px;
+    }
+    span {
+      font-size: 17px;
+    }
+  }
+  //]]
+
+  //////////////////////////////////////////////////
+  // self tab page
+  .tab-panel {
+    background: white !important;
+  }
+
+
+}

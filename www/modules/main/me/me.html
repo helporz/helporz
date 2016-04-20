@@ -1,105 +1,54 @@
-<style>
-  #copyright {
-    margin: 20px 0 10px;
-    text-align: center;
-    color: #aaa;
-    text-shadow: 0 1px 0 #fff;
-  }
-</style>
+<ion-view hide-nav-bar="true" class="me">
+  <div class="nav row">
+    <!--<div class="col-20 col-center text-center">-->
+    <!--<button class="button button-icon icon ion-share"></button>-->
+    <!--</div>-->
+    <!--<div class="col-offset-10 col-40 col-center text-center">-->
+    <!--<p class="name color-white">xi匿名</p>-->
+    <!--</div>-->
+    <!--<div class="col-offset-10 col-20 text-center">-->
+    <!--<button class="button button-icon icon ion-share right"></button>-->
+    <!--</div>-->
 
-<ion-view view-title="我">
-  <ion-content class="setting">
+    <button class="col-20 button button-icon icon ion-share" ng-click="vm.edit()"></button>
+    <p class="col-offset-10 col-40 col-center text-center name color-white">点到泥巴了</p>
+    <button class="col-offset-10 col-20 button button-icon icon ion-share"></button>
+  </div>
 
-
-
-    <ion-list>
-      <ion-item class="item-divider item-gap">
-      </ion-item>
-
-      <!--<ion-item class="login" on-hold="onHoldLogin()" ng-click="login()" ng-if="!loginName">-->
-
-        <!--<img src="img/commentfailure.png" class="avatar">-->
-        <!--<br>-->
-        <!--<br>-->
-
-        <!--<p ng-if="!processing">立即登录</p>-->
-        <!--<ion-spinner icon="ripple" ng-if="processing"></ion-spinner>-->
-      <!--</ion-item>-->
-
-      <!--<ion-item class="item-avatar item-icon-right" ng-if="loginName" href="#/tab/my/personal">-->
+  <ion-content>
+    <div class="back-img" scale-top-bg></div>
 
 
-        <!--<img ng-src="{{currentUser.avatar_url|avatarFilter}}" reset-img>-->
-        <!--<h2>{{loginName}}</h2>-->
-        <!--<p>积分：{{currentUser.score}}</p>-->
-        <!--&lt;!&ndash; <i class="icon ion-ios-arrow-right"></i> &ndash;&gt;-->
-        <!--<i class="icon ion-chevron-right icon-accessory"></i>-->
-
-      <!--</ion-item>-->
-
-
-
-      <div class="button-bar bar-light">
-
-        <a class="button  icon-left" ng-click=""><i class="icon ion-android-star-outline"></i> 收藏</a>
-        <a class="button  icon-left" ng-click=""><i class="icon ion-email"></i> 消息
-          <!--<span ng-if="messagesCount" class="badge badge-assertive messagesCount">-->
-            <!--{{messagesCount > 9 ? 'N' : messagesCount}}-->
-          <!--</span>-->
-        </a>
+    <div class="row mid">
+      <div class="col-20 left text-center col-center">
+        <button class="side-icon button button-icon ion-android-person-add"></button>
       </div>
-
-      <ion-item class="item-divider item-gap">
-      </ion-item>
-
-      <!-- <ion-toggle ng-model="settings.showAvatar" ng-change="settingsChange()">
-        显示头像
-      </ion-toggle> -->
-      <ion-toggle ng-model="" ng-change="">
-        显示消息后缀
-      </ion-toggle>
-
-      <!--   <ion-item class="item-toggle">
-      仅在Wi-Fi下显示头像
-      <label class="toggle toggle-positive">
-        <input type="checkbox" ng-checked="settings.saverMode" ng-model="settings.saverMode">
-        <div class="track">
-          <div class="handle"></div>
-        </div>
-      </label>
-    </ion-item>
-      <div class="item">
-        <pre ng-bind="settings.saverMode | json"></pre>
-        {{settings}}
-      </div>-->
-      <ion-item class="item-divider">
-        关于
-      </ion-item>
-      <ion-item>
-        当前版本
-        <span class="item-note">
-          1.0
-        </span>
-      </ion-item>
-      <ion-item ng-click="">
-        意见反馈
-        <span class="item-note">
-          Email:v@ionichina.com
-        </span>
-      </ion-item>
-      <ion-item onclick="window.open('itms-apps://itunes.apple.com/app/id996999423', '_system')" ng-if="platform.isIOS()">
-        评分鼓励
-      </ion-item>
-      <ion-item onclick="window.open('http://donghongfei.com', '_blank', 'location=yes')">
-        关于作者
-      </ion-item>
-      <ion-item onclick="window.open('http://ionichina.com/about', '_blank', 'location=yes')">
-        关于Ionichina社区
-      </ion-item>
-    </ion-list>
-    <div id="copyright">
-      &copy; {{now | date:'yyyy'}} 小学生·董宏飞
-
+      <div class="col-25 text-center">
+        <img class="avatar" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g"
+             reset-img>
+      </div>
+      <!--<button class="col-20 right button button-icon ion-chatbubble-working"></button>-->
+      <div class="col-20 text-center col-center">
+        <i class="side-icon button button-icon ion-chatbubble-working" ng-click=""></i>
+      </div>
     </div>
+
+    <p class="sign text-center">我的征途是星辰大海</p>
+
+    <ion-tabs class="tabs-striped padding-top">
+      <!--<ion-tab title="自己" href="#/main/me/self" on-select="vm.onSelect(0)">-->
+      <ion-tab title="自己" href="#/main/me/self">
+
+        <ui-view style="position:relative;display:block" class="mid-nav-view" name="self" tab-logic></ui-view>
+
+      </ion-tab>
+      <ion-tab title="伙伴" href="#/main/me/friend">
+
+        <ui-view style="position:relative;display:block" name="friend" tab-logic></ui-view>
+
+      </ion-tab>
+    </ion-tabs>
+
+
   </ion-content>
 </ion-view>

@@ -44,29 +44,9 @@
   padding: 0 !important; }
 
 .bottom-bordered {
-  border-style: solid;
+  border-style: solid !important;
   border-bottom-width: 5px !important;
   border-bottom-color: #eeeeee !important; }
-
-.topics-old .item-content {
-  padding: 14px 16px 18px 72px; }
-  .topics-old .item-content > img:not(:first-child) {
-    -webkit-transform: translate3d(-2000px, -2000px, 0px);
-    position: absolute; }
-.topics-old .activated .tab:not(.hl) {
-  background-color: #aeaeae;
-  color: #fff; }
-.topics-old .ago,
-.topics-old .summary {
-  font-size: 12px; }
-.topics-old .tab {
-  background-color: #E5E5E5;
-  color: #999;
-  border-radius: 2px;
-  padding: 2px 4px; }
-.topics-old .hl {
-  background-color: #80bd01;
-  color: #fff; }
 
 .topics {
   padding: 0; }
@@ -119,11 +99,11 @@
     padding-left: 3px; }
   .topics .content-right .summary-panel .thank {
     display: inline;
-    color: #F74848; }
+    color: #EF7151; }
   .topics .content-right .summary-panel .thank-what {
     display: inline;
     color: #fff;
-    background-color: #F74848; }
+    background-color: #EF7151; }
   .topics .content-right .bottom-panel .count {
     display: inline-block;
     padding: 5px 30px 1px 5px;
@@ -137,5 +117,58 @@
     width: 400px;
     height: 1px;
     background-color: #eeeeee; }
+
+.me .nav {
+  position: fixed;
+  top: 0px;
+  z-index: 999;
+  padding: 20px 20px; }
+  .me .nav .button {
+    color: #ffffff; }
+  .me .nav .name {
+    margin-bottom: 0;
+    font-size: 17px; }
+.me .back-img {
+  background-image: url(../img/main/me/wo-zi-bg@2x.png);
+  position: fixed;
+  width: 100%;
+  height: 270px;
+  z-index: -999; }
+.me .mid {
+  padding-top: 84px; }
+  .me .mid .left {
+    margin-left: 17%; }
+  .me .mid .avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #fff; }
+  .me .mid .side-icon {
+    color: #fff;
+    transform-origin: center;
+    -webkit-transform-origin: center;
+    transform: scale(2);
+    -webkit-transform: scale(2); }
+.me .sign {
+  padding-top: 10px;
+  font-size: 15px;
+  color: #fff; }
+.me .tab-container {
+  top: 160px; }
+.me .tab-nav {
+  position: relative; }
+.me ion-tabs {
+  display: block; }
+.me .tab-item {
+  max-width: 50%; }
+  .me .tab-item.tab-item-active {
+    border-color: #EF7151;
+    border-bottom-width: 4px; }
+  .me .tab-item span {
+    font-size: 17px; }
+.me .tab-panel {
+  background: white !important; }
 
 /*# sourceMappingURL=app.css.map */
