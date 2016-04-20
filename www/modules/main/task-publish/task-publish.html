@@ -1,0 +1,91 @@
+<ion-modal-view ng-controller="taskPublishController as ctl">
+
+  <ion-header-bar align-title="center" class="bar-dark task-publish-default color-header">
+    <div class="buttons">
+      <a class="button" style="background-color:#ff492f" ng-click="ctl.closeModal()">取消
+      </a>
+    </div>
+    <div class="title col-center">发布</div>
+  </ion-header-bar>
+  <ion-content class="color-task-publish" overflow-scroll="false" style="overflow: hidden;">
+    <div class="task-group-wrapper">
+      <div class="row group-item group-item-input no-border left-align">
+        <img class="logo col col-10" ng-src="{{taskLogo}}"/>
+
+        <div class="col col-20">{{publishTaskTypeName}}</div>
+
+        <button class="col col-33 button button-small icon-right ion-chevron-down button-select-subtype"
+                ng-click="ctl.selectSubTaskType()" value="{{selectedSubTask.type}}">
+          {{selectedSubTask.name}}
+        </button>
+      </div>
+
+      <div class="left-align split"></div>
+
+      <div class="row group-item group-item-input no-border left-align">
+          <textarea placeholder="{{selectedSubTask.holder}}"  ng-model="ctl.summary"/></textarea>
+      </div>
+
+      <div class="left-align  split"></div>
+
+      <div class="row group-item group-item-input no-border left-align">
+        <!--<img class="icon" src="./img/login/phone.png"/>-->
+        <div class="icon ion-ios-location" />
+        <input class="col-80" type="text" placeholder="你希望对方在哪里与你碰头" ng-model="ctl.pubLocation"/>
+      </div>
+
+      <div class="left-align  split" ng-show="taskTypeIndex == 2"></div>
+
+      <div class="row group-item group-item-input no-border left-align" ng-show="taskTypeIndex == 2">
+        <div class="icon ion-clock" />
+        <input class="col-80" type="text" placeholder="请输入开始时间" ng-model="ctl.startTimeShow"  ng-click="ctl.setStartTime()"/>
+      </div>
+
+      <div class="left-align  split"></div>
+
+      <div class="row group-item group-item-input no-border left-align">
+        <!--<img class="icon" src="./img/login/phone.png"/>-->
+        <div class="icon ion-clock" />
+        <input class="col-80" type="text" placeholder="请输入截止时间" ng-model="ctl.deadlineShow"  ng-click="ctl.setDeadline()"/>
+      </div>
+
+    </div>
+
+
+    <div class="task-group-wrapper">
+      <div class="left-align row reward-header">
+        <div class="col-center">感谢方式</div>
+      </div>
+
+
+      <div class="split left-align"></div>
+      <div class="row group-item group-item-input no-border left-align">
+        <div class="col col-20 ">请客</div>
+        <button class="col col-20 button button-small"
+           ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '1' && ctl.selectedSubRewardType == '1']"
+           ng-click="ctl.setRewardType(1,1)">一杯饮料</button>
+        <button class="col col-20 button button-small"
+           ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '1' && ctl.selectedSubRewardType == '2']"
+           ng-click="ctl.setRewardType(1,2)">一份零食</button>
+        <button class="col col-20 button button-small"
+           ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '1' && ctl.selectedSubRewardType == '3']"
+           ng-click="ctl.setRewardType(1,3)">一个水果</button>
+      </div>
+      <div class="row group-item group-item-input no-border left-align">
+        <div class="col col-20">人情卡</div>
+        <button class="col col-33 button button-small"
+           ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '2' && ctl.selectedSubRewardType == '1']"
+           ng-click="ctl.setRewardType(2,1)">欠一份人情</button>
+        <button class="col col-33 button button-small"
+           ng-class="{true:'high-light',false:''}[ctl.selectedRewardType == '2' && ctl.selectedSubRewardType == '2']"
+           ng-click="ctl.setRewardType(2,2)">欠一份大人情</button>
+      </div>
+    </div>
+
+    <div class="row task-publish-default">
+      <button class="button button-full" ng-click="ctl.publish()">
+        发布
+      </button>
+    </div>
+  </ion-content>
+</ion-modal-view>
