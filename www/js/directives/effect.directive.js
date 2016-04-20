@@ -35,7 +35,7 @@
 
         ionic.onGesture('scroll', function (data) {
             //console.log('scroll.....' + data.detail.scrollTop);
-            if (data.detail.scrollTop > 0) {
+            if (angular.isDefined(data.detail.scrollTop) && data.detail.scrollTop > 0) {
             } else {
               var rate = 1 + (-data.detail.scrollTop / h);
               element.css({

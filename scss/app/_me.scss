@@ -73,6 +73,8 @@
     &.tab-item-active {
       border-color: $theme-color;
       border-bottom-width: 4px;
+      border-top-width: 0;
+      margin-top: 0;
     }
     span {
       font-size: 17px;
