@@ -15,7 +15,7 @@
     <button class="col-offset-10 col-20 button button-icon icon ion-share"></button>
   </div>
 
-  <ion-content>
+  <ion-content delegate-handle="meScroll">
     <div class="back-img" scale-top-bg></div>
 
 
@@ -37,12 +37,12 @@
 
     <ion-tabs class="tabs-striped padding-top">
       <!--<ion-tab title="自己" href="#/main/me/self" on-select="vm.onSelect(0)">-->
-      <ion-tab title="自己" href="#/main/me/self">
+      <ion-tab title="自己" href="#/main/me/self" ng-click="vm.onChangeTab('main.me.self')">
 
-        <ui-view style="position:relative;display:block" class="mid-nav-view" name="self" tab-logic></ui-view>
+        <ui-view style="position:relative;display:block" class="mid-nav-view" name="self" tab-logic ></ui-view>
 
       </ion-tab>
-      <ion-tab title="伙伴" href="#/main/me/friend">
+      <ion-tab title="伙伴" href="#/main/me/friend" ng-click="vm.onChangeTab('main.me.friend')">
 
         <ui-view style="position:relative;display:block" name="friend" tab-logic></ui-view>
 
