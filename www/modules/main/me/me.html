@@ -35,20 +35,119 @@
 
     <p class="sign text-center">我的征途是星辰大海</p>
 
-    <ion-tabs class="tabs-striped padding-top">
-      <!--<ion-tab title="自己" href="#/main/me/self" on-select="vm.onSelect(0)">-->
-      <ion-tab title="自己" href="#/main/me/self" ng-click="vm.onChangeTab('main.me.self')">
+    <!--<ion-tabs class="tabs-striped padding-top">-->
+    <!--&lt;!&ndash;<ion-tab title="自己" href="#/main/me/self" on-select="vm.onSelect(0)">&ndash;&gt;-->
+    <!--<ion-tab title="自己" href="#/main/me/self" ng-click="vm.onChangeTab('main.me.self')">-->
 
-        <ui-view style="position:relative;display:block" class="mid-nav-view" name="self" tab-logic ></ui-view>
+    <!--<ui-view style="position:relative;display:block" class="mid-nav-view" name="self" tab-logic ></ui-view>-->
 
+    <!--</ion-tab>-->
+    <!--<ion-tab title="伙伴" href="#/main/me/friend" ng-click="vm.onChangeTab('main.me.friend')">-->
+
+    <!--<ui-view style="position:relative;display:block" name="friend" tab-logic></ui-view>-->
+
+    <!--</ion-tab>-->
+    <!--</ion-tabs>-->
+
+
+    <!--//////////////////////////////////////////////////-->
+
+    <!--<ion-tabs class="tabs-striped padding-top"  ng-init="vm.activeTab=1">-->
+    <!--&lt;!&ndash;<ion-tab title="自己" href="#/main/me/self" on-select="vm.onSelect(0)">&ndash;&gt;-->
+    <!--<ion-tab title="自己" ng-class="{active:vm.activeTab==1}" ng-click="vm.onChangeTab(1)" tab-simple>-->
+    <!--</ion-tab>-->
+    <!--<ion-tab title="伙伴" ng-class="{active:vm.activeTab==2}" ng-click="vm.onChangeTab(2)" active-tab="vm.activeTab" tab-simple>-->
+    <!--</ion-tab>-->
+    <!--</ion-tabs>-->
+
+    <!--<div class="tab-content tab-bordered">-->
+    <!--<div class="tab-panel" ng-show="vm.activeTab == 1">-->
+    <!--标签1的内容-->
+    <!--<p>122233</p>-->
+    <!--<button class="col-offset-10 col-20 button button-icon icon ion-share"></button>-->
+    <!--<p>tab 1 content<br>-->
+    <!--tab 1 content<br>-->
+    <!--tab 1 content<br>-->
+    <!--tab 1 content<br>-->
+    <!--tab 1 content<br>-->
+    <!--tab 1 content<br>-->
+    <!--tab 1 content<br>-->
+    <!--tab 1 content<br>-->
+    <!--tab 1 content<br>-->
+    <!--tab 1 content<br>-->
+    <!--tab 1 content<br>-->
+    <!--tab 1 content<br>-->
+    <!--tab 1 content<br>-->
+    <!--tab 1 content<br>-->
+    <!--tab 1 content<br>-->
+    <!--tab 1 content<br>-->
+    <!--tab 1 content<br>-->
+    <!--tab 1 content<br>-->
+    <!--tab 1 content<br>-->
+    <!--tab 1 content<br>-->
+    <!--tab 1 content<br>-->
+    <!--</p>-->
+    <!--<p>fjjjjj</p>-->
+    <!--</div>-->
+    <!--<div class="tab-panel" ng-show="vm.activeTab == 2">-->
+    <!--标签2的内容-->
+    <!--</div>-->
+    <!--</div>-->
+
+
+    <!--//////////////////////////////////////////////////-->
+
+    <ion-tabs class="tabs-striped padding-top" delegate-handle="meTabs">
+      <ion-tab title="自己" ng-click="vm.onChangeTab(0)" tab-simple tab-index="0">
       </ion-tab>
-      <ion-tab title="伙伴" href="#/main/me/friend" ng-click="vm.onChangeTab('main.me.friend')">
-
-        <ui-view style="position:relative;display:block" name="friend" tab-logic></ui-view>
-
+      <ion-tab title="伙伴" ng-click="vm.onChangeTab(1)" tab-simple tab-index="1">
       </ion-tab>
     </ion-tabs>
 
+    <div class="tab-panel">
+      <div class="self" ng-show="vm.activeTab == 0">
+        <ion-list class="ho-list">
+          <ion-item class="header-icon-title">
+            <i class="side-icon icon ion-person color-theme"></i>
+
+            <p class="title">个人动态</p>
+          </ion-item>
+
+          <ion-item class="ho-item">
+            <p class="title">声誉</p>
+            <five-stars value="vm.self.fiveStarsValue"></five-stars>
+          </ion-item>
+
+          <ion-item class="ho-item">
+            <p class="title">级别</p>
+            <!--<five-stars value="vm.self.fiveStarsValue"></five-stars>-->
+            <level-progress
+              has-exp="vm.self.hasExp"
+              total-exp="vm.self.totalExp"
+              level="vm.self.level"
+              ></level-progress>
+          </ion-item>
+          <ion-item class="ho-item">
+            <p class="title">物品</p>
+          </ion-item>
+          <ion-item class="ho-item">
+            <p class="title">访客</p>
+          </ion-item>
+          <ion-item class="ho-item">
+            <p class="title">级别</p>
+          </ion-item>
+
+          <ion-item class="header-icon-title">
+            <i class="side-icon icon ion-card color-olive-green"></i>
+
+            <p class="title">个人信息</p>
+          </ion-item>
+        </ion-list>
+      </div>
+      <div class="friend" ng-show="vm.activeTab == 1">
+        标签2的内容
+      </div>
+    </div>
 
   </ion-content>
 </ion-view>

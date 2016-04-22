@@ -1,0 +1,24 @@
+.five-stars {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+
+  //position: relative;
+  //display: inline-block;
+  //vertical-align: middle;
+
+  .star {
+    -webkit-transform-origin: left;
+    transform-origin: left;
+    padding-right: 15px;
+    transform: scale(1.5);
+    color: $theme-color;
+
+    //position: relative;
+    //float: left;
+  }
+
+}

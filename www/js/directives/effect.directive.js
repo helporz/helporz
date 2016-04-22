@@ -6,8 +6,9 @@
 
   'use strict'
 
-  angular.module('app.effect.directive', [])
+  angular.module('app.directives', [])
 
+    //lkj:
     .directive('scaleTopBg', function ($timeout, $document) {
 
       return function (scope, element, attr) {
@@ -17,20 +18,6 @@
           webkitTransformOrigin: 'top'
         });
 
-
-        //scope.parentTrans = (element.parent())[0]
-        //console.log('parent=' + scope.parentTrans.scrollHeight)
-
-        //$timeout(
-        //  function () {
-        //    scope.$apply(function () {
-        //      return scope.parentTrans.style.transform;
-        //    })
-        //  },
-        //  0
-        //)
-
-        //var w = element.prop('clientWidth');
         var h = element.prop('clientHeight');
 
         ionic.onGesture('scroll', function (data) {
@@ -61,5 +48,27 @@
       }
     }
   )
+
+    //lkj:
+    //用于ionTab内部不关联ion-nav-view的情况.
+    //ionTab在不绑定*-view时,计算出的class和css不匹配,所以这里加了个后处理directive,来修正
+    //note: 由于ionTab的标准用法关联ion-nav-view,使用ui-view替换也有不确定的地方,所以建议使用页内div,不进行路由跳转
+    .directive('tabSimple', function ($parse) {
+      return {
+        priority: 100,
+        link: function (scope, $element, $attrs) {
+          scope.$on('changeTab', function (ev, data) {
+            //ionTab在编译时动态增加兄弟节点,兄弟节点负责ui展示,这里找到兄弟节点,修改其class
+            var itemEl = $element.next().next();
+            if (parseInt($attrs.tabIndex) != data) {
+              itemEl.removeClass('tab-item-active');
+            } else {
+              itemEl.addClass('tab-item-active');
+            }
+          });
+        }
+      }
+
+    })
 })
 ()

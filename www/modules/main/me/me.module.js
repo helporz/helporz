@@ -7,9 +7,10 @@
 
   angular.module('main.me', [
     'ionic',
-    'app.effect.directive',
     'main.me.self',
-    'main.me.friend'
+    'main.me.friend',
+    'components.ui.fiveStars',
+    'components.ui.levelProgress'
   ])
     .config(config);
 
@@ -18,7 +19,15 @@
   function config($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
     $stateProvider
 
-      .state('main.me.self', {
+     .state('main.me.friend', {
+        url: '/friend',
+        views: {
+          'friend': {
+            templateUrl: 'modules/main/me/friend/friend.html',
+            controller: 'mainMeFriendCtrl'
+          }
+        }
+      })  .state('main.me.self', {
         url: '/self',
         views: {
           'self': {
@@ -27,15 +36,7 @@
           }
         }
       })
-      .state('main.me.friend', {
-        url: '/friend',
-        views: {
-          'friend': {
-            templateUrl: 'modules/main/me/friend/friend.html',
-            controller: 'mainMeFriendCtrl'
-          }
-        }
-      })
+
   }
 
 })()

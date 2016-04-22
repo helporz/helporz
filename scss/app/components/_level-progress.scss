@@ -1,0 +1,71 @@
+.level-progress {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 70%;
+  justify-content: space-between;
+  align-items: center;
+
+  .bg {
+    height: 10px;
+    width: 70%;
+    border-radius: 5px;
+    background-color: $page-bg-color;
+
+    .bar {
+      position: inherit;
+      border-radius: 5px;
+      background-color: $button-accept-bordercolor;
+      width: 50%;
+      height: 100%;
+      display: -webkit-flex;
+      display: flex;
+      flex-direction: row-reverse;
+
+      .level-badge-container {
+        align-self: center;
+        position: relative;
+
+        .level-badge {
+          background-color: white;
+          border:1px solid $button-accept-bordercolor;
+          border-radius: 12px;
+          position:relative;
+          left: 12px;
+          width: 24px;
+          height: 24px;
+
+          display: -webkit-flex;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          p {
+            color: $button-accept-bordercolor;
+            font-size: 13px;
+          }
+        }
+      }
+
+    }
+  }
+
+  .label {
+    color: $weak-text-color2;
+    font-size: 14px;
+  }
+}
+
+//@media (max-width: 380px) {
+//  .level-progress .bg {
+//    width: 200px;
+//  }
+//}
+//@media (min-width: 381px) {
+//  .level-progress .bg {
+//    width: 230px;
+//  }
+//}

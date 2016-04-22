@@ -1,7 +1,12 @@
 @charset "UTF-8";
 
 @import
+// base
   "base/variables",
+
+// components
+  "components/five-stars",
+  "components/level-progress",
 
 // common
   "com",

@@ -1,14 +1,20 @@
 //////////////////////////////////////////////////
 // 通用颜色
+.color-theme {
+  color: $theme-color !important;
+}
 .color-white {
   color: #fff !important;
 }
 .color-black {
   color: #000 !important;
 }
+.color-olive-green {
+  color: #81c03e;
+}
 
-.color-header {
-  background-color:$theme-color !important;
+.bgcolor-theme {
+  background-color: $theme-color !important;
 }
 
 //////////////////////////////////////////////////
@@ -16,12 +22,12 @@
 .color-man {
   color: $gender-man-color;
 }
+
 .color-woman {
   color: $gender-woman-color;
 }
 
-
-///////////////////////////////////////////////////////
+//////////////////////////////////////////////////
 // 用户标签(评价,头像旁显示等)颜色
 
 .user-tag-color-0 {
@@ -34,12 +40,9 @@
   background-color: $user-tag-bgcolor-1 !important;
 }
 
-$user-tag-colors:
-$user-tag-color-0
-$user-tag-color-1
-;
+$user-tag-colors: $user-tag-color-0 $user-tag-color-1;
 
-@mixin user-tag-color($index){
+@mixin user-tag-color($index) {
   color: nth($user-tag-colors, $index);
 }
 
@@ -53,7 +56,7 @@ $user-tag-color-1
   border-radius: 3px !important;
 }
 
-///////////////////////////////////////////////////////
+//////////////////////////////////////////////////
 // 按钮
 .button-light-red {
   border-color: $button-accept-bordercolor;
@@ -72,7 +75,16 @@ $user-tag-color-1
   font-size: 15px;
 }
 
-///////////////////////////////////////////////////////
+//////////////////////////////////////////////////
+// 布局
+.flex {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
 .nopadding {
   padding: 0 !important;
 }
@@ -82,3 +94,56 @@ $user-tag-color-1
   border-bottom-width: 5px !important;
   border-bottom-color: $weak-line-color !important;
 }
+
+//////////////////////////////////////////////////
+// list
+.ho-list {
+  .header-icon-title {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: $div-line-color;
+    height: 40px;
+    padding: 10px 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+
+    .side-icon {
+      padding-left: 12px;
+    }
+    .title {
+      padding-left: 10px;
+      font-size: 17px;
+      color: $deep-text-color;
+    }
+  }
+  .ho-item {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    text-align: center;
+    align-items: center;
+
+    //position: relative;
+    //display: block;
+    //vertical-align: middle;
+
+    .title {
+      position: relative;
+      float: left;
+
+      padding: 0 27px 0 17px;
+      margin-bottom: 0; // overwrite ionic .item p
+      font-size: 17px;
+      color: $deep-text-color;
+    }
+  }
+}
+
+//////////////////////////////////////////////////

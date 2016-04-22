@@ -56,7 +56,6 @@
         url: '/me',
         views: {
           'me': {
-            abstract: true,
             templateUrl: 'modules/main/me/me.html',
             controller: 'mainMeCtrl'
           }
