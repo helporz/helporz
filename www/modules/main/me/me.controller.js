@@ -12,10 +12,13 @@
     var vm = $scope.vm = {};
 
     vm.edit = function () {
-      $state.go('main.me.friend');
+      //$state.go('main.me.friend');
     }
 
-    vm.avatar = 'http://t3.gstatic.cn/shopping?q=tbn:ANd9GcSCrdZNZUIlGriVTE3ZWMU_W5voV8527Q6PL8RGkMjtCFO1knnY6oIS1soNKN4&usqp=CAI';
+    // me info
+    vm.meInfo = {};
+
+    vm.meInfo.avatar = 'http://t3.gstatic.cn/shopping?q=tbn:ANd9GcSCrdZNZUIlGriVTE3ZWMU_W5voV8527Q6PL8RGkMjtCFO1knnY6oIS1soNKN4&usqp=CAI';
 
     // tab logic
     vm.meScroll = $ionicScrollDelegate.$getByHandle('meScroll');
@@ -31,6 +34,9 @@
         vm.meScroll.resize();
       }, 300);
     };
+
+    //test:
+    vm.onChangeTab(1);
 
     //////////////////////////////////////////////////
     // self
@@ -73,16 +79,71 @@
       //}
     ]
     self.visitorImgWithIndex = function (index) {
-      if ( angular.isDefined(self.visitors[index])) {
+      if (angular.isDefined(self.visitors[index])) {
         return self.visitors[index].url;
-      }else {
+      } else {
         return '';
       }
     }
 
-    self.cb_visitorImg = function(index) {
+    self.cb_visitorImg = function (index) {
       console.log('click on image [' + index + ']');
     }
+
+    //////////////////////////////////////////////////
+    // friend
+    self.friendList = [
+      {
+        name: '小刚',
+        desc: '华中科技大学 光电子系',
+        follow: false
+      },
+      {
+        name: '小刚',
+        desc: '华中科技大学 光电子系',
+        follow: true
+      },
+      {
+        name: '小刚',
+        desc: '华中科技大学 光电子系',
+        follow: true
+      },
+      {
+        name: '小刚',
+        desc: '华中科技大学 光电子系',
+        follow: false
+      },
+      {
+        name: '小刚',
+        desc: '华中科技大学 光电子系',
+        follow: false
+      },
+      {
+        name: '小刚',
+        desc: '华中科技大学 光电子系',
+        follow: false
+      },
+      {
+        name: '小刚',
+        desc: '华中科技大学 光电子系',
+        follow: true
+      },
+      {
+        name: '小刚',
+        desc: '华中科技大学 光电子系',
+        follow: true
+      },
+      {
+        name: '小刚',
+        desc: '华中科技大学 光电子系',
+        follow: false
+      },
+      {
+        name: '小刚',
+        desc: '华中科技大学 光电子系',
+        follow: false
+      }
+    ]
   }
 
 

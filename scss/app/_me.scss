@@ -95,8 +95,7 @@
     .self {
       .ho-list {
         // 从第二个开始
-        .ho-item:nth-child(n+1)
-        {
+        .ho-item:nth-child(n+1) {
           padding-top: 1px;
           padding-bottom: 1px;
           min-height: 54px;
@@ -139,15 +138,26 @@
             }
           }
         }
+      }
+    }
+
+    .friend {
+      .ho-list {
+        ion-item .content {
+          .name {
+            padding-top: 2px;
+            font-size: 17px;
+            color: $deep-text-color;
+          }
+          .desc {
+            font-size: 13px;
+            color: $deep-text-color1;
+          }
+        }
 
       }
 
     }
-
-    .friend {
-
-    }
   }
-
 
 }
