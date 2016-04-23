@@ -44,10 +44,11 @@
     }
     .side-icon {
       color: #fff;
-      transform-origin: center;
-      -webkit-transform-origin: center;
-      transform: scale(2);
-      -webkit-transform: scale(2);
+      @include transform-origin(center, center);
+      //-webkit-transform-origin: center;
+      @include transform(scale(2));
+      //transform: scale(2);
+      //-webkit-transform: scale(2);
     }
   }
 
@@ -92,6 +93,54 @@
     background: white !important;
 
     .self {
+      .ho-list {
+        // 从第二个开始
+        .ho-item:nth-child(n+1)
+        {
+          padding-top: 1px;
+          padding-bottom: 1px;
+          min-height: 54px;
+        }
+
+        // 物品
+        .belongings {
+          .me-card {
+            padding-right: 4px;
+            width: 64px;
+            height: 28px;
+          }
+          .count1 {
+            padding-right: 20px;
+            color: #00cdb0;
+            font-size: 14px;
+          }
+          .count2 {
+            color: #f74400;
+            font-size: 14px;
+          }
+        }
+
+        //访客
+        .visitor {
+          .line-container {
+            @include flex-direction(column);
+            @include align-items(center);
+            margin: 5px 0;
+            .line {
+              line-height: 0;
+              @include align-items(center);
+              @include justify-content(space-between);
+              .avatar {
+                margin: 4px 10px 4px 0;
+                width: 40px;
+                height: 40px;
+                border-radius: 20px;
+              }
+            }
+          }
+        }
+
+      }
 
     }
 

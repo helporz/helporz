@@ -6,14 +6,14 @@
 
   'use strict'
 
-  angular.module('components.ui.levelProgress', [])
+  angular.module('components.widgets.levelProgress', [])
 
     .directive('levelProgress', function () {
 
       return {
         restrict: 'E',
         replace: true,
-        templateUrl: 'modules/components/ui/level-progress/level-progress.html',
+        templateUrl: 'modules/components/widgets/level-progress/level-progress.html',
         scope: {
           hasExp: '=',
           totalExp: '=',

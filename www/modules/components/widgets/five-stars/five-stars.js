@@ -6,14 +6,14 @@
 
   'use strict'
 
-  angular.module('components.ui.fiveStars', [])
+  angular.module('components.widgets.fiveStars', [])
 
     .directive('fiveStars', function () {
 
       return {
         restrict: 'E',
         replace: true,
-        templateUrl: 'modules/components/ui/five-stars/five-stars.html',
+        templateUrl: 'modules/components/widgets/five-stars/five-stars.html',
         scope: {
           value: '='
         },

@@ -6,11 +6,12 @@
   display: -ms-flexbox;
   display: flex; }
   .five-stars .star {
-    -webkit-transform-origin: left;
-    transform-origin: left;
+    -webkit-transform-origin: left center;
+    transform-origin: left center;
     padding-right: 15px;
+    -webkit-transform: scale(1.5);
     transform: scale(1.5);
-    color: #EF7151; }
+    color: #FF432F; }
 
 .level-progress {
   display: -webkit-box;
@@ -19,47 +20,79 @@
   display: -moz-flex;
   display: -ms-flexbox;
   display: flex;
-  width: 70%;
+  width: 73%;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -webkit-justify-content: space-between;
+  -moz-justify-content: space-between;
   justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
   align-items: center; }
   .level-progress .bg {
     height: 10px;
-    width: 70%;
+    width: 68%;
     border-radius: 5px;
     background-color: #e8e7ed; }
     .level-progress .bg .bar {
       position: inherit;
       border-radius: 5px;
-      background-color: #fed1ce;
+      background-color: #ffd0ce;
       width: 50%;
       height: 100%;
+      display: -webkit-box;
       display: -webkit-flex;
+      display: -moz-box;
+      display: -moz-flex;
+      display: -ms-flexbox;
       display: flex;
+      -webkit-box-direction: reverse;
+      -webkit-box-orient: horizontal;
+      -webkit-flex-direction: row-reverse;
+      -moz-flex-direction: row-reverse;
+      -ms-flex-direction: row-reverse;
       flex-direction: row-reverse; }
       .level-progress .bg .bar .level-badge-container {
+        -webkit-align-self: center;
+        -moz-align-self: center;
+        -ms-flex-item-align: center;
         align-self: center;
         position: relative; }
         .level-progress .bg .bar .level-badge-container .level-badge {
           background-color: white;
-          border: 1px solid #fed1ce;
+          border: 1px solid #ffd0ce;
           border-radius: 12px;
           position: relative;
           left: 12px;
           width: 24px;
           height: 24px;
+          display: -webkit-box;
           display: -webkit-flex;
+          display: -moz-box;
+          display: -moz-flex;
+          display: -ms-flexbox;
           display: flex;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
+          -webkit-justify-content: center;
+          -moz-justify-content: center;
           justify-content: center;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
+          -webkit-align-items: center;
+          -moz-align-items: center;
           align-items: center; }
           .level-progress .bg .bar .level-badge-container .level-badge p {
-            color: #fed1ce;
+            color: #ffd0ce;
             font-size: 13px; }
   .level-progress .label {
     color: #999;
     font-size: 14px; }
 
 .color-theme {
-  color: #EF7151 !important; }
+  color: #FF432F !important; }
 
 .color-white {
   color: #fff !important; }
@@ -71,7 +104,7 @@
   color: #81c03e; }
 
 .bgcolor-theme {
-  background-color: #EF7151 !important; }
+  background-color: #FF432F !important; }
 
 .color-man {
   color: #33cd5f; }
@@ -95,9 +128,9 @@
   border-radius: 3px !important; }
 
 .button-light-red {
-  border-color: #fed1ce;
+  border-color: #ffd0ce;
   background-color: #ffeceb;
-  color: #f97f58; }
+  color: #f78058; }
 
 .button-accept {
   display: inline-block;
@@ -109,14 +142,6 @@
   border-style: solid;
   font-size: 15px; }
 
-.flex {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: flex; }
-
 .nopadding {
   padding: 0 !important; }
 
@@ -126,17 +151,17 @@
   border-bottom-color: #eeeeee !important; }
 
 .ho-list .header-icon-title {
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  border-bottom-color: #e6e6e6;
-  height: 40px;
-  padding: 10px 0;
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
   display: -moz-flex;
   display: -ms-flexbox;
-  display: flex; }
+  display: flex;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #e6e6e6;
+  height: 40px;
+  padding: 10px 0; }
   .ho-list .header-icon-title .side-icon {
     padding-left: 12px; }
   .ho-list .header-icon-title .title {
@@ -150,15 +175,22 @@
   display: -moz-flex;
   display: -ms-flexbox;
   display: flex;
-  text-align: center;
-  align-items: center; }
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  align-items: center;
+  text-align: center; }
   .ho-list .ho-item .title {
     position: relative;
     float: left;
-    padding: 0 27px 0 17px;
+    padding: 0 20px 0 17px;
     margin-bottom: 0;
     font-size: 17px;
     color: #323232; }
+  .ho-list .ho-item .ho-item-content {
+    font-size: 17px;
+    color: #4f4f4f; }
 
 .topics {
   padding: 0; }
@@ -211,11 +243,11 @@
     padding-left: 3px; }
   .topics .content-right .summary-panel .thank {
     display: inline;
-    color: #EF7151; }
+    color: #FF432F; }
   .topics .content-right .summary-panel .thank-what {
     display: inline;
     color: #fff;
-    background-color: #EF7151; }
+    background-color: #FF432F; }
   .topics .content-right .bottom-panel .count {
     display: inline-block;
     padding: 5px 30px 1px 5px;
@@ -261,10 +293,10 @@
       border-color: #fff; }
     .me .mid .side-icon {
       color: #fff;
-      transform-origin: center;
-      -webkit-transform-origin: center;
-      transform: scale(2);
-      -webkit-transform: scale(2); }
+      -webkit-transform-origin: center center;
+      transform-origin: center center;
+      -webkit-transform: scale(2);
+      transform: scale(2); }
   .me .sign {
     padding-top: 10px;
     font-size: 15px;
@@ -278,7 +310,7 @@
   .me .tab-item {
     max-width: 50%; }
     .me .tab-item.tab-item-active {
-      border-color: #EF7151;
+      border-color: #FF432F;
       border-bottom-width: 4px;
       border-top-width: 0;
       margin-top: 0; }
@@ -289,6 +321,51 @@
   .me .tab-panel {
     margin-top: 10px;
     background: white !important; }
+    .me .tab-panel .self .ho-list .ho-item:nth-child(n+1) {
+      padding-top: 1px;
+      padding-bottom: 1px;
+      min-height: 54px; }
+    .me .tab-panel .self .ho-list .belongings .me-card {
+      padding-right: 4px;
+      width: 64px;
+      height: 28px; }
+    .me .tab-panel .self .ho-list .belongings .count1 {
+      padding-right: 20px;
+      color: #00cdb0;
+      font-size: 14px; }
+    .me .tab-panel .self .ho-list .belongings .count2 {
+      color: #f74400;
+      font-size: 14px; }
+    .me .tab-panel .self .ho-list .visitor .line-container {
+      -webkit-box-direction: normal;
+      -webkit-box-orient: vertical;
+      -webkit-flex-direction: column;
+      -moz-flex-direction: column;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      -moz-align-items: center;
+      align-items: center;
+      margin: 5px 0; }
+      .me .tab-panel .self .ho-list .visitor .line-container .line {
+        line-height: 0;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        -moz-align-items: center;
+        align-items: center;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        -webkit-justify-content: space-between;
+        -moz-justify-content: space-between;
+        justify-content: space-between; }
+        .me .tab-panel .self .ho-list .visitor .line-container .line .avatar {
+          margin: 4px 10px 4px 0;
+          width: 40px;
+          height: 40px;
+          border-radius: 20px; }
 
 .color-task-publish {
   background-color: #efeff4; }

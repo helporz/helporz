@@ -77,14 +77,6 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
 
 //////////////////////////////////////////////////
 // 布局
-.flex {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
 .nopadding {
   padding: 0 !important;
 }
@@ -99,17 +91,12 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
 // list
 .ho-list {
   .header-icon-title {
+    @include display-flex();
     border-bottom-style: solid;
     border-bottom-width: 1px;
     border-bottom-color: $div-line-color;
     height: 40px;
     padding: 10px 0;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -moz-flex;
-    display: -ms-flexbox;
-    display: flex;
 
     .side-icon {
       padding-left: 12px;
@@ -121,28 +108,25 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
     }
   }
   .ho-item {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -moz-flex;
-    display: -ms-flexbox;
-    display: flex;
+    @include display-flex();
+    @include align-items(center);
     text-align: center;
-    align-items: center;
-
-    //position: relative;
-    //display: block;
-    //vertical-align: middle;
 
     .title {
       position: relative;
       float: left;
 
-      padding: 0 27px 0 17px;
+      padding: 0 20px 0 17px;
       margin-bottom: 0; // overwrite ionic .item p
       font-size: 17px;
       color: $deep-text-color;
     }
+
+    .ho-item-content {
+      font-size: 17px;
+      color: $deep-text-color1;
+    }
+
   }
 }
 

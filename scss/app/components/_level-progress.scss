@@ -1,17 +1,12 @@
 .level-progress {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: flex;
-  width: 70%;
-  justify-content: space-between;
-  align-items: center;
+  @include display-flex();
+  width: 73%;
+  @include justify-content(space-between);
+  @include align-items(center);
 
   .bg {
     height: 10px;
-    width: 70%;
+    width: 68%;
     border-radius: 5px;
     background-color: $page-bg-color;
 
@@ -21,12 +16,11 @@
       background-color: $button-accept-bordercolor;
       width: 50%;
       height: 100%;
-      display: -webkit-flex;
-      display: flex;
-      flex-direction: row-reverse;
+      @include display-flex();
+      @include flex-direction(row-reverse);
 
       .level-badge-container {
-        align-self: center;
+        @include align-self(center);
         position: relative;
 
         .level-badge {
@@ -38,10 +32,9 @@
           width: 24px;
           height: 24px;
 
-          display: -webkit-flex;
-          display: flex;
-          justify-content: center;
-          align-items: center;
+          @include display-flex();
+          @include justify-content(center);
+          @include align-items(center);
 
           p {
             color: $button-accept-bordercolor;
