@@ -134,33 +134,21 @@
         </ion-list>
       </div>
       <div class="friend" ng-show="vm.activeTab == 1">
-        <ion-list class="ho-list" collection-repeat="item in vm.self.friendList" item-height="54px" item-width="100%">
-          <ion-item class="ho-item-avatar">
-            <img class="avatar" ng-src="{{vm.avatar}}" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=4123988153,51280834&fm=58"
-                 live-image>
-            <div class="content">
-              <p class="name">{{item.name}}</p>
-              <p class="desc">{{item.desc}}</p>
-             </div>
-            <button class="right ho-button button-theme button-outline ho-button-small ion-ios-plus-empty" ng-show="item.follow==false">&nbsp关注</button>
-            <button class="right ho-button button-theme button-gray button-outline ho-button-small ion-ios-checkmark-empty" ng-show="item.follow==true">&nbsp已关注</button>
-          </ion-item>
+          <ion-list class="ho-list">
+            <!--<ion-item class="ho-item-avatar" collection-repeat="item in vm.self.friendList" item-height="54px" item-width="100%" >-->
+            <ion-item class="ho-item-avatar" ng-repeat="item in vm.self.friendList">
+              <img class="avatar" ng-src="{{vm.avatar}}" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=4123988153,51280834&fm=58"
+                   live-image>
+              <div class="content">
+                <p class="name">{{item.name}}</p>
+                <p class="desc">{{item.desc}}</p>
+              </div>
+              <button class="right ho-button button-theme button-outline ho-button-small ion-ios-plus-empty" ng-show="item.follow==false">&nbsp关注</button>
+              <button class="right ho-button button-theme button-gray button-outline ho-button-small ion-ios-checkmark-empty" ng-show="item.follow==true">&nbsp已关注</button>
+            </ion-item>
 
-          <!--<ion-item class="ho-item-avatar">-->
-            <!--<img class="avatar" ng-src="{{vm.avatar}}" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=4123988153,51280834&fm=58"-->
-                 <!--live-image>-->
-            <!--<div class="content">123</div>-->
-            <!--<button class="right ho-button button-gray button-outline ho-button-small ion-ios-plus-empty">&nbsp关注</button>-->
-          <!--</ion-item>-->
+          </ion-list>
 
-          <!--<ion-item class="ho-item-avatar">-->
-            <!--<img class="avatar" ng-src="{{vm.avatar}}" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g"-->
-                 <!--live-image>-->
-            <!--<div class="content">123</div>-->
-            <!--<button class="right ho-button button-theme button-outline ho-button-small ion-ios-plus-empty">&nbsp关注</button>-->
-          <!--</ion-item>-->
-
-        </ion-list>
       </div>
     </div>
 

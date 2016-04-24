@@ -20,6 +20,7 @@
 
     vm.meInfo.avatar = 'http://t3.gstatic.cn/shopping?q=tbn:ANd9GcSCrdZNZUIlGriVTE3ZWMU_W5voV8527Q6PL8RGkMjtCFO1knnY6oIS1soNKN4&usqp=CAI';
 
+    //////////////////////////////////////////////////
     // tab logic
     vm.meScroll = $ionicScrollDelegate.$getByHandle('meScroll');
     vm.activeTab = 0;
@@ -35,8 +36,8 @@
       }, 300);
     };
 
-    //test:
-    vm.onChangeTab(1);
+    ////test:
+    //vm.onChangeTab(0);
 
     //////////////////////////////////////////////////
     // self
