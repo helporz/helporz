@@ -347,7 +347,39 @@
     position: fixed;
     top: 0px;
     z-index: 999;
-    padding: 20px 20px; }
+    padding: 20px 10px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    align-items: center; }
+    .me .nav *:nth-child(1) {
+      -webkit-box-flex: 0;
+      -webkit-flex: 0 0 15%;
+      -moz-box-flex: 0;
+      -moz-flex: 0 0 15%;
+      -ms-flex: 0 0 15%;
+      flex: 0 0 15%; }
+    .me .nav *:nth-child(2) {
+      -webkit-box-flex: 0;
+      -webkit-flex: 0 0 70%;
+      -moz-box-flex: 0;
+      -moz-flex: 0 0 70%;
+      -ms-flex: 0 0 70%;
+      flex: 0 0 70%; }
+    .me .nav *:nth-child(3) {
+      -webkit-box-flex: 0;
+      -webkit-flex: 0 0 15%;
+      -moz-box-flex: 0;
+      -moz-flex: 0 0 15%;
+      -ms-flex: 0 0 15%;
+      flex: 0 0 15%; }
     .me .nav .button {
       color: #ffffff; }
     .me .nav .name {
@@ -400,58 +432,58 @@
   .me .tab-panel {
     margin-top: 10px;
     background: white !important; }
-    .me .tab-panel .self .ho-list .ho-item:nth-child(n+1) {
-      padding-top: 1px;
-      padding-bottom: 1px;
-      min-height: 54px; }
-    .me .tab-panel .self .ho-list .belongings .me-card {
-      padding-right: 4px;
-      width: 64px;
-      height: 28px; }
-    .me .tab-panel .self .ho-list .belongings .count1 {
-      padding-right: 20px;
-      color: #00cdb0;
-      font-size: 14px; }
-    .me .tab-panel .self .ho-list .belongings .count2 {
-      color: #f74400;
-      font-size: 14px; }
-    .me .tab-panel .self .ho-list .visitor .line-container {
-      -webkit-box-direction: normal;
-      -webkit-box-orient: vertical;
-      -webkit-flex-direction: column;
-      -moz-flex-direction: column;
-      -ms-flex-direction: column;
-      flex-direction: column;
+  .me .ho-list.self .ho-item:nth-child(n+1) {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    min-height: 54px; }
+  .me .ho-list.friend ion-item .content .name {
+    padding-top: 2px;
+    font-size: 17px;
+    color: #323232; }
+  .me .ho-list.friend ion-item .content .desc {
+    font-size: 13px;
+    color: #4f4f4f; }
+  .me .belongings .me-card {
+    padding-right: 4px;
+    width: 64px;
+    height: 28px; }
+  .me .belongings .count1 {
+    padding-right: 20px;
+    color: #00cdb0;
+    font-size: 14px; }
+  .me .belongings .count2 {
+    color: #f74400;
+    font-size: 14px; }
+  .me .visitor .line-container {
+    -webkit-box-direction: normal;
+    -webkit-box-orient: vertical;
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    align-items: center;
+    margin: 5px 0; }
+    .me .visitor .line-container .line {
+      line-height: 0;
       -webkit-box-align: center;
       -ms-flex-align: center;
       -webkit-align-items: center;
       -moz-align-items: center;
       align-items: center;
-      margin: 5px 0; }
-      .me .tab-panel .self .ho-list .visitor .line-container .line {
-        line-height: 0;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        -moz-align-items: center;
-        align-items: center;
-        -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-        -webkit-justify-content: space-between;
-        -moz-justify-content: space-between;
-        justify-content: space-between; }
-        .me .tab-panel .self .ho-list .visitor .line-container .line .avatar {
-          margin: 4px 10px 4px 0;
-          width: 40px;
-          height: 40px;
-          border-radius: 20px; }
-    .me .tab-panel .friend .ho-list ion-item .content .name {
-      padding-top: 2px;
-      font-size: 17px;
-      color: #323232; }
-    .me .tab-panel .friend .ho-list ion-item .content .desc {
-      font-size: 13px;
-      color: #4f4f4f; }
+      -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+      -webkit-justify-content: space-between;
+      -moz-justify-content: space-between;
+      justify-content: space-between; }
+      .me .visitor .line-container .line .avatar {
+        margin: 4px 10px 4px 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 20px; }
 
 .color-task-publish {
   background-color: #efeff4; }

@@ -5,7 +5,7 @@
 (function(){
   'use strict';
 
-  angular.module('main.userInfo', [
+  angular.module('main.edit', [
     'components.misc.hideTabs'
   ]);
 

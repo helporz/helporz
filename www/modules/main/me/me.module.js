@@ -10,7 +10,9 @@
     'components.widgets.fiveStars',
     'components.widgets.levelProgress',
     'components.misc.liveImage',
-    'main.userInfo'
+    'main.userInfo',
+    'main.setting',
+    'main.edit'
   ]);
 //    .config(config);
 //

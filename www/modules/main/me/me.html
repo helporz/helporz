@@ -10,9 +10,9 @@
     <!--<button class="button button-icon icon ion-share right"></button>-->
     <!--</div>-->
 
-    <button class="col-20 button button-icon icon ion-share" ng-click="vm.edit()"></button>
-    <p class="col-offset-10 col-40 col-center text-center name color-white">点到泥巴了</p>
-    <button class="col-offset-10 col-20 button button-icon icon ion-share"></button>
+    <button class="button button-icon icon ion-compose" ng-click="vm.cb_edit()"></button>
+    <p class="text-center name color-white">点到泥巴了</p>
+    <button class="button button-icon icon ion-gear-a" ng-click="vm.cb_setting()"></button>
   </div>
 
   <ion-content delegate-handle="meScroll">
@@ -62,8 +62,8 @@
     </ion-tabs>
 
     <div class="tab-panel">
-      <div class="self" ng-show="vm.activeTab == 0">
-        <ion-list class="ho-list">
+      <div ng-show="vm.activeTab == 0">
+        <ion-list class="ho-list self">
           <ion-item class="header-icon-title">
             <i class="side-icon icon ion-person color-theme"></i>
 
@@ -133,8 +133,8 @@
           </ion-item>
         </ion-list>
       </div>
-      <div class="friend" ng-show="vm.activeTab == 1">
-          <ion-list class="ho-list">
+      <div ng-show="vm.activeTab == 1">
+          <ion-list class="ho-list friend">
             <!--<ion-item class="ho-item-avatar" collection-repeat="item in vm.self.friendList" item-height="54px" item-width="100%" >-->
             <ion-item class="ho-item-avatar" ng-repeat="item in vm.self.friendList">
               <img class="avatar" ng-src="{{vm.avatar}}" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=4123988153,51280834&fm=58"

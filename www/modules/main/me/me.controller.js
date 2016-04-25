@@ -11,8 +11,11 @@
   function mainMeCtrl($state, $scope, $ionicScrollDelegate, $timeout, $interval) {
     var vm = $scope.vm = {};
 
-    vm.edit = function () {
-      //$state.go('main.me.friend');
+    vm.cb_edit = function () {
+      $state.go('main.edit');
+    }
+    vm.cb_setting =function() {
+      $state.go('main.setting');
     }
 
     // me info
@@ -21,8 +24,8 @@
     vm.meInfo.avatar = 'http://t3.gstatic.cn/shopping?q=tbn:ANd9GcSCrdZNZUIlGriVTE3ZWMU_W5voV8527Q6PL8RGkMjtCFO1knnY6oIS1soNKN4&usqp=CAI';
     vm.meInfo.cb_avatar = function() {
       console.log('me avatar');
-      //$state.go("/me/{userId:/'user123/'}");
-      $state.go('main.user-info', {id: '123'});
+      //var arr = 'user-123'.split('-');
+      //$state.go('main.user-info', {id: 'user-123'});
     }
     //////////////////////////////////////////////////
     // tab logic
@@ -93,6 +96,7 @@
 
     self.cb_visitorImg = function (index) {
       console.log('click on image [' + index + ']');
+      $state.go('main.user-info', {id: 'user-'+index});
     }
 
     //////////////////////////////////////////////////

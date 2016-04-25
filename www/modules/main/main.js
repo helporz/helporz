@@ -2,7 +2,7 @@
  * Created by Midstream on 16/3/30.
  */
 
-(function(){
+(function () {
   "use strict";
 
   angular.module('main', [
@@ -15,7 +15,7 @@
 
   mainConfig.$inject = ['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider'];
 
-  function mainConfig($stateProvider, $urlRouterProvider, $ionicConfigProvider){
+  function mainConfig($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
     $stateProvider
       .state('main', {
         url: '/main',
@@ -63,12 +63,32 @@
       })
 
       .state('main.user-info', {
-        //url: '/me/{userId:/user/[d+]}',
-        url: '/me/:id',
+        url: '/me/{id:[s+]}',
+        //url: '/me/:id',
         views: {
           'me': {
             templateUrl: 'modules/main/details/user-info/user-info.html',
             controller: 'mainUserInfoCtrl'
+          }
+        }
+      })
+
+      .state('main.edit', {
+        url: '/edit',
+        views: {
+          'me': {
+            templateUrl: 'modules/main/me/edit/edit.html',
+            controller: 'mainEditCtrl'
+          }
+        }
+      })
+
+      .state('main.setting', {
+        url: '/setting',
+        views: {
+          'me': {
+            templateUrl: 'modules/main/me/setting/setting.html',
+            controller: 'mainSettingCtrl'
           }
         }
       });

@@ -6,7 +6,20 @@
     position: fixed;
     top: 0px;
     z-index: 999;
-    padding: 20px 20px;
+    padding: 20px 10px;
+
+    @include display-flex();
+    @include align-items(center);
+
+    *:nth-child(1) {
+      @include flex(0, 0, 15%);
+    }
+    *:nth-child(2) {
+      @include flex(0, 0, 70%);
+    }
+    *:nth-child(3) {
+      @include flex(0, 0, 15%);
+    }
 
     .button {
       color: #ffffff;
@@ -87,76 +100,76 @@
   //]]
 
   //////////////////////////////////////////////////
-  // self tab page
+  // tab page
   .tab-panel {
     margin-top: 10px;
     background: white !important;
+  }
 
-    .self {
-      .ho-list {
-        // 从第二个开始
-        .ho-item:nth-child(n+1) {
-          padding-top: 1px;
-          padding-bottom: 1px;
-          min-height: 54px;
+  .ho-list {
+    &.self {
+      // 从第二个开始
+      .ho-item:nth-child(n+1) {
+        padding-top: 1px;
+        padding-bottom: 1px;
+        min-height: 54px;
+      }
+    }
+  }
+
+  .ho-list {
+    &.friend {
+      ion-item .content {
+        .name {
+          padding-top: 2px;
+          font-size: 17px;
+          color: $deep-text-color;
         }
-
-        // 物品
-        .belongings {
-          .me-card {
-            padding-right: 4px;
-            width: 64px;
-            height: 28px;
-          }
-          .count1 {
-            padding-right: 20px;
-            color: #00cdb0;
-            font-size: 14px;
-          }
-          .count2 {
-            color: #f74400;
-            font-size: 14px;
-          }
-        }
-
-        //访客
-        .visitor {
-          .line-container {
-            @include flex-direction(column);
-            @include align-items(center);
-            margin: 5px 0;
-            .line {
-              line-height: 0;
-              @include align-items(center);
-              @include justify-content(space-between);
-              .avatar {
-                margin: 4px 10px 4px 0;
-                width: 40px;
-                height: 40px;
-                border-radius: 20px;
-              }
-            }
-          }
+        .desc {
+          font-size: 13px;
+          color: $deep-text-color1;
         }
       }
     }
 
-    .friend {
-      .ho-list {
-        ion-item .content {
-          .name {
-            padding-top: 2px;
-            font-size: 17px;
-            color: $deep-text-color;
-          }
-          .desc {
-            font-size: 13px;
-            color: $deep-text-color1;
-          }
+  }
+
+  // components
+  // 物品
+  .belongings {
+    .me-card {
+      padding-right: 4px;
+      width: 64px;
+      height: 28px;
+    }
+    .count1 {
+      padding-right: 20px;
+      color: #00cdb0;
+      font-size: 14px;
+    }
+    .count2 {
+      color: #f74400;
+      font-size: 14px;
+    }
+  }
+
+  //访客
+  .visitor {
+    .line-container {
+      @include flex-direction(column);
+      @include align-items(center);
+      margin: 5px 0;
+      .line {
+        line-height: 0;
+        @include align-items(center);
+        @include justify-content(space-between);
+        .avatar {
+          margin: 4px 10px 4px 0;
+          width: 40px;
+          height: 40px;
+          border-radius: 20px;
         }
-
       }
-
     }
   }
 

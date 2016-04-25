@@ -5,10 +5,10 @@
 (function(){
   'use strict';
 
-  angular.module('main.userInfo')
-    .controller('mainUserInfoCtrl', ['$scope', '$timeout', '$state', '$stateParams', 'taskNetService', 'taskUtils', '$ionicHistory', mainUserInfoCtrl]);
+  angular.module('main.setting')
+    .controller('mainSettingCtrl', ['$scope', '$timeout', '$state', '$stateParams', 'taskNetService', 'taskUtils', '$ionicHistory', mainSettingCtrl]);
 
-  function mainUserInfoCtrl($scope, $timeout, $state, $stateParams, taskNetService, taskUtils, $ionicHistory) {
+  function mainSettingCtrl($scope, $timeout, $state, $stateParams, taskNetService, taskUtils, $ionicHistory) {
     console.log($stateParams);
 
     var vm = $scope.vm = {};
