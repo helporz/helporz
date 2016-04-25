@@ -6,10 +6,12 @@
 
   'use strict'
 
-  // 自动检测src并替换图片
+  // 自动检测ng-src并替换图片
+  // 绑定 e = 'on-click' 到点击图片 (使用ng-click时,element删除时,事件自然接触,所以这里在clone element后
+  // 再绑定一次
   angular.module('components.misc.liveImage', [])
 
-    .directive('liveImage', function () {
+    .directive('liveImage', ['$ionicNgClick', function ($ionicNgClick) {
 
       return {
 
@@ -21,14 +23,15 @@
               newImg.attr('src', src);
               element.replaceWith(newImg);
               element = newImg;
+
+              $ionicNgClick(scope, element, attrs.onClick);
             }
           };
 
-          //attrs.$observe('src', applyNewSrc);
           attrs.$observe('ngSrc', applyNewSrc);
         }
       };
-    }
+    }]
   )
 
 

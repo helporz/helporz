@@ -19,7 +19,11 @@
     vm.meInfo = {};
 
     vm.meInfo.avatar = 'http://t3.gstatic.cn/shopping?q=tbn:ANd9GcSCrdZNZUIlGriVTE3ZWMU_W5voV8527Q6PL8RGkMjtCFO1knnY6oIS1soNKN4&usqp=CAI';
-
+    vm.meInfo.cb_avatar = function() {
+      console.log('me avatar');
+      //$state.go("/me/{userId:/'user123/'}");
+      $state.go('main.user-info', {id: '123'});
+    }
     //////////////////////////////////////////////////
     // tab logic
     vm.meScroll = $ionicScrollDelegate.$getByHandle('meScroll');

@@ -7,11 +7,10 @@
 
   angular.module('main.me', [
     'ionic',
-    'main.me.self',
-    'main.me.friend',
     'components.widgets.fiveStars',
     'components.widgets.levelProgress',
-    'components.misc.liveImage'
+    'components.misc.liveImage',
+    'main.userInfo'
   ]);
 //    .config(config);
 //

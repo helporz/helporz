@@ -60,6 +60,17 @@
             controller: 'mainMeCtrl'
           }
         }
+      })
+
+      .state('main.user-info', {
+        //url: '/me/{userId:/user/[d+]}',
+        url: '/me/:id',
+        views: {
+          'me': {
+            templateUrl: 'modules/main/details/user-info/user-info.html',
+            controller: 'mainUserInfoCtrl'
+          }
+        }
       });
 
     //tab位置设置到下面

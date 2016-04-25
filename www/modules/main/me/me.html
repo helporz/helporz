@@ -25,7 +25,7 @@
       </div>
       <div class="col-25 text-center">
         <img class="avatar" ng-src="{{vm.meInfo.avatar}}" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g"
-             live-image>
+             live-image on-click="vm.meInfo.cb_avatar()">
       </div>
       <!--<button class="col-20 right button button-icon ion-chatbubble-working"></button>-->
       <div class="col-20 text-center col-center">
@@ -96,16 +96,16 @@
             <p class="title">访客</p>
             <div class="line-container">
               <div class="line">
-                <img class="avatar" ng-src="{{vm.self.visitorImgWithIndex(0)}}" src="img/com/avatar-default.png" live-image ng-click="vm.self.cb_visitorImg(0)">
-                <img class="avatar" ng-src="{{vm.self.visitorImgWithIndex(1)}}" src="img/com/avatar-default.png" live-image ng-click="vm.self.cb_visitorImg(1)">
-                <img class="avatar" ng-src="{{vm.self.visitorImgWithIndex(2)}}" src="img/com/avatar-default.png" live-image ng-click="vm.self.cb_visitorImg(2)">
-                <img class="avatar" ng-src="{{vm.self.visitorImgWithIndex(3)}}" src="img/com/avatar-default.png" live-image ng-click="vm.self.cb_visitorImg(3)">
+                <img class="avatar" ng-src="{{vm.self.visitorImgWithIndex(0)}}" src="img/com/avatar-default.png" live-image on-click="vm.self.cb_visitorImg(0)">
+                <img class="avatar" ng-src="{{vm.self.visitorImgWithIndex(1)}}" src="img/com/avatar-default.png" live-image on-click="vm.self.cb_visitorImg(1)">
+                <img class="avatar" ng-src="{{vm.self.visitorImgWithIndex(2)}}" src="img/com/avatar-default.png" live-image on-click="vm.self.cb_visitorImg(2)">
+                <img class="avatar" ng-src="{{vm.self.visitorImgWithIndex(3)}}" src="img/com/avatar-default.png" live-image on-click="vm.self.cb_visitorImg(3)">
               </div>
               <div class="line" ng-show="vm.self.visitors.length > 4">
-                <img class="avatar" ng-src="{{vm.self.visitorImgWithIndex(4)}}" src="img/com/avatar-default.png" live-image ng-click="vm.self.cb_visitorImg(4)">
-                <img class="avatar" ng-src="{{vm.self.visitorImgWithIndex(5)}}" src="img/com/avatar-default.png" live-image ng-click="vm.self.cb_visitorImg(5)">
-                <img class="avatar" ng-src="{{vm.self.visitorImgWithIndex(6)}}" src="img/com/avatar-default.png" live-image ng-click="vm.self.cb_visitorImg(6)">
-                <img class="avatar" ng-src="{{vm.self.visitorImgWithIndex(7)}}" src="img/com/avatar-default.png" live-image ng-click="vm.self.cb_visitorImg(7)">
+                <img class="avatar" ng-src="{{vm.self.visitorImgWithIndex(4)}}" src="img/com/avatar-default.png" live-image on-click="vm.self.cb_visitorImg(4)">
+                <img class="avatar" ng-src="{{vm.self.visitorImgWithIndex(5)}}" src="img/com/avatar-default.png" live-image on-click="vm.self.cb_visitorImg(5)">
+                <img class="avatar" ng-src="{{vm.self.visitorImgWithIndex(6)}}" src="img/com/avatar-default.png" live-image on-click="vm.self.cb_visitorImg(6)">
+                <img class="avatar" ng-src="{{vm.self.visitorImgWithIndex(7)}}" src="img/com/avatar-default.png" live-image on-click="vm.self.cb_visitorImg(7)">
               </div>
             </div>
           </ion-item>
