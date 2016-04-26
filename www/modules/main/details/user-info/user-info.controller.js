@@ -6,7 +6,7 @@
   'use strict';
 
   angular.module('main.userInfo')
-    .controller('mainUserInfoCtrl', ['$scope', '$timeout', '$state', '$stateParams', 'taskNetService', 'taskUtils', '$ionicHistory', mainUserInfoCtrl]);
+    .controller('mainUserInfoCtrl', ['$scope', '$timeout', '$state', '$stateParams', 'taskNetService', 'taskUtils', '$ionicHistory', '$ionicActionSheet', mainUserInfoCtrl]);
 
   function mainUserInfoCtrl($scope, $timeout, $state, $stateParams, taskNetService, taskUtils, $ionicHistory) {
     console.log($stateParams);
@@ -53,6 +53,8 @@
         console.log('click on image [' + index + ']');
         $state.go('main.user-info', {id: 'user-'+index});
       }
+
+
     };
 
 

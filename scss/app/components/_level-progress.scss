@@ -1,6 +1,6 @@
 .level-progress {
   @include display-flex();
-  width: 73%;
+  width: 70%;
   @include justify-content(space-between);
   @include align-items(center);
 
@@ -8,7 +8,7 @@
     height: 10px;
     width: 68%;
     border-radius: 5px;
-    background-color: $page-bg-color;
+    background-color: $color-page-bg;
 
     .bar {
       position: inherit;
@@ -47,7 +47,7 @@
   }
 
   .label {
-    color: $weak-text-color2;
+    color: $color-text-secondary;
     font-size: 14px;
   }
 }

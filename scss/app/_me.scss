@@ -1,7 +1,7 @@
 // me page
 
 .me {
-  background-color: $page-bg-color;
+  background-color: $color-page-bg;
   .nav {
     position: fixed;
     top: 0px;
@@ -58,10 +58,7 @@
     .side-icon {
       color: #fff;
       @include transform-origin(center, center);
-      //-webkit-transform-origin: center;
-      @include transform(scale(2));
-      //transform: scale(2);
-      //-webkit-transform: scale(2);
+      @include transform(scale(1.5));
     }
   }
 
@@ -85,7 +82,7 @@
   .tab-item {
     max-width: 50%;
     &.tab-item-active {
-      border-color: $theme-color;
+      border-color: $color-theme;
       border-bottom-width: 4px;
       border-top-width: 0;
       margin-top: 0;
@@ -107,27 +104,16 @@
   }
 
   .ho-list {
-    &.self {
-      // 从第二个开始
-      .ho-item:nth-child(n+1) {
-        padding-top: 1px;
-        padding-bottom: 1px;
-        min-height: 54px;
-      }
-    }
-  }
-
-  .ho-list {
     &.friend {
       ion-item .content {
         .name {
           padding-top: 2px;
-          font-size: 17px;
-          color: $deep-text-color;
+          font-size: 15px;
+          color: $color-text-primary;
         }
         .desc {
           font-size: 13px;
-          color: $deep-text-color1;
+          color: $color-text-secondary;
         }
       }
     }

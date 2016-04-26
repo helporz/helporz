@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////
 // 通用颜色
 .color-theme {
-  color: $theme-color !important;
+  color: $color-theme !important;
 }
 
 .color-white {
@@ -17,7 +17,17 @@
 }
 
 .bgcolor-theme {
-  background-color: $theme-color !important;
+  background-color: $color-theme !important;
+}
+
+.color-text-primary {
+  color: $color-text-primary !important;
+}
+.color-text-secondary {
+  color: $color-text-secondary !important;
+}
+.color-text-thirdly {
+  color: $color-text-thirdly !important;
 }
 
 //////////////////////////////////////////////////
@@ -79,7 +89,7 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
 }
 
 // button
-@mixin ho-button-outline($color){
+@mixin ho-button-outline($color) {
   border-style: solid;
   border-width: 1px;
   @include button-outline($color);
@@ -88,7 +98,7 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
 .ho-button {
 
   &.button-theme {
-    @include ho-button-outline($theme-color);
+    @include ho-button-outline($color-theme);
   }
   &.button-gray {
     @include ho-button-outline($button-gray-color);
@@ -112,7 +122,7 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
 .bottom-bordered {
   border-style: solid !important;
   border-bottom-width: 5px !important;
-  border-bottom-color: $weak-line-color !important;
+  border-bottom-color: $color-div-line !important;
 }
 
 //////////////////////////////////////////////////
@@ -124,76 +134,97 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
     width: 100%;
   }
 
-  .header-icon-title {
-    @include display-flex();
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-bottom-color: $div-line-color;
-    height: 40px;
-    padding: 10px 0;
-
-    .side-icon {
-      padding-left: 12px;
-    }
-    .title {
-      padding-left: 10px;
-      font-size: 17px;
-      color: $deep-text-color;
-    }
-  }
   .ho-item {
+    padding: 0;
+
     @include display-flex();
     @include align-items(center);
-    text-align: center;
+    min-height: 48px;
+    border-color: $color-div-line;
 
     .title {
-      position: relative;
-      float: left;
-
-      padding: 0 20px 0 17px;
+      padding: 0 20px 0 28px;
       margin-bottom: 0; // overwrite ionic .item p
-      font-size: 17px;
-      color: $deep-text-color;
+      font-size: 15px;
+      color: $color-text-primary;
     }
 
-    .ho-item-content {
-      font-size: 17px;
-      color: $deep-text-color1;
+    .content {
+      font-size: 15px;
+      color: $color-text-secondary;
     }
 
-    &.avatar-setting {
+    .content-right {
+      @include display-flex();
+      @include flex-direction(row-reverse);
+      @include flex(1);
+      @include align-items(center);
 
+      .body {
+        color: $color-text-secondary;
+      }
+      .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin: 10px 10px 10px 10px;
+      }
+      .decoration {
+        @include flex(0,0,22px);
+        @include display-flex();
+        @include justify-content(center);
+      }
     }
+
+    &.ho-item-header-icon-title {
+      @include display-flex();
+      @include align-items(center);
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
+      border-bottom-color: $color-div-line;
+      min-height: 35px;
+      height: 35px;
+
+      .side-icon {
+        padding-left: 10px;
+      }
+      .title {
+        padding-left: 6px;
+        font-size: 15px;
+        color: $color-text-primary;
+      }
+    }
+
+    &.ho-item-avatar {
+      @include display-flex();
+      @include align-items(center);
+      @include justify-content(space-between);
+      padding: 5px;
+      width: 100%;
+      .list {
+        width: 100%;
+      }
+      .avatar {
+        @include flex(0, 0, auto);
+        width: 40px;
+        height: 40px;
+        border-radius: 20px;
+        margin: 0 10px 0 10px;
+      }
+      .content {
+        @include flex(1, 0, auto);
+      }
+      .right {
+        @include flex(0, 0, auto);
+        margin: 0 11px 0 10px;
+      }
+    }
+
     &.normal-setting {
 
     }
-
   }
 
-  .ho-item-avatar {
-    @include display-flex();
-    @include align-items(center);
-    @include justify-content(space-between);
-    padding: 5px;
-    width: 100%;
-    .list {
-      width: 100%;
-    }
-    .avatar {
-      @include flex(0, 0, auto);
-      width: 40px;
-      height: 40px;
-      border-radius: 20px;
-      margin: 0 10px 0 10px;
-    }
-    .content {
-      @include flex(1, 0, auto);
-    }
-    .right {
-      @include flex(0, 0, auto);
-      margin: 0 11px 0 10px;
-    }
-  }
 }
 
 //////////////////////////////////////////////////

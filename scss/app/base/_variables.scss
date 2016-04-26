@@ -4,23 +4,22 @@
 $node-green: #80bd01;
 $node-black: #444;
 
-//$theme-color: #F74848;
-$theme-color: #FF432F;
+//$color-theme: #F74848;
+$color-theme: #FF432F;
 
 //page bg color
-$page-bg-color: #e8e7ed;
-//div line
-$div-line-color:#e6e6e6;
+$color-page-bg: #e8e7ed;
 
-// line and text colors
-$weak-line-color: #eeeeee;  //淡线颜色
-$weak-text-color1: #bbb;     //淡文字颜色1
-$weak-text-color2: #999;      //淡文字颜色2
-$deep-text-color: #323232;
-$deep-text-color1: #4f4f4f;
+//div line
+$color-div-line: #e4e4e4;  //淡线颜色
+
+// text color
+$color-text-primary: #2a2a2a;       // 文字主要
+$color-text-secondary: #878787;     // 文字次级
+$color-text-thirdly: #dddddd;       // 文字提示等
 
 //button colors
-$button-gray-color: $deep-text-color1;
+$button-gray-color: $color-text-secondary;
 
 // icon colors
 $deadline-icon-color: #0a9dc7;  //截止时间图标颜色

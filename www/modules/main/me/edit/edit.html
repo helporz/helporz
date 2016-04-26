@@ -7,24 +7,36 @@
 
   <ion-content >
 
-
     <ion-list class="ho-list">
 
-      <ion-item class="ho-item avatar-setting">
+      <ion-item class="ho-item" >
         <p class="title">头像</p>
-        <p class="ho-item-content">华中科技大学</p>
+        <div class="content-right" ng-click="vm.edit.cb_avatar()">
+          <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
+          <img class="avatar" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g"
+               live-image ng-src="{{vm.edit.avatarLocalUrl}}">
+        </div>
       </ion-item>
       <ion-item class="ho-item">
         <p class="title">名字</p>
-        <p class="ho-item-content">计算机学院</p>
+        <div class="content-right">
+          <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
+          <span class="body">{{vm.edit.avatarDataLen}}</span>
+        </div>
       </ion-item>
       <ion-item class="ho-item">
         <p class="title">所属组织</p>
-        <p class="ho-item-content">10栋501</p>
+        <div class="content-right">
+          <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
+          <span class="body">计算机学院</span>
+        </div>
       </ion-item>
       <ion-item class="ho-item">
         <p class="title">院系</p>
-        <p class="ho-item-content">湖北 武汉</p>
+        <div class="content-right">
+          <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
+          <span class="body">计算机学院</span>
+        </div>
       </ion-item>
     </ion-list>
   </ion-content>
