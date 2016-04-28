@@ -1,0 +1,100 @@
+<ion-view view-title="操场">
+  <style type="text/css">
+    .playground-list {
+
+    }
+
+    .playground-list .slide-box .slide-item-wrap {
+      width: 100%;
+      height: 100px;
+    }
+
+    .playground-list .slide-box img {
+      width: 100%;
+      height: 100px;
+    }
+
+    /*.playground-list .slide-box div {*/
+    /*width:100%;*/
+    /*height: 100px;*/
+    /*}*/
+
+    .playground-list .group-list .item {
+      border: none;
+    }
+
+    .playground-list .group-list .item {
+      /*height: 5em;*/
+    }
+
+    .playground-list .group-list .item:after {
+      background-color: #606060;
+      bottom: 1px;
+      content: "";
+      display: block;
+      /*left: 250px;*/
+      position: absolute;
+      top: 1px;
+      width: 1px;
+      height: 1px;
+    }
+
+    .playground-list .group-list .item img {
+      width: 2.5em;
+    }
+
+    .playground-list .group-list .item .no-left-padding {
+      padding-left: 0px;
+    }
+    .playground-list .group-list .item .name {
+      font-size: 1em;
+      color: black;
+    }
+
+    .playground-list .group-list .item .desc {
+      font-size: 0.6em;
+    }
+
+    .playground-list .group-list .split {
+      border-bottom: 1px solid #ddd;
+      margin-top: 2px;
+      margin-bottom: 2px;
+    }
+
+  </style>
+  <ion-content class="playground-list">
+    <div class="slide-box">
+      <ion-slide-box does-continue="true" show-pager="true" auto-play="true" slide-interval="2000">
+        <ion-slide ng-repeat="slide in vm.slideList">
+          <div class="slide-item-wrap" ng-click="vm.gotoGroup(slide.groupId)">
+            <img ng-src="{{slide.pic}}">
+          </div>
+        </ion-slide>
+      </ion-slide-box>
+    </div>
+
+    <ion-list class="group-list">
+      <ion-item class="nopadding" ng-repeat="item in vm.groupList" ng-sref="topic-group({groupId:item.groupId})">
+        <div class="row nopadding">
+          <div class="col col-offset-5 col-20 .col-center  no-left-padding">
+            <img ng-src="{{item.pic}}">
+          </div>
+
+          <div class="col col-75 content-right">
+            <p class="name">{{item.name}}</p>
+
+            <p class="desc">{{item.description}}</p>
+          </div>
+
+        </div>
+        <div clsss="row nopadding">
+          <div class="col col-offset-5 split nopadding"></div>
+        </div>
+
+
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
+
+
