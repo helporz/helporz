@@ -8,8 +8,8 @@
   angular.module('main', [
     'ionic',
     'main.near',
-    'main.near.taskdetail',
     'main.post',
+    'main.task',
     'main.me'
   ]).config(mainConfig);
 
@@ -91,7 +91,38 @@
             controller: 'mainSettingCtrl'
           }
         }
-      });
+      })
+
+      .state('main.edit-sheet', {
+        url: '/edit-sheet',
+        views: {
+          'me': {
+            templateUrl: 'modules/main/details/edit-sheet/edit-sheet.html',
+            controller: 'mainEditSheetCtrl'
+          }
+        }
+      })
+
+      .state('main.about', {
+        url: '/about',
+        views: {
+          'me': {
+            templateUrl: 'modules/main/details/about/about.html'
+          }
+        }
+      })
+
+      .state('main.task', {
+        url: '/task',
+        views: {
+          'task': {
+            templateUrl: 'modules/main/task/task.html',
+            controller: 'mainTaskCtrl'
+          }
+        }
+      })
+
+    ;
 
     //tab位置设置到下面
     $ionicConfigProvider.tabs.position('bottom')

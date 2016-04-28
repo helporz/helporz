@@ -5,10 +5,10 @@
 (function () {
   'use strict';
 
-  angular.module('main.near', [
-    'main.near.taskdetail',
+  angular.module('main.task', [
     'com.helporz.task.netservice',
-    'app.task.utils.service'
+    'app.task.utils.service',
+    'components.widgets.hoTabSet'
   ])
 
 

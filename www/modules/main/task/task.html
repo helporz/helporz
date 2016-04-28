@@ -1,0 +1,40 @@
+<ion-view>
+  <ion-nav-title class="task-title-container">
+    <!--<ho-tab-set>-->
+    <!--<ho-tab>1</ho-tab>-->
+    <!--<ho-tab>2</ho-tab>-->
+    <!--</ho-tab-set>-->
+    <ho-tab-set class="ho-tabset ho-tabset-round ho-tabset-outline-theme">
+      <ho-tab on-select="vm.cb_post()">我的求助</ho-tab>
+      <ho-tab on-select="vm.cb_accept()">我的援助</ho-tab>
+    </ho-tab-set>
+
+  </ion-nav-title>
+
+  <ion-content class="has-tabs has-header">
+
+
+
+    <div ng-show="vm.tabSelectedIndex==0">
+      <ion-list class="ho-list">
+        <ion-item class="ho-item ho-item-header-icon-title" collection-repeat="item in vm.postList" item-width="100%" item-height="40px">
+          <i class="side-icon icon ion-person color-theme"></i>
+
+          <p class="title">个人动态</p>
+        </ion-item>
+      </ion-list>
+    </div>
+    <!--<div ng-show="vm.tabSelectedIndex==1">-->
+      <!--<ion-list class="ho-list">-->
+        <!--<ion-item class="ho-item ho-item-header-icon-title" collection-repeat="item in vm.acceptList"-->
+          <!--item-width="100%" item-height="30px">-->
+          <!--<i class="side-icon icon ion-person color-theme"></i>-->
+
+          <!--<p class="title">个人</p>-->
+        <!--</ion-item>-->
+      <!--</ion-list>-->
+    <!--</div>-->
+
+
+  </ion-content>
+</ion-view>

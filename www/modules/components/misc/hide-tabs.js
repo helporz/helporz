@@ -8,7 +8,7 @@
 
   // 隐藏导航栏
   angular.module('components.misc.hideTabs', [])
-    .factory('hideTabsVars', function () {
+    .factory('hideTabsService', function () {
       //hideTab页面的栈深度,当它==0时,表明此时不再隐藏.
       var stack = 0;
       return {
@@ -16,22 +16,22 @@
       };
     })
 
-    .directive('hideTabs', ['$rootScope', 'hideTabsVars', function ($rootScope, hideTabsVars) {
+    .directive('hideTabs', ['$rootScope', 'hideTabsService', function ($rootScope, hideTabsService) {
 
       return {
         restrict: 'A',
         link: function (scope) {
           scope.$on('$ionicView.beforeEnter', function () {
-            hideTabsVars.stack++;
+            hideTabsService.stack++;
             $rootScope.hideTabs = 'tabs-item-hide';
           });
 
           scope.$on('$ionicView.beforeLeave', function () {
-            hideTabsVars.stack--;
-            if(hideTabsVars.stack < 0){
+            hideTabsService.stack--;
+            if(hideTabsService.stack < 0){
               console.log('error: hideTabs stack overflow')
             }
-            else if (hideTabsVars.stack == 0) {
+            else if (hideTabsService.stack == 0) {
               $rootScope.hideTabs = ' ';
             }
           });
