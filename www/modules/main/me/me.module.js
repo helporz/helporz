@@ -7,35 +7,38 @@
 
   angular.module('main.me', [
     'ionic',
-    'app.effect.directive',
-    'main.me.self',
-    'main.me.friend'
-  ])
-    .config(config);
-
-  config.$inject = ['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider'];
-
-  function config($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
-    $stateProvider
-
-      .state('main.me.self', {
-        url: '/self',
-        views: {
-          'self': {
-            templateUrl: 'modules/main/me/self/self.html',
-            controller: 'mainMeSelfCtrl'
-          }
-        }
-      })
-      .state('main.me.friend', {
-        url: '/friend',
-        views: {
-          'friend': {
-            templateUrl: 'modules/main/me/friend/friend.html',
-            controller: 'mainMeFriendCtrl'
-          }
-        }
-      })
-  }
+    'components.widgets.fiveStars',
+    'components.widgets.levelProgress',
+    'components.misc.liveImage',
+    'main.userInfo',
+    'main.setting',
+    'main.edit'
+  ]);
+//    .config(config);
+//
+//  config.$inject = ['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider'];
+//
+//  function config($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+//    $stateProvider
+//
+//     .state('main.me.friend', {
+//        url: '/friend',
+//        views: {
+//          'friend': {
+//            templateUrl: 'modules/main/me/friend/friend.html',
+//            controller: 'mainMeFriendCtrl'
+//          }
+//        }
+//      })  .state('main.me.self', {
+//        url: '/self',
+//        views: {
+//          'self': {
+//            templateUrl: 'modules/main/me/self/self.html',
+//            controller: 'mainMeSelfCtrl'
+//          }
+//        }
+//      })
+//
+//  }
 
 })()

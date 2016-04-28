@@ -1,0 +1,15 @@
+.five-stars {
+  @include display-flex();
+  //position: relative;
+  //display: inline-block;
+  //vertical-align: middle;
+
+  .star {
+    @include transform-origin(left, center);
+    padding-right: 15px;
+    @include transform(scale(1.5));
+    color: $color-theme;
+
+  }
+
+}

@@ -1,0 +1,43 @@
+<ion-view  view-title="设置" hide-tabs>
+  <div class="nav row">
+    <button class="button button-icon icon ion-android-arrow-back" ng-click="vm.cb_back()"></button>
+    <p class="text-center name color-white">点到泥巴了</p>
+    <!--<button class="col-offset-10 col-20 button button-icon icon ion-share"></button>-->
+  </div>
+
+  <ion-content >
+
+    <ion-list class="ho-list">
+
+      <ion-item class="ho-item" >
+        <p class="title">头像</p>
+        <div class="content-right" ng-click="vm.edit.cb_avatar()">
+          <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
+          <img class="avatar" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g"
+               live-image ng-src="{{vm.edit.avatarLocalUrl}}">
+        </div>
+      </ion-item>
+      <ion-item class="ho-item">
+        <p class="title">名字</p>
+        <div class="content-right">
+          <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
+          <span class="body">{{vm.edit.avatarDataLen}}</span>
+        </div>
+      </ion-item>
+      <ion-item class="ho-item">
+        <p class="title">所属组织</p>
+        <div class="content-right">
+          <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
+          <span class="body">计算机学院</span>
+        </div>
+      </ion-item>
+      <ion-item class="ho-item">
+        <p class="title">院系</p>
+        <div class="content-right">
+          <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
+          <span class="body">计算机学院</span>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

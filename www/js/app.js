@@ -16,6 +16,7 @@
       'pusher',
       'com.helporz.im',
       'app.routes',
+      'app.directives',
       'starter.controllers',
       'starter.services',
       'com.helporz.login',

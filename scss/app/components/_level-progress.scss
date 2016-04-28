@@ -1,0 +1,64 @@
+.level-progress {
+  @include display-flex();
+  width: 70%;
+  @include justify-content(space-between);
+  @include align-items(center);
+
+  .bg {
+    height: 10px;
+    width: 68%;
+    border-radius: 5px;
+    background-color: $color-page-bg;
+
+    .bar {
+      position: inherit;
+      border-radius: 5px;
+      background-color: $button-accept-bordercolor;
+      width: 50%;
+      height: 100%;
+      @include display-flex();
+      @include flex-direction(row-reverse);
+
+      .level-badge-container {
+        @include align-self(center);
+        position: relative;
+
+        .level-badge {
+          background-color: white;
+          border:1px solid $button-accept-bordercolor;
+          border-radius: 12px;
+          position:relative;
+          left: 12px;
+          width: 24px;
+          height: 24px;
+
+          @include display-flex();
+          @include justify-content(center);
+          @include align-items(center);
+
+          p {
+            color: $button-accept-bordercolor;
+            font-size: 13px;
+          }
+        }
+      }
+
+    }
+  }
+
+  .label {
+    color: $color-text-secondary;
+    font-size: 14px;
+  }
+}
+
+//@media (max-width: 380px) {
+//  .level-progress .bg {
+//    width: 200px;
+//  }
+//}
+//@media (min-width: 381px) {
+//  .level-progress .bg {
+//    width: 230px;
+//  }
+//}

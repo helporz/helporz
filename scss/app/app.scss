@@ -1,7 +1,16 @@
 @charset "UTF-8";
 
 @import
+
+// mixin
+  "../../www/lib/ionic/scss/mixins",
+
+// base
   "base/variables",
+
+// components
+  "components/five-stars",
+  "components/level-progress",
 
 // common
   "com",
@@ -9,8 +18,12 @@
 // near page
   "near",
 
-  "task-publish"
 // me page
-  "me"
+  "me",
+
+// edit page
+  "edit",
+
+  "task-publish"
 
   ;

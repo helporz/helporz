@@ -1,14 +1,33 @@
 //////////////////////////////////////////////////
 // 通用颜色
+.color-theme {
+  color: $color-theme !important;
+}
+
 .color-white {
   color: #fff !important;
 }
+
 .color-black {
   color: #000 !important;
 }
 
-.color-header {
-  background-color:$theme-color !important;
+.color-olive-green {
+  color: #81c03e;
+}
+
+.bgcolor-theme {
+  background-color: $color-theme !important;
+}
+
+.color-text-primary {
+  color: $color-text-primary !important;
+}
+.color-text-secondary {
+  color: $color-text-secondary !important;
+}
+.color-text-thirdly {
+  color: $color-text-thirdly !important;
 }
 
 //////////////////////////////////////////////////
@@ -16,12 +35,12 @@
 .color-man {
   color: $gender-man-color;
 }
+
 .color-woman {
   color: $gender-woman-color;
 }
 
-
-///////////////////////////////////////////////////////
+//////////////////////////////////////////////////
 // 用户标签(评价,头像旁显示等)颜色
 
 .user-tag-color-0 {
@@ -34,12 +53,9 @@
   background-color: $user-tag-bgcolor-1 !important;
 }
 
-$user-tag-colors:
-$user-tag-color-0
-$user-tag-color-1
-;
+$user-tag-colors: $user-tag-color-0 $user-tag-color-1;
 
-@mixin user-tag-color($index){
+@mixin user-tag-color($index) {
   color: nth($user-tag-colors, $index);
 }
 
@@ -53,7 +69,7 @@ $user-tag-color-1
   border-radius: 3px !important;
 }
 
-///////////////////////////////////////////////////////
+//////////////////////////////////////////////////
 // 按钮
 .button-light-red {
   border-color: $button-accept-bordercolor;
@@ -72,7 +88,33 @@ $user-tag-color-1
   font-size: 15px;
 }
 
-///////////////////////////////////////////////////////
+// button
+@mixin ho-button-outline($color) {
+  border-style: solid;
+  border-width: 1px;
+  @include button-outline($color);
+}
+
+.ho-button {
+
+  &.button-theme {
+    @include ho-button-outline($color-theme);
+  }
+  &.button-gray {
+    @include ho-button-outline($button-gray-color);
+  }
+}
+
+.ho-button-small {
+  padding: 2px 2px;
+  min-width: 60px;
+  height: 28px;
+  border-radius: 7px;
+  font-size: 13px;
+}
+
+//////////////////////////////////////////////////
+// 布局
 .nopadding {
   padding: 0 !important;
 }
@@ -80,5 +122,109 @@ $user-tag-color-1
 .bottom-bordered {
   border-style: solid !important;
   border-bottom-width: 5px !important;
-  border-bottom-color: $weak-line-color !important;
+  border-bottom-color: $color-div-line !important;
 }
+
+//////////////////////////////////////////////////
+// list
+.ho-list {
+
+  //overwrite ionic
+  .list {
+    width: 100%;
+  }
+
+  .ho-item {
+    padding: 0;
+
+    @include display-flex();
+    @include align-items(center);
+    min-height: 48px;
+    border-color: $color-div-line;
+
+    .title {
+      padding: 0 20px 0 28px;
+      margin-bottom: 0; // overwrite ionic .item p
+      font-size: 15px;
+      color: $color-text-primary;
+    }
+
+    .content {
+      font-size: 15px;
+      color: $color-text-secondary;
+    }
+
+    .content-right {
+      @include display-flex();
+      @include flex-direction(row-reverse);
+      @include flex(1);
+      @include align-items(center);
+
+      .body {
+        color: $color-text-secondary;
+      }
+      .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin: 10px 10px 10px 10px;
+      }
+      .decoration {
+        @include flex(0,0,22px);
+        @include display-flex();
+        @include justify-content(center);
+      }
+    }
+
+    &.ho-item-header-icon-title {
+      @include display-flex();
+      @include align-items(center);
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
+      border-bottom-color: $color-div-line;
+      min-height: 35px;
+      height: 35px;
+
+      .side-icon {
+        padding-left: 10px;
+      }
+      .title {
+        padding-left: 6px;
+        font-size: 15px;
+        color: $color-text-primary;
+      }
+    }
+
+    &.ho-item-avatar {
+      @include display-flex();
+      @include align-items(center);
+      @include justify-content(space-between);
+      padding: 5px;
+      width: 100%;
+      .list {
+        width: 100%;
+      }
+      .avatar {
+        @include flex(0, 0, auto);
+        width: 40px;
+        height: 40px;
+        border-radius: 20px;
+        margin: 0 10px 0 10px;
+      }
+      .content {
+        @include flex(1, 0, auto);
+      }
+      .right {
+        @include flex(0, 0, auto);
+        margin: 0 11px 0 10px;
+      }
+    }
+
+    &.normal-setting {
+
+    }
+  }
+
+}
+
+//////////////////////////////////////////////////
