@@ -75,6 +75,9 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
 //////////////////////////////////////////////////
 // 按钮
 .button-light-red {
+  border-style: solid;
+  border-width: 1px;
+
   border-color: $button-accept-bordercolor;
   background-color: $button-accept-bgcolor;
   color: $button-accept-txtcolor;
@@ -104,6 +107,7 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
     background-color: $active-color;
   }
 }
+
 @mixin ho-button-outline-color($color) {
   border-style: solid;
   border-width: 1px;
@@ -121,11 +125,11 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
 }
 
 .ho-button-small {
-  padding: 2px 2px;
+  padding: 2px 5px;
   min-width: 60px;
-  height: 28px;
-  border-radius: 7px;
-  font-size: 13px;
+  height: 24px;
+  border-radius: 5px;
+  font-size: 10px;
 }
 
 .ho-button-block {
@@ -140,7 +144,6 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
   &.button-theme {
     @include ho-button-color($color-theme, $color-theme-dark);
   }
-
 }
 
 //////////////////////////////////////////////////

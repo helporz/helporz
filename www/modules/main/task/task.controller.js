@@ -28,14 +28,20 @@
         if (vm.isFirstIn) {
           vm.isFirstIn = false;
 
-          //   $ionicLoading.show({
-          //     template:'加载数据中...'
-          //   });
-          //
-          //   taskNetService.queryNewTaskList().then(flushSuccessFn,flushFailedFn).finally(function() {
-          //     $ionicLoading.hide();
-          //   });
-          //}
+          $ionicLoading.show({
+            template:'加载数据中...'
+          });
+
+          taskNetService.getPostTaskList().then(cb_success,cb_failed).finally(function() {
+            $ionicLoading.hide();
+          });
+        }
+
+        function cb_success(taskList){
+
+        }
+        function cb_failed(error) {
+          alert(error);
         }
       });
 
@@ -52,11 +58,23 @@
 
       //////////////////////////////////////////////////
       vm.postList = [
-        1,2,3,4,5,6,7
+        {
+          state: 0
+        },{
+          state: 1
+        },{
+          state: 2
+        }
       ]
       vm.acceptList = [
         1,2,3,4,5,6,7
       ]
+
+      vm.cb_click = function() {
+        console.log('click');
+      }
+      vm.stateType = 1;
+
 
     }
   })

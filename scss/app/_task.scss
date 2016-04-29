@@ -1,5 +1,294 @@
 .task-title-container {
-  padding-top:10px;
+  padding-top: 10px;
   @include display-flex();
   @include justify-content(center);
+}
+
+.task-item {
+  .task-header {
+    @include display-flex();
+    @include align-items(center);
+    .left {
+      @include flex(1, 0, 30%);
+      @include display-flex();
+      @include align-items(center);
+      .avatar {
+        margin: 1px 8px 1px 10px;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+      }
+      .name {
+        padding-right: 5px;
+        font-size: 13px;
+        margin-bottom: 0; //overwrite ionic p.item
+      }
+      .desc {
+        color: white;
+        background-color: $color-theme;
+        font-size: 11px;
+        height: 14px;
+        vertical-align: middle;
+        line-height: 13px;
+        padding: 1px;
+      }
+    }
+    .right {
+      @include flex(1);
+      @include display-flex();
+      @include flex-direction(row-reverse);
+      @include align-items(center);
+
+      .chat {
+        padding-right: 18px;
+        margin: -8px;
+        font-size: 10px;
+        color: $color-theme;
+      }
+    }
+
+  }
+
+  .task-body {
+    height: 90px;
+    @include display-flex();
+    @include align-items(center);
+    background-color: $color-page-bg-weak;
+    border-style: solid;
+    border-left-color: $button-accept-bordercolor;
+    border-left-width: 2px;
+    border-bottom-color: $color-div-line;
+    border-bottom-width: 1px;
+
+    .left {
+      height: 70px;
+      @include flex(1, 0, 25%);
+      @include display-flex();
+      @include flex-direction(column);
+      @include align-items(center);
+      @include justify-content(space-around);
+      margin-top: 3px;
+
+      .task-img {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+      }
+      .task-desc {
+        color: $color-text-primary;
+        font-size: 12px;
+        margin-top: 7px;
+      }
+    }
+    .div-line {
+      height: 60px;
+      //border: 1px solid $color-div-line;
+      border-left-style: solid;
+      border-left-width: 1px;
+      border-left-color: $color-div-line
+    }
+    .right {
+      @include flex(0, 1, 75%);
+
+      .div-line {
+        width: 120px;
+        height: 1px;
+        border: 1px solid #33cd5f;
+        //position: absolute;
+        //top: 20px;
+
+      }
+
+      .dot-ctn {
+        margin-top: 10px;
+        @include display-flex();
+        @include align-items(center);
+        @include justify-content(center);
+
+        .dot {
+          @include display-flex();
+          @include align-items(center);
+          z-index: 100;
+
+          &.dot-0 {
+            @include flex(0, 1, 47px);
+            @include justify-content(flex-end);
+          }
+          &.dot-1 {
+            @include flex(0, 0, 32);
+            @include justify-content(center);
+          }
+          &.dot-2 {
+            @include flex(0, 1, 47px);
+            @include justify-content(flex-start);
+          }
+        }
+
+        .div-line-done {
+          //border: 1px solid $color-theme;
+          border: 1px solid $color-success;
+        }
+        .div-line-pending {
+          border: 1px dashed $color-div-line;
+        }
+
+        .div-line-0 {
+          @include flex(1, 1, 20%);
+        }
+        .div-line-1 {
+          @include flex(1, 1, 20%);
+        }
+
+        .dot-small {
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          &.pending {
+            background-color: $color-text-thirdly;
+          }
+          &.done {
+            //background-color: $color-theme;
+            background-color: $color-success;
+          }
+        }
+        //这里是由于ng-src在safari,ios,android有bug,一个class只能对应一个状态,比如 clazz != 1 这句就
+        //无法判断;又或是有多个条件,那么只读最后一个条件
+        //temp fix: 这里复制一个clazz对应第二个状态
+        .dot-small-copy {
+
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          &.pending {
+            background-color: $color-text-thirdly;
+          }
+          &.done {
+            //background-color: $color-theme;
+            background-color: $color-success;
+          }
+        }
+        .dot-big {
+          font-size: 32px;
+          //&.doing {
+          //  color: $color-success;
+          //}
+          //&.done {
+          //  color: $color-theme;
+          //}
+          color: $color-success;
+          &.offset {
+            margin-left: -5px;
+          }
+        }
+
+      }
+      .desc-ctn {
+        @include display-flex();
+        @include align-items(center);
+        margin-top: 2px;
+
+        .desc {
+          @include display-flex();
+          @include justify-content(center);
+          color: $color-text-secondary;
+          font-size: 11px;
+          margin: 0;
+
+          &.desc-0 {
+            @include flex(0, 0, 77px);
+          }
+          &.desc-1 {
+            @include flex(1, 1, 30%);
+          }
+          &.desc-2 {
+            @include flex(0, 0, 77px);
+          }
+        }
+      }
+
+    }
+  }
+
+  //全体右对齐
+  //.task-foot {
+  //  > * {
+  //    @include display-flex();
+  //    @include align-items(center);
+  //    height: 24px;
+  //  }
+  //  padding-top: 5px;
+  //  .align-center {
+  //    @include align-items(center);
+  //    @include justify-content(center);
+  //  }
+  //  .align-right {
+  //    @include align-items(center);
+  //    @include justify-content(flex-end);
+  //  }
+  //
+  //  * {
+  //    margin: 0 3px;
+  //  }
+  //
+  //  p {
+  //    color: $color-text-primary;
+  //    font-size: 12px;
+  //  }
+  //}
+
+  //左中右,三区域 (ios不支持flex-shrink...)
+  //.task-foot {
+  //  padding: 5px 2px;
+  //  > div {
+  //    @include display-flex();
+  //    @include align-items(center);
+  //    height: 24px;
+  //
+  //    * {
+  //      margin: 0 3px;
+  //    }
+  //    p {
+  //      color: $color-text-primary;
+  //      font-size: 12px;
+  //    }
+  //
+  //    .left {
+  //      @include flex(0, 1, 40%);
+  //    }
+  //
+  //    .mid {
+  //      @include flex(1, 0, 20%);
+  //      @include justify-content(center);
+  //    }
+  //
+  //    .right {
+  //      @include flex(0, 1, 40%);
+  //      @include display-flex();
+  //      @include align-items(center);
+  //      @include justify-content(flex-end);
+  //    }
+  //  }
+  //}
+
+  .task-foot {
+    padding-top: 5px;
+    //width: 100%;
+    height: 40px;
+    text-align: center;
+    position: relative;
+
+    p {
+      color: $color-text-primary;
+      font-size: 12px;
+      margin: 2px 0 0;
+    }
+
+    .desc {
+      position: relative;
+      top: -22px;
+      margin-right: 5px;
+      float: right;
+    }
+
+  }
 }

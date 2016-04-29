@@ -14,25 +14,209 @@
   <ion-content class="has-tabs has-header">
 
 
-
     <div ng-show="vm.tabSelectedIndex==0">
-      <ion-list class="ho-list">
-        <ion-item class="ho-item ho-item-header-icon-title" collection-repeat="item in vm.postList" item-width="100%" item-height="40px">
-          <i class="side-icon icon ion-person color-theme"></i>
+      <ion-list>
+        <ion-item class="task-item nopadding bottom-bordered bottom-bordered-small"
+                  collection-repeat="item in vm.postList" item-width="100%"
+                  item-height="160px">
+          <div class="task-header">
+            <div class="left">
+              <img class="avatar" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g">
 
-          <p class="title">个人动态</p>
+              <p class="name">王小丫</p>
+
+              <p class="desc">捎带侠</p>
+            </div>
+            <div class="right">
+              <button class="chat button button-icon icon ion-ios-chatbubble-outline" ng-click=""></button>
+            </div>
+          </div>
+          <div class="task-body">
+            <div class="left">
+              <img class="task-img" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g">
+
+              <p class="task-desc">
+                捎带餐饮
+              </p>
+            </div>
+
+
+            <div class="div-line"></div>
+            <div class="right">
+
+              <div class="dot-ctn">
+
+                <div class="dot dot-0">
+                  <div class="dot-small" ng-class="{'pending':item.state==0, 'done':item.state>0}"></div>
+                </div>
+
+                <div class="div-line-0" ng-class="{'div-line-pending':item.state==0, 'div-line-done':item.state>0}"></div>
+
+                <div class="dot dot-1">
+                  <div class="icon" ng-class="{'dot-small':item.state==0, 'dot-small-copy':item.state==2, 'pending':item.state==0, 'done':item.state==2,
+                  'dot-big':item.state==1, 'ion-ios-refresh':item.state==1}"></div>
+
+                  <!--<div class="icon" ng-class="{'dot-small':item.state!=1, 'pending':item.state==0, 'done':item.state==2,-->
+                  <!--'dot-big':item.state==1, 'ion-ios-refresh':item.state==1}"></div>-->
+
+                  <!--<div class="icon" ng-class="{'dot-small':item.state!==2, 'pending':item.state<2,-->
+                  <!--'dot-big':item.state==2, 'ion-checkmark-circled':item.state==2, 'offset':item.state==2}"></div>-->
+                </div>
+
+                <div class="div-line-1" ng-class="{'div-line-pending':item.state<2, 'div-line-done':item.state==2}"></div>
+
+                <div class="dot dot-2">
+                  <div class="icon" ng-class="{'dot-small':item.state<2, 'pending':item.state<2,
+                  'dot-big':item.state==2, 'ion-checkmark-circled':item.state==2, 'offset':item.state==2}"></div>
+                </div>
+              </div>
+
+              <div class="desc-ctn">
+                <p class="desc desc-0">已接受</p>
+                <p class="desc desc-1">行动中</p>
+                <p class="desc desc-2">已搞定</p>
+              </div>
+
+            </div>
+          </div>
+
+          <!--<div class="task-foot">-->
+            <!--<task-opt state-type="{{vm.stateType}}"></task-opt>-->
+            <!--&lt;!&ndash;<task-opt ></task-opt>&ndash;&gt;-->
+          <!--</div>-->
+
+          <!-- left align ------------------------>
+          <!--<div class="task-foot">-->
+          <!--<div class="align-center" ng-show="true">-->
+          <!--<p>等待大侠的援手</p>-->
+
+          <!--<button class="ho-button  button-light-red ho-button-small">未完成援助</button>-->
+          <!--</div>-->
+
+          <!--<div class="align-right" ng-show="false">-->
+          <!--<p>等待对方完成</p>-->
+          <!--<button class="ho-button  button-light-red ho-button-small">未完成援助</button>-->
+          <!--<button class="ho-button button-gray button-outline ho-button-small">未完成援助</button>-->
+          <!--</div>-->
+
+
+          <!-- fold -------------------------------->
+          <!--<div class="task-foot">-->
+            <!--<div ng-show="true" ng-cloak>-->
+              <!--<div class="left"></div>-->
+              <!--<div class="mid">-->
+                <!--<p ng-hide ng-show="false">等待大侠的援手</p>-->
+                <!--<p ng-hide ng-show="true">等待对方完成援助吧</p>-->
+                <!--<p ng-hide ng-show="false">等待对方确认援助完成</p>-->
+              <!--</div>-->
+              <!--<div class="right">-->
+                <!--<button ng-hide ng-show="true" class="ho-button  button-gray button-outline ho-button-small">取消求助</button>-->
+                <!--<button ng-hide ng-show="false" class="ho-button button-gray button-outline ho-button-small">确认对方已完成援助未完成援助</button>-->
+                <!--<button ng-hide ng-show="true" class="ho-button  button-light-red ho-button-small">确认对方已完成援助</button>-->
+                <!--<button ng-hide ng-show="false" class="ho-button button-gray button-outline ho-button-small">放弃援助</button>-->
+                <!--<button ng-hide ng-show="false" class="ho-button  button-light-red ho-button-small">我已完成援助</button>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+
+          <div class="task-foot">
+            <p ng-hide ng-show="false">等待大侠的援手</p>
+            <p ng-hide ng-show="true">等待对方完成援助吧</p>
+            <p ng-hide ng-show="false">等待对方确认援助完成</p>
+
+            <button ng-hide ng-show="true" class="desc ho-button  button-gray button-outline ho-button-small">取消求助</button>
+            <button ng-hide ng-show="false" class="desc ho-button button-gray button-outline ho-button-small">确认对方已完成援助未完成援助</button>
+            <button ng-hide ng-show="true" class="desc ho-button  button-light-red ho-button-small">确认对方已完成援助</button>
+            <button ng-hide ng-show="false" class="desc ho-button button-gray button-outline ho-button-small">放弃援助</button>
+            <button ng-hide ng-show="false" class="desc ho-button  button-light-red ho-button-small">我已完成援助</button>
+
+            <!--<button ng-hide ng-show="true" class="desc ho-button  button-light-red ho-button-small">我已完成援助</button>-->
+              <!--<button ng-hide ng-show="true" class="desc ho-button button-gray button-outline ho-button-small">确认对方已完成援助未完成援助</button>-->
+
+            <!--</div>-->
+          </div>
+
+          <!-- expand ---------------------->
+
+          <!--<div class="task-foot">-->
+            <!--<div ng-show="false">-->
+              <!--<div class="left"></div>-->
+              <!--<div class="mid">-->
+                <!--<p>等待大侠的援手</p>-->
+              <!--</div>-->
+              <!--<div class="right">-->
+                <!--<button class="ho-button  button-gray button-outline ho-button-small">取消求助</button>-->
+              <!--</div>-->
+            <!--</div>-->
+
+            <!--<div ng-show="false">-->
+              <!--<div class="left"></div>-->
+              <!--<div class="mid">-->
+                <!--<p>等待对方完成援助吧</p>-->
+              <!--</div>-->
+              <!--<div class="right">-->
+              <!--</div>-->
+            <!--</div>-->
+
+            <!--<div ng-show="true">-->
+              <!--<div class="left"></div>-->
+              <!--<div class="mid">-->
+              <!--</div>-->
+              <!--<div class="right">-->
+                <!--<button class="ho-button button-gray button-outline ho-button-small">确认对方已完成援助未完成援助</button>-->
+                <!--<button class="ho-button  button-light-red ho-button-small">确认对方已完成援助</button>-->
+              <!--</div>-->
+            <!--</div>-->
+
+
+            <!--<div ng-show="false">-->
+              <!--<div class="left"></div>-->
+              <!--<div class="mid">-->
+              <!--</div>-->
+              <!--<div class="right">-->
+                <!--<button class="ho-button button-gray button-outline ho-button-small">放弃援助</button>-->
+                <!--<button class="ho-button  button-light-red ho-button-small">我已完成援助</button>-->
+              <!--</div>-->
+            <!--</div>-->
+
+            <!--<div ng-show="false">-->
+              <!--<div class="left"></div>-->
+              <!--<div class="mid">-->
+                <!--<p>等待对方确认援助完成</p>-->
+              <!--</div>-->
+              <!--<div class="right">-->
+              <!--</div>-->
+            <!--</div>-->
+
+            <!--<div ng-show="false">-->
+              <!--<div class="left"></div>-->
+              <!--<div class="mid">-->
+                <!--<p>接受对方的膜拜与感谢吧</p>-->
+              <!--</div>-->
+              <!--<div class="right">-->
+                <!--<button class="ho-button  button-light-red ho-button-small">评价留言</button>-->
+              <!--</div>-->
+            <!--</div>-->
+
+          <!--</div>-->
+
         </ion-item>
+
       </ion-list>
     </div>
-    <!--<div ng-show="vm.tabSelectedIndex==1">-->
-      <!--<ion-list class="ho-list">-->
-        <!--<ion-item class="ho-item ho-item-header-icon-title" collection-repeat="item in vm.acceptList"-->
-          <!--item-width="100%" item-height="30px">-->
-          <!--<i class="side-icon icon ion-person color-theme"></i>-->
 
-          <!--<p class="title">个人</p>-->
-        <!--</ion-item>-->
-      <!--</ion-list>-->
+    <!--</ion-item>-->
+    <!--</ion-list>-->
+    <!--</div>-->
+    <!--<div ng-show="vm.tabSelectedIndex==1">-->
+    <!--<ion-list class="ho-list">-->
+    <!--<ion-item class="ho-item ho-item-header-icon-title" collection-repeat="item in vm.acceptList"-->
+    <!--item-width="100%" item-height="30px">-->
+    <!--<i class="side-icon icon ion-person color-theme"></i>-->
+
+    <!--<p class="title">个人</p>-->
+    <!--</ion-item>-->
+    <!--</ion-list>-->
     <!--</div>-->
 
 
