@@ -5,12 +5,9 @@
 (function () {
   'use strict';
 
-  angular.module('main.task', [
+  angular.module('main.comment', [
     'com.helporz.task.netservice',
     'app.task.utils.service',
-    'components.widgets.hoTabSet',
-
-    'main.comment'
   ])
 
 

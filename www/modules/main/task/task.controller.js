@@ -6,9 +6,9 @@
     'use strict';
 
     angular.module('main.task')
-      .controller('mainTaskCtrl', ['$log', '$ionicLoading', '$scope', 'taskNetService', 'taskUtils', mainTaskCtrl]);
+      .controller('mainTaskCtrl', ['$log', '$state', '$ionicLoading', '$scope', 'taskNetService', 'taskUtils', mainTaskCtrl]);
 
-    function mainTaskCtrl($log, $ionicLoading, $scope, taskNetService, taskUtils) {
+    function mainTaskCtrl($log, $state, $ionicLoading, $scope, taskNetService, taskUtils) {
       var vm = $scope.vm = {};
 
       //test:
@@ -25,17 +25,17 @@
       };
 
       $scope.$on("$ionicView.beforeEnter", function () {
-        if (vm.isFirstIn) {
-          vm.isFirstIn = false;
-
-          $ionicLoading.show({
-            template:'加载数据中...'
-          });
-
-          taskNetService.getPostTaskList().then(cb_success,cb_failed).finally(function() {
-            $ionicLoading.hide();
-          });
-        }
+        //if (vm.isFirstIn) {
+        //  vm.isFirstIn = false;
+        //
+        //  $ionicLoading.show({
+        //    template:'加载数据中...'
+        //  });
+        //
+        //  taskNetService.getPostTaskList().then(cb_success,cb_failed).finally(function() {
+        //    $ionicLoading.hide();
+        //  });
+        //}
 
         function cb_success(taskList){
 
@@ -74,6 +74,12 @@
         console.log('click');
       }
       vm.stateType = 1;
+
+
+      //////////////////////////////////////////////////
+      vm.opt_comment = function(){
+        $state.go('main.comment');
+      }
 
 
     }

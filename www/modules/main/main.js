@@ -122,6 +122,17 @@
         }
       })
 
+      .state('main.comment', {
+
+        url: '/comment',
+        views: {
+          'task': {
+            templateUrl: 'modules/main/task/comment/comment.html',
+            controller: 'mainCommentCtrl'
+          }
+        }
+      })
+
     ;
 
     //tab位置设置到下面

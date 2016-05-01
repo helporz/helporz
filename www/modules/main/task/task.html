@@ -124,7 +124,7 @@
             <p ng-hide ng-show="true">等待对方完成援助吧</p>
             <p ng-hide ng-show="false">等待对方确认援助完成</p>
 
-            <button ng-hide ng-show="true" class="desc ho-button  button-gray button-outline ho-button-small">取消求助</button>
+            <button ng-hide ng-show="true" class="desc ho-button  button-gray button-outline ho-button-small" ng-click="vm.opt_comment()">取消求助</button>
             <button ng-hide ng-show="false" class="desc ho-button button-gray button-outline ho-button-small">确认对方已完成援助未完成援助</button>
             <button ng-hide ng-show="true" class="desc ho-button  button-light-red ho-button-small">确认对方已完成援助</button>
             <button ng-hide ng-show="false" class="desc ho-button button-gray button-outline ho-button-small">放弃援助</button>

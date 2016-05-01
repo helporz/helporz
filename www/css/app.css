@@ -856,6 +856,124 @@
     margin-right: 5px;
     float: right; }
 
+.comment {
+  background-color: #e8e7ed; }
+  .comment .top-panel {
+    background-color: white;
+    padding-bottom: 10px; }
+    .comment .top-panel .name1 {
+      margin: 0 12px;
+      font-size: 15px; }
+    .comment .top-panel .star-panel {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -moz-box;
+      display: -moz-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      -moz-align-items: center;
+      align-items: center;
+      height: 40px; }
+    .comment .top-panel .div-line {
+      margin: 0 12px;
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
+      border-bottom-color: #e4e4e4; }
+    .comment .top-panel .name2 {
+      margin-top: 12px;
+      margin-left: 12px; }
+    .comment .top-panel .impress-panel {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -moz-box;
+      display: -moz-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+      -webkit-justify-content: space-between;
+      -moz-justify-content: space-between;
+      justify-content: space-between;
+      padding: 0 10px;
+      margin-bottom: 15px; }
+      .comment .top-panel .impress-panel .impress-button {
+        height: 25px;
+        width: 70px;
+        border: 1px solid;
+        border-radius: 12.5px; }
+        .comment .top-panel .impress-panel .impress-button.impress-1 {
+          background-color: #e74f46;
+          color: white; }
+          .comment .top-panel .impress-panel .impress-button.impress-1.active, .comment .top-panel .impress-panel .impress-button.impress-1.activated {
+            background-color: #af3b34; }
+        .comment .top-panel .impress-panel .impress-button.impress-2 {
+          background-color: #48ccad;
+          color: white; }
+          .comment .top-panel .impress-panel .impress-button.impress-2.active, .comment .top-panel .impress-panel .impress-button.impress-2.activated {
+            background-color: #318d77; }
+        .comment .top-panel .impress-panel .impress-button.impress-3 {
+          background-color: #feb7b9;
+          color: white; }
+          .comment .top-panel .impress-panel .impress-button.impress-3.active, .comment .top-panel .impress-panel .impress-button.impress-3.activated {
+            background-color: #b37f81; }
+        .comment .top-panel .impress-panel .impress-button.impress-4 {
+          background-color: #34b8f6;
+          color: white; }
+          .comment .top-panel .impress-panel .impress-button.impress-4.active, .comment .top-panel .impress-panel .impress-button.impress-4.activated {
+            background-color: #2588b7; }
+        .comment .top-panel .impress-panel .impress-button.impress-5 {
+          background-color: #7985ba;
+          color: white; }
+          .comment .top-panel .impress-panel .impress-button.impress-5.active, .comment .top-panel .impress-panel .impress-button.impress-5.activated {
+            background-color: #555e85; }
+        .comment .top-panel .impress-panel .impress-button.impress-6 {
+          background-color: #34c7da;
+          color: white; }
+          .comment .top-panel .impress-panel .impress-button.impress-6.active, .comment .top-panel .impress-panel .impress-button.impress-6.activated {
+            background-color: #2593a1; }
+        .comment .top-panel .impress-panel .impress-button.impress-7 {
+          background-color: #fda639;
+          color: white; }
+          .comment .top-panel .impress-panel .impress-button.impress-7.active, .comment .top-panel .impress-panel .impress-button.impress-7.activated {
+            background-color: #c37f2a; }
+        .comment .top-panel .impress-panel .impress-button.impress-8 {
+          background-color: #7eb24a;
+          color: white; }
+          .comment .top-panel .impress-panel .impress-button.impress-8.active, .comment .top-panel .impress-panel .impress-button.impress-8.activated {
+            background-color: #5a8034; }
+        .comment .top-panel .impress-panel .impress-button.impress-9 {
+          background-color: #666666;
+          color: white; }
+          .comment .top-panel .impress-panel .impress-button.impress-9.active, .comment .top-panel .impress-panel .impress-button.impress-9.activated {
+            background-color: #434343; }
+        .comment .top-panel .impress-panel .impress-button.impress-10 {
+          background-color: #7a929d;
+          color: white; }
+          .comment .top-panel .impress-panel .impress-button.impress-10.active, .comment .top-panel .impress-panel .impress-button.impress-10.activated {
+            background-color: #546770; }
+        .comment .top-panel .impress-panel .impress-button.impress-11 {
+          background-color: #30a69b;
+          color: white; }
+          .comment .top-panel .impress-panel .impress-button.impress-11.active, .comment .top-panel .impress-panel .impress-button.impress-11.activated {
+            background-color: #207f76; }
+        .comment .top-panel .impress-panel .impress-button.impress-12 {
+          background-color: #bf8fc5;
+          color: white; }
+          .comment .top-panel .impress-panel .impress-button.impress-12.active, .comment .top-panel .impress-panel .impress-button.impress-12.activated {
+            background-color: #926c97; }
+  .comment .comment-panel {
+    margin: 20px 10px 10px 10px;
+    padding: 5px 10px;
+    background-color: white;
+    height: 90px;
+    border-radius: 7px; }
+    .comment .comment-panel textarea {
+      height: 100%;
+      width: 100%; }
+
 .me {
   background-color: #e8e7ed; }
   .me .nav {
