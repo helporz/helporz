@@ -49,14 +49,19 @@
       vm.cb_post = function() {
         console.log('post');
         vm.tabSelectedIndex = 0;
+
+        vm.repeatList = vm.postList;
       }
 
       vm.cb_accept = function() {
         console.log('accept');
         vm.tabSelectedIndex = 1;
+
+        vm.repeatList = vm.acceptList;
       }
 
       //////////////////////////////////////////////////
+
       vm.postList = [
         {
           state: 0
@@ -67,8 +72,37 @@
         }
       ]
       vm.acceptList = [
-        1,2,3,4,5,6,7
+        {
+          state: 0
+        },{
+          state: 1
+        },{
+          state: 2
+        },
+        {
+          state: 0
+        },{
+          state: 1
+        },{
+          state: 2
+        },
+        {
+          state: 0
+        },{
+          state: 1
+        },{
+          state: 2
+        },
+        {
+          state: 0
+        },{
+          state: 1
+        },{
+          state: 2
+        }
       ]
+
+      vm.repeatList = vm.postList;
 
       vm.cb_click = function() {
         console.log('click');

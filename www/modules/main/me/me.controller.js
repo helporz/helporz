@@ -41,6 +41,13 @@
       $timeout(function () {
         vm.meScroll.resize();
       }, 300);
+
+      if(index==0){
+        vm.self.repeatList = [];
+      }
+      else{
+        vm.self.repeatList = vm.self.friendList;
+      }
     };
 
     ////test:
@@ -153,6 +160,8 @@
         follow: false
       }
     ]
+
+    self.repeatList = self.friendList;
   }
 
 

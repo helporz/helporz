@@ -14,10 +14,10 @@
   <ion-content class="has-tabs has-header">
 
 
-    <div ng-show="vm.tabSelectedIndex==0">
+    <!--<div ng-show="vm.tabSelectedIndex==0">-->
       <ion-list>
         <ion-item class="task-item nopadding bottom-bordered bottom-bordered-small"
-                  collection-repeat="item in vm.postList" item-width="100%"
+                  collection-repeat="item in vm.repeatList" item-width="100%"
                   item-height="160px">
           <div class="task-header">
             <div class="left">
@@ -39,7 +39,6 @@
                 捎带餐饮
               </p>
             </div>
-
 
             <div class="div-line"></div>
             <div class="right">
@@ -130,10 +129,7 @@
             <button ng-hide ng-show="false" class="desc ho-button button-gray button-outline ho-button-small">放弃援助</button>
             <button ng-hide ng-show="false" class="desc ho-button  button-light-red ho-button-small">我已完成援助</button>
 
-            <!--<button ng-hide ng-show="true" class="desc ho-button  button-light-red ho-button-small">我已完成援助</button>-->
-              <!--<button ng-hide ng-show="true" class="desc ho-button button-gray button-outline ho-button-small">确认对方已完成援助未完成援助</button>-->
 
-            <!--</div>-->
           </div>
 
           <!-- expand ---------------------->
@@ -203,7 +199,7 @@
         </ion-item>
 
       </ion-list>
-    </div>
+    <!--</div>-->
 
     <!--</ion-item>-->
     <!--</ion-list>-->
