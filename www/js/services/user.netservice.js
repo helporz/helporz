@@ -9,6 +9,12 @@
       'errorCodeService','httpErrorCodeService',UserNetServiceFactoryFn])
 
     function UserNetServiceFactoryFn($q,$log,httpBaseService,errorCodeService,httpErrorCodeService) {
+
+      // cache
+      var _cache = {
+        nearTaskList : []
+      };
+
         var _loginByTicket=function(ticket,sign,onSuccessFn,onFailedFn) {
           var data = { ticket:ticket,sign:sign};
           httpBaseService.post("/user/login_by_ticket",data,function(resp,status,headers,config) {
@@ -62,6 +68,8 @@
         var getSelfDefer = $q.defer();
         httpBaseService.get('/user/get_self_info',null,function(resp,status,headers,config) {
           getSelfDefer.resolve(resp.data);
+          //cache it
+          _cache.selfInfo = resp.data;
         },function(code,data,status,headers,config) {
           getSelfDefer.reject(errorCodeService.getErrorCodeDescription(code));
         },function(data,status,headers,config){
@@ -86,7 +94,9 @@
         checkUpdatePackage:_checkUpdatePackage,
         getSelfInfo:_getSelfInfo,
         getUserInfo:_getUserInfo,
-        getSelfInfoForPromise:_getSelfInfoForPromise
+        getSelfInfoForPromise:_getSelfInfoForPromise,
+
+        cache: _cache
       };
     }
   }

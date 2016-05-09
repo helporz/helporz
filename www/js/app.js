@@ -17,6 +17,7 @@
       'com.helporz.im',
       'app.routes',
       'app.directives',
+      'app.time.utils.service',
       'starter.controllers',
       'starter.services',
       'com.helporz.login',

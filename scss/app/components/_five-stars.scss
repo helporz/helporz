@@ -1,15 +1,17 @@
 .five-stars {
   @include display-flex();
-  //position: relative;
-  //display: inline-block;
-  //vertical-align: middle;
+
+  :not(:last-child) {
+    padding-right: 15px;
+  }
+  :last-child {
+    padding-right: 7px;
+  }
 
   .star {
     @include transform-origin(left, center);
-    padding-right: 15px;
     @include transform(scale(1.5));
     color: $color-theme;
-
   }
 
 }

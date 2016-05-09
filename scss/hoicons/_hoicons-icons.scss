@@ -1,11 +1,29 @@
 // Icons
 // --------------------------
 
-.#{$hoicons-prefix}faxian-outline:before,
-.#{$hoicons-prefix}faxian:before,
-
+.#{$hoicons-prefix}me-on:before,
+.#{$hoicons-prefix}me:before,
+.#{$hoicons-prefix}chat-0:before,
+.#{$hoicons-prefix}share:before,
+.#{$hoicons-prefix}location:before,
+.#{$hoicons-prefix}chat-1:before,
+.#{$hoicons-prefix}chat-2:before,
+.#{$hoicons-prefix}gender-female:before,
+.#{$hoicons-prefix}gender-male:before,
+.#{$hoicons-prefix}task-list:before,
+.#{$hoicons-prefix}rmb-on:before,
 {
   @extend .ion;
 }
-.#{$hoicons-prefix}faxian-outline:before { content: $hoicon-var-faxian-outline; }
-.#{$hoicons-prefix}faxian:before { content: $hoicon-var-faxian; }
+
+.#{$hoicons-prefix}me-on:before{ content: $hoicon-var-me-on; }
+.#{$hoicons-prefix}me:before{ content: $hoicon-var-me; }
+.#{$hoicons-prefix}chat-0:before{ content: $hoicon-var-chat-0; }
+.#{$hoicons-prefix}share:before{ content: $hoicon-var-share; }
+.#{$hoicons-prefix}location:before{ content: $hoicon-var-location; }
+.#{$hoicons-prefix}chat-1:before{ content: $hoicon-var-chat-1; }
+.#{$hoicons-prefix}chat-2:before{ content: $hoicon-var-chat-2; }
+.#{$hoicons-prefix}gender-female:before{ content: $hoicon-var-gender-female; }
+.#{$hoicons-prefix}gender-male:before{ content: $hoicon-var-gender-male; }
+.#{$hoicons-prefix}task-list:before{ content: $hoicon-var-task-list; }
+.#{$hoicons-prefix}rmb-on:before{ content: $hoicon-var-rmb-on; }

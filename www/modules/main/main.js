@@ -33,7 +33,7 @@
         }
       })
       .state('main.task-detail', {
-        url: '/near/:id',
+        url: '/near/task-detail/:id',
         views: {
           'near': {
             templateUrl: 'modules/main/near/task-detail/task-detail.html',
@@ -74,7 +74,7 @@
       })
 
       .state('main.edit', {
-        url: '/edit',
+        url: '/me/edit',
         views: {
           'me': {
             templateUrl: 'modules/main/me/edit/edit.html',
@@ -84,7 +84,7 @@
       })
 
       .state('main.setting', {
-        url: '/setting',
+        url: '/me/setting',
         views: {
           'me': {
             templateUrl: 'modules/main/me/setting/setting.html',
@@ -94,7 +94,7 @@
       })
 
       .state('main.edit-sheet', {
-        url: '/edit-sheet',
+        url: '/me/edit-sheet',
         views: {
           'me': {
             templateUrl: 'modules/main/details/edit-sheet/edit-sheet.html',
@@ -104,7 +104,7 @@
       })
 
       .state('main.about', {
-        url: '/about',
+        url: '/me/setting/about',
         views: {
           'me': {
             templateUrl: 'modules/main/details/about/about.html'
@@ -123,12 +123,21 @@
       })
 
       .state('main.comment', {
-
-        url: '/comment',
+        url: '/task/comment/:desc',
         views: {
           'task': {
             templateUrl: 'modules/main/task/comment/comment.html',
             controller: 'mainCommentCtrl'
+          }
+        }
+      })
+
+      .state('main.task-state', {
+        url: '/task/task-state/:id',
+        views: {
+          'task': {
+            templateUrl: 'modules/main/task/task-state/task-state.html',
+            controller: 'mainTaskTaskStateCtrl'
           }
         }
       })

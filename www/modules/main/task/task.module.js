@@ -10,7 +10,8 @@
     'app.task.utils.service',
     'components.widgets.hoTabSet',
 
-    'main.comment'
+    'main.comment',
+    'main.task.taskState'
   ])
 
 

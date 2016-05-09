@@ -7,12 +7,21 @@
 */
 @font-face {
   font-family: "Hoicons";
-  src: url("../fonts/Hoicons.eot?v=1.0.2");
-  src: url("../fonts/Hoicons.eot?v=1.0.2#iefix") format("embedded-opentype"), url("../fonts/Hoicons.ttf?v=1.0.2") format("truetype"), url("../fonts/Hoicons.woff?v=1.0.2") format("woff"), url("../fonts/Hoicons.woff") format("woff"), url("../fonts/Hoicons.svg?v=1.0.2#Hoicons") format("svg");
+  src: url("../fonts/Hoicons.eot?v=1.0.3");
+  src: url("../fonts/Hoicons.eot?v=1.0.3#iefix") format("embedded-opentype"), url("../fonts/Hoicons.ttf?v=1.0.3") format("truetype"), url("../fonts/Hoicons.woff?v=1.0.3") format("woff"), url("../fonts/Hoicons.woff") format("woff"), url("../fonts/Hoicons.svg?v=1.0.3#Hoicons") format("svg");
   font-weight: normal;
   font-style: normal; }
-.ion, .ho-faxian-outline:before,
-.ho-faxian:before {
+.ion, .ho-me-on:before,
+.ho-me:before,
+.ho-chat-0:before,
+.ho-share:before,
+.ho-location:before,
+.ho-chat-1:before,
+.ho-chat-2:before,
+.ho-gender-female:before,
+.ho-gender-male:before,
+.ho-task-list:before,
+.ho-rmb-on:before {
   display: inline-block;
   font-family: "Hoicons";
   speak: none;
@@ -25,10 +34,37 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-.ho-faxian-outline:before {
+.ho-me-on:before {
   content: ""; }
 
-.ho-faxian:before {
+.ho-me:before {
   content: ""; }
+
+.ho-chat-0:before {
+  content: ""; }
+
+.ho-share:before {
+  content: ""; }
+
+.ho-location:before {
+  content: ""; }
+
+.ho-chat-1:before {
+  content: ""; }
+
+.ho-chat-2:before {
+  content: ""; }
+
+.ho-gender-female:before {
+  content: ""; }
+
+.ho-gender-male:before {
+  content: ""; }
+
+.ho-task-list:before {
+  content: ""; }
+
+.ho-rmb-on:before {
+  content: ""; }
 
 /*# sourceMappingURL=hoicons.css.map */

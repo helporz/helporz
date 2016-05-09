@@ -161,7 +161,7 @@
       }
     ]
 
-    self.repeatList = self.friendList;
+    self.repeatList = [];
   }
 
 

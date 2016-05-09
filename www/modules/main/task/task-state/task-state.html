@@ -1,0 +1,168 @@
+<style type="text/css">
+  ._desc-p {
+    margin-bottom: 0 !important;
+  }
+  /*._accept-bt {*/
+    /*bottom: 22px !important;*/
+  /*}*/
+</style>
+
+<ion-view  view-title="任务状态" hide-tabs>
+  <ion-content class="task-state topics">
+    <div class="row nopadding bottom-bordered bottom-bordered-small">
+      <div class="content-left">
+        <img class="task-img" src={{vm.task.icon}} reset-img>
+
+        <p class="task-type">{{vm.task.typeName}}</p>
+      </div>
+      <div class="content-right">
+        <div class="row user-panel nopadding">
+          <img class="avatar" ng-src={{vm.task.poster.avator}}>
+
+          <div class="user-detail">
+            <div class="top">
+              <div class="line-1">
+                <p class="name">{{vm.task.poster.nickname}}</p>
+                <i class="gender-icon ho-gender-female color-woman font-size-12"></i>
+              </div>
+
+              <p class="time">{{vm.task.ext_createTime}}</p>
+            </div>
+            <div class="bottom">
+              <p class="elem text-tag user-tag-color-0">女神</p>
+
+              <p class="elem text-tag user-tag-color-1">娇气包</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="div-line-1"></div>
+
+        <div class="summary-panel">
+          <p class="summary">{{vm.task.summary}}</p>
+
+          <div class="appendix">
+            <i class="icon ion-ios-clock-outline font-size-13 deadline "></i>
+
+            <p class="_desc-p">{{vm.task.deadline}}截止</p>
+          </div>
+          <div class="appendix">
+            <i class="icon ho-location font-size-13 address"></i>
+
+            <p class="_desc-p">{{vm.task.pubLocation}}</p>
+          </div>
+          <div>
+            <p class="thank">感谢</p>
+
+            <p class="thank-what text-tag tabs-color-light">{{vm.task.rewardDescription}} </p>
+          </div>
+        </div>
+
+        <!--<div class="div-line-2"></div>-->
+
+        <!--<div class="bottom-panel">-->
+          <!--<div>-->
+            <!--<i class="elem2 icon ho-chat-0 font-size-13"></i>-->
+            <!--<span class="count">{{vm.task.commentCount}}</span>-->
+          <!--</div>-->
+          <!--<div>-->
+            <!--<i class="elem2 icon ho-share font-size-13"></i>-->
+            <!--<span class="count">0</span>-->
+          <!--</div>-->
+          <!--<button class="button-accept  button-light-red _accept-bt" ng-click="">-->
+            <!--接单-->
+          <!--</button>-->
+        <!--</div>-->
+      </div>
+    </div>
+
+    <div class="task-dot-ctn">
+
+      <div class="dot dot-0">
+        <div class="dot-small" ng-class="{'pending':vm.task.state==0, 'done':vm.task.state>0}"></div>
+      </div>
+
+      <div class="div-line-0" ng-class="{'div-line-pending':vm.task.state==0, 'div-line-done':vm.task.state>0}"></div>
+
+      <div class="dot dot-1">
+        <div class="icon" ng-class="{'dot-small':vm.task.state==0, 'dot-small-copy':vm.task.state==2, 'pending':vm.task.state==0, 'done':vm.task.state==2,
+                  'dot-big':vm.task.state==1, 'ion-ios-refresh':vm.task.state==1}"></div>
+      </div>
+
+      <div class="div-line-1" ng-class="{'div-line-pending':vm.task.state<2, 'div-line-done':vm.task.state==2}"></div>
+
+      <div class="dot dot-2">
+        <div class="icon" ng-class="{'dot-small':vm.task.state<2, 'pending':vm.task.state<2,
+                  'dot-big':vm.task.state==2, 'ion-checkmark-circled':vm.task.state==2, 'offset':vm.task.state==2}"></div>
+      </div>
+    </div>
+
+    <div class="task-desc-ctn bottom-bordered bottom-bordered-small">
+      <p class="desc desc-0">已接受</p>
+
+      <p class="desc desc-1">行动中</p>
+
+      <p class="desc desc-2">已搞定</p>
+    </div>
+
+
+    <div class="comment-board bottom-bordered bottom-bordered-small" ng-hide ng-show="vm.showOtherComment==true">
+      <p class="title"><b>对方点评</b></p>
+
+      <div class="div-text-panel">
+        <div class="left-line"></div>
+        <p class="mid-text">满意度与印象点评</p>
+        <div class="right-line"></div>
+      </div>
+
+      <div class="star-panel">
+        <five-stars value="2.2"></five-stars>
+      </div>
+
+      <div class="impress-panel">
+        <p class="text-tag user-tag-color-0">女神</p>
+        <p class="text-tag user-tag-color-1">女神</p>
+      </div>
+
+      <div class="div-text-panel">
+        <div class="left-line"></div>
+        <p class="mid-text">留言</p>
+        <div class="right-line"></div>
+      </div>
+
+      <div class="comment-panel">
+        如他们在宣传时所说，他们实现了一套类似css的子集，用来解决样式问题
+      </div>
+    </div>
+
+    <div class="comment-board bottom-bordered bottom-bordered-small" ng-hide ng-show="vm.showMyComment==true">
+      <p class="title"><b>我的点评</b></p>
+
+      <div class="div-text-panel">
+        <div class="left-line"></div>
+        <p class="mid-text">满意度与印象点评</p>
+        <div class="right-line"></div>
+      </div>
+
+      <div class="star-panel">
+        <five-stars value=""></five-stars>
+      </div>
+
+      <div class="impress-panel">
+        <p class="text-tag user-tag-color-0">女神</p>
+        <p class="text-tag user-tag-color-1">女神</p>
+      </div>
+
+      <div class="div-text-panel">
+        <div class="left-line"></div>
+        <p class="mid-text">留言</p>
+        <div class="right-line"></div>
+      </div>
+
+      <div class="comment-panel">
+        如他们在宣传时所说，他们实现了一套类似css的子集，用来解决样式问题
+      </div>
+    </div>
+
+  </ion-content>
+</ion-view>

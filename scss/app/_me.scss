@@ -104,6 +104,12 @@
   }
 
   .ho-list {
+    //overwrite ionic .list
+    .list {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
     &.friend {
       ion-item .content {
         .name {
