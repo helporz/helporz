@@ -142,19 +142,19 @@
         return loginInfo.ticket;
       }
 
-      var _getLoginPhoneno = function() {
+      var _getLoginPhoneNo = function() {
         var loginInfo = _getLoginInfo();
         if( loginInfo == null ) {
           return null;
         }
-        return loginInfo.userInfo;
+        return loginInfo.userInfo.phoneNo;
       }
 
       return {
         saveLoginInfo:_saveLoginInfo,
         getLoginInfo:_getLoginInfo,
         getLoginTicket:_getLoginTicket,
-        getLoginPhoneno:_getLoginPhoneno
+        getLoginPhoneNo:_getLoginPhoneNo
       };
     }]).factory('deviceService',['$log',function($log) {
       var deviceServiceFactory = {};
@@ -222,6 +222,12 @@
 
           var _postForPromise = function(url,data) {
             var _postDefer = $q.defer();
+            if( url.indexOf('?') == -1 ) {
+              url = url + '?_t=' + (new Date()).getTime();
+            }
+            else {
+              url = url + '&_t=' + (new Date()).getTime();
+            }
 
             $http({
               method:'POST',url:appConfig.API_SVC_URL + url,data:data,
@@ -268,6 +274,7 @@
 
         var _getForPromise = function(url,params) {
           var _getDefer = $q.defer();
+          params._t = (new Date()).getTime();
           $http({
             method:'GET',url:appConfig.API_SVC_URL + url,params:params,headers: {
               'Content-Type':'application/x-www-form-urlencoded',

@@ -8,43 +8,44 @@
 
 ;
 (function (window) {
-    "use strict";
+  "use strict";
 
-    angular.module('app', ['ionic',
-      'ngResource',
-      'ngCordova',
-      'pusher',
-      'com.helporz.im',
-      'app.routes',
-      'app.directives',
-      'starter.controllers',
-      'starter.services',
-      'com.helporz.login',
-      'com.helporz.intro',
-      'com.helporz.utils.service',
-      'com.helproz.task.publish',
-      'main'
-    ])
+  angular.module('app', ['ionic',
+    'ngResource',
+    'ngCordova',
+    'pusher',
+    'com.helporz.im',
+    'app.routes',
+    'app.directives',
+    'starter.controllers',
+    'starter.services',
+    'com.helporz.login',
+    'com.helporz.intro',
+    'com.helporz.utils.service',
+    'com.helproz.task.publish',
+    'com.helporz.playground',
+    'main'
+  ])
 
-      .run(init)
+    .run(init)
 
-      .config(['$stateProvider', '$urlRouterProvider', '$httpProvider', function ($stateProvider, $urlRouterProvider, $httpProvider) {
-        //configRouter($stateProvider,$urlRouterProvider);
-        setHttpProvider($httpProvider);
-      }]).directive('errSrc', function () {
-        return {
-          link: function (scope, element, attrs) {
-            element.bind('error', function () {
-              if (attrs.src != attrs.errSrc) {
-                attrs.$set('src', attrs.errSrc);
-              }
-            });
-          }
+    .config(['$stateProvider', '$urlRouterProvider', '$httpProvider', function ($stateProvider, $urlRouterProvider, $httpProvider) {
+      //configRouter($stateProvider,$urlRouterProvider);
+      setHttpProvider($httpProvider);
+    }]).directive('errSrc', function () {
+      return {
+        link: function (scope, element, attrs) {
+          element.bind('error', function () {
+            if (attrs.src != attrs.errSrc) {
+              attrs.$set('src', attrs.errSrc);
+            }
+          });
         }
-      });
+      }
+    });
 
 
-    //function init($ionicPlatform, $cordovaDevice, $cordovaNetwork, $timeout, $cordovaDialogs, $state) {
+  //function init($ionicPlatform, $cordovaDevice, $cordovaNetwork, $timeout, $cordovaDialogs, $state) {
   init.$inject = [
     '$ionicPlatform',
     '$cordovaDevice',
@@ -58,185 +59,205 @@
     'imConversationService',
     'imMessageService',
     'fileService',
-    'userImgFileService'
+    'userImgFileService',
+    'dbService',
+    'PlaygroundDBService',
+    'playgroundTestConfigService'
   ];
 
-    function init($ionicPlatform,
-                  $cordovaDevice,
-                  $cordovaNetwork,
-                  $timeout,
-                  $cordovaDialogs,
-                  $state,
-                  $log,
-                  pushService,
-                  jimService,
-                  imConversationService,
-                  imMessageService,
-                  fileService,
-                  userImgFileService) {
-      $log.info('app.run.init');
-      $ionicPlatform.ready(function () {
-        if (navigator.splashscreen) {
-          navigator.splashscreen.hide();
-        }
-        console.log('ionicPlatform.ready');
-        // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-        // for form inputs)
-        if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-          cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-          cordova.plugins.Keyboard.disableScroll(true);
-        }
-        if (window.StatusBar) {
-          // org.apache.cordova.statusbar required
-          StatusBar.styleDefault();
-        }
+  function init($ionicPlatform,
+                $cordovaDevice,
+                $cordovaNetwork,
+                $timeout,
+                $cordovaDialogs,
+                $state,
+                $log,
+                pushService,
+                jimService,
+                imConversationService,
+                imMessageService,
+                fileService,
+                userImgFileService,
+                dbService,
+                PlaygroundDBService,
+                playgroundTestConfigService) {
+    $log.info('app.run.init');
 
-        var onOpenNotification = function (event) {
-          console.log(" index onOpenNotification");
+    $ionicPlatform.ready(function () {
+      //ConfigForTest(playgroundTestConfigService);
+      playgroundTestConfigService.initConfig();
+      if (navigator.splashscreen) {
+        navigator.splashscreen.hide();
+      }
+      console.log('ionicPlatform.ready');
+      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+      // for form inputs)
+      if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+        cordova.plugins.Keyboard.disableScroll(true);
+      }
+      if (window.StatusBar) {
+        // org.apache.cordova.statusbar required
+        StatusBar.styleDefault();
+      }
 
-          try {
-            var alertContent;
-            if (device.platform == "Android") {
-              alertContent = event.alert;
-            } else {
-              alertContent = event.aps.alert;
-            }
-            //alert("open Notificaiton:" + alertContent);
+      var onOpenNotification = function (event) {
+        console.log(" index onOpenNotification");
 
-          }
-          catch (exception) {
-            console.log("JPushPlugin:onOpenNotification" + exception);
-          }
-        }
-
-        var onReceiveNotification = function (event) {
-          console.log(" index onReceiveNotification");
-          try {
-            var alertContent;
-            if (device.platform == "Android") {
-              //alertContent = window.plugins.jPushPlugin.receiveNotification.alert;
-              alertContent = event.alert;
-            } else {
-              alertContent = event.aps.alert;
-            }
-            //alert("Receive Notificaiton:" + alertContent);
-            //$("#notificationResult").html(alertContent);
-
-          }
-          catch (exeption) {
-            console.log(exception)
-          }
-        }
-
-        var onReceivePushMessage = function (event) {
-          try {
-            var message;
-            if (device.platform == "Android") {
-              message = event.message;
-            } else {
-              message = event.content;
-            }
-            console.log(message);
-            //alert("Receive Push Message:" + message );
-            //$("#messageResult").html(message);
-          }
-          catch (exception) {
-            console.log("JPushPlugin:onReceivePushMessage-->" + exception);
-          }
-        }
-
-        var onSetTagsWithAlias = function (event) {
-          try {
-            console.log("onSetTagsWithAlias");
-            var result = "result code:" + event.resultCode + " ";
-            result += "tags:" + event.tags + " ";
-            result += "alias:" + event.alias + " ";
-            $("#tagAliasResult").html(result);
-          }
-          catch (exception) {
-            console.log(exception)
-          }
-        }
-
-        document.addEventListener("deviceready", function () {
-          fileService.init(function () {
-            $log.info("存储服务初始化成功");
-          }, function () {
-            $log.info("存储服务初始化失败");
-            alert('failed');
-          });
-
-          var config = {
-            onOpenNotification: onOpenNotification,
-            onReceiveNotification: onReceiveNotification,
-            onReceivePushMessage: onReceivePushMessage,
-            onSetTagsWithAlias: onSetTagsWithAlias
-          };
-
-          jimService.init();
-          pushService.init(config);
-
-          pushService.getReistrationID();
-
-          if (device.platform != "Android") {
-            window.plugins.jPushPlugin.setDebugModeFromIos();
-            window.plugins.jPushPlugin.setApplicationIconBadgeNumber(0);
+        try {
+          var alertContent;
+          if (device.platform == "Android") {
+            alertContent = event.alert;
           } else {
-            window.plugins.jPushPlugin.setDebugMode(true);
+            alertContent = event.aps.alert;
           }
-        }, false);
+          //alert("open Notificaiton:" + alertContent);
 
-      });
-    }
-
-
-    function setHttpProvider($httpProvider) {
-      // 头部配置
-      $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
-      $httpProvider.defaults.headers.post['Accept'] = 'application/json, text/javascript, */*; q=0.01';
-      $httpProvider.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
-
-      /**
-       * 重写angular的param方法，使angular使用jquery一样的数据序列化方式  The workhorse; converts an object to x-www-form-urlencoded serialization.
-       * @param {Object} obj
-       * @return {String}
-       */
-      var param = function (obj) {
-        var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
-
-        for (name in obj) {
-          value = obj[name];
-
-          if (value instanceof Array) {
-            for (i = 0; i < value.length; ++i) {
-              subValue = value[i];
-              fullSubName = name + '[' + i + ']';
-              innerObj = {};
-              innerObj[fullSubName] = subValue;
-              query += param(innerObj) + '&';
-            }
-          }
-          else if (value instanceof Object) {
-            for (subName in value) {
-              subValue = value[subName];
-              fullSubName = name + '[' + subName + ']';
-              innerObj = {};
-              innerObj[fullSubName] = subValue;
-              query += param(innerObj) + '&';
-            }
-          }
-          else if (value !== undefined && value !== null)
-            query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
         }
+        catch (exception) {
+          console.log("JPushPlugin:onOpenNotification" + exception);
+        }
+      }
 
-        return query.length ? query.substr(0, query.length - 1) : query;
-      };
+      var onReceiveNotification = function (event) {
+        console.log(" index onReceiveNotification");
+        try {
+          var alertContent;
+          if (device.platform == "Android") {
+            //alertContent = window.plugins.jPushPlugin.receiveNotification.alert;
+            alertContent = event.alert;
+          } else {
+            alertContent = event.aps.alert;
+          }
+          //alert("Receive Notificaiton:" + alertContent);
+          //$("#notificationResult").html(alertContent);
 
-      // Override $http service's default transformRequest
-      $httpProvider.defaults.transformRequest = [function (data) {
-        return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
-      }];
-    }
+        }
+        catch (exeption) {
+          console.log(exception)
+        }
+      }
 
-  })(this);
+      var onReceivePushMessage = function (event) {
+        try {
+          var message;
+          if (device.platform == "Android") {
+            message = event.message;
+          } else {
+            message = event.content;
+          }
+          console.log(message);
+          //alert("Receive Push Message:" + message );
+          //$("#messageResult").html(message);
+        }
+        catch (exception) {
+          console.log("JPushPlugin:onReceivePushMessage-->" + exception);
+        }
+      }
+
+      var onSetTagsWithAlias = function (event) {
+        try {
+          console.log("onSetTagsWithAlias");
+          var result = "result code:" + event.resultCode + " ";
+          result += "tags:" + event.tags + " ";
+          result += "alias:" + event.alias + " ";
+          $("#tagAliasResult").html(result);
+        }
+        catch (exception) {
+          console.log(exception)
+        }
+      }
+
+      document.addEventListener("deviceready", function () {
+        window.sqlitePlugin.openDatabase({name: 'helporz.db', location: 'default'}, function (dbConn) {
+          dbService.setDBConn(dbConn);
+          $log.info("create table");
+          PlaygroundDBService.createTable();
+        }, function (error) {
+          $log.error(error);
+        });
+
+        fileService.init(function () {
+          $log.info("存储服务初始化成功");
+        }, function () {
+          $log.info("存储服务初始化失败");
+          alert('failed');
+        });
+
+        var config = {
+          onOpenNotification: onOpenNotification,
+          onReceiveNotification: onReceiveNotification,
+          onReceivePushMessage: onReceivePushMessage,
+          onSetTagsWithAlias: onSetTagsWithAlias
+        };
+
+        jimService.init();
+        pushService.init(config);
+
+        pushService.getReistrationID();
+
+        if (device.platform != "Android") {
+          window.plugins.jPushPlugin.setDebugModeFromIos();
+          window.plugins.jPushPlugin.setApplicationIconBadgeNumber(0);
+        } else {
+          window.plugins.jPushPlugin.setDebugMode(true);
+        }
+      }, false);
+
+    });
+  }
+
+  function ConfigForTest(playgroundTestConfigService) {
+    playgroundTestConfigService.initConfig();
+  }
+
+  function setHttpProvider($httpProvider) {
+    // 头部配置
+    $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+    $httpProvider.defaults.headers.post['Accept'] = 'application/json, text/javascript, */*; q=0.01';
+    $httpProvider.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+
+    /**
+     * 重写angular的param方法，使angular使用jquery一样的数据序列化方式  The workhorse; converts an object to x-www-form-urlencoded serialization.
+     * @param {Object} obj
+     * @return {String}
+     */
+    var param = function (obj) {
+      var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
+
+      for (name in obj) {
+        value = obj[name];
+
+        if (value instanceof Array) {
+          for (i = 0; i < value.length; ++i) {
+            subValue = value[i];
+            fullSubName = name + '[' + i + ']';
+            innerObj = {};
+            innerObj[fullSubName] = subValue;
+            query += param(innerObj) + '&';
+          }
+        }
+        else if (value instanceof Object) {
+          for (subName in value) {
+            subValue = value[subName];
+            fullSubName = name + '[' + subName + ']';
+            innerObj = {};
+            innerObj[fullSubName] = subValue;
+            query += param(innerObj) + '&';
+          }
+        }
+        else if (value !== undefined && value !== null)
+          query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
+      }
+
+      return query.length ? query.substr(0, query.length - 1) : query;
+    };
+
+    // Override $http service's default transformRequest
+    $httpProvider.defaults.transformRequest = [function (data) {
+      return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
+    }];
+  }
+
+})(this);
 

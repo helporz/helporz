@@ -8,16 +8,28 @@
 
 
     dbServiceFactoryFn.$inject = ['$q','$log'];
-    function dbServiceFactoryFn() {
+    function dbServiceFactoryFn($q,$log) {
       var dbconn = {};
 
       var _setDBConn = function (conn){
         dbconn = conn;
       };
 
+      var _executeSqlList = function(sqlList) {
+        var _innerDefer = $q.defer();
+        dbconn.sqlBatch(sqlList,function(){
+          _innerDefer.resolve();
+        },function(error){
+          $log.error('Populate table error: ' + error.message);
+          _innerDefer.reject(error);
+        });
+        return _innerDefer.promise;
+      };
       return {
+        executeSqlList:_executeSqlList,
         setDBConn: _setDBConn,
         createRow: function (table, record,pattern) {
+          var key;
           record = record || {};
           //var pattern = patterns[table];
           var row = {};
@@ -27,9 +39,19 @@
           return row;
         },
         saveRecords: function (table, records,pattern) {
-          if (!records || !records.length) {
-            return;
+          var key = '';
+          var i = '';
+          if( angular.isArray(records)) {
+            if (!records || !records.length) {
+              return;
+            }
           }
+          else {
+            var temp = new Array();
+            temp.push(records);
+            records = temp;
+          }
+
           //var pattern = patterns[table];
           var sql = "REPLACE INTO `#table#` (#cols#) VALUES #rows#;".replace('#table#', table);
           var cols = [], rows = [];
@@ -75,7 +97,7 @@
           return _dbDefer.promise;
         },
         dropRecords: function (table, where) {
-          var _dbDefer = $q.defer;
+          var _dbDefer = $q.defer();
           var sql = "DELETE   FROM `#table#` #where#;".replace('#table#', table).replace('#where#', where || '');
           dbconn && dbconn.transaction(function (tx) {
             tx.executeSql(sql, [], function (tx, res) {

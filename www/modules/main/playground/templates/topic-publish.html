@@ -1,0 +1,41 @@
+<style type="text/css">
+  .topic-publish-wrap {
+    background-color: #D2E0E6;
+    margin: 0px;
+  }
+
+  .topic-publish-wrap .bgc {
+    background-color: #f8f8f8;
+  }
+</style>
+
+
+<ion-modal-view ng-controller="topicPublishController as ctl">
+
+
+  <ion-header-bar align-title="center" class="bar-dark task-publish-default bgcolor-theme">
+    <div class="buttons">
+      <a class="button" style="background-color:#ff492f" ng-click="ctl.closeModal()">取消
+      </a>
+      <a class="button" style="background-color:#ff492f" ng-click="ctl.publish()">发送
+      </a>
+    </div>
+    <div class="title col-center">发布</div>
+  </ion-header-bar>
+  <ion-content class="topic-publish-wrap" overflow-scroll="false" style="overflow: hidden;">
+    <div class="task-group-wrapper">
+      <div class="row group-item group-item-input no-border left-align">
+        <textarea placeholder="我们都是能好好说话的孩纸" ng-model="ctl.description"/></textarea>
+      </div>
+
+      <div class="row photo-list">
+        <div class="col col-25 col-center img-item" ng-repeat="imgItem in ctl.imgList">
+          <img ng-src="{{imgItem.imgSrc}}" ng-click="ctl.clickImg(imgItem)"/>
+        </div>
+      </div>
+
+    </div>
+
+
+  </ion-content>
+</ion-modal-view>

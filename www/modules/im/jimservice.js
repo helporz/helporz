@@ -84,6 +84,12 @@
         });
       };
 
+      var _testloginForPromise = function($username,$password) {
+        var imLoginDefer = $q.defer();
+        imLoginDefer.resolve();
+        return imLoginDefer.promise;
+      }
+
       var _loginForPromise = function($username,$password) {
         //登录前清空用户名
         var imLoginDefer = $q.defer();
@@ -216,6 +222,7 @@
       jimServiceFactory.updateMessageNotifyCB = _updateMessageNotifyCB;
       //jimServiceFactory.getUserInfo = _getUserInfo;
       jimServiceFactory.loginForPromise = _loginForPromise;
+      jimServiceFactory.testloginForPromise = _testloginForPromise;
       return jimServiceFactory;
     }
 

@@ -1,10 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<ion-nav-bar class="bar-helporz-theme topic-group">
+  <ion-nav-back-button>
 
-</body>
-</html>
+  </ion-nav-back-button>
+</ion-nav-bar>
+
+
+<ion-nav-title class="title title-center header-item">
+  <div style="height: 100%">
+    <div class="group-header">
+      {{vm.topicGroup.name}}
+    </div>
+
+    <div class="group-header-desc">
+      {{vm.topicGroup.description}}
+    </div>
+  </div>
+</ion-nav-title>
+
+
+<!--<ion-header-bar align-title="center" class="bar-helporz-theme topic-group">-->
+<!--<div class="buttons">-->
+<!--<button class="button button-icon icon ion-arrow-left-c" ui-sref="playground-list">-->
+<!--</button>-->
+<!--</div>-->
+<!--<div class="h1 title">微信</div>-->
+<!--<div class="title title-center header-item">-->
+<!--<div class="group-header">-->
+<!--{{vm.topicGroup.name}}-->
+<!--</div>-->
+
+<!--<div class="group-header-desc">-->
+<!--{{vm.topicGroup.description}}-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="buttons">-->
+<!--<button class="button button-icon icon ion-person"></button>-->
+<!--</div>-->
+<!--</ion-header-bar>-->

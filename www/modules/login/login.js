@@ -106,7 +106,7 @@
       })
         .then(processLoginResponse, processLoginFailedResponse)
         .then(getSelfInfo, processFailed)
-        //.then(loginIM, processFailed)
+        .then(loginIM, processFailed)
         .then(function () {
           $ionicLoading.hide();
           $state.go('main.near');
@@ -128,7 +128,9 @@
         var loginResponse = data;
         if (errorCodeService.isSuccess(loginResponse.code)) {
           httpSuccessDef.resolve(loginResponse.data.ticket);
-          userLoginInfoService.saveLoginInfo(loginResponse.data.ticket, phoneNo);
+          var userInfo = {};
+          userInfo.phoneNo = phoneNo;
+          userLoginInfoService.saveLoginInfo(loginResponse.data.ticket, userInfo);
         }
         else {
           httpSuccessDef.reject(errorCodeService.getErrorCodeDescription(loginResponse.code));
@@ -156,7 +158,8 @@
 
       function loginIM(userInfo) {
         userLoginInfoService.saveLoginInfo(loginTicket, userInfo);
-        return jimService.loginForPromise(userInfo.phoneNo + "-" + userInfo.userId, userInfo.imPassword);
+        //return jimService.loginForPromise(userInfo.phoneNo + "-" + userInfo.userId, userInfo.imPassword);
+        return jimService.testloginForPromise(userInfo.phoneNo + "-" + userInfo.userId, userInfo.imPassword);
       }
     }
 
