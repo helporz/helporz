@@ -242,7 +242,7 @@
       popupScope.typeName = $scope.publishTaskTypeName;
       _ctlSelf.popup = $ionicPopup.show(
         {
-          templateUrl: 'modules/task/publish/select-subtype-popup.html',
+          templateUrl: 'modules/main/task-publish/select-subtype-popup.html',
           title: null,
           subTitle: null,
           scope: popupScope
