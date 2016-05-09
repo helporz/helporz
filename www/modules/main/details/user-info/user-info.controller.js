@@ -6,7 +6,8 @@
   'use strict';
 
   angular.module('main.userInfo')
-    .controller('mainUserInfoCtrl', ['$scope', '$timeout', '$state', '$stateParams', 'taskNetService', 'taskUtils', '$ionicHistory', '$ionicActionSheet', mainUserInfoCtrl]);
+    .controller('mainUserInfoCtrl', ['$scope', '$timeout', '$state', '$stateParams', 'taskNetService', 'taskUtils',
+      '$ionicHistory', mainUserInfoCtrl]);
 
   function mainUserInfoCtrl($scope, $timeout, $state, $stateParams, taskNetService, taskUtils, $ionicHistory) {
     console.log($stateParams);

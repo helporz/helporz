@@ -1,0 +1,27 @@
+<ion-view class="edit-sheet" view-title="{{vm.title}}" hide-tabs>
+  <!--<ion-nav-buttons side="right">-->
+  <!--<button class="button button-icon icon ion-checkmark" ng-click="vm.cb_back()"></button>-->
+  <!--</ion-nav-buttons>-->
+
+  <ion-content class="">
+
+    <label ng-show="vm.isInputOrTextarea==false" class="item item-input item-stacked-label">
+      <!--<span class="input-label">Last Name</span>-->
+      <textarea class="{{vm.className}}" placeholder="{{vm.placeholder}}"></textarea>
+    </label>
+
+    <label ng-show="vm.isInputOrTextarea==true" class="item item-input item-stacked-label">
+      <input class="{{vm.className}}" type="text" placeholder="{{vm.placeholder}}">
+    </label>
+
+    <!--<button class="button ion-android-happy button-commit button-accept button-light-red">-->
+    <!--<p>提交</p>-->
+    <!--</button>-->
+
+    <div class="padding">
+      <button class="ho-button-block button-theme">
+        提交
+      </button>
+    </div>
+  </ion-content>
+</ion-view>

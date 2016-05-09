@@ -12,7 +12,7 @@
     'components.misc.liveImage',
     'main.userInfo',
     'main.setting',
-    'main.edit'
+    'main.edit',
   ]);
 //    .config(config);
 //

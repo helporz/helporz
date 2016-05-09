@@ -1,41 +1,67 @@
 <ion-view  view-title="设置" hide-tabs>
-  <div class="nav row">
-    <button class="button button-icon icon ion-android-arrow-back" ng-click="vm.cb_back()"></button>
-    <p class="text-center name color-white">点到泥巴了</p>
-    <!--<button class="col-offset-10 col-20 button button-icon icon ion-share"></button>-->
-  </div>
-
-  <ion-content >
+  <ion-content class="bgcolor-bg">
 
     <ion-list class="ho-list">
 
-      <ion-item class="ho-item" >
+      <ion-item class="ho-item" ng-click="vm.edit.cb_avatar()">
         <p class="title">头像</p>
-        <div class="content-right" ng-click="vm.edit.cb_avatar()">
+        <div class="content-right" >
           <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
           <img class="avatar" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g"
                live-image ng-src="{{vm.edit.avatarLocalUrl}}">
         </div>
       </ion-item>
-      <ion-item class="ho-item">
+      <ion-item class="ho-item" ng-click="vm.edit.cb_nickname()">
         <p class="title">名字</p>
         <div class="content-right">
           <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
-          <span class="body">{{vm.edit.avatarDataLen}}</span>
+          <span class="body">{{vm.edit.nickname}}</span>
         </div>
       </ion-item>
-      <ion-item class="ho-item">
+      <ion-item class="ho-item" ng-click="vm.edit.cb_org()">
         <p class="title">所属组织</p>
         <div class="content-right">
           <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
-          <span class="body">计算机学院</span>
+          <span class="body">武汉科技大学</span>
         </div>
       </ion-item>
-      <ion-item class="ho-item">
+      <ion-item class="ho-item" ng-click="vm.edit.cb_department()">
         <p class="title">院系</p>
         <div class="content-right">
           <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
-          <span class="body">计算机学院</span>
+          <span class="body">计算机系</span>
+        </div>
+      </ion-item>
+
+       <ion-item class="ho-item" ng-click="vm.edit.cb_dormitory()">
+        <p class="title">寝室的楼栋</p>
+        <div class="content-right">
+          <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
+          <span class="body">3单元812</span>
+        </div>
+      </ion-item>
+
+      <ion-item class="ho-item" ng-click="vm.edit.cb_hometown()">
+        <p class="title">家乡</p>
+        <div class="content-right">
+          <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
+          <span class="body">湖北武汉</span>
+        </div>
+      </ion-item>
+
+       <ion-item class="ho-item" style="margin-top:15px" ng-click="vm.edit.cb_gender()">
+        <p class="title">性别</p>
+        <div class="content-right">
+          <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
+          <span class="body">男</span>
+        </div>
+      </ion-item>
+
+      <ion-item class="ho-item" ng-click="vm.edit.cb_sign()">
+        <p class="title">个人签名</p>
+        <div class="content-right">
+          <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
+          <span class="body">没有见过的科技啊</span>
         </div>
       </ion-item>
     </ion-list>

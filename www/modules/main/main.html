@@ -9,38 +9,23 @@ navigation history that also transitions its views in and out.
 
     <!-- Dashboard Tab -->
     <ion-tab title="发现" icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" href="#/main/near">
-
-      <!--<ion-nav-bar class="bar-helporz-theme" align-title="center">-->
-        <!--<ion-nav-back-button>-->
-        <!--</ion-nav-back-button>-->
-      <!--</ion-nav-bar>-->
-
       <ion-nav-view name="near"></ion-nav-view>
     </ion-tab>
 
-    <!--&lt;!&ndash; Chats Tab &ndash;&gt;-->
-    <!--<ion-tab title="Chats" icon-off="ion-ios-chatboxes-outline" icon-on="ion-ios-chatboxes" href="#/tab/chats">-->
-      <!--<ion-nav-view name="tab-chats"></ion-nav-view>-->
-    <!--</ion-tab>-->
+    <ion-tab title="广场" icon-off="ion-ios-people-outline" icon-on="ion-ios-people" href="#/main/me">
+      <ion-nav-view name="square"></ion-nav-view>
+    </ion-tab>
 
     <ion-tab title="发布求助" icon-off="ion-ios-plus-outline" icon-on="ion-ios-plus" href="#/main/post">
-
-      <!--<ion-nav-bar class="bar-helporz-theme" align-title="center">-->
-        <!--<ion-nav-back-button>-->
-        <!--</ion-nav-back-button>-->
-      <!--</ion-nav-bar>-->
-
       <ion-nav-view name="post"></ion-nav-view>
     </ion-tab>
 
+    <ion-tab title="任务" icon-off="ho-task-list" icon-on="ho-task-list" href="#/main/task">
+      <ion-nav-view name="task"></ion-nav-view>
+    </ion-tab>
+
     <!-- Account Tab -->
-    <ion-tab title="我" icon-off="ho-faxian-outline" icon-on="ho-faxian" href="#/main/me">
-
-      <!--<ion-nav-bar class="bar-helporz-theme" align-title="center">-->
-        <!--<ion-nav-back-button>-->
-        <!--</ion-nav-back-button>-->
-      <!--</ion-nav-bar>-->
-
+    <ion-tab title="我" icon-off="ho-me" icon-on="ho-me-on" href="#/main/me">
       <ion-nav-view name="me"></ion-nav-view>
     </ion-tab>
 

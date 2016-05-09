@@ -7,12 +7,11 @@
 
   angular.module('main.edit')
     .controller('mainEditCtrl', ['$scope', '$timeout', '$state', '$stateParams', 'taskNetService', 'taskUtils',
-      '$ionicHistory', '$ionicActionSheet', '$cordovaCamera', '$cordovaImagePicker', '$window', mainEditCtrl]);
+      '$ionicHistory', '$ionicActionSheet', '$cordovaCamera', '$cordovaImagePicker', '$window', 'mainEditSheetService',
+      mainEditCtrl]);
 
   function mainEditCtrl($scope, $timeout, $state, $stateParams, taskNetService, taskUtils, $ionicHistory,
-                        $ionicActionSheet, $cordovaCamera, $cordovaImagePicker, $window) {
-    console.log($stateParams);
-
+                        $ionicActionSheet, $cordovaCamera, $cordovaImagePicker, $window, mainEditSheetService) {
     var vm = $scope.vm = {};
 
     $scope.$on("$ionicView.beforeEnter", function () {
@@ -25,38 +24,8 @@
 
     vm.edit = {
 
-      fiveStarsValue: 3.2,
-      level: 42,
-      hasExp: 292,
-      totalExp: 389,
-      smallCards: 3,
-      bigCards: 265,
-      visitors: [
-        {
-          url: 'http://t3.gstatic.cn/shopping?q=tbn:ANd9GcSCrdZNZUIlGriVTE3ZWMU_W5voV8527Q6PL8RGkMjtCFO1knnY6oIS1soNKN4&usqp=CAI'
-        },
-        {
-          url: 'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=545887065,3542527475&fm=58'
-        },
-        {
-          url: 'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=1902539898,1226346465&fm=58'
-        }
-      ],
-
-      visitorImgWithIndex: function (index) {
-        if (angular.isDefined(this.visitors[index])) {
-          return this.visitors[index].url;
-        } else {
-          return '';
-        }
-      },
-
-      cb_visitorImg: function (index) {
-        console.log('click on image [' + index + ']');
-        $state.go('main.user-info', {id: 'user-' + index});
-      },
-
       avatarLocalUrl: null,
+      nickname: 'my name is Jim',
 
       cb_avatar: function () {
         console.log('click on imag');
@@ -69,6 +38,8 @@
             {text: "本地相薄"}
           ],
           buttonClicked: function (index) {
+
+            // 打开照相机
             if (index == 0) {
               var options = {
                 //这些参数可能要配合着使用，比如选择了sourcetype是0，destinationtype要相应的设置
@@ -91,15 +62,16 @@
               }, function (err) {
                 alert('err: camera get picture err=' + err);
               });
-            } else {
-              alert('index='+index);
+            }
+            // 打开 ImagePicker
+            else {
               var options = {
                 maximumImagesCount: 10,
                 width: 800,
                 height: 800,
                 quality: 80
               };
-              alert('pick1');
+              alert('before $cordovaImagePicker.getPictures');
               $cordovaImagePicker.getPictures(options).then(function (imgUrl) {
                 vm.edit.avatarLocalUrl = imgUrl;
                 alert('img:' + imgUrl);
@@ -107,9 +79,9 @@
                 // error getting photos
                 alert('err: pick image, err=' + err);
               });
-
+              alert('before $window.imagePicker.getPictures');
               $window.imagePicker.getPictures(
-                function(results) {
+                function (results) {
                   for (var i = 0; i < results.length; i++) {
                     console.log('Image URI: ' + results[i]);
                     alert('img:' + results[i]);
@@ -119,7 +91,6 @@
                 }
               );
 
-              alert('pick2');
             }
 
 
@@ -135,12 +106,87 @@
         });
 
         // For example's sake, hide the sheet after two seconds
-        $timeout(function () {
-          //	hideSheet();
-        }, 2000);
+        //$timeout(function () {
+        //  //	hideSheet();
+        //}, 2000);
 
+      },
+
+      cb_nickname: function () {
+        mainEditSheetService.title = '修改昵称';
+        mainEditSheetService.isInputOrTextarea = true;
+        mainEditSheetService.placeholder = '起个好听的名字吧';
+        mainEditSheetService.className = '';
+        $state.go('main.edit-sheet');
+      },
+
+      cb_org: function () {
+        mainEditSheetService.title = '修改组织';
+        mainEditSheetService.isInputOrTextarea = true;
+        mainEditSheetService.placeholder = '你是哪个大学的';
+        mainEditSheetService.className = '';
+        $state.go('main.edit-sheet');
+      },
+      cb_department: function () {
+        mainEditSheetService.title = '修改院系';
+        mainEditSheetService.isInputOrTextarea = true;
+        mainEditSheetService.placeholder = '你是哪个系的';
+        mainEditSheetService.className = '';
+        $state.go('main.edit-sheet');
+      },
+      cb_dormitory: function () {
+        mainEditSheetService.title = '修改寝室楼栋';
+        mainEditSheetService.isInputOrTextarea = true;
+        mainEditSheetService.placeholder = '你是哪个寝室哪个楼的';
+        mainEditSheetService.className = '';
+        $state.go('main.edit-sheet');
+      },
+
+      cb_gender: function () {
+        $ionicActionSheet.show({
+          titleText: "请选择性别",
+          buttons: [
+            //{ text: "<b>分享</b>文章" },
+            {text: "<b>男</b>"},
+            {text: "<b>女</b>"}
+          ],
+          buttonClicked: function (index) {
+
+            // 打开照相机
+            if (index == 0) {
+
+            }
+            // 打开 ImagePicker
+            else {
+
+
+            }
+
+          },
+          cancelText: "取消",
+          cancel: function () {
+            // add cancel code..
+          },
+          destructiveButtonClicked: function () {
+          }
+        })
+      },
+
+      cb_hometown: function () {
+        mainEditSheetService.title = '修改家乡';
+        mainEditSheetService.isInputOrTextarea = true;
+        mainEditSheetService.placeholder = '老家是哪里的';
+        mainEditSheetService.className = '';
+        $state.go('main.edit-sheet');
+      },
+
+      cb_sign: function () {
+        mainEditSheetService.title = '修改个人签名';
+        mainEditSheetService.isInputOrTextarea = true;
+        mainEditSheetService.placeholder = '...';
+        mainEditSheetService.className = '';
+        $state.go('main.edit-sheet');
       }
-
     };
 
 

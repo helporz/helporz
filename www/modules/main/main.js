@@ -8,8 +8,8 @@
   angular.module('main', [
     'ionic',
     'main.near',
-    'main.near.taskdetail',
     'main.post',
+    'main.task',
     'main.me'
   ]).config(mainConfig);
 
@@ -33,7 +33,7 @@
         }
       })
       .state('main.task-detail', {
-        url: '/near/:id',
+        url: '/near/task-detail/:id',
         views: {
           'near': {
             templateUrl: 'modules/main/near/task-detail/task-detail.html',
@@ -74,7 +74,7 @@
       })
 
       .state('main.edit', {
-        url: '/edit',
+        url: '/me/edit',
         views: {
           'me': {
             templateUrl: 'modules/main/me/edit/edit.html',
@@ -84,14 +84,65 @@
       })
 
       .state('main.setting', {
-        url: '/setting',
+        url: '/me/setting',
         views: {
           'me': {
             templateUrl: 'modules/main/me/setting/setting.html',
             controller: 'mainSettingCtrl'
           }
         }
-      });
+      })
+
+      .state('main.edit-sheet', {
+        url: '/me/edit-sheet',
+        views: {
+          'me': {
+            templateUrl: 'modules/main/details/edit-sheet/edit-sheet.html',
+            controller: 'mainEditSheetCtrl'
+          }
+        }
+      })
+
+      .state('main.about', {
+        url: '/me/setting/about',
+        views: {
+          'me': {
+            templateUrl: 'modules/main/details/about/about.html'
+          }
+        }
+      })
+
+      .state('main.task', {
+        url: '/task',
+        views: {
+          'task': {
+            templateUrl: 'modules/main/task/task.html',
+            controller: 'mainTaskCtrl'
+          }
+        }
+      })
+
+      .state('main.comment', {
+        url: '/task/comment/:desc',
+        views: {
+          'task': {
+            templateUrl: 'modules/main/task/comment/comment.html',
+            controller: 'mainCommentCtrl'
+          }
+        }
+      })
+
+      .state('main.task-state', {
+        url: '/task/task-state/:id',
+        views: {
+          'task': {
+            templateUrl: 'modules/main/task/task-state/task-state.html',
+            controller: 'mainTaskTaskStateCtrl'
+          }
+        }
+      })
+
+    ;
 
     //tab位置设置到下面
     $ionicConfigProvider.tabs.position('bottom')

@@ -1,0 +1,115 @@
+$comment-left-margin:12px;
+.comment{
+  background-color: $color-page-bg;
+
+  .top-panel {
+    background-color: white;
+    padding-bottom: 10px;
+
+    .name1 {
+      margin: 0 $comment-left-margin;
+      font-size: 15px;
+    }
+
+    .star-panel {
+      @include display-flex();
+      @include align-items(center);
+      height: 40px;
+    }
+
+    .div-line {
+      margin:0 $comment-left-margin;
+      //border: 1px solid $color-div-line;
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
+      border-bottom-color: $color-div-line;
+    }
+
+
+
+    ///////////////
+    .impress-select-panel{
+      margin: $comment-left-margin 0 $comment-left-margin $comment-left-margin ;
+      @include display-flex();
+      @include align-items(center);
+
+      button {
+        margin-left: 10px;
+        position: relative;
+      }
+
+      .close {
+        position: absolute;
+        right: 5px;
+        top: 4px;
+        font-size: 8px;
+      }
+    }
+
+    //////////////////////////////////////////////////
+
+    .impress-panel {
+      @include display-flex();
+      @include justify-content(space-between);
+      padding: 0 10px;
+      margin-bottom: 15px;
+    }
+
+    .impress-button {
+      height: 25px;
+      width: 70px;
+      border: 1px solid;
+      border-radius: 12.5px;
+      &.impress-1 {
+        @include ho-button-color($impress-color-1,$impress-color-1-h)
+      }
+      &.impress-2 {
+        @include ho-button-color($impress-color-2,$impress-color-2-h)
+      }
+      &.impress-3 {
+        @include ho-button-color($impress-color-3,$impress-color-3-h)
+      }
+      &.impress-4 {
+        @include ho-button-color($impress-color-4,$impress-color-4-h)
+      }
+      &.impress-5 {
+        @include ho-button-color($impress-color-5,$impress-color-5-h)
+      }
+      &.impress-6 {
+        @include ho-button-color($impress-color-6,$impress-color-6-h)
+      }
+      &.impress-7 {
+        @include ho-button-color($impress-color-7,$impress-color-7-h)
+      }
+      &.impress-8 {
+        @include ho-button-color($impress-color-8,$impress-color-8-h)
+      }
+      &.impress-9 {
+        @include ho-button-color($impress-color-9,$impress-color-9-h)
+      }
+      &.impress-10 {
+        @include ho-button-color($impress-color-10,$impress-color-10-h)
+      }
+      &.impress-11{
+        @include ho-button-color($impress-color-11,$impress-color-11-h)
+      }
+      &.impress-12{
+        @include ho-button-color($impress-color-12,$impress-color-12-h)
+      }
+
+    }
+  }
+
+  .comment-panel {
+    margin: 20px 10px 10px 10px;
+    padding: 5px 10px;
+    background-color: white;
+    height: 90px;
+    border-radius: 7px;
+
+    textarea {
+      height: 100%;
+      width: 100%;
+    }
+  }
+}

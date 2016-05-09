@@ -1,0 +1,128 @@
+<ion-view view-title="Home">
+  <ion-nav-title class="task-title-container">
+    <ho-tab-set class="ho-tabset ho-tabset-round ho-tabset-outline-theme">
+      <ho-tab on-select="vm.cb_post()">我的求助</ho-tab>
+      <ho-tab on-select="vm.cb_accept()">我的援助</ho-tab>
+    </ho-tab-set>
+  </ion-nav-title>
+
+  <ion-content class="">
+
+    <ion-list>
+      <ion-item class="task-item nopadding bottom-bordered bottom-bordered-small bgcolor-white"
+                collection-repeat="item in vm.repeatList" item-width="100%"
+                item-height="160px"
+        ng-click="vm.cb_taskState($index)">
+        <!--href="#/main/task/task-state/{{item.id}}"-->
+
+      <div class="task-header">
+        <div class="left">
+          <!--<img class="avatar" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g">-->
+          <img class="avatar" ng-src={{item.ui_avatar}}>
+
+          <p class="name">{{item.ui_nickname}}</p>
+
+          <p class="desc">{{item.ui_identifier}}</p>
+        </div>
+        <div class="right">
+          <button class="chat button button-icon icon ion-ios-chatbubble-outline" ng-click="vm.gotoComment($index)"></button>
+        </div>
+      </div>
+      <div class="task-body">
+        <div class="left">
+          <!--<img class="task-img" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g">-->
+          <img class="task-img" ng-src={{item.ui_taskIcon}}>
+
+          <p class="task-desc">
+            {{item.ui_taskTypeName}}
+          </p>
+        </div>
+
+        <div class="div-line"></div>
+        <div class="right">
+
+          <div class="task-dot-ctn">
+
+            <div class="dot dot-0">
+              <div class="icon" ng-class="{
+              'dot-small':item.ui_tagState1==0, 'dot-big':item.ui_tagState1>0, 'offset-right':item.ui_tagState1>0,
+              'success-bg':item.ui_tagState1==0, 'success':item.ui_tagState1>1, 'failed':item.ui_tagState1==1,
+                'ion-ios-refresh':item.ui_tagState1==2,'ion-checkmark-circled':item.ui_tagState1==3,'ion-close-circled':item.ui_tagState1==1}"></div>
+            </div>
+
+            <div class="div-line-0" ng-class="{'div-line-pending':item.ui_tagState2==-1, 'div-line-failed':item.ui_tagState2==1,
+            'div-line-success':item.ui_tagState2==0 || item.ui_tagState2>1}"></div>
+
+            <div class="dot dot-1">
+              <div class="icon" ng-class="{'dot-small':item.ui_tagState2<=0, 'dot-big':item.ui_tagState2>0,
+              'pending-bg':item.ui_tagState2==-1, 'success-bg':item.ui_tagState2==0, 'failed':item.ui_tagState2==1,
+              'success':item.ui_tagState2>1,
+                   'ion-ios-refresh':item.ui_tagState2==2, 'ion-checkmark-circled':item.ui_tagState2==3,
+                    'ion-close-circled':item.ui_tagState2==1}"></div>
+            </div>
+
+            <div class="div-line-1" ng-class="{'div-line-pending':item.ui_tagState3==-1,'div-line-failed':item.ui_tagState3==1, 'div-line-success':item.ui_tagState3>1}"></div>
+
+            <div class="dot dot-2">
+              <div class="icon" ng-class="{'dot-small':item.ui_tagState3==-1, 'dot-big':item.ui_tagState3>0,
+               'offset-left':item.ui_tagState3>0,
+               'pending-bg':item.ui_tagState3==-1, 'failed':item.ui_tagState3==1, 'success':item.ui_tagState3>1,
+                  'ion-close-circled':item.ui_tagState3==1, 'ion-ios-refresh':item.ui_tagState3==2,
+                  'ion-checkmark-circled':item.ui_tagState3==3 }"></div>
+            </div>
+          </div>
+
+          <div class="task-desc-ctn">
+            <p class="desc desc-0">{{item.ui_tagText1}}</p>
+            <p class="desc desc-1">{{item.ui_tagText2}}</p>
+            <p class="desc desc-2">{{item.ui_tagText3}}</p>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="task-foot">
+        <!--<p ng-hide ng-show="false">等待大侠的援手</p>-->
+        <!--<p ng-hide ng-show="item.status==4" class="align-right">等待对方完成援助吧</p>-->
+        <!--<p ng-hide ng-show="true">等待对方确认援助完成</p>-->
+        <p ng-hide>{{item.ui_stateDesc}}</p>
+
+        <!--<button ng-hide ng-show="item.status==0 || item.status==4" class="desc ho-button  button-gray button-outline ho-button-small"-->
+                <!--ng-click="vm.opt_comment($index)">取消求助-->
+        <!--</button>-->
+        <!--<button ng-hide ng-show="item.status==64" class="align-right ho-button button-gray button-outline ho-button-small">-->
+          <!--未完成援助-->
+        <!--</button>-->
+        <!--<button ng-hide ng-show="item.status==64" class="align-right ho-button  button-light-red ho-button-small">确认对方已完成援助</button>-->
+        <!--<button ng-hide ng-show="item.status==4" class="align-right ho-button button-gray button-outline ho-button-small">放弃援助</button>-->
+        <!--<button ng-hide ng-show="item.status==4" class="align-right ho-button  button-light-red ho-button-small">我已完成援助</button>-->
+        <!--<button ng-hide ng-show="item.status==1024" class="align-right ho-button  button-light-red ho-button-small">评价对方</button>-->
+
+        <div ng-hide ng-show="item.ui_showOptPassive==true" class="align-right ho-button button-gray button-outline ho-button-small"
+          ng-click="vm.opt_passive($index)">{{item.ui_textOptPassive}}</div>
+        <div ng-hide ng-show="item.ui_showOptActive==true" class="align-right ho-button button-light-red ho-button-small"
+          ng-click="vm.opt_active($index)">{{item.ui_textOptActive}}</div>
+      </div>
+
+      </ion-item>
+    </ion-list>
+    <!--</div>-->
+
+    <!--</ion-item>-->
+    <!--</ion-list>-->
+    <!--</div>-->
+    <!--<div ng-show="vm.tabSelectedIndex==1">-->
+    <!--<ion-list class="ho-list">-->
+    <!--<ion-item class="ho-item ho-item-header-icon-title" collection-repeat="item in vm.acceptList"-->
+    <!--item-width="100%" item-height="30px">-->
+    <!--<i class="side-icon icon ion-person color-theme"></i>-->
+
+    <!--<p class="title">个人</p>-->
+    <!--</ion-item>-->
+    <!--</ion-list>-->
+    <!--</div>-->
+
+
+  </ion-content>
+</ion-view>

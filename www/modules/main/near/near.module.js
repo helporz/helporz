@@ -6,6 +6,7 @@
   'use strict';
 
   angular.module('main.near', [
+    'main.near.taskdetail',
     'com.helporz.task.netservice',
     'app.task.utils.service'
   ])

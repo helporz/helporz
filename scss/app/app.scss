@@ -6,23 +6,30 @@
   "../../www/lib/ionic/scss/mixins",
 
 // base
-  "base/variables",
+  "base/var-color",
+  "base/var-font",
+
+  // common
+  "com",
 
 // components
   "components/five-stars",
   "components/level-progress",
-
-// common
-  "com",
+  "components/tabset",
 
 // near page
   "near",
 
+// task page
+  "task",
+  "comment",
+  "task-state",
+
 // me page
   "me",
 
-// edit page
-  "edit",
+// edit-sheet
+  "edit-sheet",
 
   "task-publish"
 

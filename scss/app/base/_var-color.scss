@@ -6,9 +6,13 @@ $node-black: #444;
 
 //$color-theme: #F74848;
 $color-theme: #FF432F;
+$color-theme-dark: #de230f;
+
+$color-success: #30b845;
 
 //page bg color
 $color-page-bg: #e8e7ed;
+$color-page-bg-weak: #f7f7f7;
 
 //div line
 $color-div-line: #e4e4e4;  //淡线颜色
@@ -19,7 +23,7 @@ $color-text-secondary: #878787;     // 文字次级
 $color-text-thirdly: #dddddd;       // 文字提示等
 
 //button colors
-$button-gray-color: $color-text-secondary;
+$button-gray-color: #bbbbbb;
 
 // icon colors
 $deadline-icon-color: #0a9dc7;  //截止时间图标颜色
@@ -41,4 +45,33 @@ $user-tag-padding: 1px;
 $button-accept-bgcolor: #ffeceb;
 $button-accept-bordercolor: #ffd0ce;
 $button-accept-txtcolor: #f78058;
+
+//impress colors
+$impress-color-1: #e74f46;
+$impress-color-2: #48ccad;
+$impress-color-3: #feb7b9;
+$impress-color-4: #34b8f6;
+$impress-color-5: #7985ba;
+$impress-color-6: #34c7da;
+$impress-color-7: #fda639;
+$impress-color-8: #7eb24a;
+$impress-color-9: #666666;
+$impress-color-10: #7a929d;
+$impress-color-11: #30a69b;
+$impress-color-12: #bf8fc5;
+
+$impress-color-1-h: #af3b34;
+$impress-color-2-h: #318d77;
+$impress-color-3-h: #b37f81;
+$impress-color-4-h: #2588b7;
+$impress-color-5-h: #555e85;
+$impress-color-6-h: #2593a1;
+$impress-color-7-h: #c37f2a;
+$impress-color-8-h: #5a8034;
+$impress-color-9-h: #434343;
+$impress-color-10-h: #546770;
+$impress-color-11-h: #207f76;
+$impress-color-12-h: #926c97;
+
+
 

@@ -133,10 +133,10 @@
           </ion-item>
         </ion-list>
       </div>
-      <div ng-show="vm.activeTab == 1">
+      <!--<div ng-show="vm.activeTab == 1">-->
           <ion-list class="ho-list friend">
-            <!--<ion-item class="ho-item-avatar" collection-repeat="item in vm.self.friendList" item-height="54px" item-width="100%" >-->
-            <ion-item class="ho-item ho-item-avatar" ng-repeat="item in vm.self.friendList">
+            <ion-item class="ho-item ho-item-avatar" collection-repeat="item in vm.self.repeatList" item-height="54px" item-width="100%" >
+            <!--<ion-item class="ho-item ho-item-avatar" ng-repeat="item in vm.self.friendList">-->
               <img class="avatar" ng-src="{{vm.avatar}}" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=4123988153,51280834&fm=58"
                    live-image>
               <div class="content">
@@ -149,7 +149,7 @@
 
           </ion-list>
 
-      </div>
+      <!--</div>-->
     </div>
 
   </ion-content>

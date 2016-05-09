@@ -6,9 +6,9 @@
   'use strict';
 
   angular.module('main.near')
-    .controller('mainNearCtrl', ['$log','$ionicLoading','$scope', 'taskNetService',  'taskUtils', mainNearCtrl]);
+    .controller('mainNearCtrl', ['$log','$ionicLoading','$scope', 'taskNetService',  'taskUtils', 'timeUtils', mainNearCtrl]);
 
-  function mainNearCtrl($log,$ionicLoading,$scope,taskNetService, taskUtils) {
+  function mainNearCtrl($log,$ionicLoading,$scope,taskNetService, taskUtils, timeUtils) {
     var vm = $scope.vm = {};
 
     //test:
@@ -70,6 +70,12 @@
         item.icon = taskUtils.iconByTypeValue(item.taskTypesId);
         item.typeName = taskUtils.nameByTypeValue(item.taskTypesId);
         item.commentCount = item.commentList? item.commentList.length: 0;
+
+        //计算出发帖和现在的时间差
+        var pieces = item.created.split(/[\:\-\s]/);
+        if (pieces.length != 6) alert('network err: task created time is not valid')
+        var before = new Date(pieces[0], parseInt(pieces[1])-1, pieces[2], pieces[3], pieces[4], pieces[5]);
+        item.ui_createTime = timeUtils.formatSimpleTimeBeforeNow(before);
       }
 
       //避免 $digest / $apply digest in progress

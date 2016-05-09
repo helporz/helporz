@@ -6,7 +6,8 @@
   'use strict';
 
   angular.module('main.edit', [
-    'components.misc.hideTabs'
+    'components.misc.hideTabs',
+    'main.editSheet'
   ]);
 
 

@@ -1,0 +1,80 @@
+.task-state {
+  .task-dot-ctn {
+    padding: 0 42px;
+  }
+  .task-desc-ctn {
+    padding: 0 42px;
+    padding-bottom: 5px;
+  }
+
+  .comment-board {
+    padding: 10px;
+
+    .title {
+      margin: 5px 0 5px;
+      color: $color-text-primary;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .star-panel {
+      @include display-flex();
+      @include justify-content(center);
+      @include align-items(center);
+
+    }
+
+    .impress-panel {
+      @include display-flex();
+      @include justify-content(center);
+      @include align-items(center);
+      > * {
+        margin: 10px 10px 5px;
+        transform: scale(1.2);
+      }
+    }
+
+    .comment-panel {
+      @include display-flex();
+      @include justify-content(center);
+      @include align-items(center);
+      padding: 0 50px;
+
+      p {
+        font-size: 12px;
+        color: $color-text-secondary;
+      }
+    }
+  }
+
+  //////////////////////////////////////////////////
+  .div-text-panel {
+    @include display-flex();
+    @include justify-content(center);
+    @include align-items(center);
+    padding: 0 50px;
+    margin: 3px 0 5px;
+
+    .left-line {
+      border-bottom-color: $color-div-line;
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
+      @include flex(5,0,20%)
+    }
+    .mid-text {
+      margin: 0;
+      font-size: 12px;
+      color: $color-text-thirdly;
+      @include flex(1,0,auto);
+      @include display-flex();
+      @include justify-content(center);
+      @include align-items(center);
+    }
+    .right-line {
+      border-bottom-color: $color-div-line;
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
+      @include flex(5,0,20%)
+    }
+  }
+}

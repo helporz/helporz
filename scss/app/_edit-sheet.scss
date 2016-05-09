@@ -1,0 +1,35 @@
+.edit-sheet {
+  //.edit-input  {
+
+  .textarea-big {
+    height: 150px;
+  }
+  .textarea-normal {
+    height: 100px;
+  }
+
+  .line {
+    height: 40px;
+  }
+
+  .button-commit {
+    border-radius: 5px;
+    margin: 10px 5%;
+    width: 90%;
+    height: 50px;
+    p {
+      display: inline-block;
+
+      :before {
+        //padding-right: 1.2em;
+        //padding-left: 0;
+      }
+
+      margin-left: 2px;
+      margin-bottom: 2px;
+    }
+
+
+  }
+  //}
+}

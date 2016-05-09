@@ -1,0 +1,64 @@
+@mixin ho-tab-color($color, $is-outline) {
+  @if $is-outline == false {
+    background-color: white;
+    color: $color;
+    border-color: $color;
+  } @else {
+    background-color: $color;
+    color: white;
+    border-color: white;
+  }
+  &.tab-item-active {
+    @if $is-outline == false {
+      color: white;
+      background-color: $color;
+    } @else {
+      color: $color;
+      background-color: white;
+    }
+  }
+}
+
+$tab-round-radius: 13px;
+$tab-font-size: 12px;
+.ho-tabset {
+  @include display-flex();
+  //@include justify-content(center);
+
+  &.ho-tabset-round {
+
+    :first-child {
+      border-top-left-radius: $tab-round-radius;
+      border-bottom-left-radius: $tab-round-radius;
+      padding-left: 12px;
+      border-left-width: 1px;
+    }
+    :last-child {
+      border-top-right-radius: $tab-round-radius;
+      border-bottom-right-radius: $tab-round-radius;
+      padding-right: 12px;
+    }
+    > ho-tab {
+      border-style: solid;
+      border-width: 1px 1px 1px 0;
+      min-width: 60px;
+      height: $tab-round-radius*2;
+      font-size: $tab-font-size;
+      padding: 0 7px;
+      @include display-flex();
+      @include align-items(center);
+      @include justify-content(center);
+    }
+
+    &.ho-tabset-theme {
+      > ho-tab {
+        @include ho-tab-color($color-theme, false);
+      }
+    }
+    &.ho-tabset-outline-theme {
+      > ho-tab {
+        @include ho-tab-color($color-theme, true);
+      }
+    }
+  }
+}
