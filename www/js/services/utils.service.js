@@ -274,6 +274,7 @@
 
         var _getForPromise = function(url,params) {
           var _getDefer = $q.defer();
+          params = {} || params;
           params._t = (new Date()).getTime();
           $http({
             method:'GET',url:appConfig.API_SVC_URL + url,params:params,headers: {

@@ -10,8 +10,25 @@
     'main.near',
     'main.post',
     'main.task',
-    'main.me'
-  ]).config(mainConfig);
+    'main.me',
+    'com.helproz.task.publish'
+  ]).config(mainConfig).controller('mainController',mainControllerFn);
+
+  mainControllerFn.$inject = ['$scope','$ionicModal','taskPublishModalService'];
+  function mainControllerFn($scope,$ionicModal,taskPublishModalService) {
+    $scope.vm = {};
+    $ionicModal.fromTemplateUrl('modules/main/task-publish/modal-list.html', {
+      scope: $scope,
+      animation: "slide-in-up"
+    }).then(function (modal) {
+      $scope.vm.publishListModal = modal;
+      taskPublishModalService.setListModal(modal);
+    });
+
+    $scope.vm.showPublishList = function () {
+      $scope.vm.publishListModal.show();
+    }
+  }
 
   mainConfig.$inject = ['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider'];
 
@@ -20,7 +37,8 @@
       .state('main', {
         url: '/main',
         abstract: true,
-        templateUrl: 'modules/main/main.html'
+        templateUrl: 'modules/main/main.html',
+        controller:'mainController'
       })
 
       .state('main.near', {
