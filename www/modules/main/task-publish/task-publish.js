@@ -134,6 +134,7 @@
   function cleanTaskControllerStatus(ctlObj) {
     ctlObj.startTime = ctlObj.deadline = ctlObj.summary = ctlObj.pubLocation = null;
     ctlObj.selectedRewardType = ctlObj.selectedSubRewardType = 0;
+    ctlObj.startTimeShow = ctlObj.deadlineShow = null;
   }
 
   function buildSubTaskTypeArray(taskUtils, taskDesc, taskIndex) {
@@ -173,8 +174,8 @@
       cleanTaskControllerStatus(_ctlSelf);
     }
 
-    this.deadline = new Date();
-    this.startTime = new Date();
+    this.deadline = null;//new Date();
+    this.startTime = null;//new Date();
 
     this.setStartTime = function () {
       var currentDate = new Date();
@@ -253,6 +254,17 @@
 
     this.publish = function () {
       var errMsg = '';
+      ////////////////////////////////////////////////
+      //为了方便浏览器调试增加如下代码
+      if (_ctlSelf.startTimeShow != null) {
+        _ctlSelf.startTime = new Date(_ctlSelf.startTimeShow);
+      }
+
+      if (_ctlSelf.deadlineShow != null) {
+        _ctlSelf.deadline = new Date(_ctlSelf.deadlineShow);
+      }
+      ////////////////////////////////////////////////
+
       if (_ctlSelf.selectedRewardType == 0 || _ctlSelf.selectedSubRewardType == 0) {
         alert("请选择感谢方式");
         return;
@@ -276,7 +288,8 @@
       taskNetService.postTask($scope.selectedSubTask.type,
         _ctlSelf.summary,
         _ctlSelf.pubLocation,
-        _ctlSelf.startTime, _ctlSelf.deadline
+        getDateSendString(_ctlSelf.startTime),
+        getDateSendString(_ctlSelf.deadline)
         , 0.0, 0.0,
         _ctlSelf.selectedRewardType,
         _ctlSelf.selectedSubRewardType, 1, 0).then(function () {
@@ -290,6 +303,9 @@
 
 
   function getDateShowString(d) {
+    if (d == null) {
+      return null;
+    }
     var year = d.getFullYear();
     var month = d.getMonth() + 1;
     var date = d.getDate();
@@ -319,6 +335,42 @@
     //  curDateTime = curDateTime + ":" + seconds;
     //else
     //  curDateTime = curDateTime + ":0" + seconds;
+    return curDateTime;
+  }
+
+  function getDateSendString(d) {
+    if (d == null) {
+      return null;
+    }
+    var year = d.getFullYear();
+    var month = d.getMonth() + 1;
+    var date = d.getDate();
+    var day = d.getDay();
+    var hours = d.getHours();
+    var minutes = d.getMinutes();
+    var seconds = d.getSeconds();
+    var ms = d.getMilliseconds();
+    var curDateTime = year;
+    if (month > 9)
+      curDateTime = curDateTime + "/" + month;
+    else
+      curDateTime = curDateTime + "/0" + month;
+    if (date > 9)
+      curDateTime = curDateTime + "/" + date;
+    else
+      curDateTime = curDateTime + "/0" + date;
+    if (hours > 9)
+      curDateTime = curDateTime + " " + hours;
+    else
+      curDateTime = curDateTime + " 0" + hours;
+    if (minutes > 9)
+      curDateTime = curDateTime + ":" + minutes;
+    else
+      curDateTime = curDateTime + ":0" + minutes;
+    if (seconds > 9)
+      curDateTime = curDateTime + ":" + seconds;
+    else
+      curDateTime = curDateTime + ":0" + seconds;
     return curDateTime;
   }
 })
