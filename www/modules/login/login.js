@@ -52,7 +52,7 @@
             }
 
             var hid = pushService.getCurrentReistrationID();
-            if (hid != null) {
+            if (hid != null && hid !== '') {
               deviceInfo.hid = hid;
               $log.info("device hid:" + hid);
             }
