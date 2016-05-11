@@ -12,6 +12,9 @@
 .#{$hoicons-prefix}gender-male:before,
 .#{$hoicons-prefix}task-list:before,
 .#{$hoicons-prefix}rmb-on:before,
+.#{$hoicons-prefix}who:before,
+.#{$hoicons-prefix}head-1:before,
+.#{$hoicons-prefix}head-2:before,
 {
   @extend .ion;
 }
@@ -27,3 +30,6 @@
 .#{$hoicons-prefix}gender-male:before{ content: $hoicon-var-gender-male; }
 .#{$hoicons-prefix}task-list:before{ content: $hoicon-var-task-list; }
 .#{$hoicons-prefix}rmb-on:before{ content: $hoicon-var-rmb-on; }
+.#{$hoicons-prefix}who:before{ content: $hoicon-var-who; }
+.#{$hoicons-prefix}head-1:before{ content: $hoicon-var-head-1; }
+.#{$hoicons-prefix}head-2:before{ content: $hoicon-var-head-2; }

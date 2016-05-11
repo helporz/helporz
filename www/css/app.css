@@ -171,11 +171,13 @@
       color: #fff; }
 
 .ho-button-small {
+  text-align: center;
   padding: 2px 5px;
   min-width: 60px;
   height: 24px;
   border-radius: 5px;
-  font-size: 10px; }
+  font-size: 10px;
+  line-height: 18px; }
 
 .ho-button-block {
   min-height: 45px;
@@ -1622,5 +1624,8 @@
   .select-subtype-header > p {
     text-align: center;
     color: #A7A7A7; }
+
+.col-offset-5 {
+  margin-left: 5%; }
 
 /*# sourceMappingURL=app.css.map */

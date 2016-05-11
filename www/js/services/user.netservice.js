@@ -12,7 +12,11 @@
 
       // cache
       var _cache = {
-        nearTaskList : []
+        nearTaskList : [],
+
+        selfInfo: null,
+
+        userInfo: {}
       };
 
         var _loginByTicket=function(ticket,sign,onSuccessFn,onFailedFn) {
@@ -81,10 +85,10 @@
       var _getUserInfo = function(userId,onSuccessFn,onFailedFn) {
         httpBaseService.get('/user/' + userId + '/get_user_info',null,function(resp,status,headers,config) {
           onSuccessFn(resp.data);
+          _cache.userInfo[userId] = resp.data;
         },function(code,data,status,headers,config) {
           onFailedFn(code);
         },function(data,status,headers,config){
-
         });
       };
 

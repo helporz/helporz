@@ -135,11 +135,13 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
 }
 
 .ho-button-small {
+  text-align: center;
   padding: 2px 5px;
   min-width: 60px;
   height: 24px;
   border-radius: 5px;
   font-size: 10px;
+  line-height: 18px;
 }
 
 .ho-button-block {
