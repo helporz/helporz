@@ -26,6 +26,8 @@
       vm.task.typeName = taskUtils.nameByTypeValue(vm.task.taskTypesId);
       vm.task.commentCount = vm.task.commentList ? vm.task.commentList.length : 0;
 
+      taskUtils.taskStateToUiState(vm.task, vm.task.status, isPosterOrAccepter);
+
       vm.task.state = 2;
 
       //////////////////////////////////////////////////

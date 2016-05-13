@@ -1,0 +1,56 @@
+//[nav-view-transition="ios"] [nav-view="active"],
+//[nav-view-transition="ios"][nav-view-direction="forward"] [nav-view="entering"],
+//[nav-view-transition="ios"][nav-view-direction="back"] [nav-view="leaving"] {
+//  z-index: 4; // 3->4
+//}
+//
+//
+//[nav-view-transition="ios"][nav-view-direction="back"] [nav-view="entering"],
+//[nav-view-transition="ios"][nav-view-direction="forward"] [nav-view="leaving"] {
+//  z-index: 2;
+//}
+
+///////////////////////////////////
+//[nav-view-transition="ios"] [nav-view="entering"],
+//[nav-view-transition="ios"] [nav-view="leaving"] {
+//  -webkit-transition-duration: 500ms;
+//  transition-duration: 500ms;
+//  -webkit-transition-timing-function: cubic-bezier(0.36, 0.66, 0.04, 1);
+//  transition-timing-function: cubic-bezier(0.36, 0.66, 0.04, 1);
+//  -webkit-transition-property: opacity, -webkit-transform, box-shadow;
+//  transition-property: opacity, transform, box-shadow; }
+
+//
+//[nav-view-transition="ios"] {
+//  &[nav-tab-direction="forward"] {
+//    &[nav-view="leaving"] {
+//      z-index: 3;
+//    }
+//    &[nav-view="cached"]{
+//      z-index: 3;
+//    }
+//  }
+//
+//  &[nav-tab-direction="back"] {
+//    &[nav-view="entering"] {
+//      z-index: 3;
+//    }
+//    &[nav-view="tab-active"] {
+//      z-index: 5;
+//    }
+//  }
+//}
+
+[tab-view-state="entering"], [tab-view-state="leaving"] {
+  -webkit-transition-duration: 500ms;
+  transition-duration: 500ms;
+  -webkit-transition-timing-function: cubic-bezier(0.36, 0.66, 0.04, 1);
+  transition-timing-function: cubic-bezier(0.36, 0.66, 0.04, 1);
+  -webkit-transition-property: opacity, -webkit-transform, box-shadow;
+  transition-property: opacity, transform, box-shadow;
+
+  //@include display-flex();
+}
+
+
+

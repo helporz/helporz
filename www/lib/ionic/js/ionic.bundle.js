@@ -52208,7 +52208,8 @@ IonicModule
 
   // iOS Transitions
   // -----------------------
-  provider.transitions.views.ios = function(enteringEle, leavingEle, direction, shouldAnimate) {
+  //lkj hidetabs:
+  provider.transitions.views.ios = function(enteringEle, leavingEle, direction, shouldAnimate, rootTabsEle, enableBack) {
 
     function setStyles(ele, opacity, x, boxShadowOpacity) {
       var css = {};
@@ -52221,15 +52222,35 @@ IonicModule
       ionic.DomUtil.cachedStyles(ele, css);
     }
 
+    //lkj: hidetabs tabs纵向隐藏动画
+    function setTabStyles(ele, opacity, y, boxShadowOpacity) {
+      var css = {};
+      css[ionic.CSS.TRANSITION_DURATION] = d.shouldAnimate ? '' : 0;
+      css.opacity = opacity;
+      if (boxShadowOpacity > -1) {
+        css.boxShadow = '0 0 10px rgba(0,0,0,' + (d.shouldAnimate ? boxShadowOpacity * 0.45 : 0.3) + ')';
+      }
+      css[ionic.CSS.TRANSFORM] = 'translate3d(0,' + y + '%,0)';
+      ionic.DomUtil.cachedStyles(ele, css);
+    }
+
     var d = {
       run: function(step) {
         if (direction == 'forward') {
           setStyles(enteringEle, 1, (1 - step) * 99, 1 - step); // starting at 98% prevents a flicker
           setStyles(leavingEle, (1 - 0.1 * step), step * -33, -1);
 
+          if(rootTabsEle){
+            setTabStyles(rootTabsEle, (1 - 0.1 * step), step * 100, -1);
+          }
+
         } else if (direction == 'back') {
           setStyles(enteringEle, (1 - 0.1 * (1 - step)), (1 - step) * -33, -1);
           setStyles(leavingEle, 1, step * 100, 1 - step);
+
+          if(rootTabsEle && enableBack == false){
+            setTabStyles(rootTabsEle, (1 - 0.1 * (1 - step)), (1 - step) *  100, -1);
+          }
 
         } else {
           // swap, enter, exit
@@ -54873,7 +54894,8 @@ IonicModule.factory('$ionicViewSwitcher', [
   '$ionicClickBlock',
   '$ionicConfig',
   '$ionicNavBarDelegate',
-function($timeout, $document, $q, $ionicClickBlock, $ionicConfig, $ionicNavBarDelegate) {
+  '$ionicTabsDelegate',   //lkj: hidetabs
+function($timeout, $document, $q, $ionicClickBlock, $ionicConfig, $ionicNavBarDelegate, $ionicTabsDelegate) {
 
   var TRANSITIONEND_EVENT = 'webkitTransitionEnd transitionend';
   var DATA_NO_CACHE = '$noCache';
@@ -55021,10 +55043,16 @@ function($timeout, $document, $q, $ionicClickBlock, $ionicConfig, $ionicNavBarDe
           // cancel any previous transition complete fallbacks
           $timeout.cancel(enteringEle.data(DATA_FALLBACK_TIMER));
 
+
+          //lkj: hidetabs 保存根tabs的节点，以便做隐藏动画
+          var tabsAsRoot = $ionicTabsDelegate.$getByHandle('rootTabs');
+          var tabsEle = tabsAsRoot._instances[0].asRoot.innerElement;
+
           // get the transition ready and see if it'll animate
           var transitionFn = $ionicConfig.transitions.views[enteringData.transition] || $ionicConfig.transitions.views.none;
           var viewTransition = transitionFn(enteringEle, leavingEle, enteringData.direction,
-                                            enteringData.shouldAnimate && allowAnimate && renderEnd);
+                                            enteringData.shouldAnimate && allowAnimate && renderEnd, 
+                                            tabsEle, enableBack);
 
           if (viewTransition.shouldAnimate) {
             // attach transitionend events (and fallback timer)
@@ -55093,6 +55121,16 @@ function($timeout, $document, $q, $ionicClickBlock, $ionicConfig, $ionicNavBarDe
             navViewAttr(enteringEle, viewTransition.shouldAnimate ? 'entering' : VIEW_STATUS_ACTIVE);
             navViewAttr(leavingEle, viewTransition.shouldAnimate ? 'leaving' : VIEW_STATUS_CACHED);
 
+            //lkj: hidetabs 此时要开始动画了，设置动画css（效果在css里)
+            if(enteringData.direction == 'back') {
+              if(enableBack == false){
+                cachedAttr(tabsEle, 'tab-view-state', viewTransition.shouldAnimate ? 'entering' : VIEW_STATUS_ACTIVE);
+              }
+            }
+            else if(enteringData.direction == 'forward'){
+              cachedAttr(tabsEle, 'tab-view-state',  viewTransition.shouldAnimate ? 'leaving': VIEW_STATUS_CACHED);
+            }
+
             // start the auto transition and let the CSS take over
             viewTransition.run(1);
 
@@ -55114,6 +55152,21 @@ function($timeout, $document, $q, $ionicClickBlock, $ionicConfig, $ionicNavBarDe
             transitionComplete();
           }
           function transitionComplete() {
+            // lkj: hidetabs 进入子view，如果隐藏了tabs，对应要把ion-content这个view的class内.has-tabs删除，
+            // 否则有 bottom: ?px，不贴底。
+            if(enteringData.direction == 'back') {
+              if(enableBack == false){
+                // 每个tab的主页面不需要删掉这个class,因为主页显示tabs
+              }
+            }else if(enteringData.direction == 'forward') {
+              // 子页面删掉该class
+              var ionContent = enteringEle[0].querySelector('.has-tabs');
+              jqLite(ionContent).removeClass('has-tabs');
+
+            }else if(enteringData.direction == 'none') {
+            }
+
+
             if (transitionComplete.x) return;
             transitionComplete.x = true;
 
@@ -63786,7 +63839,8 @@ IonicModule
   '$ionicConfig',
   '$ionicBind',
   '$ionicViewSwitcher',
-function($compile, $ionicConfig, $ionicBind, $ionicViewSwitcher) {
+  '$ionicTabsDelegate', //lkj: hidetabs
+function($compile, $ionicConfig, $ionicBind, $ionicViewSwitcher, $ionicTabsDelegate) {
 
   //Returns ' key="value"' if value exists
   function attrStr(k, v) {
@@ -64068,6 +64122,7 @@ function($ionicTabsDelegate, $ionicConfig) {
     restrict: 'E',
     scope: true,
     controller: '$ionicTabs',
+
     compile: function(tElement) {
       //We cannot use regular transclude here because it breaks element.data()
       //inheritance on compile
@@ -64082,6 +64137,13 @@ function($ionicTabsDelegate, $ionicConfig) {
         var deregisterInstance = $ionicTabsDelegate._registerInstance(
           tabsCtrl, $attr.delegateHandle, tabsCtrl.hasActiveScope
         );
+
+        //lkj: hidetabs
+        if($attr.delegateHandle == 'rootTabs'){
+          tabsCtrl.asRoot = {
+            innerElement: innerElement,
+          }
+        }
 
         tabsCtrl.$scope = $scope;
         tabsCtrl.$element = $element;

@@ -23,13 +23,13 @@
 
     function register(typeName, id, w) {
       var tbl = null;
-      if(widgetTable[typeName]){
+      if (widgetTable[typeName]) {
         tbl = widgetTable[typeName];
       }
-      else{
-        tbl = widgetTable[typeName]= {};
+      else {
+        tbl = widgetTable[typeName] = {};
       }
-      if(tbl[id] == undefined){
+      if (tbl[id] == undefined) {
         tbl[id] = {
           objects: [],
           static: {}    //用来存放不随控件destroy而删除的变量
@@ -39,12 +39,12 @@
     }
 
     //删除object本身,而不是id,因为同一个id在某个页面删除,加载时会出现多个object
-    function unregister(typeName, id, w){
-      if(widgetTable[typeName] !== undefined){
+    function unregister(typeName, id, w) {
+      if (widgetTable[typeName] !== undefined) {
 
         var arr = widgetTable[typeName][id].objects;
-        for(var i in arr){
-          if(arr[i] == w){
+        for (var i in arr) {
+          if (arr[i] == w) {
             arr.splice(i, 1);
           }
         }
@@ -52,14 +52,14 @@
     }
 
     function getWidget(typeName, id) {
-      if(widgetTable[typeName] !== undefined){
+      if (widgetTable[typeName] !== undefined) {
         return widgetTable[typeName][id].objects[0];
       }
       return null;
     }
 
-    function getWidgetStatic(typeName, id){
-      if(widgetTable[typeName] !== undefined){
+    function getWidgetStatic(typeName, id) {
+      if (widgetTable[typeName] !== undefined) {
         return widgetTable[typeName][id].static;
       }
       return null;

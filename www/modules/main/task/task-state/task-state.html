@@ -7,7 +7,7 @@
   /*}*/
 </style>
 
-<ion-view  view-title="任务状态" hide-tabs>
+<ion-view  view-title="任务状态" >
   <ion-content class="task-state topics">
     <div class="row nopadding bottom-bordered bottom-bordered-small">
       <div class="content-left">
@@ -79,30 +79,42 @@
     <div class="task-dot-ctn">
 
       <div class="dot dot-0">
-        <div class="dot-small" ng-class="{'pending':vm.task.state==0, 'done':vm.task.state>0}"></div>
+        <div class="icon" ng-class="{
+              'dot-small':vm.task.ui_tagState1==0, 'dot-big':vm.task.ui_tagState1>0, 'offset-right':vm.task.ui_tagState1>0,
+              'success-bg':vm.task.ui_tagState1==0, 'success':vm.task.ui_tagState1>1, 'failed':vm.task.ui_tagState1==1,
+                'ion-ios-refresh':vm.task.ui_tagState1==2,'ion-checkmark-circled':vm.task.ui_tagState1==3,'ion-close-circled':vm.task.ui_tagState1==1}"></div>
       </div>
 
-      <div class="div-line-0" ng-class="{'div-line-pending':vm.task.state==0, 'div-line-done':vm.task.state>0}"></div>
+      <div class="div-line-0" ng-class="{'div-line-pending':vm.task.ui_tagState2==-1, 'div-line-failed':vm.task.ui_tagState2==1,
+            'div-line-success':vm.task.ui_tagState2==0 || vm.task.ui_tagState2>1}"></div>
 
       <div class="dot dot-1">
-        <div class="icon" ng-class="{'dot-small':vm.task.state==0, 'dot-small-copy':vm.task.state==2, 'pending':vm.task.state==0, 'done':vm.task.state==2,
-                  'dot-big':vm.task.state==1, 'ion-ios-refresh':vm.task.state==1}"></div>
+        <div class="icon" ng-class="{'dot-small':vm.task.ui_tagState2<=0, 'dot-big':vm.task.ui_tagState2>0,
+              'pending-bg':vm.task.ui_tagState2==-1, 'success-bg':vm.task.ui_tagState2==0, 'failed':vm.task.ui_tagState2==1,
+              'success':vm.task.ui_tagState2>1,
+                   'ion-ios-refresh':vm.task.ui_tagState2==2, 'ion-checkmark-circled':vm.task.ui_tagState2==3,
+                    'ion-close-circled':vm.task.ui_tagState2==1}"></div>
       </div>
 
-      <div class="div-line-1" ng-class="{'div-line-pending':vm.task.state<2, 'div-line-done':vm.task.state==2}"></div>
+      <div class="div-line-1"
+           ng-class="{'div-line-pending':vm.task.ui_tagState3==-1,'div-line-failed':vm.task.ui_tagState3==1, 'div-line-success':vm.task.ui_tagState3>1}"></div>
 
       <div class="dot dot-2">
-        <div class="icon" ng-class="{'dot-small':vm.task.state<2, 'pending':vm.task.state<2,
-                  'dot-big':vm.task.state==2, 'ion-checkmark-circled':vm.task.state==2, 'offset':vm.task.state==2}"></div>
+        <div class="icon" ng-class="{'dot-small':vm.task.ui_tagState3==-1, 'dot-big':vm.task.ui_tagState3>0,
+               'offset-left':vm.task.ui_tagState3>0,
+               'pending-bg':vm.task.ui_tagState3==-1, 'failed':vm.task.ui_tagState3==1, 'success':vm.task.ui_tagState3>1,
+                  'ion-close-circled':vm.task.ui_tagState3==1, 'ion-ios-refresh':vm.task.ui_tagState3==2,
+                  'ion-checkmark-circled':vm.task.ui_tagState3==3 }"></div>
       </div>
+    </div>
     </div>
 
     <div class="task-desc-ctn bottom-bordered bottom-bordered-small">
-      <p class="desc desc-0">已接受</p>
+      <p class="desc desc-0">{{vm.task.ui_tagText1}}</p>
 
-      <p class="desc desc-1">行动中</p>
+      <p class="desc desc-1">{{vm.task.ui_tagText2}}</p>
 
-      <p class="desc desc-2">已搞定</p>
+      <p class="desc desc-2">{{vm.task.ui_tagText3}}</p>
     </div>
 
 

@@ -144,6 +144,7 @@
     vm.doRefresh = function () {
       taskNetService.getPostTaskList().then(_cb_getPostTaskSuccess, _cb_failed).finally(function () {
         taskNetService.getAcceptTaskList().then(_cb_getAcceptTaskSuccess, _cb_failed).finally(function () {
+          $scope.$broadcast('scroll.refreshComplete');
           $ionicLoading.hide();
         });
       });
