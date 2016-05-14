@@ -95,12 +95,12 @@
       return httpBaseService.postForPromise('/playground/topic/' + topicId + '/comment/add', param);
     }
 
-    var _addTopic = function (groupId, content, hasImg, hasAudio) {
+    var _addTopic = function (groupId, content, imgCount, audioCount) {
       var param = {
         groupId: groupId,
         content: content,
-        hasImg: hasImg,
-        hasAudio: hasAudio
+        imgCount: imgCount,
+        audioCount: audioCount
       };
 
       return httpBaseService.postForPromise('/playground/topic/add', param);

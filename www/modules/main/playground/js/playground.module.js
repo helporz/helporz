@@ -7,8 +7,10 @@
   angular.module('com.helporz.playground', ['com.helporz.user.netservice', 'com.helporz.utils.service']).config(PlaygroundConfigFn);
 
 
-  PlaygroundConfigFn.$inject = ['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider'];
-  function PlaygroundConfigFn($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+  PlaygroundConfigFn.$inject = ['$stateProvider','$compileProvider', '$urlRouterProvider', '$ionicConfigProvider'];
+  function PlaygroundConfigFn($stateProvider,$compileProvider, $urlRouterProvider, $ionicConfigProvider) {
+    $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|data|file|cdvfile):/);
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|data|file|cdvfile):/);
     $stateProvider.state(
       'playground-list',
       {

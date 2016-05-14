@@ -105,6 +105,21 @@
         }, errorHandler.bind(null, fileName,onFailed));
       };
 
+      this.readFileFromFullPath = function(fileFullName,onSuccess,onFailed) {
+        window.resolveLocalFileSystemURL(fileFullName, function (fileEntry) {
+          fileEntry.file(function (file) {
+            var reader = new FileReader();
+            reader.onloadend = function (e) {
+              //$log.info("reader onload end,result:" + this.result);
+              onSuccess(this.result);
+              return this.result;
+            };
+            //reader.readAsArrayBuffer(file);
+            reader.readAsBinaryString(file);
+          }, errorHandler.bind(null, fileFullName,onFailed));
+        }, errorHandler.bind(null, fileFullName,onFailed));
+      };
+
       var createDirImp = function(rootDirEntry, folders,onSuccess,onFailed) {
         // Throw out './' or '/' and move on to prevent something like '/foo/.//bar'.
         if (folders[0] == '.' || folders[0] == '') {

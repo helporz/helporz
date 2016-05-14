@@ -270,8 +270,10 @@
 
     vm.go2AddTopic = function () {
       //$state.go('topic-add', {'groupId': vm.groupId});
+      var publishScope = $scope.$new();
+      publishScope.groupId = vm.groupId;
       $ionicModal.fromTemplateUrl('modules/main/playground/templates/topic-publish.html', {
-        scope: $scope,
+        scope: publishScope,
         animation: "slide-in-up"
       }).then(function (modal) {
         topicModalService.setPublishModal(modal);
@@ -356,53 +358,279 @@
   }
 
 
-  topicPublishControllerFn.$inject = ['$scope', '$stateParams', '$state', '$log', '$timeout', 'topicModalService'];
-  function topicPublishControllerFn($scope, $stateParams, $state, $log, $timeout, topicModalService) {
-
+  topicPublishControllerFn.$inject = ['$scope', '$stateParams', '$state', '$log', '$ionicPopup', '$ionicActionSheet',
+    '$cordovaCamera', '$cordovaImagePicker', '$ionicModal', '$q', 'topicModalService', 'PlaygroundNetService', 'uploadService',
+    'userLoginInfoService'];
+  function topicPublishControllerFn($scope, $stateParams, $state, $log, $ionicPopup, $ionicActionSheet,
+                                    $cordovaCamera, $cordovaImagePicker, $ionicModal, $q, topicModalService,
+                                    PlaygroundNetService, uploadService, userLoginInfoService) {
+    var self = this;
     var imgList = new Array();
-    this.imgList = imgList;
+    self.imgList = imgList;
     var imgIncreaseId = 1;
-    var emptyImgList = {
-      id: 0,
-      imgSrc: '',
-    }
+    var maxImgCount = 4;
+    self.maxImgCount = maxImgCount;
+    //var emptyImgList = {
+    //  id: 0,
+    //  imgSrc: '',
+    //}
+    //
+    imgList[0] = {
+      id:10000,
+      //imgSrc:'file:///storage/emulated/0/Android/data/com.helporz.hybridapp/cache/1462970409194.jpg',
+      imgSrc: "data:image/jpeg;base64," + '/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCABkAGQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwC3BtkT5oxn3HvS/dZswgjJxgfSnqw9aepouIjGwr/qenbPvT4zDCTtQjk9PapVNOGKLgODgoGA6/40gmQ55PH+GaXtimeVHnIFICTzF9eeKUsAQueTUaxoCTjJ96dxuz3HFKwDqQ0hNNJosApNMNBNNJosFwopuaKLBcqBQD94jvUicdH7io8A9acEWmBNG2MZYYx61MGqqEX8qeFHPJoAshqXNV1BH8XpUgNAEmaQtTM0ZoAduppam5pCaAFLAdTSZpjcsvHAOaM0AOzRTM+9FAFYNT1aq6yLnGaeJB68UAWAaeDVdXGCc9KeHHqKAJwaXNRBh60u6gZJmjNR7qM0CH5puabupM0AOzSZpuabuoAeTRUe6ikIpAtgcCnAnHKUgNKDTGP34B+U0u4D+HrTQacDQMerA89OtPDA4Hp2qIGnA0CJt1JuqPdRuoAk3Um6o91JuoAk3U0tTN1NLUCH7qKiLUUAQg0oNVxMe6mgT5P3TQMtA0oaoVfOaduoAmDUu6oQ1KGoAl3Ubqi3UbqAJd1JuqLdRuoAk3U3dUZajdQA/dRUe6igCEOPWlDCq3FKMUAWQ1KGqr+Joz7mgC2Gpd1VNx/vGl3N/eoGWt1G6q29vWje3qKBFjdRuqv5je1HmN6UAT7qN1QeYfSjzT6GgCbNFQeZ7GigBKTA9KKKADA9KABRRQMAopdtFFAhMUUUUAITRmiigAzxRmiigAooooA//9k='
+    };
 
-    imgList[0] = emptyImgList;
-    this.closeModal = function () {
+    imgList[1] = {
+      id:10001,
+      //imgSrc:'file:///storage/emulated/0/Android/data/com.helporz.hybridapp/cache/1462970409194.jpg',
+      imgSrc: "data:image/jpeg;base64," + '/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCABkAGQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwC3BtkT5oxn3HvS/dZswgjJxgfSnqw9aepouIjGwr/qenbPvT4zDCTtQjk9PapVNOGKLgODgoGA6/40gmQ55PH+GaXtimeVHnIFICTzF9eeKUsAQueTUaxoCTjJ96dxuz3HFKwDqQ0hNNJosApNMNBNNJosFwopuaKLBcqBQD94jvUicdH7io8A9acEWmBNG2MZYYx61MGqqEX8qeFHPJoAshqXNV1BH8XpUgNAEmaQtTM0ZoAduppam5pCaAFLAdTSZpjcsvHAOaM0AOzRTM+9FAFYNT1aq6yLnGaeJB68UAWAaeDVdXGCc9KeHHqKAJwaXNRBh60u6gZJmjNR7qM0CH5puabupM0AOzSZpuabuoAeTRUe6ikIpAtgcCnAnHKUgNKDTGP34B+U0u4D+HrTQacDQMerA89OtPDA4Hp2qIGnA0CJt1JuqPdRuoAk3Um6o91JuoAk3U0tTN1NLUCH7qKiLUUAQg0oNVxMe6mgT5P3TQMtA0oaoVfOaduoAmDUu6oQ1KGoAl3Ubqi3UbqAJd1JuqLdRuoAk3U3dUZajdQA/dRUe6igCEOPWlDCq3FKMUAWQ1KGqr+Joz7mgC2Gpd1VNx/vGl3N/eoGWt1G6q29vWje3qKBFjdRuqv5je1HmN6UAT7qN1QeYfSjzT6GgCbNFQeZ7GigBKTA9KKKADA9KABRRQMAopdtFFAhMUUUUAITRmiigAzxRmiigAooooA//9k='
+    };
+
+    imgList[2] = {
+      id:10003,
+      //imgSrc:'file:///storage/emulated/0/Android/data/com.helporz.hybridapp/cache/1462970409194.jpg',
+      imgSrc: "data:image/jpeg;base64," + '/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCABkAGQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwC3BtkT5oxn3HvS/dZswgjJxgfSnqw9aepouIjGwr/qenbPvT4zDCTtQjk9PapVNOGKLgODgoGA6/40gmQ55PH+GaXtimeVHnIFICTzF9eeKUsAQueTUaxoCTjJ96dxuz3HFKwDqQ0hNNJosApNMNBNNJosFwopuaKLBcqBQD94jvUicdH7io8A9acEWmBNG2MZYYx61MGqqEX8qeFHPJoAshqXNV1BH8XpUgNAEmaQtTM0ZoAduppam5pCaAFLAdTSZpjcsvHAOaM0AOzRTM+9FAFYNT1aq6yLnGaeJB68UAWAaeDVdXGCc9KeHHqKAJwaXNRBh60u6gZJmjNR7qM0CH5puabupM0AOzSZpuabuoAeTRUe6ikIpAtgcCnAnHKUgNKDTGP34B+U0u4D+HrTQacDQMerA89OtPDA4Hp2qIGnA0CJt1JuqPdRuoAk3Um6o91JuoAk3U0tTN1NLUCH7qKiLUUAQg0oNVxMe6mgT5P3TQMtA0oaoVfOaduoAmDUu6oQ1KGoAl3Ubqi3UbqAJd1JuqLdRuoAk3U3dUZajdQA/dRUe6igCEOPWlDCq3FKMUAWQ1KGqr+Joz7mgC2Gpd1VNx/vGl3N/eoGWt1G6q29vWje3qKBFjdRuqv5je1HmN6UAT7qN1QeYfSjzT6GgCbNFQeZ7GigBKTA9KKKADA9KABRRQMAopdtFFAhMUUUUAITRmiigAzxRmiigAooooA//9k='
+    };
+
+    self.closeModal = function () {
       var modal = topicModalService.getPublishModal();
       modal.remove();
     }
 
-    this.clickImg = function (item) {
-
+    self.clickCamera = function () {
+      $ionicActionSheet.show({
+        titleText: '',
+        buttons: [
+          {
+            text: '打开照相机'
+          },
+          {
+            text: '从手机相册获取'
+          },
+        ],
+        cancelText: '取消',
+        cancel: function () {
+          console.log('CANCELLED');
+        },
+        buttonClicked: function (index) {
+          console.log('BUTTON CLICKED', index);
+          if (index == 0) {
+            self.openCamera();
+          }
+          else if (index == 1) {
+            self.openAlbum();
+          }
+          return true;
+        },
+      });
     }
 
-    this.addImg = function (imgSrc) {
+    self.clickImg = function (item) {
+      $ionicActionSheet.show({
+        buttons: [
+          {text: '查看照片'},
+          {text: '删除照片'}
+        ],
+        cancelText: '取消',
+        cancel: function () {
+
+        },
+        buttonClicked: function (index) {
+          if (index == 0) {
+            self.showImg(item);
+          }
+          else if (index == 1) {
+            self.delImg(item);
+          }
+          return true;
+        }
+      });
+    }
+
+    self.showImg = function (imgItem) {
+      var modalScope = $scope.$new();
+      modalScope.imgList = self.imgList;//.slice(0, -1);
+      $ionicModal.fromTemplateUrl('modules/main/playground/templates/show-imgs.html', {
+        scope: modalScope,
+        animation: "slide-in-up"
+      }).then(function (modal) {
+        modalScope.modal = modal;
+        modal.show();
+      });
+    }
+
+    self.addImg = function (imgSrc, nativeUrl) {
       var imgItem = {
         id: imgIncreaseId++,
-        imgSrc: imgSrc
+        imgSrc: imgSrc,
+        nativeUrl: nativeUrl
       };
-      imgList[imgList.length -1 ] = imgItem;
-      if( imgList < 4 ) {
-        imgList.push(emptyImgList);
-      }
+      imgList.push(imgItem);
+      //imgList.push(emptyImgList);
+      //if (imgList.length < maxImgCount) {
+      //
+      //}
+      $log.info('image list length:' + imgList.length);
     }
 
-    this.delImg = function (item) {
-      for(var index = 0; index < imgList.length; ++ index) {
-        if( imgList[index].id == item.id) {
-          imgList.splice(index,1);
+    self.delImg = function (item) {
+      $log.info('delImg id:' + item.id);
+      for (var index = 0; index < imgList.length; ++index) {
+        if (imgList[index].id == item.id) {
+          imgList.splice(index, 1);
 
-          if( imgList.length == 3) {
-            imgList.push(emptyImgList);
-          }
+          //if (imgList.length == maxImgCount - 1) {
+          //  imgList.push(emptyImgList);
+          //}
           break;
         }
       }
+
+      $log.info('imgList length:' + imgList.length);
     }
 
-    this.publish = function() {
+    self.openCamera = function () {
+      //reference api doc url:https://github.com/apache/cordova-plugin-camera
 
+      var cameraOptions = self.setOptions(Camera.PictureSourceType.CAMERA);
+
+      var cameraPopoverHandle = navigator.camera.getPicture(function (imageData) {
+        $log.info('imageData length:' + imageData.length);
+        $log.info('image file url:' + imageData);
+        resolveLocalFileSystemURL(imageData, function (entry) {
+          $log.info('image cvd file:' + entry.toInternalURL());
+          self.addImg(entry.toInternalURL(), imageData);
+          $scope.$apply();
+        });
+      }, function (message) {
+        alert(message);
+      }, cameraOptions);
+    }
+
+    self.setOptions = function (srcType) {
+      var options = {
+        // Some common settings are 20, 50, and 100
+        quality: 100,
+        destinationType: Camera.DestinationType.FILE_URI,
+        targetWidth: 800,
+        targetHeight: 800,
+        // In this app, dynamically set the picture source, Camera or photo gallery
+        sourceType: srcType,
+        encodingType: Camera.EncodingType.JPEG,
+        mediaType: Camera.MediaType.PICTURE,
+        allowEdit: false,
+        correctOrientation: true  //Corrects Android orientation quirks
+      }
+
+      //{
+      //  destinationType: Camera.DestinationType.FILE_URI,
+      //    //sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+      //    sourceType: Camera.PictureSourceType.CAMERA,             //从哪里选择图片：PHOTOLIBRARY=0，相机拍照=1，SAVEDPHOTOALBUM=2。0和1其实都是本地图库
+      //  allowEdit: false,                                        //在选择之前允许修改截图
+      //  encodingType:Camera.EncodingType.JPEG,                   //保存的图片格式： JPEG = 0, PNG = 1
+      //  targetWidth: 200,                                        //照片宽度
+      //  targetHeight: 200,                                       //照片高度
+      //  mediaType:0,                                             //可选媒体类型：圖片=0，只允许选择图片將返回指定DestinationType的参数。 視頻格式=1，允许选择视频，最终返回 FILE_URI。ALLMEDIA= 2，允许所有媒体类型的选择。
+      //  cameraDirection:0,
+      //  saveToPhotoAlbum:true,
+      //  popoverOptions: new CameraPopoverOptions(300, 300, 100, 100, Camera.PopoverArrowDirection.ARROW_ANY)
+      //};
+      return options;
+    }
+
+    self.openAlbum = function () {
+      //var options = self.setOptions(Camera.PictureSourceType.PHOTOLIBRARY);
+      //
+      //$cordovaCamera.getPicture(options).then(function (imageUrl) {
+      //  $log.info('image file url:' + imageUrl);
+      //  //fileService.readFileFromFullPath(imageData, function (data) {
+      //  //  self.addImg("data:image/jpeg;base64," + data);
+      //  //}, function (message) {
+      //  //  $log.error(message);
+      //  //})
+      //}, function (message) {
+      //  // error
+      //  $log.error('camera cleanup failed:' + message);
+      //});
+      //if( self.imgList.length >= maxImgCount && self.imgList[ maxImgCount - 1].id != 0 ) {
+      //  return ;
+      //}
+
+      var options = {
+        maximumImagesCount: maxImgCount - self.imgList.length + 1,
+        width: 800,
+        height: 800,
+        quality: 80
+      };
+
+      $cordovaImagePicker.getPictures(options).then(function (pics) {
+        var isLastPic = false;
+        for (var index = 0; index < pics.length; ++index) {
+          $log.info('picker get picture url:' + pics[index]);
+          if (index == pics.length - 1) {
+            isLastPic = true;
+          }
+          resolveLocalFileSystemURL(pics[index], function (entry) {
+            $log.info('image cvd file:' + entry.toInternalURL());
+            self.addImg(entry.toInternalURL(), entry.toNativeURL());
+            if (isLastPic) {
+              $log.info('call $scope.$apply()');
+              $scope.$apply();
+            }
+          });
+        }
+
+      })
+    }
+
+    self.clearContent = function () {
+
+      if (self.content != null && self.content != '') {
+        $ionicPopup.confirm(
+          {
+            title: '提示',
+            subTitle: '请确定清空内容',
+            cancelText: '取消',
+            okText: '确定'
+          }
+        ).then(function (res) {
+            if (res) {
+              self.content = '';
+            }
+            else {
+
+            }
+          });
+      }
+    }
+
+    self.publish = function () {
+      var groupId = $scope.groupId;
+      PlaygroundNetService.addTopic(groupId, self.content, self.imgList.length, 0).then(function (resp) {
+        var topicId = resp.data;
+        var pArray = new Array();
+        var headers = {
+          Connection: "close",
+          'x-login-key': userLoginInfoService.getLoginTicket()
+        }
+        for (var index = 0; index < self.imgList.length; ++index) {
+
+          var uploadRet = uploadService.uploadImgFile(imgList[index].nativeUrl, appConfig.API_SVC_URL + '/playground/topic/' + topicId + '/img/' + index, headers);
+          if (uploadRet != null) {
+            pArray.push(uploadRet);
+          }
+        }
+
+        $q.all(pArray).then(function () {
+          alert('发布话题成功');
+          self.closeModal();
+        }, function () {
+          alert('发布话题失败，上传图片失败');
+        });
+      }, function (error) {
+        alert('发布话题失败');
+      });
     }
 
   }

@@ -1,53 +1,64 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.helporz.hybridapp" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>helporz</name>
-    <description>
+  <name>helporz</name>
+  <description>
         An Ionic Framework and Cordova project.
     </description>
-    <author email="hi@helporz.com" href="http://www.helporz.com/">
+  <author email="hi@helporz.com" href="http://www.helporz.com/">
       pandaman
     </author>
-    <content src="index.html" />
-    <access origin="*" />
-    <preference name="webviewbounce" value="false" />
-    <preference name="UIWebViewBounce" value="false" />
-    <preference name="DisallowOverscroll" value="true" />
-    <preference name="android-minSdkVersion" value="16" />
-    <preference name="BackupWebStorage" value="none" />
-    <preference name="SplashScreen" value="screen" />
-    <preference name="SplashScreenDelay" value="10000" />
-    <preference name="AndroidPersistentFileLocation" value="Internal" />
-    <preference name="iosPersistentFileLocation" value="Library" />
-    <preference name="BackupWebStorage" value="none" />
-    <feature name="StatusBar">
-        <param name="ios-package" onload="true" value="CDVStatusBar" />
-    </feature>
-    <platform name="android">
-        <icon src="resources/icon.png" />
-        <splash density="xhdpi" src="resources/splash.png" />
-        <splash density="hdpi" src="resources/splash.png" />
-        <splash density="mdpi" src="resources/splash.png" />
-        <splash density="xxhdpi" src="resources/splash.png" />
-        <splash density="xxxhdpi" src="resources/splash.png" />
-    </platform>
-    <platform name="ios">
-        <icon src="resources/icon.png" />
-        <splash src="resources/splash.png" />
-        <splash density="xhdpi" src="resources/splash.png" />
-        <splash density="hdpi" src="resources/splash.png" />
-        <splash density="mdpi" src="resources/splash.png" />
-        <splash density="xxhdpi" src="resources/splash.png" />
-        <splash density="xxxhdpi" src="resources/splash.png" />
-    </platform>
-    <plugin name="cordova-sqlite-storage" spec="~0.8.2" />
-    <plugin name="cordova-plugin-wechat" spec="~1.1.3">
-        <variable name="WECHATAPPID" value="wx83baa5a0812afb2c" />
-    </plugin>
-    <plugin name="cordova-plugin-device" spec="~1.1.1" />
-    <plugin name="cordova-plugin-dialogs" spec="~1.2.0" />
-    <plugin name="cordova-plugin-statusbar" spec="~2.1.2" />
-    <plugin name="cordova-plugin-jmessage" spec="https://github.com/jpush/jmessage-phonegap-plugin.git">
-        <variable name="APP_KEY" value="111a4caa0fbbc9a1334d0d3a" />
-    </plugin>
-    <plugin name="cordova-plugin-image-picker" spec="~1.0.8" />
+  <content src="index.html"/>
+  <access origin="*"/>
+  <access origin="cdvfile://*"/>
+  <access origin="file:*"/>
+  <access launch-external="yes" origin="tel:*"/>
+  <access launch-external="yes" origin="geo:*"/>
+  <access launch-external="yes" origin="mailto:*"/>
+  <access launch-external="yes" origin="sms:*"/>
+  <access launch-external="yes" origin="market:*"/>
+  <preference name="webviewbounce" value="false"/>
+  <preference name="UIWebViewBounce" value="false"/>
+  <preference name="DisallowOverscroll" value="true"/>
+  <preference name="android-minSdkVersion" value="16"/>
+  <preference name="BackupWebStorage" value="none"/>
+  <preference name="SplashScreen" value="screen"/>
+  <preference name="SplashScreenDelay" value="10000"/>
+  <preference name="AndroidPersistentFileLocation" value="Internal"/>
+  <preference name="iosPersistentFileLocation" value="Library"/>
+  <preference name="iosExtraFilesystems" value="library,library-nosync,documents,documents-nosync,cache,bundle,root"/>
+  <preference name="AndroidExtraFilesystems" value="files,files-external,documents,sdcard,cache,cache-external,root"/>
+  <preference name="BackupWebStorage" value="none"/>
+  <feature name="StatusBar">
+    <param name="ios-package" onload="true" value="CDVStatusBar"/>
+  </feature>
+  <platform name="android">
+    <icon src="resources/icon.png"/>
+    <splash density="xhdpi" src="resources/splash.png"/>
+    <splash density="hdpi" src="resources/splash.png"/>
+    <splash density="mdpi" src="resources/splash.png"/>
+    <splash density="xxhdpi" src="resources/splash.png"/>
+    <splash density="xxxhdpi" src="resources/splash.png"/>
+  </platform>
+  <platform name="ios">
+    <icon src="resources/icon.png"/>
+    <splash src="resources/splash.png"/>
+    <splash density="xhdpi" src="resources/splash.png"/>
+    <splash density="hdpi" src="resources/splash.png"/>
+    <splash density="mdpi" src="resources/splash.png"/>
+    <splash density="xxhdpi" src="resources/splash.png"/>
+    <splash density="xxxhdpi" src="resources/splash.png"/>
+  </platform>
+  <plugin name="cordova-sqlite-storage" spec="~0.8.2"/>
+  <plugin name="cordova-plugin-wechat" spec="~1.1.3">
+    <variable name="WECHATAPPID" value="wx83baa5a0812afb2c"/>
+  </plugin>
+  <plugin name="cordova-plugin-device" spec="~1.1.1"/>
+  <plugin name="cordova-plugin-dialogs" spec="~1.2.0"/>
+  <plugin name="cordova-plugin-statusbar" spec="~2.1.2"/>
+  <plugin name="cordova-plugin-jmessage" spec="https://github.com/jpush/jmessage-phonegap-plugin.git">
+    <variable name="APP_KEY" value="111a4caa0fbbc9a1334d0d3a"/>
+  </plugin>
+  <plugin name="cordova-plugin-camera" spec="~2.1.1"/>
+  <plugin name="cordova-plugin-image-picker" spec="https://github.com/wymsee/cordova-imagePicker.git"/>
+  <plugin name="cordova-plugin-file-transfer" spec="~1.5.1"/>
 </widget>

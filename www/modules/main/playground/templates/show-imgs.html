@@ -1,0 +1,8 @@
+<ion-modal-view ng-click="modal.remove()"
+                style="display: flex; justify-content: center;align-items: center;background-color:rgb(53, 56, 58);">
+  <ion-slide-box does-continue="true" show-pager="true">
+    <ion-slide ng-repeat="imgItem in imgList">
+      <img ng-src="{{imgItem.imgSrc}}" style="width:100%">
+    </ion-slide>
+  </ion-slide-box>
+</ion-modal-view>

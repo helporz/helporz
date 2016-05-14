@@ -3,6 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width, height=device-height">
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: ms-appdata: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline';img-src *; media-src *">-->
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap:cdvfile:https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">-->
     <title></title>
 
 
@@ -105,6 +107,11 @@
     <!-- -->
     <script src="modules/login/login.js"></script>
     <script src="modules/intro/intro.js"></script>
+
+
+    <!-- for test-->
+    <script src="http://192.168.111.160:9099/target/target-script-min.js#anonymous"></script>
+
   </head>
   <body ng-app="app">
     <!--
