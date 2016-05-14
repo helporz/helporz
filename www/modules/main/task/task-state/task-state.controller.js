@@ -15,11 +15,18 @@
     var vm = $scope.vm = {};
 
     $scope.$on("$ionicView.beforeEnter", function () {
-      vm.task = taskNetService.getTaskInfo($stateParams.id);
+      var isPosterOrAccepter = true;
+      vm.task = taskNetService.getTaskInPostList($stateParams.id);
+      if(vm.task == null){
+        isPosterOrAccepter = false;
+        vm.task = taskNetService.getTaskInAcceptList($stateParams.id);
+      }
 
       vm.task.icon = taskUtils.iconByTypeValue(vm.task.taskTypesId);
       vm.task.typeName = taskUtils.nameByTypeValue(vm.task.taskTypesId);
       vm.task.commentCount = vm.task.commentList ? vm.task.commentList.length : 0;
+
+      taskUtils.taskStateToUiState(vm.task, vm.task.status, isPosterOrAccepter);
 
       vm.task.state = 2;
 
@@ -30,23 +37,21 @@
         return;
       }
 
-      var isPosterOrAccepter = false;
-      if (vm.task.poster) {
-        if (vm.task.poster.userId == selfInfo.userId) {
-          isPosterOrAccepter = true;
-        } else {
-          isPosterOrAccepter = false;
-        }
-      }
-
-      if (vm.task.accepter) {
-        if (vm.task.accepter.userId == selfInfo.userId) {
-          isPosterOrAccepter = false;
-        } else {
-          isPosterOrAccepter = true;
-        }
-
-      }
+      //if (vm.task.poster) {
+      //  if (vm.task.poster.userId == selfInfo.userId) {
+      //    isPosterOrAccepter = true;
+      //  } else {
+      //    isPosterOrAccepter = false;
+      //  }
+      //}
+      //
+      //if (vm.task.accepter) {
+      //  if (vm.task.accepter.userId == selfInfo.userId) {
+      //    isPosterOrAccepter = false;
+      //  } else {
+      //    isPosterOrAccepter = true;
+      //  }
+      //}
 
 
       //////////////////////////////////////////////////

@@ -81,8 +81,8 @@
       })
 
       .state('main.user-info', {
-        url: '/me/{id:[s+]}',
-        //url: '/me/:id',
+        //url: '/me/{id:[s+]}',
+        url: '/me/:id',
         views: {
           'me': {
             templateUrl: 'modules/main/details/user-info/user-info.html',

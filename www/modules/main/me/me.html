@@ -11,7 +11,7 @@
     <!--</div>-->
 
     <button class="button button-icon icon ion-compose" ng-click="vm.cb_edit()"></button>
-    <p class="text-center name color-white">点到泥巴了</p>
+    <p class="text-center name color-white">{{vm.meInfo.remoteData.nickname}}</p>
     <button class="button button-icon icon ion-gear-a" ng-click="vm.cb_setting()"></button>
   </div>
 
@@ -24,7 +24,8 @@
         <button class="side-icon button button-icon ion-android-person-add"></button>
       </div>
       <div class="col-25 text-center">
-        <img class="avatar" ng-src="{{vm.meInfo.avatar}}" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g"
+        <img class="avatar" ng-src="{{vm.meInfo.remoteData.avatar}}"
+             src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g"
              live-image on-click="vm.meInfo.cb_avatar()">
       </div>
       <!--<button class="col-20 right button button-icon ion-chatbubble-working"></button>-->
@@ -33,7 +34,7 @@
       </div>
     </div>
 
-    <p class="sign text-center">我的征途是星辰大海</p>
+    <p class="sign text-center">{{vm.meInfo.remoteData.sign}}</p>
 
     <!--//////////////////////////////////////////////////-->
 
@@ -72,40 +73,52 @@
 
           <ion-item class="ho-item">
             <p class="title">声誉</p>
-            <five-stars value="vm.self.fiveStarsValue"></five-stars>
+            <five-stars value="vm.meInfo.remoteData.credit"></five-stars>
           </ion-item>
 
           <ion-item class="ho-item">
             <p class="title">级别</p>
-            <level-progress
-              has-exp="vm.self.hasExp"
-              total-exp="vm.self.totalExp"
-              level="vm.self.level"
+            <level-progress ng-show="vm.meInfo.remoteData != null"
+              has-exp="vm.meInfo.remoteData.experience"
+              total-exp="vm.meInfo.remoteData.upgradeExperience"
+              level="vm.meInfo.remoteData.level"
               ></level-progress>
           </ion-item>
 
           <ion-item class="ho-item belongings">
             <p class="title">物品</p>
             <img class="me-card" src="img/com/wo-ziji-ka1@2x.png">
-            <p class="count1">{{'× '+vm.self.smallCards}}</p>
+
+            <p class="count1">{{'× '+vm.meInfo.remoteData.userPropInfoList[0].count}}</p>
             <img class="me-card" src="img/com/wo-ziji-ka2@2x.png">
-            <p class="count2">{{'× '+vm.self.bigCards}}</p>
+
+            <p class="count2">{{'× '+vm.meInfo.remoteData.userPropInfoList[1].count}}</p>
           </ion-item>
 
           <ion-item class="ho-item visitor">
             <p class="title">访客</p>
+
             <div class="line-container">
               <div class="line">
-                <img class="avatar" ng-src="{{vm.self.visitorImgWithIndex(0)}}" src="img/com/avatar-default.png" live-image on-click="vm.self.cb_visitorImg(0)">
-                <img class="avatar" ng-src="{{vm.self.visitorImgWithIndex(1)}}" src="img/com/avatar-default.png" live-image on-click="vm.self.cb_visitorImg(1)">
-                <img class="avatar" ng-src="{{vm.self.visitorImgWithIndex(2)}}" src="img/com/avatar-default.png" live-image on-click="vm.self.cb_visitorImg(2)">
-                <img class="avatar" ng-src="{{vm.self.visitorImgWithIndex(3)}}" src="img/com/avatar-default.png" live-image on-click="vm.self.cb_visitorImg(3)">
+                <img class="avatar" ng-src="{{vm.meInfo.accessUserAvatar(0)}}" src="img/com/avatar-default.png"
+                     live-image on-click="vm.self.cb_visitorImg(0)">
+                <img class="avatar" ng-src="{{vm.meInfo.accessUserAvatar(1)}}" src="img/com/avatar-default.png"
+                     live-image on-click="vm.self.cb_visitorImg(1)">
+                <img class="avatar" ng-src="{{vm.meInfo.accessUserAvatar(2)}}" src="img/com/avatar-default.png"
+                     live-image on-click="vm.self.cb_visitorImg(2)">
+                <img class="avatar" ng-src="{{vm.meInfo.accessUserAvatar(3)}}" src="img/com/avatar-default.png"
+                     live-image on-click="vm.self.cb_visitorImg(3)">
               </div>
-              <div class="line" ng-show="vm.self.visitors.length > 4">
-                <img class="avatar" ng-src="{{vm.self.visitorImgWithIndex(4)}}" src="img/com/avatar-default.png" live-image on-click="vm.self.cb_visitorImg(4)">
-                <img class="avatar" ng-src="{{vm.self.visitorImgWithIndex(5)}}" src="img/com/avatar-default.png" live-image on-click="vm.self.cb_visitorImg(5)">
-                <img class="avatar" ng-src="{{vm.self.visitorImgWithIndex(6)}}" src="img/com/avatar-default.png" live-image on-click="vm.self.cb_visitorImg(6)">
-                <img class="avatar" ng-src="{{vm.self.visitorImgWithIndex(7)}}" src="img/com/avatar-default.png" live-image on-click="vm.self.cb_visitorImg(7)">
+              <div class="line"
+                   ng-show="vm.meInfo.remoteData !== null && vm.meInfo.remoteData.accessUserList.length > 4">
+                <img class="avatar" ng-src="{{vm.meInfo.accessUserAvatar(4)}}" src="img/com/avatar-default.png"
+                     live-image on-click="vm.self.cb_visitorImg(4)">
+                <img class="avatar" ng-src="{{vm.meInfo.accessUserAvatar(5)}}" src="img/com/avatar-default.png"
+                     live-image on-click="vm.self.cb_visitorImg(5)">
+                <img class="avatar" ng-src="{{vm.meInfo.accessUserAvatar(6)}}" src="img/com/avatar-default.png"
+                     live-image on-click="vm.self.cb_visitorImg(6)">
+                <img class="avatar" ng-src="{{vm.meInfo.accessUserAvatar(7)}}" src="img/com/avatar-default.png"
+                     live-image on-click="vm.self.cb_visitorImg(7)">
               </div>
             </div>
           </ion-item>
@@ -117,37 +130,50 @@
           </ion-item>
           <ion-item class="ho-item">
             <p class="title">学校</p>
-            <p class="content">华中科技大学</p>
+
+            <p class="content">{{vm.meInfo.remoteData.orgList[0].name}}</p>
           </ion-item>
           <ion-item class="ho-item">
             <p class="title">院系</p>
-            <p class="content">计算机学院</p>
+
+            <p class="content">{{vm.meInfo.remoteData.department}}</p>
           </ion-item>
           <ion-item class="ho-item">
             <p class="title">楼栋</p>
-            <p class="content">10栋501</p>
+
+            <p class="content">{{vm.meInfo.remoteData.dormitory}}</p>
           </ion-item>
           <ion-item class="ho-item">
             <p class="title">家乡</p>
-            <p class="content">湖北 武汉</p>
+
+            <p class="content">{{vm.meInfo.remoteData.hometown}}</p>
           </ion-item>
         </ion-list>
       </div>
       <!--<div ng-show="vm.activeTab == 1">-->
-          <ion-list class="ho-list friend">
-            <ion-item class="ho-item ho-item-avatar" collection-repeat="item in vm.self.repeatList" item-height="54px" item-width="100%" >
-            <!--<ion-item class="ho-item ho-item-avatar" ng-repeat="item in vm.self.friendList">-->
-              <img class="avatar" ng-src="{{vm.avatar}}" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=4123988153,51280834&fm=58"
-                   live-image>
-              <div class="content">
-                <p class="name">{{item.name}}</p>
-                <p class="desc">{{item.desc}}</p>
-              </div>
-              <button class="right ho-button button-theme button-outline ho-button-small ion-ios-plus-empty" ng-show="item.follow==false">&nbsp关注</button>
-              <button class="right ho-button button-theme button-gray button-outline ho-button-small ion-ios-checkmark-empty" ng-show="item.follow==true">&nbsp已关注</button>
-            </ion-item>
+      <ion-list class="ho-list friend">
+        <ion-item class="ho-item ho-item-avatar" collection-repeat="item in vm.self.repeatList" item-height="54px"
+                  item-width="100%">
+          <!--<ion-item class="ho-item ho-item-avatar" ng-repeat="item in vm.self.friendList">-->
+          <img class="avatar" ng-src="{{vm.avatar}}"
+               src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=4123988153,51280834&fm=58"
+               live-image>
 
-          </ion-list>
+          <div class="content">
+            <p class="name">{{item.name}}</p>
+
+            <p class="desc">{{item.desc}}</p>
+          </div>
+          <button class="right ho-button button-theme button-outline ho-button-small ion-ios-plus-empty"
+                  ng-show="item.follow==false">&nbsp关注
+          </button>
+          <button
+            class="right ho-button button-theme button-gray button-outline ho-button-small ion-ios-checkmark-empty"
+            ng-show="item.follow==true">&nbsp已关注
+          </button>
+        </ion-item>
+
+      </ion-list>
 
       <!--</div>-->
     </div>

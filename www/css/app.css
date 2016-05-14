@@ -79,6 +79,14 @@
 .font-size-34 {
   font-size: 34px; }
 
+[tab-view-state="entering"], [tab-view-state="leaving"] {
+  -webkit-transition-duration: 500ms;
+  transition-duration: 500ms;
+  -webkit-transition-timing-function: cubic-bezier(0.36, 0.66, 0.04, 1);
+  transition-timing-function: cubic-bezier(0.36, 0.66, 0.04, 1);
+  -webkit-transition-property: opacity, -webkit-transform, box-shadow;
+  transition-property: opacity, transform, box-shadow; }
+
 .item.activated {
   background-color: white; }
 .item .item-content.activated {
@@ -171,11 +179,13 @@
       color: #fff; }
 
 .ho-button-small {
+  text-align: center;
   padding: 2px 5px;
   min-width: 60px;
   height: 24px;
   border-radius: 5px;
-  font-size: 10px; }
+  font-size: 10px;
+  line-height: 18px; }
 
 .ho-button-block {
   min-height: 45px;
@@ -1622,5 +1632,8 @@
   .select-subtype-header > p {
     text-align: center;
     color: #A7A7A7; }
+
+.col-offset-5 {
+  margin-left: 5%; }
 
 /*# sourceMappingURL=app.css.map */

@@ -6,7 +6,8 @@
   'use strict';
 
   angular.module('main.task')
-    .controller('mainTaskCtrl', ['$log', '$state', '$ionicLoading', '$ionicPopup', '$scope', 'taskNetService', 'taskUtils', '$timeout', mainTaskCtrl]);
+    .controller('mainTaskCtrl', ['$log', '$state', '$ionicLoading', '$ionicPopup', 'widgetDelegate',
+      '$scope', 'taskNetService', 'taskUtils', '$timeout', mainTaskCtrl]);
 
 
   var enumClickTarget = {
@@ -16,7 +17,7 @@
   };
 
 
-  function mainTaskCtrl($log, $state, $ionicLoading, $ionicPopup, $scope, taskNetService, taskUtils, $timeout) {
+  function mainTaskCtrl($log, $state, $ionicLoading, $ionicPopup, widgetDelegate, $scope, taskNetService, taskUtils, $timeout) {
     var vm = $scope.vm = {};
 
     //vm.doRefresh = function () {
@@ -25,7 +26,7 @@
     //  });
     //};
 
-    //因为点击会穿透,同时触发多个事件,这里先用标记来屏蔽,点击按钮后间隔一段时间才可触发下一次点击回调
+    //fixme:因为点击会穿透,同时触发多个事件,这里先用标记来屏蔽,点击按钮后间隔一段时间才可触发下一次点击回调
     vm._isClicking = false;
     var canClick = function () {
       if (vm._isClicking == false) {
@@ -39,44 +40,41 @@
       }
     }
 
-    vm.isPostTaskLoaded = false;
-    vm.isAcceptTaskLoaded = false;
+    vm.tabSelectedIndex = 0;
+    vm.isPostTaskNeedRefresh = true;
+    vm.isAcceptTaskNeedRefresh = true;
 
-    $scope.$on("$ionicView.beforeEnter", function () {
-
+    $scope.$on("$ionicView.enter", function () {
+      //var ctrl = widgetDelegate.findWidget('hoTabSet', 'task');
+      //if(vm.tabSelectedIndex == 0){
+      //  //vm.cb_post();
+      //  ctrl.select(0);
+      //}else{
+      //  //vm.cb_accept();
+      //  ctrl.select(1);
+      //}
     });
-
 
     vm.cb_post = function () {
       console.log('post');
-      vm.tabSelectedIndex = 0;
 
-      if (vm.isPostTaskLoaded == false) {
+      ////note: 这里比较特殊,tab组件加载的时候会默认点击第一个tab;当从子页面返回时,我们希望进入页面时,处在最后一次的tab页上
+      //if(vm.tabSelectedIndex == 1){
+      //  vm.cb_accept();
+      //  return;
+      //}
+
+      vm.tabSelectedIndex = 0;
+      //将tab选中信息保存到delegate里
+      widgetDelegate.getWidgetStatic('hoTabSet', 'task').last = 0;
+
+      if (vm.isPostTaskNeedRefresh == true) {
         $ionicLoading.show({
           template: '加载数据中...'
         });
 
-        var cb_success = function (taskList) {
-          vm.isPostTaskLoaded = true;
-
-          taskNetService.cache.postTaskList = taskList;
-          //
-          for (var i in taskList) {
-            taskList[i].ui_identifier = "援助人";
-            taskList[i].ui_nickname = taskList[i].accepter != null ? taskList[i].accepter.nickname : "";
-            taskList[i].ui_avatar = taskList[i].accepter != null ? taskList[i].accepter.avator : "";
-            taskList[i].ui_taskIcon = taskUtils.iconByTypeValue(taskList[i].taskTypesId);
-            taskList[i].ui_taskTypeName = taskUtils.nameByTypeValue(taskList[i].taskTypesId);
-
-            taskUtils.taskStateToUiState(taskList[i], taskList[i].status, true);
-
-          }
-          vm.repeatList = taskList;
-        }
-        var cb_failed = function (error) {
-          console.error(error);
-        };
-        taskNetService.getPostTaskList().then(cb_success, cb_failed).finally(function () {
+        taskNetService.getPostTaskList().then(_cb_getPostTaskSuccess, _cb_failed).finally(function () {
+          vm.repeatList = taskNetService.cache.postTaskList;
           $ionicLoading.hide();
         });
       }
@@ -85,44 +83,72 @@
       }
     }
 
+    var _cb_failed = function (error) {
+      console.error(error);
+    }
+
+    var _cb_getPostTaskSuccess = function (taskList) {
+      vm.isPostTaskNeedRefresh = false;
+
+      taskNetService.cache.postTaskList = taskList;
+      //
+      for (var i in taskList) {
+        taskList[i].ui_identifier = "援助人";
+        taskList[i].ui_nickname = taskList[i].accepter != null ? taskList[i].accepter.nickname : "";
+        taskList[i].ui_avatar = taskList[i].accepter != null ? taskList[i].accepter.avator : "";
+        taskList[i].ui_taskIcon = taskUtils.iconByTypeValue(taskList[i].taskTypesId);
+        taskList[i].ui_taskTypeName = taskUtils.nameByTypeValue(taskList[i].taskTypesId);
+
+        taskUtils.taskStateToUiState(taskList[i], taskList[i].status, true);
+      }
+    }
+
+    var _cb_getAcceptTaskSuccess = function (taskList) {
+      vm.isAcceptTaskNeedRefresh = false;
+
+      taskNetService.cache.acceptTaskList = taskList;
+
+      for (var i in taskList) {
+        taskList[i].ui_identifier = "求助人";
+        taskList[i].ui_nickname = taskList[i].poster.nickname;
+        taskList[i].ui_avatar = taskList[i].poster.avator;
+        taskList[i].ui_taskIcon = taskUtils.iconByTypeValue(taskList[i].taskTypesId);
+        taskList[i].ui_taskTypeName = taskUtils.nameByTypeValue(taskList[i].taskTypesId);
+
+        taskUtils.taskStateToUiState(taskList[i], taskList[i].status, false);
+      }
+    }
+
     vm.cb_accept = function () {
       console.log('accept');
       vm.tabSelectedIndex = 1;
+      //将tab选中信息保存到delegate里
+      widgetDelegate.getWidgetStatic('hoTabSet', 'task').last = 1;
 
-      if (vm.isAcceptTaskLoaded == false) {
+      if (vm.isAcceptTaskNeedRefresh == true) {
         $ionicLoading.show({
           template: '加载数据中...'
         });
 
-        var cb_success = function (taskList) {
-          vm.isAcceptTaskLoaded = true;
-
-          taskNetService.cache.acceptTaskList = taskList;
-
-          for (var i in taskList) {
-            taskList[i].ui_identifier = "求助人";
-            taskList[i].ui_nickname = taskList[i].poster.nickname;
-            taskList[i].ui_avatar = taskList[i].poster.avator;
-            taskList[i].ui_taskIcon = taskUtils.iconByTypeValue(taskList[i].taskTypesId);
-            taskList[i].ui_taskTypeName = taskUtils.nameByTypeValue(taskList[i].taskTypesId);
-
-            taskUtils.taskStateToUiState(taskList[i], taskList[i].status, false);
-          }
-          vm.repeatList = taskList;
-          vm.isAcceptTaskLoaded = true;
-        }
-        var cb_failed = function (error) {
-          console.error(error);
-        };
-        taskNetService.getAcceptTaskList().then(cb_success, cb_failed).finally(function () {
+        taskNetService.getAcceptTaskList().then(_cb_getAcceptTaskSuccess, _cb_failed).finally(function () {
+          vm.repeatList = taskNetService.cache.acceptTaskList;
           $ionicLoading.hide();
         });
       }
       else {
         vm.repeatList = taskNetService.cache.acceptTaskList;
       }
-    }
+    };
 
+    /////////////////////////////////////
+    vm.doRefresh = function () {
+      taskNetService.getPostTaskList().then(_cb_getPostTaskSuccess, _cb_failed).finally(function () {
+        taskNetService.getAcceptTaskList().then(_cb_getAcceptTaskSuccess, _cb_failed).finally(function () {
+          $scope.$broadcast('scroll.refreshComplete');
+          $ionicLoading.hide();
+        });
+      });
+    };
 
     //////////////////////////////////////////////////
     vm.cb_taskState = function (index) {
@@ -132,7 +158,7 @@
     }
 
     var gotoTaskState = function (taskId) {
-      $state.go('main.task-state', {id: '516'});
+      $state.go('main.task-state', {id: taskId});
     };
 
     var gotoComment = function (taskId) {
@@ -141,7 +167,7 @@
     vm.gotoComment = function (taskId) {
       if (canClick()) {
         //$state.go('main.comment', {desc: 'accepter-'+taskId});
-        $state.go('main.comment', {desc: 'accepter-'+'516'});
+        $state.go('main.comment', {desc: 'accepter-' + '516'});
       }
     };
 
@@ -158,13 +184,14 @@
           taskNetService.cancelByPoster(task.id).then(
             function (data, status) {
               console.log(data);
-              if (status == 200) {
+              if ( data.code == 200) {
+                vm.cb_post();
               } else {
               }
             }, function (data, status) {
               $ionicPopup.alert({
                 title: '错误提示',
-                template: data.data.message
+                template: data
               }).then(function (res) {
                 console.error(data);
               })
@@ -190,14 +217,16 @@
           taskNetService.confirmByPoster(task.id, 200).then(  //ask:xiaolang  status: success,failed
             function (data, status) {
               console.log(data);
-              if (status == 200) {
+              if (data.code == 200) {
+                vm.isPostTaskNeedRefresh = true;
+                vm.cb_post();
               } else {
 
               }
             }, function (data, status) {
               $ionicPopup.alert({
                 title: '错误提示',
-                template: data.data.message
+                template: data
               }).then(function (res) {
                 console.error(data);
               })
@@ -227,14 +256,16 @@
           taskNetService.cancelByAcceptor(task.id).then(  //ask:xiaolang  status: success,failed
             function (data, status) {
               console.log(data);
-              if (status == 200) {
+              if (data.code == 200) {
+                vm.isAcceptTaskNeedRefresh = true;
+                vm.cb_accept();
               } else {
 
               }
             }, function (data, status) {
               $ionicPopup.alert({
                 title: '错误提示',
-                template: data.data.message
+                template: data
               }).then(function (res) {
                 console.error(data);
               })
@@ -269,25 +300,9 @@
       var task = vm.repeatList[index];
 
       if (vm.tabSelectedIndex == 0) {
-        if (task.status == 0) {  //waiting  -- 取消
-          $ionicLoading.show();
-          taskNetService.cancelByPoster(task.id).then(
-            function (data, status) {
-              console.log(data);
-              if (status == 200) {
-              } else {
 
-              }
-            }, function (data, status) {
-              $ionicPopup.alert({
-                title: '错误提示',
-                template: data.data.message
-              }).then(function (res) {
-                console.error(data);
-              })
-            }).finally(function () {
-              $ionicLoading.hide();
-            });
+        if (task.status == 0) { //wait
+          console.log('大侠召唤术');
         }
         else if (task.status == 2) {  //wait over time - 大侠召唤术
           console.log('大侠召唤术');
@@ -306,14 +321,16 @@
           taskNetService.confirmByPoster(task.id, 200).then(  //ask:xiaolang  status: success,failed
             function (data, status) {
               console.log(data);
-              if (status == 200) {
+              if (data.code == 200) {
+                vm.isPostTaskNeedRefresh = true;
+                vm.cb_post();
               } else {
 
               }
             }, function (data, status) {
               $ionicPopup.alert({
                 title: '错误提示',
-                template: data.data.message
+                template: data
               }).then(function (res) {
                 console.error(data);
               })
@@ -341,14 +358,16 @@
           taskNetService.completeByAcceptor(task.id).then(
             function (data, status) {
               console.log(data);
-              if (status == 200) {
+              if (data.code == 200) {
+                vm.isAcceptTaskNeedRefresh = true;
+                vm.cb_accept();
               } else {
 
               }
             }, function (data, status) {
               $ionicPopup.alert({
                 title: '错误提示',
-                template: data.data.message
+                template: data
               }).then(function (res) {
                 console.error(data);
               })

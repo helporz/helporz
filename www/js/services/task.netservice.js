@@ -12,7 +12,10 @@
 
     // cache
     var cache = {
+
+      isNearTaskNeedRefresh: true,
       nearTaskList: [],
+
       postTaskList: [],
       acceptTaskList: []
     };
@@ -89,11 +92,33 @@
       return httpBaseService.getForPromise('/task/' + taskId + '/detail', null);
     };
 
-    var _getTaskInfo = function (taskId) {
+    var _getTaskInNearList = function (taskId) {
       if (cache.nearTaskList) {
         for (var i = 0; i < cache.nearTaskList.length; i++) {
           if (cache.nearTaskList[i].id == taskId) {
             return cache.nearTaskList[i];
+          }
+        }
+        return null;
+      }
+      return null;
+    };
+    var _getTaskInPostList = function (taskId) {
+      if (cache.postTaskList) {
+        for (var i = 0; i < cache.postTaskList.length; i++) {
+          if (cache.postTaskList[i].id == taskId) {
+            return cache.postTaskList[i];
+          }
+        }
+        return null;
+      }
+      return null;
+    };
+    var _getTaskInAcceptList = function (taskId) {
+      if (cache.acceptTaskList) {
+        for (var i = 0; i < cache.acceptTaskList.length; i++) {
+          if (cache.acceptTaskList[i].id == taskId) {
+            return cache.acceptTaskList[i];
           }
         }
         return null;
@@ -149,7 +174,9 @@
       cache: cache,
 
       //util get
-      getTaskInfo: _getTaskInfo
+      getTaskInNearList: _getTaskInNearList,
+      getTaskInPostList: _getTaskInPostList,
+      getTaskInAcceptList: _getTaskInAcceptList
     };
   }
 })();

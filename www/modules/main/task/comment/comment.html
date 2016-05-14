@@ -1,4 +1,4 @@
-<ion-view view-title="评价" class="comment" hide-tabs>
+<ion-view view-title="评价" class="comment">
 
 
   <ion-content class="has-header">
@@ -16,9 +16,9 @@
 
       <div class="impress-select-panel">
         <i class="name2">印象评价:</i>
-        <button ng-repeat="item in vm.impress" class="impress-button {{item.className}}" ng-click="vm.cb_impressDiselect($index)">{{item.text}}
+        <button ng-repeat="item in vm.impress" class="impress-button {{item.className}}" ng-click="vm.cb_impressDiselect($index)">{{item.text}}>
           <i class="icon ion-close-circled close"></i>
-        <!--</button>-->
+        </button>
         <!--<button class="impress-button impress-1">热情-->
           <!--<i class="icon ion-close-circled close"></i>-->
         <!--</button>-->

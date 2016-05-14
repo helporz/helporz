@@ -288,12 +288,12 @@
             taskItem.ui_tagText2 = "进行中";
             taskItem.ui_tagText3 = "搞定";
             if(isPosterOrAccepter==true){
-              taskItem.ui_tagText3 = "记得按承诺好好感谢对方哦";
+              taskItem.ui_stateDesc = "记得按承诺好好感谢对方哦";
               taskItem.ui_showOptPassive = false;
               taskItem.ui_showOptActive = true;
               taskItem.ui_textOptActive = "评价留言";
             }else{
-              taskItem.ui_tagText3 = "接受对方的膜拜与致谢";
+              taskItem.ui_stateDesc = "接受对方的膜拜与致谢";
               taskItem.ui_showOptPassive = false;
               taskItem.ui_showOptActive = true;
               taskItem.ui_textOptActive = "评价留言";

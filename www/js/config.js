@@ -26,7 +26,11 @@ g_TestFlag = enumTestFlag.NONE;
 //g_TestFlag = enumTestFlag.USER_PROTO;
 //g_TestFlag = enumTestFlag.NEAR;
 
-
+var ho = {
+  isValid: function(value){
+    return typeof value !== 'undefined' && value !== null;
+  }
+}
 
 
 

@@ -6,7 +6,7 @@
 
   'use strict'
 
-  angular.module('components.widgets.hoTabSet', [])
+  angular.module('components.widgets.hoTabSet', ['components.widgets'])
 
     .controller('hoTabSetCtrl', ['$scope', hoTabSetCtrl]);
 

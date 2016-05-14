@@ -1,4 +1,4 @@
-<ion-view view-title="华中科技大学">
+<ion-view view-title="{{vm.orgName}}">
   <!--<ion-view>-->
   <ion-nav-buttons side="right">
     <button class="button button-icon icon ion-share"></button>
@@ -72,7 +72,7 @@
                 <i class="elem2 icon ho-share font-size-13"></i>
                 <span class="count">0</span>
               </div>
-              <button class="button-accept  button-light-red" ng-click="">
+              <button class="button-accept  button-light-red" ng-click="vm.cb_acceptTask($index)">
                 接单
               </button>
             </div>

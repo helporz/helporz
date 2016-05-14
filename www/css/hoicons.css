@@ -21,7 +21,10 @@
 .ho-gender-female:before,
 .ho-gender-male:before,
 .ho-task-list:before,
-.ho-rmb-on:before {
+.ho-rmb-on:before,
+.ho-who:before,
+.ho-head-1:before,
+.ho-head-2:before {
   display: inline-block;
   font-family: "Hoicons";
   speak: none;
@@ -66,5 +69,14 @@
 
 .ho-rmb-on:before {
   content: ""; }
+
+.ho-who:before {
+  content: ""; }
+
+.ho-head-1:before {
+  content: ""; }
+
+.ho-head-2:before {
+  content: ""; }
 
 /*# sourceMappingURL=hoicons.css.map */

@@ -6,27 +6,72 @@
   'use strict';
 
   angular.module('main.me')
-    .controller('mainMeCtrl', ['$state', '$scope', '$ionicScrollDelegate', '$timeout', '$interval', mainMeCtrl])
+    .controller('mainMeCtrl', ['$state', '$scope', '$ionicLoading', '$ionicPopup', '$ionicScrollDelegate', '$timeout', '$interval', 'userNetService',
+      'errorCodeService', mainMeCtrl])
 
-  function mainMeCtrl($state, $scope, $ionicScrollDelegate, $timeout, $interval) {
+  function mainMeCtrl($state, $scope, $ionicLoading, $ionicPopup, $ionicScrollDelegate, $timeout, $interval, userNetService, errorCodeService) {
     var vm = $scope.vm = {};
 
     vm.cb_edit = function () {
       $state.go('main.edit');
     }
-    vm.cb_setting =function() {
+    vm.cb_setting = function () {
       $state.go('main.setting');
     }
 
     // me info
     vm.meInfo = {};
 
-    vm.meInfo.avatar = 'http://t3.gstatic.cn/shopping?q=tbn:ANd9GcSCrdZNZUIlGriVTE3ZWMU_W5voV8527Q6PL8RGkMjtCFO1knnY6oIS1soNKN4&usqp=CAI';
-    vm.meInfo.cb_avatar = function() {
+    vm.meInfo.cb_avatar = function () {
       console.log('me avatar');
       //var arr = 'user-123'.split('-');
       //$state.go('main.user-info', {id: 'user-123'});
     }
+
+    $scope.$on("$ionicView.enter", function () {
+
+      var selfInfo = userNetService.cache.selfInfo;
+
+      //vm.meInfo.accessUserList = selfInfo.accessUserList || [];
+      //vm.meInfo.nickname = selfInfo.nickname;
+      //vm.meInfo.sign = selfInfo.sign;
+      //vm.meInfo.avatar = selfInfo.avator || '';
+      //vm.meInfo.completedTaskCount = selfInfo.completedTaskCount;
+      //vm.meInfo.credit = selfInfo.credit || 0;
+      //vm.meInfo.department = selfInfo.department || '';
+      //vm.meInfo.dormitory = selfInfo.dormitory;
+      //
+      //vm.meInfo.experience = selfInfo.experience || 0;
+      //vm.meInfo.funsCount = selfInfo.funsCount || 0;
+      //
+      //vm.meInfo.gem = selfInfo.gem;
+      //vm.meInfo.gender = selfInfo.gender;
+      //vm.meInfo.helpUserCount = selfInfo.helpUserCount;
+      //vm.meInfo.hometown = selfInfo.hometown;
+      //vm.meInfo.level = selfInfo.level;
+      //
+      //vm.meInfo.userPropInfoList = selfInfo.userPropInfoList;
+
+      vm.meInfo.remoteData = selfInfo;
+
+      $timeout(function(){
+        $scope.$apply();
+        });
+    });
+
+    vm.meInfo.accessUserAvatar = function (index) {
+      if (ho.isValid(vm.meInfo.remoteData)) {
+        var size = vm.meInfo.remoteData.accessUserList.length;
+        if (index < size) {
+          return vm.meInfo.remoteData.accessUserList[index].avatar;
+        } else {
+          return '';
+        }
+      }else{
+        return '';
+      }
+    }
+
     //////////////////////////////////////////////////
     // tab logic
     vm.meScroll = $ionicScrollDelegate.$getByHandle('meScroll');
@@ -42,10 +87,10 @@
         vm.meScroll.resize();
       }, 300);
 
-      if(index==0){
+      if (index == 0) {
         vm.self.repeatList = [];
       }
-      else{
+      else {
         vm.self.repeatList = vm.self.friendList;
       }
     };
@@ -103,7 +148,30 @@
 
     self.cb_visitorImg = function (index) {
       console.log('click on image [' + index + ']');
-      $state.go('main.user-info', {id: 'user-'+index});
+
+      var user = vm.meInfo.remoteData.accessUserList[index];
+
+      if (userNetService.cache.userInfo[user.userId]) {
+        $state.go('main.user-info', {id: user.userId});
+      }
+      else {
+        $ionicLoading.show();
+        userNetService.getUserInfo(user.userId,
+          function (data) {
+            console.log(data);
+            $state.go('main.user-info', {id: user.userId});
+          },
+          function (data, status) {
+            $ionicPopup.alert({
+              title: '错误提示',
+              template: data.data.message
+            }).then(function (res) {
+              console.error(data);
+            })
+          });
+        $ionicLoading.hide();
+      }
+
     }
 
     //////////////////////////////////////////////////
