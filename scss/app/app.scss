@@ -5,33 +5,32 @@
 // mixin
   "../../www/lib/ionic/scss/mixins",
 
-// base
+  //com
   "base/var-color",
   "base/var-font",
 
-// ionic-modify
   "ionic-modify/tabs",
 
-  // common
   "com",
 
-// components
   "components/five-stars",
   "components/level-progress",
   "components/tabset",
 
-// near page
+
+  //logic
+  "logic/impress",
+
+  //pages
+
   "near",
 
-// task page
   "task",
   "comment",
   "task-state",
 
-// me page
   "me",
 
-// edit-sheet
   "edit-sheet",
 
   "task-publish"

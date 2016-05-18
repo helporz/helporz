@@ -8,32 +8,35 @@
 
 ;
 (function (window) {
-    "use strict";
+  "use strict";
 
-    angular.module('app', ['ionic',
-      'ngResource',
-      'ngCordova',
-      'pusher',
-      'com.helporz.im',
-      'app.routes',
-      'app.directives',
-      'app.time.utils.service',
-      'starter.controllers',
-      'starter.services',
-      'com.helporz.login',
-      'com.helporz.intro',
-      'com.helporz.utils.service',
-      'com.helproz.task.publish',
-      'com.helporz.playground',
-      'main'
-    ])
+  angular.module('app', ['ionic',
+    'ngResource',
+    'ngCordova',
+    'pusher',
+    'com.helporz.im',
+    'app.routes',
+    'app.directives',
+    'app.time.utils.service',
+    'starter.controllers',
+    'starter.services',
+    'com.helporz.login',
+    'com.helporz.intro',
+    'com.helporz.utils.service',
+    'com.helproz.task.publish',
+    'com.helporz.playground',
+    'main'
+  ])
 
     .run(init)
 
-    .config(['$stateProvider', '$urlRouterProvider', '$httpProvider', function ($stateProvider, $urlRouterProvider, $httpProvider) {
-      //configRouter($stateProvider,$urlRouterProvider);
-      setHttpProvider($httpProvider);
-    }]).directive('errSrc', function () {
+    .config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$ionicConfigProvider',
+      function ($stateProvider, $urlRouterProvider, $httpProvider, $ionicConfigProvider) {
+        //configRouter($stateProvider,$urlRouterProvider);
+        setHttpProvider($httpProvider);
+        //$ionicConfigProvider.scrolling.jsScrolling(false);
+
+      }]).directive('errSrc', function () {
       return {
         link: function (scope, element, attrs) {
           element.bind('error', function () {

@@ -55131,6 +55131,24 @@ function($timeout, $document, $q, $ionicClickBlock, $ionicConfig, $ionicNavBarDe
               cachedAttr(tabsEle, 'tab-view-state',  viewTransition.shouldAnimate ? 'leaving': VIEW_STATUS_CACHED);
             }
 
+
+            // lkj: hidetabs 进入子view，如果隐藏了tabs，对应要把ion-content这个view的class内.has-tabs删除，
+            // 否则有 bottom: ?px，不贴底。
+            if(enteringData.direction == 'back') {
+              if(enableBack == false){
+                // 每个tab的主页面不需要删掉这个class,因为主页显示tabs
+              }
+            }else if(enteringData.direction == 'forward') {
+              // 子页面删掉该class
+              var ionContent = enteringEle[0].querySelector('.has-tabs');
+              jqLite(ionContent).removeClass('has-tabs');
+
+            }else if(enteringData.direction == 'none') {
+            }
+
+
+            
+
             // start the auto transition and let the CSS take over
             viewTransition.run(1);
 
@@ -55152,19 +55170,7 @@ function($timeout, $document, $q, $ionicClickBlock, $ionicConfig, $ionicNavBarDe
             transitionComplete();
           }
           function transitionComplete() {
-            // lkj: hidetabs 进入子view，如果隐藏了tabs，对应要把ion-content这个view的class内.has-tabs删除，
-            // 否则有 bottom: ?px，不贴底。
-            if(enteringData.direction == 'back') {
-              if(enableBack == false){
-                // 每个tab的主页面不需要删掉这个class,因为主页显示tabs
-              }
-            }else if(enteringData.direction == 'forward') {
-              // 子页面删掉该class
-              var ionContent = enteringEle[0].querySelector('.has-tabs');
-              jqLite(ionContent).removeClass('has-tabs');
-
-            }else if(enteringData.direction == 'none') {
-            }
+            
 
 
             if (transitionComplete.x) return;

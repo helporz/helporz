@@ -1,8 +1,35 @@
 $comment-left-margin:12px;
 .comment{
-  background-color: $color-page-bg;
+  background-color: white;
 
-  .top-panel {
+  .input-area {
+    padding: 5px 10px;
+    height: 80px;
+    width: 100%;
+  }
+
+  .comment-panel {
+    padding: 5px 10px;
+    background-color: white;
+
+    .pic-panel {
+      @include display-flex();
+      height: 80px;
+    }
+    .pic {
+      border: 2px solid $color-text-thirdly;
+      margin: 5px  5px 0 0;
+      height: 60px;
+      width: 60px;
+
+      &.add {
+        background-color: $color-page-bg-weak;
+        color: $color-theme;
+      }
+    }
+  }
+
+  .impress-base-panel {
     background-color: white;
     padding-bottom: 10px;
 
@@ -55,61 +82,64 @@ $comment-left-margin:12px;
       margin-bottom: 15px;
     }
 
-    .impress-button {
-      height: 25px;
-      width: 70px;
-      border: 1px solid;
-      border-radius: 12.5px;
-      &.impress-1 {
-        @include ho-button-color($impress-color-1,$impress-color-1-h)
-      }
-      &.impress-2 {
-        @include ho-button-color($impress-color-2,$impress-color-2-h)
-      }
-      &.impress-3 {
-        @include ho-button-color($impress-color-3,$impress-color-3-h)
-      }
-      &.impress-4 {
-        @include ho-button-color($impress-color-4,$impress-color-4-h)
-      }
-      &.impress-5 {
-        @include ho-button-color($impress-color-5,$impress-color-5-h)
-      }
-      &.impress-6 {
-        @include ho-button-color($impress-color-6,$impress-color-6-h)
-      }
-      &.impress-7 {
-        @include ho-button-color($impress-color-7,$impress-color-7-h)
-      }
-      &.impress-8 {
-        @include ho-button-color($impress-color-8,$impress-color-8-h)
-      }
-      &.impress-9 {
-        @include ho-button-color($impress-color-9,$impress-color-9-h)
-      }
-      &.impress-10 {
-        @include ho-button-color($impress-color-10,$impress-color-10-h)
-      }
-      &.impress-11{
-        @include ho-button-color($impress-color-11,$impress-color-11-h)
-      }
-      &.impress-12{
-        @include ho-button-color($impress-color-12,$impress-color-12-h)
-      }
+    //.impress-button {
+    //  height: 25px;
+    //  width: 70px;
+    //  border: 1px solid;
+    //  border-radius: 12.5px;
+    //  &.impress-1 {
+    //    @include ho-button-color($impress-color-1,$impress-color-1-h)
+    //  }
+    //  &.impress-2 {
+    //    @include ho-button-color($impress-color-2,$impress-color-2-h)
+    //  }
+    //  &.impress-3 {
+    //    @include ho-button-color($impress-color-3,$impress-color-3-h)
+    //  }
+    //  &.impress-4 {
+    //    @include ho-button-color($impress-color-4,$impress-color-4-h)
+    //  }
+    //  &.impress-5 {
+    //    @include ho-button-color($impress-color-5,$impress-color-5-h)
+    //  }
+    //  &.impress-6 {
+    //    @include ho-button-color($impress-color-6,$impress-color-6-h)
+    //  }
+    //  &.impress-7 {
+    //    @include ho-button-color($impress-color-7,$impress-color-7-h)
+    //  }
+    //  &.impress-8 {
+    //    @include ho-button-color($impress-color-8,$impress-color-8-h)
+    //  }
+    //  &.impress-9 {
+    //    @include ho-button-color($impress-color-9,$impress-color-9-h)
+    //  }
+    //  &.impress-10 {
+    //    @include ho-button-color($impress-color-10,$impress-color-10-h)
+    //  }
+    //  &.impress-11{
+    //    @include ho-button-color($impress-color-11,$impress-color-11-h)
+    //  }
+    //  &.impress-12{
+    //    @include ho-button-color($impress-color-12,$impress-color-12-h)
+    //  }
+    //
+    //}
 
+
+    .impress-div {
+      height: 22px;
+      width: 65px;
+      border: 1px solid $color-theme;
+      border-radius: 11px;
+      font-size: 12px;
+      @include display-flex();
+      @include justify-content(center);
+      @include align-items(center);
     }
   }
 
-  .comment-panel {
-    margin: 20px 10px 10px 10px;
-    padding: 5px 10px;
-    background-color: white;
-    height: 90px;
-    border-radius: 7px;
 
-    textarea {
-      height: 100%;
-      width: 100%;
-    }
-  }
 }
+
+

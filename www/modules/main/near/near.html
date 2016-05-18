@@ -32,9 +32,9 @@
                   <p class="time">{{item.ui_createTime}}</p>
                 </div>
                 <div class="bottom">
-                  <p class="elem text-tag user-tag-color-0">女神</p>
-
-                  <p class="elem text-tag user-tag-color-1">娇气包</p>
+                  <div class="impress-panel" ng-repeat="item in item.ui_tags">
+                    <p class="elem text-tag toggle-on {{item.className}}">{{item.text}}</p>
+                  </div>
                 </div>
               </div>
             </div>

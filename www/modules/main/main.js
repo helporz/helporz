@@ -11,11 +11,12 @@
     'main.post',
     'main.task',
     'main.me',
-    'com.helproz.task.publish'
-  ]).config(mainConfig).controller('mainController',mainControllerFn);
+    'com.helproz.task.publish',
+    'impress.utils.service'
+  ]).config(mainConfig).controller('mainController', mainControllerFn);
 
-  mainControllerFn.$inject = ['$scope','$ionicModal','taskPublishModalService'];
-  function mainControllerFn($scope,$ionicModal,taskPublishModalService) {
+  mainControllerFn.$inject = ['$scope', '$ionicModal', 'taskPublishModalService'];
+  function mainControllerFn($scope, $ionicModal, taskPublishModalService) {
     $scope.vm = {};
     $ionicModal.fromTemplateUrl('modules/main/task-publish/modal-list.html', {
       scope: $scope,
@@ -38,7 +39,7 @@
         url: '/main',
         abstract: true,
         templateUrl: 'modules/main/main.html',
-        controller:'mainController'
+        controller: 'mainController'
       })
 
       .state('main.near', {

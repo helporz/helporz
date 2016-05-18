@@ -3,54 +3,77 @@
 
   <ion-content class="has-header">
 
-    <div class="top-panel">
+    <div class="comment-panel bottom-bordered bottom-bordered-normal">
+      <textarea class="input-area" placeholder="吐槽表白随你便" ng-model="vm.commentText"></textarea>
+
+      <div class="pic-panel" >
+        <div ng-repeat="item in vm.selectedPics">
+
+          <img class="pic" ng-src="{{item.src}}" live-image on-click="vm.cb_deletePic($index)">
+
+        </div>
+        <img class="pic add" src="img/main/task/camera-red.png" ng-click="vm.cb_addPic()">
+      </div>
+    </div>
+
+
+
+    <div class="impress-base-panel">
 
       <div class="star-panel">
-        <p class="name1"> 整体评价: </p>
-
+        <p class="name1"> 满意度: </p>
         <five-stars value="vm.starScore"></five-stars>
-
       </div>
 
       <div class="div-line"></div>
 
       <div class="impress-select-panel">
-        <i class="name2">印象评价:</i>
-        <button ng-repeat="item in vm.impress" class="impress-button {{item.className}}" ng-click="vm.cb_impressDiselect($index)">{{item.text}}>
-          <i class="icon ion-close-circled close"></i>
+        <i class="name2">印象点评:</i>
+        <!--<button ng-repeat="item in vm.impress" class="impress-button {{item.className}}" ng-click="vm.cb_impressDiselect($index)">{{item.text}}>-->
+          <!--<i class="icon ion-close-circled close"></i>-->
         </button>
-        <!--<button class="impress-button impress-1">热情-->
-          <!--<i class="icon ion-close-circled close"></i>-->
-        <!--</button>-->
-        <!--<button class="impress-button impress-1">热情-->
-          <!--<i class="icon ion-close-circled close"></i>-->
-        <!--</button>-->
       </div>
 
+      <!--<div class="impress-panel">-->
+        <!--<button class="impress-button impress-1" ng-click="vm.cb_impressSelect(1)">热情</button>-->
+        <!--<button class="impress-button impress-2" ng-click="vm.cb_impressSelect(2)">高冷</button>-->
+        <!--<button class="impress-button impress-3" ng-click="vm.cb_impressSelect(3)">可爱</button>-->
+        <!--<button class="impress-button impress-4" ng-click="vm.cb_impressSelect(4)">有趣</button>-->
+      <!--</div>-->
+      <!--<div class="impress-panel">-->
+        <!--<button class="impress-button impress-5" ng-click="vm.cb_impressSelect(5)">耐心</button>-->
+        <!--<button class="impress-button impress-6" ng-click="vm.cb_impressSelect(6)">迅速</button>-->
+        <!--<button class="impress-button impress-7" ng-click="vm.cb_impressSelect(7)">细心</button>-->
+        <!--<button class="impress-button impress-8" ng-click="vm.cb_impressSelect(8)">爽快</button>-->
+      <!--</div>-->
+      <!--<div class="impress-panel">-->
+        <!--<button class="impress-button impress-9" ng-click="vm.cb_impressSelect(9)">马虎</button>-->
+        <!--<button class="impress-button impress-10" ng-click="vm.cb_impressSelect(10)">小气</button>-->
+        <!--<button class="impress-button impress-11" ng-click="vm.cb_impressSelect(11)">拖沓</button>-->
+        <!--<button class="impress-button impress-12" ng-click="vm.cb_impressSelect(12)">暴躁</button>-->
+      <!--</div>-->
+
       <div class="impress-panel">
-        <button class="impress-button impress-1" ng-click="vm.cb_impressSelect(1)">热情</button>
-        <button class="impress-button impress-2" ng-click="vm.cb_impressSelect(2)">高冷</button>
-        <button class="impress-button impress-3" ng-click="vm.cb_impressSelect(3)">可爱</button>
-        <button class="impress-button impress-4" ng-click="vm.cb_impressSelect(4)">有趣</button>
+      <div class="impress-div impress-1" ng-class="{'toggle-on':vm.impressUi[0].sel==true}" ng-click="vm.cb_impressSelect(0)">{{vm.impressUi[0].text}}</div>
+      <div class="impress-div impress-2" ng-class="{'toggle-on':vm.impressUi[1].sel==true}" ng-click="vm.cb_impressSelect(1)">{{vm.impressUi[1].text}}</div>
+      <div class="impress-div impress-3" ng-class="{'toggle-on':vm.impressUi[2].sel==true}" ng-click="vm.cb_impressSelect(2)">{{vm.impressUi[2].text}}</div>
+      <div class="impress-div impress-4" ng-class="{'toggle-on':vm.impressUi[3].sel==true}" ng-click="vm.cb_impressSelect(3)">{{vm.impressUi[3].text}}</div>
       </div>
       <div class="impress-panel">
-        <button class="impress-button impress-5" ng-click="vm.cb_impressSelect(5)">耐心</button>
-        <button class="impress-button impress-6" ng-click="vm.cb_impressSelect(6)">迅速</button>
-        <button class="impress-button impress-7" ng-click="vm.cb_impressSelect(7)">细心</button>
-        <button class="impress-button impress-8" ng-click="vm.cb_impressSelect(8)">爽快</button>
+      <div class="impress-div impress-5" ng-class="{'toggle-on':vm.impressUi[4].sel==true}" ng-click="vm.cb_impressSelect(4)">{{vm.impressUi[4].text}}</div>
+      <div class="impress-div impress-6" ng-class="{'toggle-on':vm.impressUi[5].sel==true}" ng-click="vm.cb_impressSelect(5)">{{vm.impressUi[5].text}}</div>
+      <div class="impress-div impress-7" ng-class="{'toggle-on':vm.impressUi[6].sel==true}" ng-click="vm.cb_impressSelect(6)">{{vm.impressUi[6].text}}</div>
+      <div class="impress-div impress-8" ng-class="{'toggle-on':vm.impressUi[7].sel==true}" ng-click="vm.cb_impressSelect(7)">{{vm.impressUi[7].text}}</div>
       </div>
       <div class="impress-panel">
-        <button class="impress-button impress-9" ng-click="vm.cb_impressSelect(9)">马虎</button>
-        <button class="impress-button impress-10" ng-click="vm.cb_impressSelect(10)">小气</button>
-        <button class="impress-button impress-11" ng-click="vm.cb_impressSelect(11)">拖沓</button>
-        <button class="impress-button impress-12" ng-click="vm.cb_impressSelect(12)">暴躁</button>
+      <div class="impress-div impress-9" ng-class="{'toggle-on':vm.impressUi[8].sel==true}" ng-click="vm.cb_impressSelect(8)">{{vm.impressUi[8].text}}</div>
+      <div class="impress-div impress-10" ng-class="{'toggle-on':vm.impressUi[9].sel==true}"  ng-click="vm.cb_impressSelect(9)">{{vm.impressUi[9].text}}</div>
+      <div class="impress-div impress-11" ng-class="{'toggle-on':vm.impressUi[10].sel==true}" ng-click="vm.cb_impressSelect(10)">{{vm.impressUi[10].text}}</div>
+      <div class="impress-div impress-12" ng-class="{'toggle-on':vm.impressUi[11].sel==true}" ng-click="vm.cb_impressSelect(11)">{{vm.impressUi[11].text}}</div>
       </div>
 
     </div>
 
-    <div class="comment-panel">
-      <textarea placeholder="吐槽表白随你便" ng-model="vm.commentText"></textarea>
-    </div>
 
     <div class="padding">
       <button class="ho-button-block button-theme" ng-click="vm.submit()">

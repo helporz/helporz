@@ -192,23 +192,7 @@
   width: 100%;
   border-radius: 7px;
   border-style: none;
-  font-size: 15px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  -webkit-align-items: center;
-  -moz-align-items: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  -moz-justify-content: center;
-  justify-content: center; }
+  font-size: 15px; }
   .ho-button-block.button-theme {
     background-color: #FF432F;
     color: white; }
@@ -546,6 +530,114 @@
       color: #FF432F;
       background-color: white; }
 
+.impress-1 {
+  border-color: #FF432F !important;
+  background-color: white !important;
+  color: #FF432F !important; }
+  .impress-1.toggle-on {
+    border-color: #e74f46 !important;
+    color: white !important;
+    background-color: #e74f46 !important; }
+
+.impress-2 {
+  border-color: #FF432F !important;
+  background-color: white !important;
+  color: #FF432F !important; }
+  .impress-2.toggle-on {
+    border-color: #48ccad !important;
+    color: white !important;
+    background-color: #48ccad !important; }
+
+.impress-3 {
+  border-color: #FF432F !important;
+  background-color: white !important;
+  color: #FF432F !important; }
+  .impress-3.toggle-on {
+    border-color: #feb7b9 !important;
+    color: white !important;
+    background-color: #feb7b9 !important; }
+
+.impress-4 {
+  border-color: #FF432F !important;
+  background-color: white !important;
+  color: #FF432F !important; }
+  .impress-4.toggle-on {
+    border-color: #34b8f6 !important;
+    color: white !important;
+    background-color: #34b8f6 !important; }
+
+.impress-5 {
+  border-color: #FF432F !important;
+  background-color: white !important;
+  color: #FF432F !important; }
+  .impress-5.toggle-on {
+    border-color: #7985ba !important;
+    color: white !important;
+    background-color: #7985ba !important; }
+
+.impress-6 {
+  border-color: #FF432F !important;
+  background-color: white !important;
+  color: #FF432F !important; }
+  .impress-6.toggle-on {
+    border-color: #34c7da !important;
+    color: white !important;
+    background-color: #34c7da !important; }
+
+.impress-7 {
+  border-color: #FF432F !important;
+  background-color: white !important;
+  color: #FF432F !important; }
+  .impress-7.toggle-on {
+    border-color: #fda639 !important;
+    color: white !important;
+    background-color: #fda639 !important; }
+
+.impress-8 {
+  border-color: #FF432F !important;
+  background-color: white !important;
+  color: #FF432F !important; }
+  .impress-8.toggle-on {
+    border-color: #7eb24a !important;
+    color: white !important;
+    background-color: #7eb24a !important; }
+
+.impress-9 {
+  border-color: #FF432F !important;
+  background-color: white !important;
+  color: #FF432F !important; }
+  .impress-9.toggle-on {
+    border-color: #666666 !important;
+    color: white !important;
+    background-color: #666666 !important; }
+
+.impress-10 {
+  border-color: #FF432F !important;
+  background-color: white !important;
+  color: #FF432F !important; }
+  .impress-10.toggle-on {
+    border-color: #7a929d !important;
+    color: white !important;
+    background-color: #7a929d !important; }
+
+.impress-11 {
+  border-color: #FF432F !important;
+  background-color: white !important;
+  color: #FF432F !important; }
+  .impress-11.toggle-on {
+    border-color: #30a69b !important;
+    color: white !important;
+    background-color: #30a69b !important; }
+
+.impress-12 {
+  border-color: #FF432F !important;
+  background-color: white !important;
+  color: #FF432F !important; }
+  .impress-12.toggle-on {
+    border-color: #bf8fc5 !important;
+    color: white !important;
+    background-color: #bf8fc5 !important; }
+
 .topics {
   padding: 0; }
   .topics .item-content {
@@ -581,7 +673,24 @@
       -ms-flex: 0 0 34px;
       flex: 0 0 34px; }
     .topics .content-right .user-panel .user-detail {
-      margin: 0 0 0 5px; }
+      margin: 0 0 0 5px;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -moz-box;
+      display: -moz-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-direction: normal;
+      -webkit-box-orient: vertical;
+      -webkit-flex-direction: column;
+      -moz-flex-direction: column;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      -moz-justify-content: center;
+      justify-content: center; }
       .topics .content-right .user-panel .user-detail .top {
         line-height: 11px; }
         .topics .content-right .user-panel .user-detail .top > p, .topics .content-right .user-panel .user-detail .top i {
@@ -616,10 +725,27 @@
           font-size: 9px; }
       .topics .content-right .user-panel .user-detail .bottom {
         margin-top: 4px;
-        line-height: 1; }
-        .topics .content-right .user-panel .user-detail .bottom .elem {
-          left: 10px;
-          margin-bottom: 0; }
+        line-height: 1;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -moz-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        -moz-align-items: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        -moz-justify-content: center;
+        justify-content: center; }
+        .topics .content-right .user-panel .user-detail .bottom .impress-panel {
+          margin-right: 5px; }
+          .topics .content-right .user-panel .user-detail .bottom .impress-panel .elem {
+            margin-bottom: 0; }
     .topics .content-right .user-panel ul li.tip {
       color: #5f9cc5; }
     .topics .content-right .summary-panel .summary {
@@ -1078,14 +1204,37 @@
       flex: 0 0 77px; }
 
 .comment {
-  background-color: #e8e7ed; }
-  .comment .top-panel {
+  background-color: white; }
+  .comment .input-area {
+    padding: 5px 10px;
+    height: 80px;
+    width: 100%; }
+  .comment .comment-panel {
+    padding: 5px 10px;
+    background-color: white; }
+    .comment .comment-panel .pic-panel {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -moz-box;
+      display: -moz-flex;
+      display: -ms-flexbox;
+      display: flex;
+      height: 80px; }
+    .comment .comment-panel .pic {
+      border: 2px solid #dddddd;
+      margin: 5px  5px 0 0;
+      height: 60px;
+      width: 60px; }
+      .comment .comment-panel .pic.add {
+        background-color: #f7f7f7;
+        color: #FF432F; }
+  .comment .impress-base-panel {
     background-color: white;
     padding-bottom: 10px; }
-    .comment .top-panel .name1 {
+    .comment .impress-base-panel .name1 {
       margin: 0 12px;
       font-size: 15px; }
-    .comment .top-panel .star-panel {
+    .comment .impress-base-panel .star-panel {
       display: -webkit-box;
       display: -webkit-flex;
       display: -moz-box;
@@ -1098,12 +1247,12 @@
       -moz-align-items: center;
       align-items: center;
       height: 40px; }
-    .comment .top-panel .div-line {
+    .comment .impress-base-panel .div-line {
       margin: 0 12px;
       border-bottom-style: solid;
       border-bottom-width: 1px;
       border-bottom-color: #e4e4e4; }
-    .comment .top-panel .impress-select-panel {
+    .comment .impress-base-panel .impress-select-panel {
       margin: 12px 0 12px 12px;
       display: -webkit-box;
       display: -webkit-flex;
@@ -1116,15 +1265,15 @@
       -webkit-align-items: center;
       -moz-align-items: center;
       align-items: center; }
-      .comment .top-panel .impress-select-panel button {
+      .comment .impress-base-panel .impress-select-panel button {
         margin-left: 10px;
         position: relative; }
-      .comment .top-panel .impress-select-panel .close {
+      .comment .impress-base-panel .impress-select-panel .close {
         position: absolute;
         right: 5px;
         top: 4px;
         font-size: 8px; }
-    .comment .top-panel .impress-panel {
+    .comment .impress-base-panel .impress-panel {
       display: -webkit-box;
       display: -webkit-flex;
       display: -moz-box;
@@ -1138,80 +1287,28 @@
       justify-content: space-between;
       padding: 0 10px;
       margin-bottom: 15px; }
-    .comment .top-panel .impress-button {
-      height: 25px;
-      width: 70px;
-      border: 1px solid;
-      border-radius: 12.5px; }
-      .comment .top-panel .impress-button.impress-1 {
-        background-color: #e74f46;
-        color: white; }
-        .comment .top-panel .impress-button.impress-1.active, .comment .top-panel .impress-button.impress-1.activated {
-          background-color: #af3b34; }
-      .comment .top-panel .impress-button.impress-2 {
-        background-color: #48ccad;
-        color: white; }
-        .comment .top-panel .impress-button.impress-2.active, .comment .top-panel .impress-button.impress-2.activated {
-          background-color: #318d77; }
-      .comment .top-panel .impress-button.impress-3 {
-        background-color: #feb7b9;
-        color: white; }
-        .comment .top-panel .impress-button.impress-3.active, .comment .top-panel .impress-button.impress-3.activated {
-          background-color: #b37f81; }
-      .comment .top-panel .impress-button.impress-4 {
-        background-color: #34b8f6;
-        color: white; }
-        .comment .top-panel .impress-button.impress-4.active, .comment .top-panel .impress-button.impress-4.activated {
-          background-color: #2588b7; }
-      .comment .top-panel .impress-button.impress-5 {
-        background-color: #7985ba;
-        color: white; }
-        .comment .top-panel .impress-button.impress-5.active, .comment .top-panel .impress-button.impress-5.activated {
-          background-color: #555e85; }
-      .comment .top-panel .impress-button.impress-6 {
-        background-color: #34c7da;
-        color: white; }
-        .comment .top-panel .impress-button.impress-6.active, .comment .top-panel .impress-button.impress-6.activated {
-          background-color: #2593a1; }
-      .comment .top-panel .impress-button.impress-7 {
-        background-color: #fda639;
-        color: white; }
-        .comment .top-panel .impress-button.impress-7.active, .comment .top-panel .impress-button.impress-7.activated {
-          background-color: #c37f2a; }
-      .comment .top-panel .impress-button.impress-8 {
-        background-color: #7eb24a;
-        color: white; }
-        .comment .top-panel .impress-button.impress-8.active, .comment .top-panel .impress-button.impress-8.activated {
-          background-color: #5a8034; }
-      .comment .top-panel .impress-button.impress-9 {
-        background-color: #666666;
-        color: white; }
-        .comment .top-panel .impress-button.impress-9.active, .comment .top-panel .impress-button.impress-9.activated {
-          background-color: #434343; }
-      .comment .top-panel .impress-button.impress-10 {
-        background-color: #7a929d;
-        color: white; }
-        .comment .top-panel .impress-button.impress-10.active, .comment .top-panel .impress-button.impress-10.activated {
-          background-color: #546770; }
-      .comment .top-panel .impress-button.impress-11 {
-        background-color: #30a69b;
-        color: white; }
-        .comment .top-panel .impress-button.impress-11.active, .comment .top-panel .impress-button.impress-11.activated {
-          background-color: #207f76; }
-      .comment .top-panel .impress-button.impress-12 {
-        background-color: #bf8fc5;
-        color: white; }
-        .comment .top-panel .impress-button.impress-12.active, .comment .top-panel .impress-button.impress-12.activated {
-          background-color: #926c97; }
-  .comment .comment-panel {
-    margin: 20px 10px 10px 10px;
-    padding: 5px 10px;
-    background-color: white;
-    height: 90px;
-    border-radius: 7px; }
-    .comment .comment-panel textarea {
-      height: 100%;
-      width: 100%; }
+    .comment .impress-base-panel .impress-div {
+      height: 22px;
+      width: 65px;
+      border: 1px solid #FF432F;
+      border-radius: 11px;
+      font-size: 12px;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -moz-box;
+      display: -moz-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      -moz-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      -moz-align-items: center;
+      align-items: center; }
 
 .task-state .task-dot-ctn {
   padding: 0 42px; }

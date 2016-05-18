@@ -2,12 +2,13 @@
   ._desc-p {
     margin-bottom: 0 !important;
   }
+
   ._accept-bt {
     bottom: 22px !important;
   }
 </style>
 
-<ion-view  view-title="Home">
+<ion-view view-title="任务详情">
   <ion-content class="topics">
     <div class="row nopadding bottom-bordered bottom-bordered-big">
       <div class="content-left">
@@ -26,12 +27,12 @@
                 <i class="gender-icon ho-gender-female color-woman font-size-12"></i>
               </div>
 
-              <p class="time">{{vm.task.ext_createTime}}</p>
+              <p class="time">{{vm.task.ui_createTime}}</p>
             </div>
             <div class="bottom">
-              <p class="elem text-tag user-tag-color-0">女神</p>
-
-              <p class="elem text-tag user-tag-color-1">娇气包</p>
+              <div class="impress-panel" ng-repeat="item in vm.task.ui_tags">
+                <p class="elem text-tag toggle-on {{item.className}}">{{item.text}}</p>
+              </div>
             </div>
           </div>
         </div>

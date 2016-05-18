@@ -12,7 +12,6 @@
   }
 }
 
-
 //////////////////////////////////////////////////
 // 通用颜色
 .color-theme {
@@ -34,9 +33,11 @@
 .bgcolor-theme {
   background-color: $color-theme !important;
 }
+
 .bgcolor-white {
   background-color: white;
 }
+
 .bgcolor-bg {
   background-color: $color-page-bg;
 }
@@ -44,9 +45,11 @@
 .color-text-primary {
   color: $color-text-primary !important;
 }
+
 .color-text-secondary {
   color: $color-text-secondary !important;
 }
+
 .color-text-thirdly {
   color: $color-text-thirdly !important;
 }
@@ -107,14 +110,24 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
   }
 }
 
-
 // button
 @mixin ho-button-color($color, $active-color) {
-  background-color:$color;
+  background-color: $color;
   color: white;
   &.active,
   &.activated {
     background-color: $active-color;
+  }
+}
+
+@mixin ho-toggle-color($off, $on) {
+  border-color: $off !important;
+  background-color: white !important;
+  color: $off !important;
+  &.toggle-on {
+    border-color: $on !important;
+    color: white !important;
+    background-color: $on !important;
   }
 }
 
@@ -150,9 +163,9 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
   border-radius: 7px;
   border-style: none;
   font-size: 15px;
-  @include display-flex();
-  @include align-items(center);
-  @include justify-content(center);
+  //@include display-flex();
+  //@include align-items(center);
+  //@include justify-content(center);
   &.button-theme {
     @include ho-button-color($color-theme, $color-theme-dark);
   }
@@ -163,15 +176,19 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
 .justify-content-center {
   @include justify-content(center);
 }
+
 .nopadding {
   padding: 0 !important;
 }
+
 .margin {
   margin: 10px !important;
 }
-.margin-top{
+
+.margin-top {
   margin-top: 10px !important;
 }
+
 .top-bordered {
   border-style: solid !important;
   border-bottom-color: $color-div-line !important;
@@ -245,7 +262,7 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
         margin: 10px 10px 10px 10px;
       }
       .decoration {
-        @include flex(0,0,22px);
+        @include flex(0, 0, 22px);
         @include display-flex();
         @include justify-content(center);
       }

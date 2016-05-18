@@ -6,9 +6,11 @@
   'use strict';
 
   angular.module('main.near.taskdetail')
-    .controller('mainNearTaskDetailCtrl', ['$state', '$scope', '$timeout', '$stateParams', 'taskNetService', 'taskUtils', mainNearTaskDetailCtrl]);
+    .controller('mainNearTaskDetailCtrl', ['$state', '$scope', '$timeout', '$stateParams', 'taskNetService',
+      'taskUtils', 'impressUtils', mainNearTaskDetailCtrl]);
 
-  function mainNearTaskDetailCtrl($state, $scope, $timeout, $stateParams, taskNetService, taskUtils) {
+  function mainNearTaskDetailCtrl($state, $scope, $timeout, $stateParams, taskNetService,
+                                  taskUtils, impressUtils) {
     console.log($stateParams);
 
     var vm = $scope.vm = {};
@@ -19,6 +21,13 @@
       vm.task.icon = taskUtils.iconByTypeValue(vm.task.taskTypesId);
       vm.task.typeName = taskUtils.nameByTypeValue(vm.task.taskTypesId);
       vm.task.commentCount = vm.task.commentList? vm.task.commentList.length: 0;
+
+
+      // impresses
+      var impressUI = impressUtils.impressUI();
+      vm.task.ui_tags = vm.task.poster.tags.concat();
+      vm.task.ui_tags = [impressUI[0], impressUI[2], impressUI[3]];
+
 
       $timeout( function() {
           $scope.$apply();
@@ -64,7 +73,6 @@
           })
         }).finally(function () {
           $ionicLoading.hide();
-          vm.clearClickTarget();
         });
     }
   }
