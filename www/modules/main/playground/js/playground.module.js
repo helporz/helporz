@@ -7,8 +7,8 @@
   angular.module('com.helporz.playground', ['com.helporz.user.netservice', 'com.helporz.utils.service']).config(PlaygroundConfigFn);
 
 
-  PlaygroundConfigFn.$inject = ['$stateProvider','$compileProvider', '$urlRouterProvider', '$ionicConfigProvider'];
-  function PlaygroundConfigFn($stateProvider,$compileProvider, $urlRouterProvider, $ionicConfigProvider) {
+  PlaygroundConfigFn.$inject = ['$stateProvider', '$compileProvider', '$urlRouterProvider', '$ionicConfigProvider'];
+  function PlaygroundConfigFn($stateProvider, $compileProvider, $urlRouterProvider, $ionicConfigProvider) {
     $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|data|file|cdvfile):/);
     $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|data|file|cdvfile):/);
     $stateProvider.state(
@@ -30,17 +30,49 @@
       .state(
       'topic-detail',
       {
-        url: '/playground/topic/{topicId}',
+        url: '/playground/topic/detail/{topicId}',
         templateUrl: 'modules/main/playground/templates/topic-detail.html',
         controller: 'topicDetailController'
       }
     )
       .state(
-      'topic-add',
+      'own-topic-list',
       {
-        url: '/playground/topic/add/{groupId}',
-        templateUrl: 'modules/main/playground/templates/topic-add.html',
-        controller: 'topicAddController'
+        url: '/playground/topic/own/list',
+        templateUrl: 'modules/main/playground/templates/own-topic-list.html',
+        controller: 'ownTopicListController'
+      }
+    )
+      .state(
+      'collection-topic-list',
+      {
+        url: '/playground/topic/collection/list',
+        templateUrl: 'modules/main/playground/templates/collection-topic-list.html',
+        controller: 'collectionTopicListController'
+      }
+    )
+      .state(
+      'my-comment-list',
+      {
+        url: '/playground/topic/my-comment/list',
+        templateUrl: 'modules/main/playground/templates/my-comment-list.html',
+        controller: 'myCommentListController'
+      }
+    )
+      .state(
+      'my-message-list',
+      {
+        url: '/playground/topic/my-message/list',
+        templateUrl: 'modules/main/playground/templates/my-message-list.html',
+        controller: 'myMessageListController'
+      }
+    )
+      .state(
+      'comment-session',
+      {
+        url: '/playground/topic/comment-session/{sessionId}',
+        templateUrl: 'modules/main/playground/templates/comment-session.html',
+        controller: 'commentSessionController'
       }
     )
     ;

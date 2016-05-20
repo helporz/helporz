@@ -1,0 +1,76 @@
+<ion-view class="topic-group">
+  <ion-nav-bar class="bar-helporz-theme topic-group">
+    <!--<ion-nav-back-button>-->
+
+    <!--</ion-nav-back-button>-->
+  </ion-nav-bar>
+  <ion-nav-title class="title title-center header-item">
+    <div style="height: 100%">
+     我的收藏
+    </div>
+  </ion-nav-title>
+  <ion-content class="has-header rj-stable-content" id="message-detail-content">
+    <ion-list class="user-topic">
+      <ion-item ng-repeat="item in vm.topicList">
+        <div class="row">
+
+          <div class="col col-20  col-center">
+            <img class="user-logo" ng-src="{{item.poster.avatar}}">
+          </div>
+
+          <div class="col col-center col-66">
+            <p class="title-header">
+              <span>{{item.poster.nickname}}</span> <img class="gender-logo" ng-src="img/user/gender-{{item.poster.gender}}.png">
+            </p>
+
+            <p class="title-desc">
+              {{item.created|DateShow}} 来自 {{item.poster.orgList[0].name}}
+            </p>
+          </div>
+          <div class="col  icon ion-chevron-down col-top"  style="text-align:center" ng-click="vm.moreOpt(item)"></div>
+        </div>
+
+        <div class="row content-wrap">
+          <p ng-bind-html="item.content" class="auto-wrap"></p>
+
+        </div>
+        <div class="row content-wrap" ng-if="item.imgList != null || item.imgList != ''">
+          <img class="topics bottom-bordered" ng-repeat="imgSrc in item.imgList"
+               ng-src="{{imgSrc}}" ng-click="vm.showImgs(item.imgList)">
+        </div>
+
+        <div class="row button-list-wrap">
+          <div class="col col-32 button-wrap">
+            <button class="button button-small icon "
+                    ng-class="{true:'ion-ios-heart',false:'ion-ios-heart-outline '}[item.isFavourite == true]"
+                    ng-click="vm.favouriteToggle(item)" style="color:red">
+              {{item.favouriteCount}}
+            </button>
+
+            <!--<button class="button button-small icon " style="color: black"-->
+            <!--ng-if="vm.isFavourite(item.id) == false" ng-click="vm.favourite(item.id)">-->
+            <!--{{item.favouriteCount}}-->
+            <!--</button>-->
+          </div>
+          <div class="col col-32 button-wrap">
+            <button class="button button-small icon ion-ios-redo-outline" ng-click="vm.shareTopic(item)">分享
+            </button>
+          </div>
+          <div class="col col-32 button-wrap">
+            <button class="button button-small icon ion-ios-chatboxes-outline"
+                    ng-click="vm.go2TopicDetail(item)">
+              {{item.commentCount}}
+            </button>
+            <!--<button class="button button-small icon ion-ios-chatboxes-outline"-->
+            <!--ng-if="item.commentCount == 0 "></button>-->
+          </div>
+
+        </div>
+      </ion-item>
+    </ion-list>
+
+    <ion-infinite-scroll ng-if="vm.moreDataCanBeLoaded()" on-infinite="vm.loadMoreTopicList()" distance="1%"></ion-infinite-scroll>
+  </ion-content>
+
+</ion-view>
+

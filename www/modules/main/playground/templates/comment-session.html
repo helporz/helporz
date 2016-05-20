@@ -1,0 +1,66 @@
+<ion-view>
+  <ion-nav-bar class="bar-helporz-theme topic-group">
+    <!--<ion-nav-back-button>-->
+
+    <!--</ion-nav-back-button>-->
+  </ion-nav-bar>
+  <ion-nav-title class="title title-center header-item">
+    <div style="height: 100%">
+      查看对话
+    </div>
+  </ion-nav-title>
+  <ion-content class="has-header rj-stable-content" id="message-detail-content">
+    <div ng-repeat="item in vm.topicCommentList">
+      <p class="rj-message-time"  ng-if="true"> {{item.created|String2Date|date:'MM-dd HH:mm'}}</p>
+      <div class="rj-message-wrap" ng-if="$index%2 == 0">
+        <img ng-src="{{item.commenter.avatar}}" class="rj-head-pic" err-src="img/ionic.png">
+        <span class="rj-triangle-left"></span>
+        <p class="rj-message" ng-bind="item.content"></p>
+      </div>
+      <div class="rj-message-wrap" ng-if="$index%2 == 1">
+        <img ng-src="{{item.commenter.avatar}}" class="rj-head-pic-right" err-src="img/ionic.png"/>
+        <!--<img src="img/ionic.png" class="rj-head-pic-right">-->
+        <span class="rj-triangle-right"></span>
+        <p class="rj-message-right" ng-bind="item.content"></p>
+        <!--<ion-spinner icon="ios-small" style="float:right; margin: 5px 5px;" ng-if="item.sendState==0"></ion-spinner>-->
+        <!--<p class="icon ion-alert" style="float:right; margin: 5px 5px; color:red" ng-if="item.sendState==-1" />-->
+      </div>
+    </div>
+
+    <ion-infinite-scroll ng-if="vm.moreDataCanBeLoaded()" on-infinite="vm.loadMoreCommentList()" distance="1%"></ion-infinite-scroll>
+  </ion-content>
+
+</ion-view>
+
+<!--<ion-nav-title class="title title-center header-item">-->
+  <!--<div style="height: 100%">-->
+    <!--<div class="group-header">-->
+      <!--{{vm.topicGroup.name}}-->
+    <!--</div>-->
+
+    <!--<div class="group-header-desc">-->
+      <!--{{vm.topicGroup.description}}-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</ion-nav-title>-->
+
+
+<!--<ion-header-bar align-title="center" class="bar-helporz-theme topic-group">-->
+<!--<div class="buttons">-->
+<!--<button class="button button-icon icon ion-arrow-left-c" ui-sref="playground-list">-->
+<!--</button>-->
+<!--</div>-->
+<!--<div class="h1 title">微信</div>-->
+<!--<div class="title title-center header-item">-->
+<!--<div class="group-header">-->
+<!--{{vm.topicGroup.name}}-->
+<!--</div>-->
+
+<!--<div class="group-header-desc">-->
+<!--{{vm.topicGroup.description}}-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="buttons">-->
+<!--<button class="button button-icon icon ion-person"></button>-->
+<!--</div>-->
+<!--</ion-header-bar>-->

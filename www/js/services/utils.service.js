@@ -299,7 +299,60 @@
       }]).factory('uploadService', UploadServiceFactoryFn)
     .factory('downloadService', ['$log', DownloadServiceFactoryFn])
     .factory('debugHelpService', ['$log', DebugHelpServiceFactoryFn])
-    .constant('base64', (Base64ConstantFn)());
+    .constant('base64', (Base64ConstantFn)())
+    .filter('DateShow', DateShowFn)
+    .filter('String2Date', String2DateFn)
+    .directive('focusMe', focusMeFn);
+
+  function String2DateFn() {
+    var filterFn = function (dateString) {
+      return new Date(dateString);
+
+    }
+
+    return filterFn;
+  }
+
+  focusMeFn.$inject = ['$timeout'];
+  function focusMeFn($timeout) {
+    return {
+      scope: {
+        isFocusMe: '@focusMe',
+
+      },
+      link: function (scope, element) {
+        scope.$watch('isFocusMe', function (value) {
+          if (value != null && value !== '' && value !== "false") {
+            $timeout(function () {
+              element[0].focus();
+            });
+          }
+        });
+      }
+    };
+  }
+
+  function DateShowFn() {
+    var filterFn = function (dateString) {
+      var d = new Date(dateString).getTime();
+      var currentDate = new Date().getTime();
+      var diffTimes = currentDate - d;
+      if (diffTimes < 0) {
+        return "刚才";
+      }
+      else if (diffTimes < 60 * 60 * 1000) {
+        return Math.round(diffTimes / (60 * 1000)) + "分钟前";
+      }
+      else if (diffTimes < 24 * 60 * 60 * 1000) {
+        return Math.round((diffTimes / (60 * 60 * 1000))) + "小时前";
+      }
+      else {
+        return Math.round((diffTimes / (24 * 60 * 60 * 1000))) + "天前";
+      }
+    }
+
+    return filterFn;
+  }
 
   function Base64ConstantFn() {
     // existing version for noConflict()

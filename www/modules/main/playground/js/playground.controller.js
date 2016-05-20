@@ -8,7 +8,12 @@
     .controller('topicGroupController', topicGroupControllerFn)
     .controller('topicDetailController', topicDetailControllerFn)
     .controller('topicPublishController', topicPublishControllerFn)
-    .controller('playgroundListController', playgroundListControllerFn);
+    .controller('playgroundListController', playgroundListControllerFn)
+    .controller('ownTopicListController', ownTopicListControllerFn)
+    .controller('collectionTopicListController', collectionTopicListControllerFn)
+    .controller('myCommentListController', myCommentListControllerFn)
+    .controller('myMessageListController', myMessageListControllerFn)
+    .controller('commentSessionController', commentSessionControllerFn);
 
   playgroundListControllerFn.$inject = ['$scope', '$state', '$log', 'topicGroupService'];
   function playgroundListControllerFn($scope, $state, $log, topicGroupService) {
@@ -92,12 +97,13 @@
 
     vm.sysTopicList = topicService.getSysTopicList(vm.groupId);
     vm.userTopicList = topicService.getTopicList(vm.groupId);
+    vm.isCanLoadMore = true;
 
     //$scope.$on('$stateChangeSuccess', function () {
     //  vm.loadMore();
     //});
     vm.moreDataCanBeLoaded = function () {
-      if (vm.userTopicList != null) {
+      if (vm.userTopicList != null && vm.isCanLoadMore) {
         return true;
       }
       else {
@@ -124,6 +130,30 @@
     //popupScope.subTypeList = $scope.subTaskArray;
     //popupScope.selectedSubType = _ctlSelf.selectedSubType;
     popoverScope.cancel = vm.hidePopover;
+
+    vm.gotoOwnTopic = function() {
+      $state.go('own-topic-list');
+      vm.hidePopover();
+    }
+
+    vm.gotoCollectionTopic = function() {
+      $state.go('collection-topic-list');
+      vm.hidePopover();
+    }
+
+    vm.gotoMyMessageList = function() {
+      $state.go('my-message-list');
+      vm.hidePopover();
+    }
+    vm.gotoMyCommentList = function() {
+      $state.go('my-comment-list');
+      vm.hidePopover();
+    }
+
+    popoverScope.gotoOwnTopic = vm.gotoOwnTopic;
+    popoverScope.gotoCollectionTopic = vm.gotoCollectionTopic;
+    popoverScope.gotoMyMessageList = vm.gotoMyMessageList;
+    popoverScope.gotoMyCommentList = vm.gotoMyCommentList;
     //popupScope.typeName = $scope.publishTaskTypeName;
     $ionicPopover.fromTemplateUrl('modules/main/playground/templates/topic-group-popover.html',
       {
@@ -149,6 +179,23 @@
     //  return true;
     //}
 
+    vm.showImgs = function (imgList) {
+      var modalScope = $scope.$new();
+      var imgItemList = new Array();
+      for (var index = 0; index < imgList; ++index) {
+        var item = {imgSrc: imgList[index]};
+        imgItemList.push(item);
+      }
+      modalScope.imgList = imgItemList;
+      $ionicModal.fromTemplateUrl('modules/main/playground/templates/show-imgs.html', {
+        scope: modalScope,
+        animation: "slide-in-up"
+      }).then(function (modal) {
+        modalScope.modal = modal;
+        modal.show();
+      });
+    }
+
     vm.shareTopic = function (topic) {
 
     }
@@ -173,7 +220,12 @@
     }
 
     vm.loadMore = function () {
+      var currentUserTopicCount = vm.userTopicList.length;
       topicService.moreTopic(vm.groupId).then(function (topicList) {
+        vm.userTopicList = topicList;
+        if (topicList.length == 0 || currentUserTopicCount == topicList.length) {
+          vm.isCanLoadMore = false;
+        }
         $scope.$broadcast('scroll.infiniteScrollComplete');
       }, function (err) {
         $scope.$broadcast('scroll.infiniteScrollComplete');
@@ -208,6 +260,7 @@
         topicService.refreshTopic(vm.groupId).then(function (topicList) {
           $scope.$broadcast('scroll.refreshComplete');
           vm.userTopicList = topicList;
+          vm.isCanLoadMore = true;
         }, function (err) {
           $scope.$broadcast('scroll.refreshComplete');
         });
@@ -282,7 +335,8 @@
     }
 
     vm.go2TopicDetail = function (topic) {
-      $state.go('topic-detail', {'topic': topic});
+      topicService.setCurrentDetailTopic(topic);
+      $state.go('topic-detail', {'topicId': topic.id});
     }
 
 
@@ -375,23 +429,23 @@
     //  imgSrc: '',
     //}
     //
-    imgList[0] = {
-      id:10000,
-      //imgSrc:'file:///storage/emulated/0/Android/data/com.helporz.hybridapp/cache/1462970409194.jpg',
-      imgSrc: "data:image/jpeg;base64," + '/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCABkAGQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwC3BtkT5oxn3HvS/dZswgjJxgfSnqw9aepouIjGwr/qenbPvT4zDCTtQjk9PapVNOGKLgODgoGA6/40gmQ55PH+GaXtimeVHnIFICTzF9eeKUsAQueTUaxoCTjJ96dxuz3HFKwDqQ0hNNJosApNMNBNNJosFwopuaKLBcqBQD94jvUicdH7io8A9acEWmBNG2MZYYx61MGqqEX8qeFHPJoAshqXNV1BH8XpUgNAEmaQtTM0ZoAduppam5pCaAFLAdTSZpjcsvHAOaM0AOzRTM+9FAFYNT1aq6yLnGaeJB68UAWAaeDVdXGCc9KeHHqKAJwaXNRBh60u6gZJmjNR7qM0CH5puabupM0AOzSZpuabuoAeTRUe6ikIpAtgcCnAnHKUgNKDTGP34B+U0u4D+HrTQacDQMerA89OtPDA4Hp2qIGnA0CJt1JuqPdRuoAk3Um6o91JuoAk3U0tTN1NLUCH7qKiLUUAQg0oNVxMe6mgT5P3TQMtA0oaoVfOaduoAmDUu6oQ1KGoAl3Ubqi3UbqAJd1JuqLdRuoAk3U3dUZajdQA/dRUe6igCEOPWlDCq3FKMUAWQ1KGqr+Joz7mgC2Gpd1VNx/vGl3N/eoGWt1G6q29vWje3qKBFjdRuqv5je1HmN6UAT7qN1QeYfSjzT6GgCbNFQeZ7GigBKTA9KKKADA9KABRRQMAopdtFFAhMUUUUAITRmiigAzxRmiigAooooA//9k='
-    };
-
-    imgList[1] = {
-      id:10001,
-      //imgSrc:'file:///storage/emulated/0/Android/data/com.helporz.hybridapp/cache/1462970409194.jpg',
-      imgSrc: "data:image/jpeg;base64," + '/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCABkAGQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwC3BtkT5oxn3HvS/dZswgjJxgfSnqw9aepouIjGwr/qenbPvT4zDCTtQjk9PapVNOGKLgODgoGA6/40gmQ55PH+GaXtimeVHnIFICTzF9eeKUsAQueTUaxoCTjJ96dxuz3HFKwDqQ0hNNJosApNMNBNNJosFwopuaKLBcqBQD94jvUicdH7io8A9acEWmBNG2MZYYx61MGqqEX8qeFHPJoAshqXNV1BH8XpUgNAEmaQtTM0ZoAduppam5pCaAFLAdTSZpjcsvHAOaM0AOzRTM+9FAFYNT1aq6yLnGaeJB68UAWAaeDVdXGCc9KeHHqKAJwaXNRBh60u6gZJmjNR7qM0CH5puabupM0AOzSZpuabuoAeTRUe6ikIpAtgcCnAnHKUgNKDTGP34B+U0u4D+HrTQacDQMerA89OtPDA4Hp2qIGnA0CJt1JuqPdRuoAk3Um6o91JuoAk3U0tTN1NLUCH7qKiLUUAQg0oNVxMe6mgT5P3TQMtA0oaoVfOaduoAmDUu6oQ1KGoAl3Ubqi3UbqAJd1JuqLdRuoAk3U3dUZajdQA/dRUe6igCEOPWlDCq3FKMUAWQ1KGqr+Joz7mgC2Gpd1VNx/vGl3N/eoGWt1G6q29vWje3qKBFjdRuqv5je1HmN6UAT7qN1QeYfSjzT6GgCbNFQeZ7GigBKTA9KKKADA9KABRRQMAopdtFFAhMUUUUAITRmiigAzxRmiigAooooA//9k='
-    };
-
-    imgList[2] = {
-      id:10003,
-      //imgSrc:'file:///storage/emulated/0/Android/data/com.helporz.hybridapp/cache/1462970409194.jpg',
-      imgSrc: "data:image/jpeg;base64," + '/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCABkAGQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwC3BtkT5oxn3HvS/dZswgjJxgfSnqw9aepouIjGwr/qenbPvT4zDCTtQjk9PapVNOGKLgODgoGA6/40gmQ55PH+GaXtimeVHnIFICTzF9eeKUsAQueTUaxoCTjJ96dxuz3HFKwDqQ0hNNJosApNMNBNNJosFwopuaKLBcqBQD94jvUicdH7io8A9acEWmBNG2MZYYx61MGqqEX8qeFHPJoAshqXNV1BH8XpUgNAEmaQtTM0ZoAduppam5pCaAFLAdTSZpjcsvHAOaM0AOzRTM+9FAFYNT1aq6yLnGaeJB68UAWAaeDVdXGCc9KeHHqKAJwaXNRBh60u6gZJmjNR7qM0CH5puabupM0AOzSZpuabuoAeTRUe6ikIpAtgcCnAnHKUgNKDTGP34B+U0u4D+HrTQacDQMerA89OtPDA4Hp2qIGnA0CJt1JuqPdRuoAk3Um6o91JuoAk3U0tTN1NLUCH7qKiLUUAQg0oNVxMe6mgT5P3TQMtA0oaoVfOaduoAmDUu6oQ1KGoAl3Ubqi3UbqAJd1JuqLdRuoAk3U3dUZajdQA/dRUe6igCEOPWlDCq3FKMUAWQ1KGqr+Joz7mgC2Gpd1VNx/vGl3N/eoGWt1G6q29vWje3qKBFjdRuqv5je1HmN6UAT7qN1QeYfSjzT6GgCbNFQeZ7GigBKTA9KKKADA9KABRRQMAopdtFFAhMUUUUAITRmiigAzxRmiigAooooA//9k='
-    };
+    //imgList[0] = {
+    //  id:10000,
+    //  //imgSrc:'file:///storage/emulated/0/Android/data/com.helporz.hybridapp/cache/1462970409194.jpg',
+    //  imgSrc: "data:image/jpeg;base64," + '/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCABkAGQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwC3BtkT5oxn3HvS/dZswgjJxgfSnqw9aepouIjGwr/qenbPvT4zDCTtQjk9PapVNOGKLgODgoGA6/40gmQ55PH+GaXtimeVHnIFICTzF9eeKUsAQueTUaxoCTjJ96dxuz3HFKwDqQ0hNNJosApNMNBNNJosFwopuaKLBcqBQD94jvUicdH7io8A9acEWmBNG2MZYYx61MGqqEX8qeFHPJoAshqXNV1BH8XpUgNAEmaQtTM0ZoAduppam5pCaAFLAdTSZpjcsvHAOaM0AOzRTM+9FAFYNT1aq6yLnGaeJB68UAWAaeDVdXGCc9KeHHqKAJwaXNRBh60u6gZJmjNR7qM0CH5puabupM0AOzSZpuabuoAeTRUe6ikIpAtgcCnAnHKUgNKDTGP34B+U0u4D+HrTQacDQMerA89OtPDA4Hp2qIGnA0CJt1JuqPdRuoAk3Um6o91JuoAk3U0tTN1NLUCH7qKiLUUAQg0oNVxMe6mgT5P3TQMtA0oaoVfOaduoAmDUu6oQ1KGoAl3Ubqi3UbqAJd1JuqLdRuoAk3U3dUZajdQA/dRUe6igCEOPWlDCq3FKMUAWQ1KGqr+Joz7mgC2Gpd1VNx/vGl3N/eoGWt1G6q29vWje3qKBFjdRuqv5je1HmN6UAT7qN1QeYfSjzT6GgCbNFQeZ7GigBKTA9KKKADA9KABRRQMAopdtFFAhMUUUUAITRmiigAzxRmiigAooooA//9k='
+    //};
+    //
+    //imgList[1] = {
+    //  id:10001,
+    //  //imgSrc:'file:///storage/emulated/0/Android/data/com.helporz.hybridapp/cache/1462970409194.jpg',
+    //  imgSrc: "data:image/jpeg;base64," + '/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCABkAGQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwC3BtkT5oxn3HvS/dZswgjJxgfSnqw9aepouIjGwr/qenbPvT4zDCTtQjk9PapVNOGKLgODgoGA6/40gmQ55PH+GaXtimeVHnIFICTzF9eeKUsAQueTUaxoCTjJ96dxuz3HFKwDqQ0hNNJosApNMNBNNJosFwopuaKLBcqBQD94jvUicdH7io8A9acEWmBNG2MZYYx61MGqqEX8qeFHPJoAshqXNV1BH8XpUgNAEmaQtTM0ZoAduppam5pCaAFLAdTSZpjcsvHAOaM0AOzRTM+9FAFYNT1aq6yLnGaeJB68UAWAaeDVdXGCc9KeHHqKAJwaXNRBh60u6gZJmjNR7qM0CH5puabupM0AOzSZpuabuoAeTRUe6ikIpAtgcCnAnHKUgNKDTGP34B+U0u4D+HrTQacDQMerA89OtPDA4Hp2qIGnA0CJt1JuqPdRuoAk3Um6o91JuoAk3U0tTN1NLUCH7qKiLUUAQg0oNVxMe6mgT5P3TQMtA0oaoVfOaduoAmDUu6oQ1KGoAl3Ubqi3UbqAJd1JuqLdRuoAk3U3dUZajdQA/dRUe6igCEOPWlDCq3FKMUAWQ1KGqr+Joz7mgC2Gpd1VNx/vGl3N/eoGWt1G6q29vWje3qKBFjdRuqv5je1HmN6UAT7qN1QeYfSjzT6GgCbNFQeZ7GigBKTA9KKKADA9KABRRQMAopdtFFAhMUUUUAITRmiigAzxRmiigAooooA//9k='
+    //};
+    //
+    //imgList[2] = {
+    //  id:10003,
+    //  //imgSrc:'file:///storage/emulated/0/Android/data/com.helporz.hybridapp/cache/1462970409194.jpg',
+    //  imgSrc: "data:image/jpeg;base64," + '/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCABkAGQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwC3BtkT5oxn3HvS/dZswgjJxgfSnqw9aepouIjGwr/qenbPvT4zDCTtQjk9PapVNOGKLgODgoGA6/40gmQ55PH+GaXtimeVHnIFICTzF9eeKUsAQueTUaxoCTjJ96dxuz3HFKwDqQ0hNNJosApNMNBNNJosFwopuaKLBcqBQD94jvUicdH7io8A9acEWmBNG2MZYYx61MGqqEX8qeFHPJoAshqXNV1BH8XpUgNAEmaQtTM0ZoAduppam5pCaAFLAdTSZpjcsvHAOaM0AOzRTM+9FAFYNT1aq6yLnGaeJB68UAWAaeDVdXGCc9KeHHqKAJwaXNRBh60u6gZJmjNR7qM0CH5puabupM0AOzSZpuabuoAeTRUe6ikIpAtgcCnAnHKUgNKDTGP34B+U0u4D+HrTQacDQMerA89OtPDA4Hp2qIGnA0CJt1JuqPdRuoAk3Um6o91JuoAk3U0tTN1NLUCH7qKiLUUAQg0oNVxMe6mgT5P3TQMtA0oaoVfOaduoAmDUu6oQ1KGoAl3Ubqi3UbqAJd1JuqLdRuoAk3U3dUZajdQA/dRUe6igCEOPWlDCq3FKMUAWQ1KGqr+Joz7mgC2Gpd1VNx/vGl3N/eoGWt1G6q29vWje3qKBFjdRuqv5je1HmN6UAT7qN1QeYfSjzT6GgCbNFQeZ7GigBKTA9KKKADA9KABRRQMAopdtFFAhMUUUUAITRmiigAzxRmiigAooooA//9k='
+    //};
 
     self.closeModal = function () {
       var modal = topicModalService.getPublishModal();
@@ -635,8 +689,355 @@
 
   }
 
-  topicDetailControllerFn.$inject = ['$scope', '$stateParams', '$state', '$log', '$timeout', '$ionicActionSheet'];
-  function topicDetailControllerFn($scope, $stateParams, $state, $log, $timeout, $ionicActionSheet) {
+  topicDetailControllerFn.$inject = ['$scope', '$stateParams', '$state', '$log', '$timeout', '$ionicActionSheet', '$q',
+    'topicService', 'PlaygroundNetService'];
+  function topicDetailControllerFn($scope, $stateParams, $state, $log, $timeout, $ionicActionSheet, $q,
+                                   topicService, PlaygroundNetService) {
+    var vm = $scope.vm = {};
 
+    vm.topic = topicService.getCurrentDetailTopic();
+    vm.topicId = $stateParams.topicId;
+    vm.topicCommentList = [];
+
+    $scope.$on("$ionicView.afterEnter", function () {
+      vm.refreshCommentList();
+    });
+
+    vm.refreshCommentList = function () {
+      var _innerDefer = $q.defer();
+      PlaygroundNetService.getTopicCommentList(vm.topicId, 0, 0, 10).then(function (res) {
+        vm.topicCommentList = res;
+        _innerDefer.resolve(res);
+      }, function (err) {
+        _innerDefer.reject(err);
+      })
+      return _innerDefer.promise;
+    }
+
+    vm.setCommentFocus = function (event) {
+      vm.isComment = new Object();
+      vm.isComment.content = new Date();
+      vm.replyCommentItem = null;
+      event.stopPropagation();
+    }
+
+    vm.setReplyCommentFocus = function (commentItem, event) {
+      //只有改变isReplyComment的值才能是 focusMe中的watch方法被调用
+      vm.isComment = new Object();
+      vm.isComment.content = new Date();
+
+      vm.replyCommentItem = commentItem;
+      event.stopPropagation();
+    }
+
+    vm.clearReplyComment = function () {
+      vm.isComment = false;
+      vm.replyCommentItem = null;
+    }
+    vm.sendComment = function (event) {
+      var replyOtherCommentId, commentSessionId,replyUserId;
+      if (vm.replyCommentItem != null) {
+        replyOtherCommentId = vm.replyCommentItem.id;
+        commentSessionId = vm.replyCommentItem.commentSessionId;
+        replyUserId = vm.replyCommentItem.commenter.userId;
+      }
+      else {
+        replyUserId = vm.topic.poster.userId;
+      }
+      PlaygroundNetService.addTopicComment(vm.topic.id, vm.sendContent, commentSessionId, replyOtherCommentId,replyUserId).then(function (res) {
+        vm.refreshCommentList();
+        vm.sendContent= null;
+      }, function (error) {
+
+      });
+    }
+
+    vm.doRefresh = function () {
+      PlaygroundNetService.getTopicDetailInfo(vm.topic.id, 0, 0, 10).then(function (res) {
+        vm.topic = res.topic;
+        vm.topicCommentList = res.commentList;
+        $scope.$apply();
+        $scope.$broadcast('scroll.refreshComplete');
+      }, function (error) {
+        $scope.$broadcast('scroll.refreshComplete');
+      });
+    }
+
+    vm.loadMore = function () {
+      var topicId = vm.topic.id;
+      var startCommentId = (vm.topicCommentList != null && vm.topicCommentList.length > 0) ? vm.topicCommentList[0].id : 0;
+      var pageSize = 10;
+      var pageNum = (vm.topicCommentList != null) ? Math.ceil(vm.topicCommentList.length / pageSize) + 1 : 1;
+
+      PlaygroundNetService.getTopicCommentList(topicId, startCommentId, pageNum, pageSize).then(function (res) {
+        if (vm.topicCommentList == null) {
+          vm.topicCommentList = res;
+        }
+        else {
+          vm.topicCommentList = vm.topicCommentList.concat(res);
+          //for(var index = 0; index < res.length; ++index) {
+          //  vm.topicCommentList.push(res[index]);
+          //}
+        }
+
+        $scope.$apply();
+
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+      }, function (err) {
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+      });
+    }
+
+    vm.moreDataCanBeLoaded = function () {
+      if (vm.topicCommentList == null) {
+        return false;
+      }
+
+      if (vm.topicCommentList.length >= vm.topic.commentCount) {
+        return false;
+      }
+      return true;
+    }
+  }
+
+  commentSessionControllerFn.$inject = ['$scope', '$stateParams', '$state', '$log', '$timeout', '$ionicActionSheet', '$q',
+    'topicService', 'PlaygroundNetService'];
+  function commentSessionControllerFn($scope, $stateParams, $state, $log, $timeout, $ionicActionSheet, $q,
+                                      topicService, PlaygroundNetService) {
+    var vm = $scope.vm = {};
+    vm.commentSessionId = $stateParams.sessionId;
+    vm.pageSize = 20;
+    vm.canLoadMoreData = false;
+    $scope.$on("$ionicView.afterEnter", function () {
+      vm.topicCommentList = null;
+      vm.loadMoreCommentList();
+    });
+
+    vm.loadMoreCommentList = function() {
+      var pageNum = (vm.topicCommentList != null) ? Math.ceil(vm.topicCommentList.length / vm.pageSize) + 1 : 1;
+
+      PlaygroundNetService.getTopicCommentListBySessionId(vm.commentSessionId, pageNum, vm.pageSize).then(function (res) {
+        if (vm.topicCommentList == null) {
+          vm.topicCommentList = res;
+        }
+        else {
+          if( res.length > 0 ) {
+            vm.topicCommentList = vm.topicCommentList.concat(res);
+          }
+
+          //for(var index = 0; index < res.length; ++index) {
+          //  vm.topicCommentList.push(res[index]);
+          //}
+        }
+
+        if( res.length < vm.pageSize) {
+          vm.canLoadMoreData = false;
+        }
+        else {
+          vm.canLoadMoreData = true;
+        }
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+      }, function (err) {
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+      });
+    }
+
+
+    vm.moreDataCanBeLoaded = function () {
+      return vm.canLoadMoreData;
+    }
+  }
+
+  ownTopicListControllerFn.$inject = ['$scope','$state', '$log', '$timeout', '$ionicActionSheet', '$q',
+    'topicService', 'PlaygroundNetService'];
+  function ownTopicListControllerFn($scope,  $state, $log, $timeout, $ionicActionSheet, $q,
+                                    topicService, PlaygroundNetService) {
+    var vm = $scope.vm = {};
+    vm.pageSize = 20;
+    vm.canLoadMoreData = false;
+    $scope.$on("$ionicView.afterEnter", function () {
+      vm.topicList = null;
+      vm.loadMoreTopicList();
+    });
+
+    vm.loadMoreTopicList = function() {
+      var pageNum = (vm.topicList != null) ? Math.ceil(vm.topicList.length / vm.pageSize) + 1 : 1;
+
+      PlaygroundNetService.getOwnTopicListByUser(0, pageNum, vm.pageSize).then(function (res) {
+        if (vm.topicList == null) {
+          vm.topicList = res;
+        }
+        else {
+          if( res.length > 0 ) {
+            vm.topicList = vm.topicList.concat(res);
+          }
+        }
+
+        if( res.length < vm.pageSize) {
+          vm.canLoadMoreData = false;
+        }
+        else {
+          vm.canLoadMoreData = true;
+        }
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+      }, function (err) {
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+      });
+    }
+
+
+    vm.moreDataCanBeLoaded = function () {
+      return vm.canLoadMoreData;
+    }
+
+    vm.go2TopicDetail = function (topic) {
+      topicService.setCurrentDetailTopic(topic);
+      $state.go('topic-detail', {'topicId': topic.id});
+    }
+  }
+
+  collectionTopicListControllerFn.$inject= ['$scope','$state', '$log', '$timeout', '$ionicActionSheet', '$q',
+    'topicService', 'PlaygroundNetService'];
+  function collectionTopicListControllerFn($scope,  $state, $log, $timeout, $ionicActionSheet, $q,
+                                           topicService, PlaygroundNetService) {
+    var vm = $scope.vm = {};
+    vm.pageSize = 20;
+    vm.canLoadMoreData = false;
+    $scope.$on("$ionicView.afterEnter", function () {
+      vm.topicList = null;
+      vm.loadMoreTopicList();
+    });
+
+    vm.loadMoreTopicList = function() {
+      var pageNum = (vm.topicList != null) ? Math.ceil(vm.topicList.length / vm.pageSize) + 1 : 1;
+
+      PlaygroundNetService.getCollectionTopicListByUser(pageNum, vm.pageSize).then(function (res) {
+        if (vm.topicList == null) {
+          vm.topicList = res;
+        }
+        else {
+          if( res.length > 0 ) {
+            vm.topicList = vm.topicList.concat(res);
+          }
+        }
+
+        if( res.length < vm.pageSize) {
+          vm.canLoadMoreData = false;
+        }
+        else {
+          vm.canLoadMoreData = true;
+        }
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+      }, function (err) {
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+      });
+    }
+
+
+    vm.moreDataCanBeLoaded = function () {
+      return vm.canLoadMoreData;
+    }
+
+    vm.go2TopicDetail = function (topic) {
+      topicService.setCurrentDetailTopic(topic);
+      $state.go('topic-detail', {'topicId': topic.id});
+    }
+  }
+
+  myCommentListControllerFn.$inject= ['$scope','$state', '$log', '$timeout', '$ionicActionSheet', '$q',
+    'topicService', 'PlaygroundNetService'];
+  function myCommentListControllerFn($scope,  $state, $log, $timeout, $ionicActionSheet, $q,
+                                     topicService, PlaygroundNetService) {
+    var vm = $scope.vm = {};
+    vm.pageSize = 20;
+    vm.canLoadMoreData = false;
+    $scope.$on("$ionicView.afterEnter", function () {
+      vm.topicCommentList = null;
+      vm.loadMoreCommentList();
+    });
+
+    vm.loadMoreCommentList = function() {
+      var pageNum = (vm.topicCommentList != null) ? Math.ceil(vm.topicCommentList.length / vm.pageSize) + 1 : 1;
+
+      PlaygroundNetService.getTopicCommentListByUser(pageNum, vm.pageSize).then(function (res) {
+        if (vm.topicCommentList == null) {
+          vm.topicCommentList = res;
+        }
+        else {
+          if( res.length > 0 ) {
+            vm.topicCommentList = vm.topicCommentList.concat(res);
+          }
+        }
+
+        if( res.length < vm.pageSize) {
+          vm.canLoadMoreData = false;
+        }
+        else {
+          vm.canLoadMoreData = true;
+        }
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+      }, function (err) {
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+      });
+    }
+
+
+    vm.moreDataCanBeLoaded = function () {
+      return vm.canLoadMoreData;
+    }
+
+    vm.go2TopicDetail = function (topic) {
+      topicService.setCurrentDetailTopic(topic);
+      $state.go('topic-detail', {'topicId': topic.id});
+    }
+  }
+
+  myMessageListControllerFn.$inject = ['$scope','$state', '$log', '$timeout', '$ionicActionSheet', '$q',
+    'topicService', 'PlaygroundNetService'];
+
+  function myMessageListControllerFn($scope,  $state, $log, $timeout, $ionicActionSheet, $q,
+                                     topicService, PlaygroundNetService) {
+    var vm = $scope.vm = {};
+    vm.pageSize = 20;
+    vm.canLoadMoreData = false;
+    $scope.$on("$ionicView.afterEnter", function () {
+      vm.topicCommentList = null;
+      vm.loadMoreCommentList();
+    });
+
+    vm.loadMoreCommentList = function() {
+      var pageNum = (vm.topicCommentList != null) ? Math.ceil(vm.topicCommentList.length / vm.pageSize) + 1 : 1;
+
+      PlaygroundNetService.getReplyMessageListByUserId(pageNum, vm.pageSize).then(function (res) {
+        if (vm.topicCommentList == null) {
+          vm.topicCommentList = res;
+        }
+        else {
+          if( res.length > 0 ) {
+            vm.topicCommentList = vm.topicCommentList.concat(res);
+          }
+        }
+
+        if( res.length < vm.pageSize) {
+          vm.canLoadMoreData = false;
+        }
+        else {
+          vm.canLoadMoreData = true;
+        }
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+      }, function (err) {
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+      });
+    }
+
+
+    vm.moreDataCanBeLoaded = function () {
+      return vm.canLoadMoreData;
+    }
+
+    vm.go2TopicDetail = function (topic) {
+      topicService.setCurrentDetailTopic(topic);
+      $state.go('topic-detail', {'topicId': topic.id});
+    }
   }
 })();

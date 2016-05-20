@@ -1,0 +1,75 @@
+<ion-view class="topic-group">
+  <ion-nav-bar class="bar-helporz-theme topic-group">
+    <!--<ion-nav-back-button>-->
+
+    <!--</ion-nav-back-button>-->
+  </ion-nav-bar>
+  <ion-nav-title class="title title-center header-item">
+    <div style="height: 100%">
+     我的消息
+    </div>
+  </ion-nav-title>
+  <ion-content class="has-header rj-stable-content" id="message-detail-content">
+
+    <div class="topic-comment topic-group-wrapper" >
+      <!--<div class="row">-->
+        <!--<span>评论{{vm.topic.commentCount}}条</span>-->
+      <!--</div>-->
+
+      <!--<div class="row" ng-if="vm.topic.commentCount == 0">-->
+        <!--<p>还没有评论，你来试试？</p>-->
+      <!--</div>-->
+      <div class="topic-comment-list">
+        <ion-list class="user-topic">
+          <ion-item ng-repeat="item in vm.topicCommentList">
+            <div class="row">
+
+              <div class="col col-20  col-top">
+                <img class="user-logo" ng-src="{{item.commenter.avatar}}">
+              </div>
+
+              <div class="col col-center col-66">
+                <div class="row">
+                  <p class="title-header">
+                    <span>{{item.commenter.nickname}}</span> <img class="gender-logo"
+                                                                  ng-src="img/user/gender-{{item.commenter.gender}}.png">
+                  </p>
+                </div>
+                <div class="row">
+                  <p class="title-desc">
+                    {{item.created|DateShow}} 来自 {{item.commenter.orgList[0].name}}
+                  </p>
+                </div>
+
+                <div class="row content-wrap">
+                  <p ng-bind-html="item.content" class="auto-wrap"></p>
+                </div>
+
+                <div class="row reply-content" ng-if="item.replyOtherComment != null ">
+                  <p class="auto-wrap"><span class="auto-wrap"> 回复@{{item.replyOtherComment.commenter.nickname}}的评论:</span>
+                    <span ng-bind-html="item.replyOtherComment.content" class="auto-wrap"></span>
+                  </p>
+                  <a ng-href="#/playground/topic/comment-session/{{item.commentSessionId}}">查看会话</a>
+                </div>
+                <div ng-click="vm.go2TopicDetail(item.topic)">查看话题</div>
+              </div>
+
+              <div class="col col-center">
+                <div class="icon ion-chatbox-working" ng-click="vm.setReplyCommentFocus(item,$event)"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col split nopadding"></div>
+            </div>
+
+          </ion-item>
+        </ion-list>
+      </div>
+    </div>
+
+
+    <ion-infinite-scroll ng-if="vm.moreDataCanBeLoaded()" on-infinite="vm.loadMoreCommentList()" distance="1%"></ion-infinite-scroll>
+  </ion-content>
+
+</ion-view>
+

@@ -22,26 +22,26 @@
   <ion-content>
     <div class="row">
       <!--<div class="col col-center icon ion-ios-email-outline" style="text-align:center"> 消息提醒</div>-->
-      <div class="col col-center" style="text-align:center;"> <span class="icon ion-ios-email-outline" style="text-align:center;color:limegreen"></span>消息提醒</div>
+      <div class="col col-center" style="text-align:center;" ng-click="gotoMyMessageList()"> <span class="icon ion-ios-email-outline" style="text-align:center;color:limegreen"></span>消息提醒</div>
     </div>
 
 
     <div class="col-offset-5 split"></div>
 
     <div class="row">
-      <div class="col col-center" style="text-align:center;"> <span class="icon ion-ios-flag-outline" style="text-align:center; color:lightskyblue"></span>我的主题</div>
+      <div class="col col-center" style="text-align:center;" ng-click="gotoOwnTopic()"> <span class="icon ion-ios-flag-outline" style="text-align:center; color:lightskyblue"></span>我的主题</div>
     </div>
 
     <div class="col-offset-5 split"></div>
 
     <div class="row">
       <!--<div class="col icon ion-ios-chatbubble-outline" style="text-align:center"> 我的回复</div>-->
-      <div class="col col-center" style="text-align:center;"> <span class="icon ion-ios-chatbubble-outline" style="text-align:center; color:dodgerblue"></span>我的回复</div>
+      <div class="col col-center" style="text-align:center;" ng-click="gotoMyCommentList()"> <span class="icon ion-ios-chatbubble-outline" style="text-align:center; color:dodgerblue"></span>我的回复</div>
     </div>
     <div class="col-offset-5 split"></div>
     <div class="row">
       <!--<div class="col icon ion-ios-star-outline" style="text-align:center"> 我的收藏</div>-->
-      <div class="col col-center" style="text-align:center;"> <span class="icon ion-ios-star-outline" style="text-align:center;color:gold"></span>我的收藏</div>
+      <div class="col col-center" style="text-align:center;" ng-click="gotoCollectionTopic()"> <span class="icon ion-ios-star-outline" style="text-align:center;color:gold"></span>我的收藏</div>
     </div>
 
   </ion-content>
