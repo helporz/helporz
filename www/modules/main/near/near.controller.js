@@ -6,9 +6,11 @@
   'use strict';
 
   angular.module('main.near')
-    .controller('mainNearCtrl', ['$log', '$ionicLoading', '$timeout', '$scope', 'taskNetService', 'userNetService', 'taskUtils', 'timeUtils', mainNearCtrl]);
+    .controller('mainNearCtrl', ['$log', '$ionicLoading', '$timeout', '$scope', 'taskNetService', 'userNetService',
+      'taskUtils', 'timeUtils', 'impressUtils', mainNearCtrl]);
 
-  function mainNearCtrl($log, $ionicLoading, $timeout, $scope, taskNetService, userNetService, taskUtils, timeUtils) {
+  function mainNearCtrl($log, $ionicLoading, $timeout, $scope, taskNetService, userNetService,
+                        taskUtils, timeUtils, impressUtils) {
     var vm = $scope.vm = {};
 
     vm.doRefresh = function () {
@@ -23,7 +25,10 @@
         taskNetService.cache.isNearTaskNeedRefresh = false;
         _refreshList();
       }
-      vm.orgName = userNetService.cache.selfInfo.orgList[0].name;
+
+      if (ho.isValid(userNetService.cache.selfInfo)) {
+        vm.orgName = userNetService.cache.selfInfo.orgList[0].name;
+      }
 
       //$timeout(function(){
       //  $scope.$apply();
@@ -60,6 +65,7 @@
 
 
       // process attr
+      var impressUI = impressUtils.impressUI();
       for (var i = 0; i < $scope.vm.items.length; i++) {
         var item = $scope.vm.items[i];
         item.icon = taskUtils.iconByTypeValue(item.taskTypesId);
@@ -71,15 +77,20 @@
         if (pieces.length != 6) alert('network err: task created time is not valid')
         var before = new Date(pieces[0], parseInt(pieces[1]) - 1, pieces[2], pieces[3], pieces[4], pieces[5]);
         item.ui_createTime = timeUtils.formatSimpleTimeBeforeNow(before);
+
+        item.ui_tags = item.poster.tags.concat();
+
+        //temp
+        //item.ui_tags = [impressUI[0], impressUI[2], impressUI[3]];
       }
 
       ////避免 $digest / $apply digest in progress
       //if (!$scope.$$phase) {
       //  $scope.$apply();
       //}
-      $timeout(function(){
+      $timeout(function () {
         $scope.$apply();
-        })
+      })
 
     }
 

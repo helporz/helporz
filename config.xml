@@ -61,4 +61,5 @@
   <plugin name="cordova-plugin-camera" spec="~2.1.1"/>
   <plugin name="cordova-plugin-image-picker" spec="https://github.com/wymsee/cordova-imagePicker.git"/>
   <plugin name="cordova-plugin-file-transfer" spec="~1.5.1"/>
+  <plugin name="ionic-plugin-keyboard"/>
 </widget>

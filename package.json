@@ -2,6 +2,9 @@
   "name": "helporz",
   "version": "1.1.1",
   "description": "helporz: An Ionic project",
+  "scripts": {
+    "start": "cd www && python -m SimpleHTTPServer 8000"
+  },
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-concat": "^2.2.0",
@@ -21,9 +24,9 @@
     "cordova-plugin-whitelist",
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
-    "ionic-plugin-keyboard",
     "cordova-plugin-screen-orientation",
-    "cordova-sqlite-storage"
+    "cordova-sqlite-storage",
+    "ionic-plugin-keyboard"
   ],
   "cordovaPlatforms": [
     "ios",

@@ -22,7 +22,7 @@ var enumTestFlag = {
 
 var g_TestFlag = enumTestFlag.NONE;
 
-g_TestFlag = enumTestFlag.NONE;
+//g_TestFlag = enumTestFlag.NONE;
 //g_TestFlag = enumTestFlag.USER_PROTO;
 //g_TestFlag = enumTestFlag.NEAR;
 
