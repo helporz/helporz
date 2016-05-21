@@ -49,7 +49,7 @@
     <splash density="xxxhdpi" src="resources/splash.png"/>
   </platform>
   <plugin name="cordova-sqlite-storage" spec="~0.8.2"/>
-  <plugin name="cordova-plugin-wechat" spec="~1.1.3">
+  <plugin name="cordova-plugin-wechat" spec="~1.1.4">
     <variable name="WECHATAPPID" value="wx83baa5a0812afb2c"/>
   </plugin>
   <plugin name="cordova-plugin-device" spec="~1.1.1"/>

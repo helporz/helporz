@@ -105,6 +105,16 @@
         StatusBar.styleDefault();
       }
 
+      //wechat
+      if( window.cordova && window.cordova.plugins && window.cordova.plugins.Wechat) {
+				window.cordova.plugins.Wechat.isInstalled(function (installed) {
+					alert("Wechat installed: " + (installed ? "Yes" : "No"));
+				}, function (reason) {
+					alert("Failed: " + reason);
+				});
+      }
+
+
       var onOpenNotification = function (event) {
         console.log(" index onOpenNotification");
 
