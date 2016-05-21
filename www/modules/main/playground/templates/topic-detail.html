@@ -6,6 +6,15 @@
     </div>
   </ion-nav-title>
 
+  <ion-nav-buttons side="right">
+    <button class="button icon ion-ios-star-outline"
+            ng-class="{true:'ion-ios-star  collection-color',false:'ion-ios-star-outline'}[vm.collectionTopicService.isCollectionTopic(vm.topicId)]"
+            ng-click="vm.collectionToggle($event)">
+    </button>
+
+    <button class="button icon ion-ios-more" ng-click="vm.showPopover($event)">
+    </button>
+  </ion-nav-buttons>
   <ion-content class="has-header topic-group">
     <ion-refresher pulling-text="刷新中" on-refresh="vm.doRefresh()"></ion-refresher>
 

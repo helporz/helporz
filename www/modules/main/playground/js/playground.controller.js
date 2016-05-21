@@ -690,14 +690,15 @@
   }
 
   topicDetailControllerFn.$inject = ['$scope', '$stateParams', '$state', '$log', '$timeout', '$ionicActionSheet', '$q',
-    'topicService', 'PlaygroundNetService'];
+    'topicService', 'PlaygroundNetService','collectionTopicService','topicBlacklistService'];
   function topicDetailControllerFn($scope, $stateParams, $state, $log, $timeout, $ionicActionSheet, $q,
-                                   topicService, PlaygroundNetService) {
+                                   topicService, PlaygroundNetService,collectionTopicService,topicBlacklistService) {
     var vm = $scope.vm = {};
 
     vm.topic = topicService.getCurrentDetailTopic();
     vm.topicId = $stateParams.topicId;
     vm.topicCommentList = [];
+    vm.collectionTopicService = collectionTopicService;
 
     $scope.$on("$ionicView.afterEnter", function () {
       vm.refreshCommentList();
@@ -798,6 +799,57 @@
       }
       return true;
     }
+
+    vm.collectionToggle = function(event) {
+      if( collectionTopicService.isCollectionTopic(vm.topicId)) {
+        collectionTopicService.cancelCollectionTopic(vm.topicId).then(function() {
+            alert("取消收藏成功");
+        },function() {
+            alert("取消收藏失败");
+        });
+      }
+      else {
+        collectionTopicService.addCollectionTopic(vm.topicId).then(function() {
+          alert("收藏成功");
+        },function() {
+          alert("收藏失败")
+        });
+      }
+    }
+    vm.addTopic2BlackList = function (topic) {
+      //$log.info("add topic " + topicId + " to black list");
+      topicBlacklistService.addTopicBlacklist(topic.id).then(function (topicId) {
+        topic.isShow = false;
+      }, function (exception) {
+        $log.error(exception);
+      });
+    }
+    vm.operateTopic = function() {
+      $ionicActionSheet.show({
+        titleText: '选择',
+        buttons: [
+          {
+            text: '举报'
+          },
+        ],
+        //destructiveText: '删除',
+        cancelText: '取消',
+        cancel: function () {
+          console.log('CANCELLED');
+        },
+        buttonClicked: function (index) {
+          console.log('BUTTON CLICKED', index);
+          vm.addTopic2BlackList(topic);
+
+          return true;
+        },
+        //destructiveButtonClicked: function () {
+        //  console.log('DESTRUCT');
+        //  return true;
+        //}
+      });
+    }
+
   }
 
   commentSessionControllerFn.$inject = ['$scope', '$stateParams', '$state', '$log', '$timeout', '$ionicActionSheet', '$q',
