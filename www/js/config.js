@@ -29,6 +29,10 @@ var g_TestFlag = enumTestFlag.NONE;
 var ho = {
   isValid: function(value){
     return typeof value !== 'undefined' && value !== null;
+  },
+
+  trace: function(obj) {
+    return JSON.stringify(obj);
   }
 }
 

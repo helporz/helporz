@@ -2,7 +2,16 @@
 # http://git-scm.com/docs/gitignore
 
 node_modules/
-platforms/
+
+# 屏蔽platforms下除了ios/helporz/Classes/的所有其他目录和文件
+platforms/*
+!/platforms/ios/
+platforms/ios/*
+!/platforms/ios/helporz/
+platforms/ios/helporz/*
+!/platforms/ios/helporz/Classes/
+
+
 plugins/
 resources/android
 resources/ios

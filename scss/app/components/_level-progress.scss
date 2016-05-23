@@ -19,11 +19,13 @@
       @include display-flex();
       @include flex-direction(row-reverse);
 
-      .level-badge-container {
-        @include align-self(center);
-        position: relative;
+      //.level-badge-container {
+      //  @include align-self(center);
+      //  position: relative;
 
         .level-badge {
+          @include flex(0, 0, 24px);
+          @include align-self(center);
           background-color: white;
           border:1px solid $button-accept-bordercolor;
           border-radius: 12px;
@@ -41,7 +43,7 @@
             font-size: 13px;
           }
         }
-      }
+      //}
 
     }
   }

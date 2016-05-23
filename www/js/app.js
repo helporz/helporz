@@ -34,7 +34,7 @@
       function ($stateProvider, $urlRouterProvider, $httpProvider, $ionicConfigProvider) {
         //configRouter($stateProvider,$urlRouterProvider);
         setHttpProvider($httpProvider);
-        //$ionicConfigProvider.scrolling.jsScrolling(false);
+        $ionicConfigProvider.scrolling.jsScrolling(true);
 
       }]).directive('errSrc', function () {
       return {
