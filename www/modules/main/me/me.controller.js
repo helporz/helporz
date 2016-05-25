@@ -2,16 +2,16 @@
  * Created by Midstream on 16/3/29.
  */
 
-(function () {
+(function (_this) {
   'use strict';
 
   angular.module('main.me')
     .controller('mainMeCtrl', ['$state', '$scope', '$ionicLoading', '$ionicPopup', '$ionicScrollDelegate', '$ionicActionSheet',
       '$timeout', '$interval', 'userNetService',
-      'errorCodeService',  mainMeCtrl])
+      'errorCodeService','debugHelpService',  mainMeCtrl])
 
   function mainMeCtrl($state, $scope, $ionicLoading, $ionicPopup, $ionicScrollDelegate, $ionicActionSheet,
-                      $timeout, $interval, userNetService, errorCodeService) {
+                      $timeout, $interval, userNetService, errorCodeService,debugHelpService) {
     var vm = $scope.vm = {};
 
     vm.cb_edit = function () {
@@ -47,7 +47,8 @@
 
 
         description += ' 图虫日报，精选每日图虫热门图片。'
-
+        debugHelpService.writeObj(window.cordova);
+        debugHelpService.writeObj(window.cordova.plugins);
         if(ho.isValid(window.cordova.plugins.Wechat) == false) {
           alert(window.cordova.plugins.Wechat);
         }
@@ -58,7 +59,7 @@
             thumb:  'http://ww2.sinaimg.cn/large/61ff0de3gw1emj19ju7p4j2030030745.jpg' ,
             media: {
               type: Wechat.Type.WEBPAGE,
-              webpageUrl: post.url
+              webpageUrl: 'http://www.helporz.com/'
             }
           },
           scene: index
@@ -71,7 +72,7 @@
             thumb:  'http://ww2.sinaimg.cn/large/61ff0de3gw1emj19ju7p4j2030030745.jpg' ,
             media: {
               type: Wechat.Type.WEBPAGE,
-              webpageUrl: post.url
+              webpageUrl: 'http://www.helporz.com/'
             }
           },
           scene: index
@@ -294,4 +295,4 @@
   }
 
 
-})()
+})(this);

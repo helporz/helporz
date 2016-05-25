@@ -1,7 +1,7 @@
 <style type="text/css">
   .mypopover {
     width: 150px;
-    height: 210px;
+    height: 260px;
   }
   .mypopover .split {
     border-bottom: 1px solid #ddd;
@@ -41,8 +41,19 @@
     <div class="col-offset-5 split"></div>
     <div class="row">
       <!--<div class="col icon ion-ios-star-outline" style="text-align:center"> 我的收藏</div>-->
-      <div class="col col-center" style="text-align:center;" ng-click="gotoCollectionTopic()"> <span class="icon ion-ios-star-outline" style="text-align:center;color:gold"></span>我的收藏</div>
+      <div class="col col-center" style="text-align:center;" ng-click="gotoCollectionTopic()">
+        <span class="icon ion-ios-star-outline" style="text-align:center;color:gold"></span>
+        我的收藏
+      </div>
     </div>
-
+    <div class="col-offset-5 split"></div>
+    <div class="row">
+      <!--<div class="col icon ion-ios-star-outline" style="text-align:center"> 我的收藏</div>-->
+      <div class="col col-center" style="text-align:center;" ng-click="go2AddTopic()">
+        <span class="icon ion-ios-star-outline" style="text-align:center;color:gold">
+        </span>
+        发布话题
+      </div>
+    </div>
   </ion-content>
 </ion-popover-view>

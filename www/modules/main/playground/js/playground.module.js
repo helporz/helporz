@@ -19,14 +19,14 @@
         controller: 'playgroundListController',
         controllerAs: 'ctl'
       })
-      .state(
-      'topic-group',
-      {
-        url: '/playground/topic-group/{groupId}',
-        templateUrl: 'modules/main/playground/templates/topic-group.html',
-        controller: 'topicGroupController'
-      }
-    )
+    //  .state(
+    //  'topic-group',
+    //  {
+    //    url: '/playground/topic-group/{groupId}',
+    //    templateUrl: 'modules/main/playground/templates/topic-group.html',
+    //    controller: 'topicGroupController'
+    //  }
+    //)
       .state(
       'topic-detail',
       {

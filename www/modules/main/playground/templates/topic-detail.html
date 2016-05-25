@@ -6,13 +6,18 @@
     </div>
   </ion-nav-title>
 
+  <ion-nav-buttons side="left">
+    <button class="button button-icon icon ion-arrow-left-c" ui-sref="main.topic-group({groupId:vm.topic.groupId})">
+    </button>
+  </ion-nav-buttons>
+
   <ion-nav-buttons side="right">
     <button class="button icon ion-ios-star-outline"
             ng-class="{true:'ion-ios-star  collection-color',false:'ion-ios-star-outline'}[vm.collectionTopicService.isCollectionTopic(vm.topicId)]"
             ng-click="vm.collectionToggle($event)">
     </button>
 
-    <button class="button icon ion-ios-more" ng-click="vm.showPopover($event)">
+    <button class="button icon ion-ios-more" ng-click="vm.operateTopic($event)">
     </button>
   </ion-nav-buttons>
   <ion-content class="has-header topic-group">
@@ -88,7 +93,7 @@
       <div class="topic-comment-list">
         <ion-list class="user-topic">
           <ion-item ng-repeat="item in vm.topicCommentList">
-            <div class="row">
+            <div class="row" ng-click="vm.operateComment(item,$event)">
 
               <div class="col col-20  col-top">
                 <img class="user-logo" ng-src="{{item.commenter.avatar}}">

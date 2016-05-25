@@ -150,10 +150,30 @@
       vm.hidePopover();
     }
 
+    vm.go2AddTopic = function () {
+      //$state.go('topic-add', {'groupId': vm.groupId});
+      vm.hidePopover();
+      var publishScope = $scope.$new();
+      publishScope.groupId = vm.groupId;
+      $ionicModal.fromTemplateUrl('modules/main/playground/templates/topic-publish.html', {
+        scope: publishScope,
+        animation: "slide-in-up"
+      }).then(function (modal) {
+        topicModalService.setPublishModal(modal);
+        modal.show();
+      });
+    }
+
+    vm.go2TopicDetail = function (topic) {
+      topicService.setCurrentDetailTopic(topic);
+      $state.go('topic-detail', {'topicId': topic.id});
+    }
+
     popoverScope.gotoOwnTopic = vm.gotoOwnTopic;
     popoverScope.gotoCollectionTopic = vm.gotoCollectionTopic;
     popoverScope.gotoMyMessageList = vm.gotoMyMessageList;
     popoverScope.gotoMyCommentList = vm.gotoMyCommentList;
+    popoverScope.go2AddTopic = vm.go2AddTopic;
     //popupScope.typeName = $scope.publishTaskTypeName;
     $ionicPopover.fromTemplateUrl('modules/main/playground/templates/topic-group-popover.html',
       {
@@ -321,23 +341,6 @@
       });
     }
 
-    vm.go2AddTopic = function () {
-      //$state.go('topic-add', {'groupId': vm.groupId});
-      var publishScope = $scope.$new();
-      publishScope.groupId = vm.groupId;
-      $ionicModal.fromTemplateUrl('modules/main/playground/templates/topic-publish.html', {
-        scope: publishScope,
-        animation: "slide-in-up"
-      }).then(function (modal) {
-        topicModalService.setPublishModal(modal);
-        modal.show();
-      });
-    }
-
-    vm.go2TopicDetail = function (topic) {
-      topicService.setCurrentDetailTopic(topic);
-      $state.go('topic-detail', {'topicId': topic.id});
-    }
 
 
     //[{
@@ -839,17 +842,44 @@
         },
         buttonClicked: function (index) {
           console.log('BUTTON CLICKED', index);
-          vm.addTopic2BlackList(topic);
+          vm.addTopic2BlackList(vm.topic);
 
           return true;
         },
-        //destructiveButtonClicked: function () {
-        //  console.log('DESTRUCT');
-        //  return true;
-        //}
+      });
+
+
+
+    }
+    vm.operateComment = function(comment,event) {
+      $ionicActionSheet.show({
+        titleText: '选择',
+        buttons: [
+          {
+            text: '举报',
+          },
+          {
+            text: '回复',
+          },
+        ],
+        //destructiveText: '删除',
+        cancelText: '取消',
+        cancel: function () {
+          console.log('CANCELLED');
+        },
+        buttonClicked: function (index) {
+          console.log('BUTTON CLICKED', index);
+          if( index == 0 ) {
+            PlaygroundNetService.addComment2Blacklist(vm.topic.groupId,vm.topicId,comment.id);
+          }
+          else if( index == 1 ) {
+            vm.setReplyCommentFocus(comment,event);
+          }
+
+          return true;
+        },
       });
     }
-
   }
 
   commentSessionControllerFn.$inject = ['$scope', '$stateParams', '$state', '$log', '$timeout', '$ionicActionSheet', '$q',

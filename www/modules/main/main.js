@@ -12,7 +12,8 @@
     'main.task',
     'main.me',
     'com.helproz.task.publish',
-    'impress.utils.service'
+    'impress.utils.service',
+    'com.helporz.playground'
   ]).config(mainConfig).controller('mainController', mainControllerFn);
 
   mainControllerFn.$inject = ['$scope', '$ionicModal', 'taskPublishModalService'];
@@ -61,12 +62,12 @@
         }
       })
 
-      .state('main.post', {
-        url: '/post',
+      .state('main.topic-group', {
+        url: '/topic-group/{groupId}',
         views: {
-          'post': {
-            templateUrl: 'modules/main/post/post.html',
-            controller: 'mainPostCtrl'
+          'topic-group': {
+            templateUrl: 'modules/main/playground/templates/topic-group.html',
+            controller: 'topicGroupController'
           }
         }
       })

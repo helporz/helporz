@@ -139,6 +139,15 @@
       return httpBaseService.postForPromise('/playground/topic/blacklist', param);
     }
 
+    var _addComment2Blacklist = function (topicGroupId,topicId,commentId) {
+      var param = {
+        topicGroupId:topicGroupId,
+        topicId: topicId,
+        commentId:commentId,
+      };
+      return httpBaseService.postForPromise('/playground/comment/blacklist', param);
+    }
+
     var _addTopicComment = function (topicId, content, commentSessionId,replyOtherCommentId,replyUserId) {
       var param = {
         content: content,
@@ -192,6 +201,7 @@
       cancelFavouriteTopic: _cancelFavouriteTopic,
       filterTopic: _filterTopic,
       addTopic2Blacklist: _addTopic2Blacklist,
+      addComment2Blacklist:_addComment2Blacklist,
       addTopicComment: _addTopicComment,
       addTopic: _addTopic,
       addCollectionTopic:_addCollectionTopic,
