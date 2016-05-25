@@ -29,10 +29,11 @@
     "cordova-plugin-camera",
     "cordova-plugin-image-picker",
     "ionic-plugin-keyboard",
-    "cordova-plugin-wechat"
+    "cordova-plugin-wechat",
+    "cordova-plugin-jmessage"
   ],
   "cordovaPlatforms": [
-    "ios",
-    "android"
+    "android",
+    "ios"
   ]
 }

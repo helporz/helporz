@@ -2,16 +2,16 @@
  * Created by Midstream on 16/3/29.
  */
 
-(function (_this) {
+(function () {
   'use strict';
 
   angular.module('main.me')
     .controller('mainMeCtrl', ['$state', '$scope', '$ionicLoading', '$ionicPopup', '$ionicScrollDelegate', '$ionicActionSheet',
       '$timeout', '$interval', 'userNetService',
-      'errorCodeService','debugHelpService',  mainMeCtrl])
+      'errorCodeService', mainMeCtrl])
 
   function mainMeCtrl($state, $scope, $ionicLoading, $ionicPopup, $ionicScrollDelegate, $ionicActionSheet,
-                      $timeout, $interval, userNetService, errorCodeService,debugHelpService) {
+                      $timeout, $interval, userNetService, errorCodeService) {
     var vm = $scope.vm = {};
 
     vm.cb_edit = function () {
@@ -21,7 +21,7 @@
       $state.go('main.setting');
     }
 
-    vm.cb_share = function() {
+    vm.cb_share = function () {
       var sheet = {};
       sheet.titleText = '与朋友们分享好图';
       sheet.cancelText = '算了';
@@ -35,48 +35,46 @@
       }];
 
 
-
       $ionicActionSheet.show(sheet);
 
       function buttonClicked(index) {
         //if (!window.Wechat) return;
 
         var title = "title";
-        var thumbnail =  null;
+        var thumbnail = null;
         var description = 'description';
 
 
         description += ' 图虫日报，精选每日图虫热门图片。'
-        debugHelpService.writeObj(window.cordova);
-        debugHelpService.writeObj(window.cordova.plugins);
-        if(ho.isValid(window.cordova.plugins.Wechat) == false) {
+
+        if (ho.isValid(window.cordova.plugins.Wechat) == false) {
           alert(window.cordova.plugins.Wechat);
         }
         Wechat.share({
           message: {
             title: title,
             description: description,
-            thumb:  'http://ww2.sinaimg.cn/large/61ff0de3gw1emj19ju7p4j2030030745.jpg' ,
+            thumb: 'http://ww2.sinaimg.cn/large/61ff0de3gw1emj19ju7p4j2030030745.jpg',
             media: {
               type: Wechat.Type.WEBPAGE,
-              webpageUrl: 'http://www.helporz.com/'
+              webpageUrl: 'http://www.helporz.com'
             }
           },
           scene: index
         });
 
-        window.cordova.plugins.Wechat.share({
-          message: {
-            title: title,
-            description: description,
-            thumb:  'http://ww2.sinaimg.cn/large/61ff0de3gw1emj19ju7p4j2030030745.jpg' ,
-            media: {
-              type: Wechat.Type.WEBPAGE,
-              webpageUrl: 'http://www.helporz.com/'
-            }
-          },
-          scene: index
-        });
+        //window.cordova.plugins.Wechat.share({
+        //  message: {
+        //    title: title,
+        //    description: description,
+        //    thumb:  'http://ww2.sinaimg.cn/large/61ff0de3gw1emj19ju7p4j2030030745.jpg' ,
+        //    media: {
+        //      type: Wechat.Type.WEBPAGE,
+        //      webpageUrl: post.url
+        //    }
+        //  },
+        //  scene: index
+        //});
 
       }
     }
@@ -116,9 +114,9 @@
 
       vm.meInfo.remoteData = selfInfo;
 
-      $timeout(function(){
+      $timeout(function () {
         $scope.$apply();
-        });
+      });
     });
 
     vm.meInfo.accessUserAvatar = function (index) {
@@ -129,7 +127,7 @@
         } else {
           return '';
         }
-      }else{
+      } else {
         return '';
       }
     }
@@ -142,9 +140,6 @@
       //vm.meScroll.scrollTop();
       //$state.go(href);
 
-      vm.activeTab = index == 0 ? 0 : 1;
-      $scope.$broadcast('changeTab', vm.activeTab);
-
       $timeout(function () {
         vm.meScroll.resize();
       }, 300);
@@ -155,6 +150,10 @@
       else {
         vm.self.repeatList = vm.self.friendList;
       }
+
+      console.log('xxx'+ho.trace(vm.self.repeatList));
+
+      vm.activeTab = index == 0 ? 0 : 1;
     };
 
     ////test:
@@ -295,4 +294,4 @@
   }
 
 
-})(this);
+})()

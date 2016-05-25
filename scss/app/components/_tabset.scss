@@ -1,21 +1,32 @@
-@mixin ho-tab-color($color, $is-outline) {
-  @if $is-outline == false {
-    background-color: white;
-    color: $color;
-    border-color: $color;
-  } @else {
-    background-color: $color;
-    color: white;
-    border-color: white;
-  }
+//@mixin ho-tab-color($color, $is-outline) {
+//  @if $is-outline == false {
+//    background-color: white;
+//    color: $color;
+//    border-color: $color;
+//  } @else {
+//    background-color: $color;
+//    color: white;
+//    border-color: white;
+//  }
+//  &.tab-item-active {
+//    @if $is-outline == false {
+//      color: white;
+//      background-color: $color;
+//    } @else {
+//      color: $color;
+//      background-color: white;
+//    }
+//  }
+//}
+
+@mixin ho-tab-color($font, $bg, $border, $active-font, $active-bg, $active-border) {
+  background-color: $bg;
+  color: $font;
+  border-color: $border;
   &.tab-item-active {
-    @if $is-outline == false {
-      color: white;
-      background-color: $color;
-    } @else {
-      color: $color;
-      background-color: white;
-    }
+    background-color: $active-bg;
+    color: $active-font;
+    border-color: $active-border;
   }
 }
 
@@ -52,13 +63,38 @@ $tab-font-size: 12px;
 
     &.ho-tabset-theme {
       > ho-tab {
-        @include ho-tab-color($color-theme, false);
+        @include ho-tab-color($color-theme, white, $color-theme, white, $color-theme, $color-theme);
       }
     }
     &.ho-tabset-outline-theme {
       > ho-tab {
-        @include ho-tab-color($color-theme, true);
+        @include ho-tab-color(white, $color-theme, white, $color-theme, white, white);
       }
     }
   }
+
+  &.ho-tabset-block {
+    width: 100%;
+    @include display-flex();
+
+    > ho-tab {
+      border-style: solid;
+      border-width: 0 0 4px;
+
+      height: $tab-round-radius*2;
+      font-size: $tab-font-size;
+      padding: 0 7px;
+      @include display-flex();
+      @include align-items(center);
+      @include justify-content(center);
+
+      @include ho-tab-color($color-text-secondary, white, white, $color-theme, white, $color-theme);
+
+      &.col-2 {
+        @include flex(0, 0, 50%);
+      }
+
+    }
+  }
+
 }

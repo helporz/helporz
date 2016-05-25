@@ -55,12 +55,19 @@
 
     <!--//////////////////////////////////////////////////-->
 
-    <ion-tabs class="tabs-striped padding-top" delegate-handle="meTabs">
-      <ion-tab title="自己" ng-click="vm.onChangeTab(0)" tab-simple tab-index="0">
-      </ion-tab>
-      <ion-tab title="伙伴" ng-click="vm.onChangeTab(1)" tab-simple tab-index="1">
-      </ion-tab>
-    </ion-tabs>
+    <!--<ion-tabs class="tabs-striped padding-top" delegate-handle="meTabs">-->
+    <!--<ion-tab title="自己" ng-click="vm.onChangeTab(0)" tab-simple tab-index="0">-->
+    <!--</ion-tab>-->
+    <!--<ion-tab title="伙伴" ng-click="vm.onChangeTab(1)" tab-simple tab-index="1">-->
+    <!--</ion-tab>-->
+    <!--</ion-tabs>-->
+
+    <ho-tab-set widget-id="meMid" class="ho-tabset ho-tabset-block ho-tabset-outline-theme">
+      <ho-tab class="col-2" on-select="vm.onChangeTab(0)" style="font-size:14px;padding-top:5px;height:48px;">
+        <strong>自己</strong></ho-tab>
+      <ho-tab class="col-2" on-select="vm.onChangeTab(1)" style="font-size:14px;padding-top:5px;height:48px;">
+        <strong>伙伴</strong></ho-tab>
+    </ho-tab-set>
 
     <div class="tab-panel">
       <div ng-show="vm.activeTab == 0">
@@ -79,9 +86,9 @@
           <ion-item class="ho-item">
             <p class="title">级别</p>
             <level-progress ng-show="vm.meInfo.remoteData != null"
-              has-exp="vm.meInfo.remoteData.experience"
-              total-exp="vm.meInfo.remoteData.upgradeExperience"
-              level="vm.meInfo.remoteData.level"
+                            has-exp="vm.meInfo.remoteData.experience"
+                            total-exp="vm.meInfo.remoteData.upgradeExperience"
+                            level="vm.meInfo.remoteData.level"
               ></level-progress>
           </ion-item>
 
@@ -150,7 +157,6 @@
           </ion-item>
         </ion-list>
       </div>
-      <!--<div ng-show="vm.activeTab == 1">-->
       <ion-list class="ho-list friend">
         <ion-item class="ho-item ho-item-avatar" collection-repeat="item in vm.self.repeatList" item-height="54px"
                   item-width="100%">
@@ -161,21 +167,20 @@
 
           <div class="content">
             <p class="name">{{item.name}}</p>
-
             <p class="desc">{{item.desc}}</p>
           </div>
+          <!-- lkj:note: 这里不加vm.activeTab==1 多点几次会使ng-hide失效.不知道这坑是为啥...-->
           <button class="right ho-button button-theme button-outline ho-button-small ion-ios-plus-empty"
-                  ng-show="item.follow==false">&nbsp关注
+                  ng-hide ng-show="vm.activeTab == 1 &&item.follow==false">&nbsp关注
           </button>
           <button
             class="right ho-button button-theme button-gray button-outline ho-button-small ion-ios-checkmark-empty"
-            ng-show="item.follow==true">&nbsp已关注
+            ng-hide ng-show="vm.activeTab == 1  && item.follow==true">&nbsp已关注
           </button>
         </ion-item>
 
       </ion-list>
 
-      <!--</div>-->
     </div>
 
   </ion-content>

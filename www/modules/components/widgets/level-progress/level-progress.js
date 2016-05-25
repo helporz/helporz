@@ -33,8 +33,11 @@
             })
 
             var levelBadgeCtnEle = angular.element(barEle.children()[0]);
-            var levelBadgeEle = angular.element(levelBadgeCtnEle.children()[0]);
-            var levelEle = angular.element(levelBadgeEle.children()[0]);
+            //var levelBadgeEle = angular.element(levelBadgeCtnEle.children()[0]);
+            //var levelEle = angular.element(levelBadgeEle.children()[0]);
+
+            var levelEle = angular.element(levelBadgeCtnEle.children()[0]);
+
             levelEle.html('' + scope.level);
 
             var expEle = bgEle.next();
