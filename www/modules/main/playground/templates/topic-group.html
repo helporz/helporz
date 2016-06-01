@@ -169,33 +169,35 @@
   <ion-content class="has-header topic-group">
     <ion-refresher pulling-text="刷新中" on-refresh="vm.doRefresh()"></ion-refresher>
 
-    <div class="row group-info">
-      <div class="col col-center">
-        <img ng-src="{{vm.topicGroup.pic}}">
-      </div>
+    <!--<div class="row group-info">-->
+      <!--<div class="col col-center">-->
+        <!--<img ng-src="{{vm.topicGroup.pic}}">-->
+      <!--</div>-->
 
-      <div class="col col-offset-5 col-center col-75">
-        <p ng-bind-html="vm.topicGroup.description"></p>
-      </div>
+      <!--<div class="col col-offset-5 col-center col-75">-->
+        <!--<p ng-bind-html="vm.topicGroup.description"></p>-->
+      <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="public-notice">-->
+      <!--<div class="row bgc">-->
+        <!--<div class="col col-center col-10">-->
+          <!--<img class="sys-logo" ng-src="img/playground/sys-notice-logo.png">-->
+        <!--</div>-->
+
+        <!--<div class="col col-center col-80 title-header" style="text-align: left">-->
+          <!--版规公告-->
+        <!--</div>-->
+
+      <!--</div>-->
+
+      <!--<div class="row content-wrap">-->
+        <!--<p ng-bind-html="vm.topicGroup.publicNotice"></p>-->
+      <!--</div>-->
+    <!--</div>-->
+    <div style="padding:0;margin: 0;height: auto;width: auto">
+      <img src="img/playground/topic_group_head.png" style="width: 100%;display:block;">
     </div>
-
-    <div class="public-notice">
-      <div class="row bgc">
-        <div class="col col-center col-10">
-          <img class="sys-logo" ng-src="img/playground/sys-notice-logo.png">
-        </div>
-
-        <div class="col col-center col-80 title-header" style="text-align: left">
-          版规公告
-        </div>
-
-      </div>
-
-      <div class="row content-wrap">
-        <p ng-bind-html="vm.topicGroup.publicNotice"></p>
-      </div>
-    </div>
-
     <ion-list class="sys-topic">
       <ion-item ng-repeat="item in vm.sysTopicList | filter:{isShow:true}:true">
 
@@ -251,20 +253,41 @@
       <ion-item ng-repeat="item in vm.userTopicList | filter:{isShow:true}:true">
         <div class="row">
 
-          <div class="col col-20  col-center">
+          <div class="col col-15  col-center">
             <img class="user-logo" ng-src="{{item.poster.avatar}}">
           </div>
 
-          <div class="col col-center col-66">
-            <p class="title-header">
-              <span>{{item.poster.nickname}}</span> <img class="gender-logo" ng-src="img/user/gender-{{item.poster.gender}}.png">
-            </p>
+          <div class="col col-center" style="border-bottom:1px solid #e4e5e7">
+            <div class="row">
+              <div class="title-header col col-50">
+                <span>{{item.poster.nickname}}</span> <img class="gender-logo" ng-src="img/user/gender-{{item.poster.gender}}.png">
+              </div>
 
-            <p class="title-desc">
-              {{item.created|DateShow}} 来自 {{item.poster.orgList[0].name}}
-            </p>
+              <div class="title-desc col col-50" style="text-align: right">
+                {{item.created|DateShow}} 来自 {{item.poster.orgList[0].name}}
+              </div>
+            </div>
+            <div class="row">
+              <ion-list>
+                <ion-item ng-repeat="ut in item.poster.tags">
+                  <span> {{ut.tagName}}</span>
+                </ion-item>
+              </ion-list>
+              <!--<p class="title-desc">-->
+                <!--{{item.created|DateShow}} 来自 {{item.poster.orgList[0].name}}-->
+              <!--</p>-->
+            </div>
           </div>
-          <div class="col  icon ion-chevron-down col-top"  style="text-align:center" ng-click="vm.moreOpt(item)"></div>
+          <!--<div class="col col-center col-66">-->
+            <!--<p class="title-header">-->
+              <!--<span>{{item.poster.nickname}}</span> <img class="gender-logo" ng-src="img/user/gender-{{item.poster.gender}}.png">-->
+            <!--</p>-->
+
+            <!--<p class="title-desc">-->
+              <!--{{item.created|DateShow}} 来自 {{item.poster.orgList[0].name}}-->
+            <!--</p>-->
+          <!--</div>-->
+          <!--<div class="col  icon ion-chevron-down col-top"  style="text-align:center" ng-click="vm.moreOpt(item)"></div>-->
         </div>
 
         <div class="row content-wrap">

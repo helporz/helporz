@@ -37,7 +37,7 @@
         rewardCount: rewardCount,
         payMethodType: payMethodType,
       };
-      return httpBaseService.postForPromise('/task/post/v2', taskInfo);
+      return httpBaseService.postForPromise('/v2/task/post', taskInfo);
     };
 
     var _acceptTask = function (taskId) {
@@ -71,7 +71,7 @@
         comment: comment,
         tags: tagList
       };
-      return httpBaseService.postForPromise('/task/' + taskId + '/comment_by_poster', data);
+      return httpBaseService.postForPromise('/v2/task/' + taskId + '/comment_by_poster', data);
     }
 
     var _commentByAcceptor = function (taskId, commentLevel, comment, tagList) {
@@ -81,7 +81,7 @@
         tags: tagList
       };
 
-      return httpBaseService.postForPromise('/task/' + taskId + '/comment_by_accepter', data);
+      return httpBaseService.postForPromise('/v2/task/' + taskId + '/comment_by_accepter', data);
     }
 
     var _queryNewTaskList = function () {
