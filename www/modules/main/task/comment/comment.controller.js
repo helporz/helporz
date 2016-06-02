@@ -122,6 +122,13 @@
     //重置选择信息
     vm.impressUi = impressUtils.impressUI();
     vm.impressIndices = [];
+    var buildImpressIdList = function(impressIndices) {
+      var idListString = (impressIndices[0] + 1 ).toString();
+      for(var idx = 1; idx < impressIndices.length; ++idx ) {
+        idListString += ',' + (impressIndices[idx] + 1).toString();
+      }
+      return idListString;
+    }
 
     vm.cb_impressSelect = function (index) {
       console.log("index:" + vm.impressIndices.indexOf(index));
@@ -160,18 +167,24 @@
       //is acceptor
       if (vm.isAccepter) {
         //ask:xiaolang, fourth param 'tagList' is array?
-        taskNetService.commentByAcceptor(vm.taskId, vm.starScore, vm.commentText, vm.impressIndices).then(
-          function (data, status) {
-            console.log(data);
-            if (status == 200) {
-            } else {
-            }
-          }, function (data, status) {
+        var imgNativePathList = [];
+        var audioNativePathList = [];
+        taskNetService.commentByAcceptor(vm.taskId, vm.starScore, vm.commentText, buildImpressIdList(vm.impressIndices),
+          imgNativePathList,
+          audioNativePathList).then(
+          function (res) {
+            $ionicPopup.alert({
+              title: '成功提示',
+              template: '评论成功'
+            }).then(function (res) {
+              console.error(res);
+            })
+          }, function (error) {
             $ionicPopup.alert({
               title: '错误提示',
-              template: data
+              template:error
             }).then(function (res) {
-              console.error(data);
+              console.error(res);
             })
           }).finally(function () {
             $ionicLoading.hide();
@@ -179,18 +192,23 @@
       }
       // is poster
       else {
-        taskNetService.commentByPoster(task.id, vm.starScore, vm.commentText, vm.impressIndices).then(
-          function (data, status) {
-            console.log(data);
-            if (status == 200) {
-            } else {
-            }
-          }, function (data, status) {
+        var imgNativePathList = [];
+        var audioNativePathList = [];
+        taskNetService.commentByPoster(vm.taskId, vm.starScore, vm.commentText, buildImpressIdList(vm.impressIndices),imgNativePathList,
+          audioNativePathList).then(
+          function (res) {
+            $ionicPopup.alert({
+              title: '成功提示',
+              template: '评论成功'
+            }).then(function (res) {
+              console.error(res);
+            })
+          }, function (error) {
             $ionicPopup.alert({
               title: '错误提示',
-              template: data
+              template:error
             }).then(function (res) {
-              console.error(data);
+              console.error(res);
             })
           }).finally(function () {
             $ionicLoading.hide();

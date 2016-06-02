@@ -161,13 +161,14 @@
       $state.go('main.task-state', {id: taskId});
     };
 
-    var gotoComment = function (taskId) {
-      $state.go('main.comment');
+    var gotoComment = function (taskId,who) {
+      $state.go('main.comment', {desc: who +'-'+taskId});
     };
+
     vm.gotoComment = function (taskId) {
       if (canClick()) {
-        //$state.go('main.comment', {desc: 'accepter-'+taskId});
-        $state.go('main.comment', {desc: 'accepter-' + '516'});
+        $state.go('main.comment', {desc: 'accepter-'+taskId});
+        //$state.go('main.comment', {desc: 'accepter-' + '516'});
       }
     };
 
@@ -214,7 +215,7 @@
         }
         else if (task.status == 64) { //accepter confirm success  -- 未完成援助
           $ionicLoading.show();
-          taskNetService.confirmByPoster(task.id, 200).then(  //ask:xiaolang  status: success,failed
+          taskNetService.confirmByPoster(task.id, 128).then(  //ask:xiaolang  status: success,failed
             function (data, status) {
               console.log(data);
               if (data.code == 200) {
@@ -311,14 +312,14 @@
           console.error('invalid task opt: going on - post passive');
         }
         else if (task.status == 8) {  //going on overtime -- 评价
-          gotoComment(task.id);
+          gotoComment(task.id,'poster');
         }
         else if (task.status == 32) { //accepter cancel -- 评价
-          gotoComment(task.id);
+          gotoComment(task.id,'poster');
         }
         else if (task.status == 64) { //accepter confirm success  -- 确认完成援助
           $ionicLoading.show();
-          taskNetService.confirmByPoster(task.id, 200).then(  //ask:xiaolang  status: success,failed
+          taskNetService.confirmByPoster(task.id, 128).then(  //ask:xiaolang  status: success,failed
             function (data, status) {
               console.log(data);
               if (data.code == 200) {
@@ -339,10 +340,10 @@
             });
         }
         else if (task.status == 128) { //poster confirm success -- 评价
-          gotoComment(task.id);
+          gotoComment(task.id,'poster');
         }
         else if (task.status == 256) { //poster confirm failed -- 评价
-          gotoComment(task.id);
+          gotoComment(task.id,'poster');
         }
       }
       // accepter
@@ -376,7 +377,7 @@
             });
         }
         else if (task.status == 8) {  //going on overtime -- 评价
-          gotoComment(task.id);
+          gotoComment(task.id,'accepter');
         }
         else if (task.status == 32) { //accepter cancel -- 查看评价
           gotoTaskState(task.id);
@@ -385,10 +386,10 @@
           console.error('invalid task opt: accepter confirm success - accepter active');
         }
         else if (task.status == 128) { //accepter confirm success -- 评价留言
-          gotoComment(task.id);
+          gotoComment(task.id,'accepter');
         }
         else if (task.status == 256) { //accepter confirm failed -- 评价留言
-          gotoComment(task.id);
+          gotoComment(task.id,'accepter');
         }
       }
     }
