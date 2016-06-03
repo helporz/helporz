@@ -74,6 +74,11 @@
             id:12,
             text: '暴躁',
             className: 'impress-12'
+          },
+          {
+            id:13,
+            text: '江湖菜鸟',
+            className: 'impress-13'
           }
         ]
       }
