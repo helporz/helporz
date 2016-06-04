@@ -673,7 +673,8 @@
         }
         for (var index = 0; index < self.imgList.length; ++index) {
 
-          var uploadRet = uploadService.uploadImgFile(imgList[index].nativeUrl, appConfig.API_SVC_URL + '/playground/topic/' + topicId + '/img/' + index, headers);
+          var uploadRet = uploadService.uploadImgFile(imgList[index].nativeUrl, appConfig.API_SVC_URL +
+            '/playground/topic/' + topicId + '/img/' + index, headers);
           if (uploadRet != null) {
             pArray.push(uploadRet);
           }
