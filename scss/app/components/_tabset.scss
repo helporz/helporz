@@ -93,7 +93,26 @@ $tab-font-size: 12px;
       &.col-2 {
         @include flex(0, 0, 50%);
       }
+    }
+  }
 
+  &.ho-tabset-gray {
+    width: 100%;
+    @include display-flex();
+
+    > ho-tab {
+      height: $tab-round-radius*2;
+      font-size: $tab-font-size;
+      padding: 0;
+      @include display-flex();
+      @include align-items(center);
+      @include justify-content(center);
+
+      @include ho-tab-color($color-text-thirdly, white, white, $color-text-secondary, $color-page-bg-weak, white);
+
+      &.col-2 {
+        @include flex(0, 0, 50%);
+      }
     }
   }
 

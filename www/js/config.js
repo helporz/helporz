@@ -18,6 +18,8 @@ var enumTestFlag = {
   USER_PROTO: 1,
 
   NEAR: 2,
+
+  INFO: 3,
 };
 
 var g_TestFlag = enumTestFlag.NONE;
@@ -25,6 +27,7 @@ var g_TestFlag = enumTestFlag.NONE;
 //g_TestFlag = enumTestFlag.NONE;
 //g_TestFlag = enumTestFlag.USER_PROTO;
 //g_TestFlag = enumTestFlag.NEAR;
+g_TestFlag = enumTestFlag.INFO;
 
 var ho = {
   isValid: function(value){

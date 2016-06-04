@@ -24,7 +24,10 @@
 .ho-rmb-on:before,
 .ho-who:before,
 .ho-head-1:before,
-.ho-head-2:before {
+.ho-head-2:before,
+.ho-graduation-cap:before,
+.ho-gender-both:before,
+.ho-person:before {
   display: inline-block;
   font-family: "Hoicons";
   speak: none;
@@ -78,5 +81,14 @@
 
 .ho-head-2:before {
   content: ""; }
+
+.ho-graduation-cap:before {
+  content: ""; }
+
+.ho-gender-both:before {
+  content: ""; }
+
+.ho-person:before {
+  content: ""; }
 
 /*# sourceMappingURL=hoicons.css.map */

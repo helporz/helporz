@@ -15,6 +15,10 @@
 .#{$hoicons-prefix}who:before,
 .#{$hoicons-prefix}head-1:before,
 .#{$hoicons-prefix}head-2:before,
+.#{$hoicons-prefix}graduation-cap:before,
+.#{$hoicons-prefix}gender-both:before,
+.#{$hoicons-prefix}person:before,
+
 {
   @extend .ion;
 }
@@ -33,3 +37,6 @@
 .#{$hoicons-prefix}who:before{ content: $hoicon-var-who; }
 .#{$hoicons-prefix}head-1:before{ content: $hoicon-var-head-1; }
 .#{$hoicons-prefix}head-2:before{ content: $hoicon-var-head-2; }
+.#{$hoicons-prefix}graduation-cap:before{ content: $hoicon-var-graduation-cap; }
+.#{$hoicons-prefix}gender-both:before{ content: $hoicon-var-gender-both; }
+.#{$hoicons-prefix}person:before{ content: $hoicon-var-person; }
