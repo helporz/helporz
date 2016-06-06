@@ -6,6 +6,7 @@
   'use strict';
 
   angular.module('info.schoolSearch', [
+    'info',
     'components.widgets.searchPage'
   ]);
 //    .config(config);

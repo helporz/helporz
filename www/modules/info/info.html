@@ -57,13 +57,13 @@
         <i class="item-icon icon ho-graduation-cap color-text-secondary"></i>
 
         <div class="item-content">
-          <p class="left-text">来自哪所高校</p>
+          <p class="left-text">{{vm.info.schoolName}}</p>
         </div>
         <i class="right icon ion-ios-arrow-right color-text-secondary"></i>
       </div>
 
       <div style="padding:20px 10px 0px 10px">
-        <button class="ho-button-block button-theme">
+        <button class="ho-button-block button-theme" ng-click="vm.info.cb_ok()">
           进入大侠拜托
         </button>
       </div>

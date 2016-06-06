@@ -1,4 +1,4 @@
-<ion-view view-title="选择学校">
+<ion-view view-title="选择学校" class="school-search">
   <!--<div class="nav row">-->
 
   <!--<button class="button button-icon icon ion-compose" ng-click="vm.cb_edit()"></button>-->
@@ -6,8 +6,22 @@
   <!--<button class="button button-icon icon ion-gear-a" ng-click="vm.cb_setting()"></button>-->
   <!--</div>-->
 
-  <ion-content class="info">
+  <div class="input-panel">
+    <div class="input-region">
+      <i class="input-icon icon ion-ios-search-strong color-text-secondary font-size-17"></i>
+      <input type="text" ng-model="vm.input" placeholder="请输入学校">
+    </div>
+  </div>
 
+  <ion-content class="info" style="position: absolute; top:110px; z-index: -1">
+
+    <!--<search-page items="vm.schoolsInfo"></search-page>-->
+
+    <ion-list class="ho-list">
+      <ion-item class="school-search-item" collection-repeat="item in vm.ui_items" ng-click="vm.cb_selectItem($index)" item-height="52px">
+        {{item.name}}
+      </ion-item>
+    </ion-list>
 
   </ion-content>
 
