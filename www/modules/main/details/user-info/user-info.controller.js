@@ -7,9 +7,10 @@
 
   angular.module('main.userInfo')
     .controller('mainUserInfoCtrl', ['$scope', '$timeout', '$state', '$stateParams', '$ionicLoading', 'taskNetService', 'userNetService', 'taskUtils',
-      '$ionicHistory', mainUserInfoCtrl]);
+      '$ionicHistory', 'impressUtils', mainUserInfoCtrl]);
 
-  function mainUserInfoCtrl($scope, $timeout, $state, $stateParams, $ionicLoading, taskNetService, userNetService, taskUtils, $ionicHistory) {
+  function mainUserInfoCtrl($scope, $timeout, $state, $stateParams, $ionicLoading, taskNetService, userNetService,
+                            taskUtils, $ionicHistory, impressUtils) {
     console.log($stateParams);
 
     var vm = $scope.vm = {};
@@ -17,6 +18,10 @@
     vm.userInfo = {};
     $scope.$on("$ionicView.enter", function () {
       vm.userInfo.remoteData = userNetService.cache.userInfo[$stateParams.id];
+
+      var impressUI = impressUtils.impressUI();
+      vm.userInfo.ui_tags = vm.userInfo.remoteData.tags.concat();
+      vm.userInfo.ui_tags = [impressUI[0], impressUI[2], impressUI[3]];
     });
 
     vm.userInfo.accessUserAvatar = function (index) {

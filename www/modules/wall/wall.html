@@ -1,0 +1,61 @@
+<ion-view view-title="开启本校服务">
+  <!--<div class="nav row">-->
+
+  <!--<button class="button button-icon icon ion-compose" ng-click="vm.cb_edit()"></button>-->
+  <!--<p class="text-center name color-white">{{vm.meInfo.remoteData.nickname}}</p>-->
+  <!--<button class="button button-icon icon ion-gear-a" ng-click="vm.cb_setting()"></button>-->
+  <!--</div>-->
+
+  <ion-content class="wall">
+
+    <img class="bgimg" src="img/wall/lanjie-di@2x.png">
+    </img>
+
+    <div class="top-panel">
+      <i class="top-icon icon ion-trophy"></i>
+
+      <p class="top-txt">100位小伙伴加入可开启本校服务</p>
+    </div>
+
+    <div class="count-panel">
+      <div class="person-count-panel">
+        <p class="person-count">{{vm.ui_person}}</p>
+
+        <p class="person-txt">人</p>
+      </div>
+
+      <p class="txt-enter-school">{{vm.ui_hasEnter}}</p>
+    </div>
+
+
+    <div class="div-line"></div>
+
+    <div class="mid-panel">
+      <p class="txt-reward">奖励</p>
+
+      <p class="txt-reward-desc">前100名小伙伴</p>
+
+      <div class="reward-panel">
+
+        <div class="reward-icon-panel">
+          <img class="reward-icon" src="img/wall/lanjie-reward1@2x.png">
+          <p class="reward-txt">创建者头衔</p>
+        </div>
+        <div class="reward-icon-panel">
+          <img class="reward-icon" src="img/wall/lanjie-reward2@2x.png">
+          <p class="reward-txt">应用道具</p>
+        </div>
+
+      </div>
+    </div>
+
+  </ion-content>
+
+  <div class="bar bar-footer wall-footer">
+    <div class="bottom-panel">
+      <p class="bottom-txt">召唤更多小伙伴来玩</p>
+      <button class="ho-button ho-button-small bottom-ok" ng-click="vm.cb_share()">召唤</button>
+    </div>
+  </div>
+
+</ion-view>

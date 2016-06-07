@@ -33,17 +33,18 @@
 
   .back-img {
     //background-image:  url(../img/main/me/wo-zi-bg@2x.png) no-repeat 0 5px scroll;
-    background-image: url(../img/main/me/wo-zi-bg@2x.png);
+    //background-image: url(../img/main/me/wo-zi-bg@2x.png);
+    background-color: $color-theme;
     //float: top;
     position: fixed;
     //top: -80px;
     width: 100%;
-    height: 230px;
+    height: 180px;
     z-index: -999;
   }
 
   .mid {
-    padding-top: 84px;
+    padding-top: 15px;
     .left {
       margin-left: 17%;
     }
@@ -62,10 +63,37 @@
     }
   }
 
-  .sign {
-    padding-top: 10px;
-    font-size: 15px;
-    color: #fff;
+  .sign-impress-panel {
+    @include display-flex();
+    @include align-items(center);
+    @include flex-direction(column);
+
+    width: 100%;
+    height: 55px;
+
+    .sign {
+      padding: 0 0 0 3px;
+      font-size: 13px;
+      color: #fff;
+    }
+
+    .bottom {
+      margin-top: 2px;
+      line-height: 1;
+
+      @include display-flex();
+      @include align-items(center);
+      @include justify-content(center);
+
+      .impress-panel {
+        margin-right: 5px;
+
+        .elem {
+          margin-bottom: 0;
+        }
+      }
+
+    }
   }
 
   .tab-container {

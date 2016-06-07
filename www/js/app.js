@@ -26,7 +26,8 @@
     'com.helproz.task.publish',
     'com.helporz.playground',
     'main',
-    'info'
+    'info',
+    'wall',
   ])
 
     .run(init)

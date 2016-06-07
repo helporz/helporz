@@ -14,12 +14,11 @@ var appConfig = {
 // 测试flag
 var enumTestFlag = {
   NONE: 0,
-
   USER_PROTO: 1,
-
   NEAR: 2,
-
   INFO: 3,
+  WALL: 4,
+
 };
 
 var g_TestFlag = enumTestFlag.NONE;
@@ -27,7 +26,8 @@ var g_TestFlag = enumTestFlag.NONE;
 //g_TestFlag = enumTestFlag.NONE;
 //g_TestFlag = enumTestFlag.USER_PROTO;
 //g_TestFlag = enumTestFlag.NEAR;
-g_TestFlag = enumTestFlag.INFO;
+//g_TestFlag = enumTestFlag.INFO;
+//g_TestFlag = enumTestFlag.WALL;
 
 var ho = {
   isValid: function(value){
