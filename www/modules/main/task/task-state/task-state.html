@@ -29,9 +29,9 @@
               <p class="time">{{vm.task.ext_createTime}}</p>
             </div>
             <div class="bottom">
-              <p class="elem text-tag user-tag-color-0">女神</p>
-
-              <p class="elem text-tag user-tag-color-1">娇气包</p>
+              <div class="impress-panel" ng-repeat="item in vm.task.ui_tags">
+                <p class="elem text-tag toggle-on {{item.className}}">{{item.text}}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -128,12 +128,11 @@
       </div>
 
       <div class="star-panel">
-        <five-stars value="2.2"></five-stars>
+        <five-stars value={{vm.ui_otherCommentLevel}}></five-stars>
       </div>
 
-      <div class="impress-panel">
-        <p class="text-tag user-tag-color-0">女神</p>
-        <p class="text-tag user-tag-color-1">女神</p>
+      <div class="impress-panel" ng-repeat="item in vm.ui_myCommentTags">
+        <p class="text-tag toggle-on {{item.className}}">{{item.text}}</p>
       </div>
 
       <div class="div-text-panel">
@@ -143,7 +142,7 @@
       </div>
 
       <div class="comment-panel">
-        如他们在宣传时所说，他们实现了一套类似css的子集，用来解决样式问题
+        {{vm.ui_otherComment}}
       </div>
     </div>
 
@@ -157,12 +156,11 @@
       </div>
 
       <div class="star-panel">
-        <five-stars value=""></five-stars>
+        <five-stars value={{vm.ui_myCommentLevel}}>></five-stars>
       </div>
 
-      <div class="impress-panel">
-        <p class="text-tag user-tag-color-0">女神</p>
-        <p class="text-tag user-tag-color-1">女神</p>
+      <div class="impress-panel" ng-repeat="item in vm.ui_otherCommentTags">
+        <p class="text-tag toggle-on {{item.className}}">{{item.text}}</p>
       </div>
 
       <div class="div-text-panel">
@@ -172,7 +170,7 @@
       </div>
 
       <div class="comment-panel">
-        如他们在宣传时所说，他们实现了一套类似css的子集，用来解决样式问题
+        {{vm.task.ui_myComment}}
       </div>
     </div>
 

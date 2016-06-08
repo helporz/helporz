@@ -1,0 +1,42 @@
+.school-search {
+
+  .input-panel {
+    background-color: $color-div-line;
+    padding: 5px 5px;
+    //border-width: 0 0 1px 0;
+    //border-style: solid;
+    //border-color: $color-div-line;
+
+    position: absolute;
+    top: 64px;
+    width: 100%;
+
+    .input-region {
+      @include display-flex();
+
+      background-color: white;
+
+      border: 1px solid $color-div-line;
+      border-radius: 7px;
+
+      .input-icon {
+        margin: 7px 0 0 8px;
+      }
+
+      input {
+        position: relative;
+        left: 4px;
+        //margin: 7px 0;
+        padding: 1px 0 0 0;
+        width: 90%;
+      }
+    }
+  }
+
+  .school-search-item {
+    &.activated {
+      background-color: $color-page-bg;
+    }
+
+  }
+}

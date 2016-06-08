@@ -37,7 +37,13 @@
         $stateProvider.state('userProto',{
           url:'/user/proto',
           templateUrl:'modules/login/user-proto.html'
-        })
+        });
+        $stateProvider.state('info', {
+          url: '/info',
+          templateUrl: 'modules/info/info.html',
+          controller: 'infoCtrl'
+        });
+
         // if none of the above states are matched, use this as the fallback
 
         if(g_TestFlag == enumTestFlag.NEAR) {
@@ -46,6 +52,9 @@
         }
         else if(g_TestFlag == enumTestFlag.USER_PROTO){
           $urlRouterProvider.otherwise('user/proto');
+        }
+        else if(g_TestFlag == enumTestFlag.INFO){
+          $urlRouterProvider.otherwise('/info');
         }
         else{
           $urlRouterProvider.otherwise('/login');

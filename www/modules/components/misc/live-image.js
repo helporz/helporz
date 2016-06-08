@@ -29,6 +29,8 @@
             }
           };
 
+          $ionicNgClick(scope, element, attrs.onClick);
+
           attrs.$observe('ngSrc', applyNewSrc);
         }
       };

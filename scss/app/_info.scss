@@ -1,0 +1,28 @@
+.info {
+  background-color: white;
+
+  .top-panel {
+    //@include display-flex();
+    //@include align-items(center);
+    //@include justify-content(center);
+    text-align: center;
+
+    .avatar {
+      width: 90px;
+      height: 90px;
+      //border-radius: 35px;
+      //border-style: solid;
+      //border-width: 1px;
+      //border-color: #fff;
+      margin: 25px 0 15px 0;
+    }
+
+    .set-avatar {
+      font-size: 14px;
+      color: $color-text-secondary;
+      margin-bottom: 25px;
+      line-height: 1;
+    }
+  }
+
+}

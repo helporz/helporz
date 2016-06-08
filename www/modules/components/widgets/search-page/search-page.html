@@ -1,0 +1,11 @@
+<div class="ho-search-page">
+  <div>
+    <input class="input" type="text" ng-model="input" placeholder="请输入学校">
+  </div>
+
+    <ion-list class="ho-list">
+      <ion-item collection-repeat="item in ui_items" ng-click="cb_selectItem($index)" item-height="55px">
+        {{item.name}}
+      </ion-item>
+    </ion-list>
+</div>

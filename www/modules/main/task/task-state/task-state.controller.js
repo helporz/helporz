@@ -7,9 +7,10 @@
 
   angular.module('main.task.taskState')
     .controller('mainTaskTaskStateCtrl', ['$scope', '$timeout', '$stateParams', 'taskNetService', 'taskUtils',
-      'userNetService', mainTaskTaskStateCtrl]);
+      'impressUtils', 'userNetService', mainTaskTaskStateCtrl]);
 
-  function mainTaskTaskStateCtrl($scope, $timeout, $stateParams, taskNetService, taskUtils, userNetService) {
+  function mainTaskTaskStateCtrl($scope, $timeout, $stateParams, taskNetService, taskUtils,
+                                 impressUtils, userNetService) {
     console.log($stateParams);
 
     var vm = $scope.vm = {};
@@ -25,6 +26,13 @@
       vm.task.icon = taskUtils.iconByTypeValue(vm.task.taskTypesId);
       vm.task.typeName = taskUtils.nameByTypeValue(vm.task.taskTypesId);
       vm.task.commentCount = vm.task.commentList ? vm.task.commentList.length : 0;
+
+
+      // impresses
+      var impressUI = impressUtils.impressUI();
+      vm.task.ui_tags = vm.task.poster.tags.concat();
+      vm.task.ui_tags = [impressUI[0], impressUI[2], impressUI[3]];
+
 
       taskUtils.taskStateToUiState(vm.task, vm.task.status, isPosterOrAccepter);
 
@@ -56,15 +64,37 @@
 
       //////////////////////////////////////////////////
       //temp show all
-      vm.showMyComment = true;
-      vm.showOtherComment = true;
+      vm.showMyComment = false;
+      vm.showOtherComment = false;
 
-      if (vm.task.posterComment) {
-        vm.showOtherComment = true;
+      if (isPosterOrAccepter===true){
+        if(vm.task.posterComment){
+					vm.showMyComment = true;
+					vm.ui_myComment = vm.task.posterComment;
+					vm.ui_myCommentLevel = vm.task.posterCommentLevel;
+					vm.ui_myCommentTags = vm.task.posterTags;
+        }
+        if(vm.task.accepterComment) {
+          vm.showOtherComment = true;
+          vm.ui_otherComment = vm.task.accepterComment;
+          vm.ui_otherCommentLevel = vm.task.otherCommentLevel;
+          vm.ui_otherCommentTags = vm.task.otherTags;
+        }
       }
 
-      if (vm.task.accepterComment) {
-        vm.showMyComment = true;
+      else {
+        if(vm.task.posterComment){
+					vm.showOtherComment = true;
+					vm.ui_otherComment = vm.task.posterComment;
+					vm.ui_otherCommentLevel = vm.task.posterCommentLevel;
+					vm.ui_otherCommentTags = vm.task.posterTags;
+        }
+        if(vm.task.accepterComment) {
+          vm.showMyComment = true;
+          vm.ui_myComment = vm.task.accepterComment;
+          vm.ui_myCommentLevel = vm.task.otherCommentLevel;
+          vm.ui_myCommentTags = vm.task.otherTags;
+        }
       }
 
       $timeout(function () {
