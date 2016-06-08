@@ -186,3 +186,44 @@
   flex: 0 0 15%;
   max-width: 15%;
 }
+
+.col-5 {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 5%;
+  -moz-box-flex: 0;
+  -moz-flex: 0 0 5%;
+  -ms-flex: 0 0 5%;
+  flex: 0 0 5%;
+  max-width: 5%;
+}
+
+.mini-pic {
+  max-height: 70px;
+  max-width: 70px;
+}
+
+.big-pic {
+  max-height: 140px;
+  max-width:140px;
+}
+
+.mid-pic {
+  max-height: 100px;
+  max-width:100px;
+}
+
+.blank-right {
+  padding-right:5px;
+}
+
+.blank-bottom {
+  padding-bottom:5px;
+}
+
+.blank-top {
+  padding-top:5px;
+}
+
+.favourite {
+  color:red;
+}

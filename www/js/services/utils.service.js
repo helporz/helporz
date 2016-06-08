@@ -337,7 +337,7 @@
       var d = new Date(dateString).getTime();
       var currentDate = new Date().getTime();
       var diffTimes = currentDate - d;
-      if (diffTimes < 0) {
+      if (diffTimes < 2 * 60 * 1000) {
         return "刚才";
       }
       else if (diffTimes < 60 * 60 * 1000) {

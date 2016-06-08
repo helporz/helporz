@@ -5,10 +5,11 @@
 (function (window) {
   "use strict;"
 
-  angular.module('com.helporz.login', ['ngCordova', 'com.helporz.utils.service', 'com.helporz.user.netservice', 'com.helporz.jim.services'])
+  angular.module('com.helporz.login', ['ngCordova', 'com.helporz.utils.service', 'com.helporz.user.netservice', 'com.helporz.jim.services',
+    'com.helporz.playground'])
     .controller('loginCtrl', ['$q', '$scope', '$http', '$state', '$log',
       '$ionicLoading', 'deviceService', 'errorCodeService', 'httpErrorCodeService', 'userLoginInfoService', 'userNetService',
-      'jimService', 'debugHelpService', loginCtrl])
+      'jimService', 'debugHelpService', 'PlaygroundStartupService', loginCtrl])
 
     .directive('getsmscode', ['$http', '$log', 'pushService', function ($http, $log, pushService) {
       return {
@@ -80,7 +81,7 @@
 
   function loginCtrl($q, $scope, $http, $state, $log, $ionicLoading,
                      deviceService, errorCodeService, httpErrorCodeService,
-                     userLoginInfoService, userNetService, jimService, debugHelpService) {
+                     userLoginInfoService, userNetService, jimService, debugHelpService, PlaygroundStartupService) {
     $scope.phoneno = '';
     $scope.smscode = '';
 
@@ -109,6 +110,7 @@
         .then(loginIM, processFailed)
         .then(function () {
           $ionicLoading.hide();
+          PlaygroundStartupService.initService(userLoginInfoService.getLoginInfo().userInfo.userId);
           $state.go('main.near');
         }, function (error) {
           $ionicLoading.hide();

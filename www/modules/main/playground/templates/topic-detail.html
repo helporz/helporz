@@ -24,72 +24,183 @@
     <ion-refresher pulling-text="刷新中" on-refresh="vm.doRefresh()"></ion-refresher>
 
     <div class="user-topic topic-group-wrapper" ng-click="vm.clearReplyComment()">
+      <!--<div class="row">-->
+
+        <!--<div class="col col-20  col-center">-->
+          <!--<img class="user-logo" ng-src="{{vm.topic.poster.avatar}}">-->
+        <!--</div>-->
+
+        <!--<div class="col col-center col-66">-->
+          <!--<p class="title-header">-->
+            <!--<span>{{vm.topic.poster.nickname}}</span> <img class="gender-logo"-->
+                                                           <!--ng-src="img/user/gender-{{vm.topic.poster.gender}}.png">-->
+          <!--</p>-->
+
+          <!--<p class="title-desc">-->
+            <!--{{vm.topic.created|DateShow}} 来自 {{vm.topic.poster.orgList[0].name}}-->
+          <!--</p>-->
+        <!--</div>-->
+        <!--&lt;!&ndash;<div class="col  icon ion-chevron-down col-top" style="text-align:center" ng-click="vm.moreOpt(item)"></div>&ndash;&gt;-->
+      <!--</div>-->
+
+      <!--<div class="row content-wrap">-->
+        <!--<p ng-bind-html="vm.topic.content" class="auto-wrap"></p>-->
+
+      <!--</div>-->
+      <!--<div class="row content-wrap" ng-if="vm.topic.imgList != null || vm.topic.imgList != ''">-->
+        <!--<img class="topics bottom-bordered" ng-repeat="imgSrc in vm.topic.imgList"-->
+             <!--ng-src="{{imgSrc}}" ng-click="vm.showImgs(vm.topic.imgList)">-->
+      <!--</div>-->
+
+      <!--<div class="row button-list-wrap">-->
+        <!--<div class="col col-32 button-wrap">-->
+          <!--<button class="button button-small icon "-->
+                  <!--ng-class="{true:'ion-ios-heart',false:'ion-ios-heart-outline '}[vm.topic.isFavourite == true]"-->
+                  <!--ng-click="vm.favouriteToggle(vm.topic)" style="color:red">-->
+            <!--{{vm.topic.favouriteCount}}-->
+          <!--</button>-->
+
+        <!--</div>-->
+        <!--<div class="col col-32 button-wrap">-->
+          <!--<button class="button button-small icon ion-ios-redo-outline" ng-click="vm.shareTopic(topic)">分享-->
+          <!--</button>-->
+        <!--</div>-->
+        <!--<div class="col col-32 button-wrap">-->
+          <!--<button class="button button-small icon ion-ios-chatboxes-outline"-->
+                  <!--ng-click="vm.setCommentFocus($event)">-->
+            <!--{{vm.topic.commentCount}}-->
+          <!--</button>-->
+          <!--&lt;!&ndash;<button class="button button-small icon ion-ios-chatboxes-outline"&ndash;&gt;-->
+          <!--&lt;!&ndash;ng-if="item.commentCount == 0 "></button>&ndash;&gt;-->
+        <!--</div>-->
+
+      <!--</div>-->
       <div class="row">
 
-        <div class="col col-20  col-center">
+        <div class="col col-15  col-center" style="text-align: center">
           <img class="user-logo" ng-src="{{vm.topic.poster.avatar}}">
         </div>
 
-        <div class="col col-center col-66">
-          <p class="title-header">
-            <span>{{vm.topic.poster.nickname}}</span> <img class="gender-logo"
-                                                           ng-src="img/user/gender-{{vm.topic.poster.gender}}.png">
-          </p>
+        <div class="col  col-center" style="border-bottom:1px solid #e4e5e7">
+          <div class="row">
+            <div class="title-header col col-20 col-center" style="overflow:hidden; text-overflow:ellipsis;">
+              <span class="font-size-12" style="white-space:nowrap;">{{vm.topic.poster.nickname}}</span>
 
-          <p class="title-desc">
-            {{vm.topic.created|DateShow}} 来自 {{vm.topic.poster.orgList[0].name}}
-          </p>
+            </div>
+
+            <div class="col col-5 col-center" style="padding-left: 0;padding-right:0;">
+                <span class="gender-icon  font-size-12"
+                      ng-class="{true:'ho-gender-female color-woman',false:'ho-gender-male color-man '}[vm.topic.poster.gender == 1]">
+                </span>
+
+            </div>
+            <div class="col col-center">
+                <span class="font-size-12 elem text-tag user-tag-color-{{ut.id -1 }}" ng-repeat="ut in vm.topic.poster.tags">
+                  {{ut.tagName}}
+                </span>
+            </div>
+            <!--<div class="col col-5 icon ion-chevron-down col-top" style="text-align:center; color:#f1f1f1;padding-left: 0;padding-right:0;"-->
+                 <!--ng-click="vm.moreOpt(item)"></div>-->
+          </div>
+          <div class="row">
+
+            <div class="title-desc" style="text-align: right;padding-left:5px">
+              {{vm.topic.created|DateShow}} 来自 {{vm.topic.poster.orgList[0].name}}
+            </div>
+            <!--<p class="title-desc">-->
+            <!--{{item.created|DateShow}} 来自 {{item.poster.orgList[0].name}}-->
+            <!--</p>-->
+            <!--</div>-->
+          </div>
+          <!--<div class="col col-center col-66">-->
+          <!--<p class="title-header">-->
+          <!--<span>{{item.poster.nickname}}</span> <img class="gender-logo" ng-src="img/user/gender-{{item.poster.gender}}.png">-->
+          <!--</p>-->
+
+          <!--<p class="title-desc">-->
+          <!--{{item.created|DateShow}} 来自 {{item.poster.orgList[0].name}}-->
+          <!--</p>-->
+          <!--</div>-->
+          <!--<div class="col  icon ion-chevron-down col-top"  style="text-align:center" ng-click="vm.moreOpt(item)"></div>-->
         </div>
-        <!--<div class="col  icon ion-chevron-down col-top" style="text-align:center" ng-click="vm.moreOpt(item)"></div>-->
       </div>
-
       <div class="row content-wrap">
-        <p ng-bind-html="vm.topic.content" class="auto-wrap"></p>
+        <p ng-bind-html="vm.topic.content" class="auto-wrap font-size-12" style="padding-left: 5px"></p>
 
       </div>
-      <div class="row content-wrap" ng-if="vm.topic.imgList != null || vm.topic.imgList != ''">
-        <img class="topics bottom-bordered" ng-repeat="imgSrc in vm.topic.imgList"
+
+      <div class="row content-wrap" ng-if="vm.topic.imgList != null && vm.topic.imgList.length == 1 ">
+        <img class="big-pic blank-right blank-bottom blank-top"
+             ng-src="{{vm.topic.imgList[0]}}" ng-click="vm.showImgs(vm.topic.imgList)">
+      </div>
+
+      <div class="row content-wrap" ng-if="vm.topic.imgList != null && vm.topic.imgList.length == 2 ">
+        <img class=" mid-pic blank-right blank-bottom blank-top" ng-repeat="imgSrc in vm.topic.imgList"
              ng-src="{{imgSrc}}" ng-click="vm.showImgs(vm.topic.imgList)">
       </div>
 
+      <div class="row content-wrap" ng-if="vm.topic.imgList != null && vm.topic.imgList.length == 3 ">
+        <img class=" mini-pic blank-right blank-bottom blank-top" ng-repeat="imgSrc in vm.topic.imgList"
+             ng-src="{{imgSrc}}" ng-click="vm.showImgs(vm.topic.imgList)">
+      </div>
+
+      <div class="row content-wrap" ng-if="vm.topic.imgList != null && vm.topic.imgList.length == 4 ">
+        <div class="col">
+          <div class="row ">
+            <img class="mini-pic  blank-right blank-bottom blank-top"
+                 ng-src="{{vm.topic.imgList[0]}}" ng-click="vm.showImgs(vm.topic.imgList)">
+            <img class="mini-pic  blank-right blank-bottom blank-top"
+                 ng-src="{{vm.topic.imgList[1]}}" ng-click="vm.showImgs(vm.topic.imgList)">
+          </div>
+          <div class="row ">
+            <img class="mini-pic  blank-right blank-bottom blank-top"
+                 ng-src="{{vm.topic.imgList[2]}}" ng-click="vm.showImgs(vm.topic.imgList)">
+            <img class="mini-pic  blank-right blank-bottom blank-top"
+                 ng-src="{{vm.topic.imgList[3]}}" ng-click="vm.showImgs(vm.topic.imgList)">
+          </div>
+        </div>
+      </div>
+
       <div class="row button-list-wrap">
-        <div class="col col-32 button-wrap">
+        <div class="col col-25 button-wrap">
+          <button class="button button-small icon ion-ios-eye-outline">
+            {{vm.topic.accessCount}}
+          </button>
+        </div>
+
+        <div class="col col-25 button-wrap">
+          <button class="button button-small icon ion-ios-chatboxes-outline">
+            {{vm.topic.commentCount}}
+          </button>
+        </div>
+        <div class="col col-25 button-wrap">
           <button class="button button-small icon "
-                  ng-class="{true:'ion-ios-heart',false:'ion-ios-heart-outline '}[vm.topic.isFavourite == true]"
-                  ng-click="vm.favouriteToggle(vm.topic)" style="color:red">
+                  ng-class="{true:'ion-ios-heart favourite',false:'ion-ios-heart-outline '}[vm.topic.isFavourite == true]"
+                  ng-click="vm.favouriteToggle()">
             {{vm.topic.favouriteCount}}
           </button>
 
-          <!--<button class="button button-small icon " style="color: black"-->
-          <!--ng-if="vm.isFavourite(item.id) == false" ng-click="vm.favourite(item.id)">-->
-          <!--{{item.favouriteCount}}-->
-          <!--</button>-->
         </div>
-        <div class="col col-32 button-wrap">
-          <button class="button button-small icon ion-ios-redo-outline" ng-click="vm.shareTopic(topic)">分享
+        <div class="col col-25 button-wrap">
+          <button class="button button-small icon ion-ios-redo-outline" ng-click="vm.topicService.shareTopic(vm.topic)">
+            {{vm.topic.shareCount}}
           </button>
-        </div>
-        <div class="col col-32 button-wrap">
-          <button class="button button-small icon ion-ios-chatboxes-outline"
-                  ng-click="vm.setCommentFocus($event)">
-            {{vm.topic.commentCount}}
-          </button>
-          <!--<button class="button button-small icon ion-ios-chatboxes-outline"-->
-          <!--ng-if="item.commentCount == 0 "></button>-->
         </div>
 
       </div>
-
     </div>
 
-    <div class="topic-comment topic-group-wrapper" ng-click="vm.clearReplyComment()">
+    <div class="topic-comment topic-group-wrapper" ng-if="vm.topic.commentCount == 0">
       <div class="row">
-        <span>评论{{vm.topic.commentCount}}条</span>
-      </div>
-
-      <div class="row" ng-if="vm.topic.commentCount == 0">
         <p>还没有评论，你来试试？</p>
       </div>
+    </div>
+
+    <div class="topic-comment topic-group-wrapper" ng-click="vm.clearReplyComment()" ng-if="vm.topic.commentCount > 0">
+      <div class="row font-size-8 header">
+        <span class="icon ho-chat-0" /> <span>评论</span> <span>{{vm.topic.commentCount}}</span> <span>条</span>
+      </div>
+
       <div class="topic-comment-list">
         <ion-list class="user-topic">
           <ion-item ng-repeat="item in vm.topicCommentList">

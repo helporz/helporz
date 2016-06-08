@@ -12,23 +12,24 @@
     .factory('topicService', topicServiceFactoryFn)
     .factory('topicGroupService', topicGroupServiceFactoryFn)
     .factory('topicModalService', topicModalServiceFactoryFn)
-    .factory('filterTopicService', filterTopicServiceFactoryFn);
+    .factory('filterTopicService', filterTopicServiceFactoryFn)
+    .factory('PlaygroundStartupService', PlaygroundStartupServiceFn);
 
   topicModalServiceFactoryFn.$inject = [];
 
   function topicModalServiceFactoryFn() {
     var _publishModal;
-    var _setPublishModal = function(modal) {
+    var _setPublishModal = function (modal) {
       _publishModal = modal;
     }
 
-    var _getPublishModal = function() {
+    var _getPublishModal = function () {
       return _publishModal;
     }
 
     return {
-      setPublishModal:_setPublishModal,
-      getPublishModal:_getPublishModal
+      setPublishModal: _setPublishModal,
+      getPublishModal: _getPublishModal
     };
   }
 
@@ -48,7 +49,7 @@
       return httpBaseService.getForPromise('/playground/topic/list/bygroup', param);
     }
 
-    var _getOwnTopicListByUser = function( startTopicId,pageNum, pageSize) {
+    var _getOwnTopicListByUser = function (startTopicId, pageNum, pageSize) {
       var param = {
         startTopicId: startTopicId,
         pageNum: pageNum,
@@ -57,7 +58,7 @@
       return httpBaseService.getForPromise('/playground/topic/list/byuser', param);
     }
 
-    var _getCollectionTopicListByUser = function(pageNum, pageSize) {
+    var _getCollectionTopicListByUser = function (pageNum, pageSize) {
       var param = {
         pageNum: pageNum,
         pageSize: pageSize
@@ -65,9 +66,9 @@
       return httpBaseService.getForPromise('/playground/topic/collection/list', param);
     }
 
-    var _getTopicDetailInfo = function(topicId,startCommentId, pageNum, pageSize) {
+    var _getTopicDetailInfo = function (topicId, startCommentId, pageNum, pageSize) {
       var param = {
-        topicId:topicId,
+        topicId: topicId,
         startCommentId: startCommentId,
         pageNum: pageNum,
         pageSize: pageSize
@@ -86,9 +87,9 @@
       return httpBaseService.getForPromise('/playground/systopic/list/bygroup', param);
     }
 
-    var _getTopicCommentList = function (topicId,startCommentId, pageNum, pageSize) {
+    var _getTopicCommentList = function (topicId, startCommentId, pageNum, pageSize) {
       var param = {
-        topicId:topicId,
+        topicId: topicId,
         startCommentId: startCommentId,
         pageNum: pageNum,
         pageSize: pageSize
@@ -96,28 +97,28 @@
       return httpBaseService.getForPromise('/playground/topic-comment/list', param);
     };
 
-    var _getTopicCommentListBySessionId = function(commentSessionId,pageNum,pageSize) {
+    var _getTopicCommentListBySessionId = function (commentSessionId, pageNum, pageSize) {
       var param = {
-        pageNum:pageNum,
-        pageSize:pageSize
+        pageNum: pageNum,
+        pageSize: pageSize
       };
-      return httpBaseService.getForPromise('/playground/topic-comment/' + commentSessionId + '/list',param);
+      return httpBaseService.getForPromise('/playground/topic-comment/' + commentSessionId + '/list', param);
     }
 
-    var _getTopicCommentListByUser = function(pageNum,pageSize) {
+    var _getTopicCommentListByUser = function (pageNum, pageSize) {
       var param = {
-        pageNum:pageNum,
-        pageSize:pageSize
+        pageNum: pageNum,
+        pageSize: pageSize
       };
-      return httpBaseService.getForPromise('/playground/topic-comment/list/byuser',param);
+      return httpBaseService.getForPromise('/playground/topic-comment/list/byuser', param);
     }
 
-    var _getReplyMessageListByUserId = function(pageNum,pageSize) {
+    var _getReplyMessageListByUserId = function (pageNum, pageSize) {
       var param = {
-        pageNum:pageNum,
-        pageSize:pageSize
+        pageNum: pageNum,
+        pageSize: pageSize
       };
-      return httpBaseService.getForPromise('/playground/reply-message/list',param);
+      return httpBaseService.getForPromise('/playground/reply-message/list', param);
     }
 
     var _favouriteTopic = function (topicId) {
@@ -139,78 +140,89 @@
       return httpBaseService.postForPromise('/playground/topic/blacklist', param);
     }
 
-    var _addComment2Blacklist = function (topicGroupId,topicId,commentId) {
+    var _addComment2Blacklist = function (topicGroupId, topicId, commentId) {
       var param = {
-        topicGroupId:topicGroupId,
+        topicGroupId: topicGroupId,
         topicId: topicId,
-        commentId:commentId,
+        commentId: commentId,
       };
       return httpBaseService.postForPromise('/playground/comment/blacklist', param);
     }
 
-    var _addTopicComment = function (topicId, content, commentSessionId,replyOtherCommentId,replyUserId) {
+    var _addTopicComment = function (topicId, content, commentSessionId, replyOtherCommentId, replyUserId) {
       var param = {
         content: content,
-        commentSessionId:commentSessionId,
+        commentSessionId: commentSessionId,
         replyOtherCommentId: replyOtherCommentId,
-        replyUserId:replyUserId
+        replyUserId: replyUserId
       };
 
       return httpBaseService.postForPromise('/playground/topic/' + topicId + '/comment/add', param);
     }
 
-    var _addTopic = function (groupId, content, imgCount, audioCount) {
+    var _addTopic = function (groupId, content, imgCount, audioCount,tagInfoArray) {
+      var tagJsonList = (tagInfoArray!= null && tagInfoArray.length != 0)?JSON.stringify(tagInfoArray):null;
       var param = {
         groupId: groupId,
         content: content,
         imgCount: imgCount,
-        audioCount: audioCount
+        audioCount: audioCount,
+        tagList:tagJsonList,
       };
 
       return httpBaseService.postForPromise('/playground/topic/add', param);
     };
 
-    var _addCollectionTopic = function(topicId) {
+    var _addCollectionTopic = function (topicId) {
       var param = {
-        topicId:topicId
+        topicId: topicId
       };
 
-      return httpBaseService.postForPromise('/playground/topic/collection',param);
+      return httpBaseService.postForPromise('/playground/topic/collection', param);
     }
 
-    var _cancelCollectionTopic = function(topicId) {
+    var _cancelCollectionTopic = function (topicId) {
       var param = {
-        topicId:topicId
+        topicId: topicId
       };
 
-      return httpBaseService.postForPromise('/playground/topic/collection/cancel',param);
+      return httpBaseService.postForPromise('/playground/topic/collection/cancel', param);
     }
 
+    var _addShareCount = function (topicId) {
+      return httpBaseService.postForPromise('/playground/topic/' + topicId + '/addShareCount', null);
+    }
+
+    var _getTopicTagList = function () {
+      return httpBaseService.getForPromise('/playground/topic/tags', null);
+    }
     return {
       getTopicGroupList: _getTopicGroupList,
       getTopicListByGroup: _getTopicListByGroup,
-      getOwnTopicListByUser:_getOwnTopicListByUser,
-      getCollectionTopicListByUser:_getCollectionTopicListByUser,
+      getOwnTopicListByUser: _getOwnTopicListByUser,
+      getCollectionTopicListByUser: _getCollectionTopicListByUser,
       getSysTopicListByGroup: _getSysTopicListByGroup,
-      getTopicDetailInfo:_getTopicDetailInfo,
+      getTopicDetailInfo: _getTopicDetailInfo,
       getTopicCommentList: _getTopicCommentList,
-      getTopicCommentListBySessionId:_getTopicCommentListBySessionId,
-      getTopicCommentListByUser:_getTopicCommentListByUser,
-      getReplyMessageListByUserId:_getReplyMessageListByUserId,
+      getTopicCommentListBySessionId: _getTopicCommentListBySessionId,
+      getTopicCommentListByUser: _getTopicCommentListByUser,
+      getReplyMessageListByUserId: _getReplyMessageListByUserId,
       favouriteTopic: _favouriteTopic,
       cancelFavouriteTopic: _cancelFavouriteTopic,
       filterTopic: _filterTopic,
       addTopic2Blacklist: _addTopic2Blacklist,
-      addComment2Blacklist:_addComment2Blacklist,
+      addComment2Blacklist: _addComment2Blacklist,
       addTopicComment: _addTopicComment,
       addTopic: _addTopic,
-      addCollectionTopic:_addCollectionTopic,
-      cancelCollectionTopic:_cancelCollectionTopic,
+      addCollectionTopic: _addCollectionTopic,
+      cancelCollectionTopic: _cancelCollectionTopic,
+      addShareCount: _addShareCount,
+      getTopicTagList: _getTopicTagList,
     };
   };
 
-  PlaygroundDBServiceFactoryFn.$inject = ['$log', '$q','dbService'];
-  function PlaygroundDBServiceFactoryFn($log,$q, dbService) {
+  PlaygroundDBServiceFactoryFn.$inject = ['$log', '$q', 'dbService'];
+  function PlaygroundDBServiceFactoryFn($log, $q, dbService) {
     var patterns = {
       filterTopic: {'topicId': '0', userId: '0', 'groupId': '0', 'topicCreate': null},
       favouriteTopic: {'topicId': '0', userId: '0', 'groupId': '0', 'topicCreate': null},
@@ -218,26 +230,26 @@
       collectionTopic: {'topicId': '0', userId: '0', 'groupId': '0', 'topicCreate': null}
     };
 
-    var _init = function() {
+    var _init = function () {
       var tableSqlList = ['CREATE TABLE IF NOT EXISTS filterTopic(topicId text, userId text,groupId text,topicCreate text)',
         'CREATE TABLE IF NOT EXISTS favouriteTopic(topicId text, userId text,groupId text,topicCreate text)',
         'CREATE TABLE IF NOT EXISTS topicBlacklist(topicId text, userId text,groupId text,topicCreate text)',
         'CREATE TABLE IF NOT EXISTS collectionTopic(topicId text, userId text,groupId text,topicCreate text)'];
-      dbService.executeSqlList(tableSqlList).then(function() {
+      dbService.executeSqlList(tableSqlList).then(function () {
         $log.info('create playground tables success');
-      },function(error) {
+      }, function (error) {
         $log.error('create playground tables error: ' + error.message);
       });
     }
 
-    var recordSetItem2Record = function(table,recordSetItem) {
+    var recordSetItem2Record = function (table, recordSetItem) {
       var pattern = patterns[table];
       if (pattern == null || pattern == '') {
         $log.error("invalid table name");
         return null;
       }
 
-      return dbService.createRow(table, recordSetItem,pattern);
+      return dbService.createRow(table, recordSetItem, pattern);
     }
     var _createRecord = function (table) {
       var pattern = patterns[table];
@@ -246,7 +258,7 @@
         return null;
       }
 
-      return dbService.createRow(table, null,pattern);
+      return dbService.createRow(table, null, pattern);
     };
 
     var _saveRecords = function (table, records) {
@@ -260,18 +272,18 @@
 
     var _findRecords = function (table, where) {
       var _innerDefer = $q.defer();
-      dbService.findRecords(table, where).then(function(res) {
+      dbService.findRecords(table, where).then(function (res) {
         var records = new Array();
-        if(res.rows.length) {
-          for( var index = 0; index < res.rows.length; ++ index) {
-            var record = recordSetItem2Record(table,res.rows.item(index));
-            if( record != null ) {
+        if (res.rows.length) {
+          for (var index = 0; index < res.rows.length; ++index) {
+            var record = recordSetItem2Record(table, res.rows.item(index));
+            if (record != null) {
               records.push(record);
             }
           }
         }
         _innerDefer.resolve(records);
-      },function(err) {
+      }, function (err) {
         _innerDefer.reject(error);
       });
       return _innerDefer.promise;
@@ -282,7 +294,7 @@
     };
 
     return {
-      createTable:_init,
+      createTable: _init,
       createRecord: _createRecord,
       saveRecords: _saveRecords,
       findRecords: _findRecords,
@@ -290,8 +302,8 @@
     };
   }
 
-  filterTopicServiceFactoryFn.$inject = ['$log','$q', '$$HashMap', 'PlaygroundDBService', 'PlaygroundNetService'];
-  function filterTopicServiceFactoryFn($log, $q,$$HashMap, PlaygroundDBService, PlaygroundNetService) {
+  filterTopicServiceFactoryFn.$inject = ['$log', '$q', '$$HashMap', 'PlaygroundDBService', 'PlaygroundNetService'];
+  function filterTopicServiceFactoryFn($log, $q, $$HashMap, PlaygroundDBService, PlaygroundNetService) {
     var _cacheTable = new $$HashMap([], true);
     var _currentUserId = '';
     var _buildCacheFromDB = function (currentUserId) {
@@ -310,7 +322,7 @@
       _currentUserId = currentUserId;
     };
 
-    var _addFilterTopic = function ( topicId, groupId, topicCreated) {
+    var _addFilterTopic = function (topicId, groupId, topicCreated) {
       var _innerDefer = $q.defer();
       PlaygroundNetService.filterTopic(topicId).then(function (res) {
         var record = PlaygroundDBService.createRecord('filterTopic');
@@ -348,8 +360,8 @@
     };
   };
 
-  favouriteTopicServiceFactoryFn.$inject = ['$log','$q','$$HashMap', 'PlaygroundDBService', 'PlaygroundNetService'];
-  function favouriteTopicServiceFactoryFn($log,$q,$$HashMap, PlaygroundDBService, PlaygroundNetService) {
+  favouriteTopicServiceFactoryFn.$inject = ['$log', '$q', '$$HashMap', 'PlaygroundDBService', 'PlaygroundNetService'];
+  function favouriteTopicServiceFactoryFn($log, $q, $$HashMap, PlaygroundDBService, PlaygroundNetService) {
     var _cacheTable = new $$HashMap([], true);
     var _currentUserId = '';
 
@@ -428,9 +440,9 @@
     };
   }
 
-  collectionTopicServiceFactoryFn.$inject = ['$log','$q','$$HashMap', 'PlaygroundDBService', 'PlaygroundNetService'];
+  collectionTopicServiceFactoryFn.$inject = ['$log', '$q', '$$HashMap', 'PlaygroundDBService', 'PlaygroundNetService'];
 
-  function collectionTopicServiceFactoryFn($log,$q,$$HashMap, PlaygroundDBService, PlaygroundNetService) {
+  function collectionTopicServiceFactoryFn($log, $q, $$HashMap, PlaygroundDBService, PlaygroundNetService) {
     var _cacheTable = new $$HashMap([], true);
     var _currentUserId = '';
 
@@ -509,8 +521,8 @@
     };
   }
 
-  topicBlacklistServiceFactoryFn.$inject = ['$log','$q', '$$HashMap', 'PlaygroundDBService', 'PlaygroundNetService'];
-  function topicBlacklistServiceFactoryFn($log,$q, $$HashMap, PlaygroundDBService, PlaygroundNetService) {
+  topicBlacklistServiceFactoryFn.$inject = ['$log', '$q', '$$HashMap', 'PlaygroundDBService', 'PlaygroundNetService'];
+  function topicBlacklistServiceFactoryFn($log, $q, $$HashMap, PlaygroundDBService, PlaygroundNetService) {
     var _cacheTable = new $$HashMap([], true);
     var _currentUserId = '';
     var _buildCacheFromDB = function (currentUserId) {
@@ -547,7 +559,7 @@
         });
       }, function (e) {
         $log.error('向服务器发生添加话题黑名单失败:' + e.message);
-       _innerDefer.reject(e);
+        _innerDefer.reject(e);
       });
       return _innerDefer.promise;
     };
@@ -573,8 +585,12 @@
                                  favouriteTopicService, topicBlacklistService, filterTopicService) {
     var _topicCacheTable = new $$HashMap([], true);
     var _sysTopicCacheTable = new $$HashMap([], true);
+    var _topicTagList = null;
+    var _init = function () {
+      _getTopicTagList();
+    }
 
-    var preprocessTopic = function(topic) {
+    var preprocessTopic = function (topic) {
       topic.isShow = true;
       topic.isFavourite = false;
       if (topicBlacklistService.isInTopicBlacklist(topic.id) == true) {
@@ -632,7 +648,7 @@
       var firstTopic = topicList[0];
       var lastTopic = topicList[topicList.length - 1];
       var pageSize = 20;
-      PlaygroundNetService.getTopicListByGroup(firstTopic.id, Math.ceil(topicList.length/pageSize) + 1, pageSize, topicGroupId).then(function (data) {
+      PlaygroundNetService.getTopicListByGroup(firstTopic.id, Math.ceil(topicList.length / pageSize) + 1, pageSize, topicGroupId).then(function (data) {
         var dataLen = data.length;
         for (var index = 0; index < dataLen; ++index) {
           if (lastTopic.id <= data[index].id) {
@@ -658,26 +674,49 @@
     }
 
     var _currentDetailTopic = {};
-    var _setCurrentDetailTopic = function(topic) {
+    var _setCurrentDetailTopic = function (topic) {
       _currentDetailTopic = topic;
     }
 
-    var _getCurrentDetailTopic = function() {
+    var _getCurrentDetailTopic = function () {
       return _currentDetailTopic;
     }
+
+    var _shareTopic = function (topic) {
+      PlaygroundNetService.addShareCount(topic.id).then(function (res) {
+        topic.shareCount++;
+      }, function (error) {
+
+      });
+    }
+
+    var _getTopicTagList = function () {
+      if (_topicTagList == null || _topicTagList.length == 0) {
+        PlaygroundNetService.getTopicTagList().then(function (data) {
+          _topicTagList = data;
+        }, function (error) {
+          $log.error('getTopicTagList faile:' + error);
+        })
+      }
+      return _topicTagList;
+    }
+
     return {
-      setCurrentDetailTopic:_setCurrentDetailTopic,
-      getCurrentDetailTopic:_getCurrentDetailTopic,
-      refreshSysTopic:_refreshSysTopic,
-      refreshTopic:_refreshTopic,
-      moreTopic:_moreTopic,
-      getSysTopicList:_getSysTopicList,
-      getTopicList:_getTopicList
+      initService: _init,
+      setCurrentDetailTopic: _setCurrentDetailTopic,
+      getCurrentDetailTopic: _getCurrentDetailTopic,
+      refreshSysTopic: _refreshSysTopic,
+      refreshTopic: _refreshTopic,
+      moreTopic: _moreTopic,
+      getSysTopicList: _getSysTopicList,
+      getTopicList: _getTopicList,
+      shareTopic: _shareTopic,
+      getTopicTagList: _getTopicTagList,
     };
   }
 
-  topicGroupServiceFactoryFn.$inject = ['$log', '$q', '$$HashMap',  'PlaygroundNetService'];
-  function topicGroupServiceFactoryFn($log, $q, $$HashMap,PlaygroundNetService) {
+  topicGroupServiceFactoryFn.$inject = ['$log', '$q', '$$HashMap', 'PlaygroundNetService'];
+  function topicGroupServiceFactoryFn($log, $q, $$HashMap, PlaygroundNetService) {
     var _groupList = [{
       'id': 1,
       'name': '捎带侠论坛',
@@ -733,23 +772,37 @@
       'publicNotice': '捎带侠们聚集起来 捎带侠们聚集起来 ',
       'pic': 'img/task/publish/jiebao-logo.png'
     }];
-    var _refresh = function() {
+    var _refresh = function () {
 
     }
 
-    var _getGroupInfo = function(groupId) {
+    var _getGroupInfo = function (groupId) {
       return _groupList[groupId];
     }
 
-    var _getGroupInfoList = function() {
+    var _getGroupInfoList = function () {
       return _groupList;
     }
     return {
-      refresh:_refresh,
-      getGroupInfo:_getGroupInfo,
-      getGroupInfoList:_getGroupInfoList
+      refresh: _refresh,
+      getGroupInfo: _getGroupInfo,
+      getGroupInfoList: _getGroupInfoList
     };
   }
 
+  function PlaygroundStartupServiceFn(topicService,PlaygroundDBService,favouriteTopicService,
+    topicBlacklistService,filterTopicService) {
+    var _init = function(currentUserId) {
+      PlaygroundDBService.createTable();
+      topicService.initService();
+      favouriteTopicService.buildCacheFromDB(currentUserId);
+      topicBlacklistService.buildCacheFromDB(currentUserId);
+      filterTopicService.buildCacheFromDB(currentUserId);
+    }
+
+    return {
+      initService:_init
+    }
+  }
 })();
 
