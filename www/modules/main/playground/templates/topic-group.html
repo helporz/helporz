@@ -284,28 +284,16 @@
               <div class="title-desc" style="text-align: right;padding-left:5px">
                 {{item.created|DateShow}} 来自 {{item.poster.orgList[0].name}}
               </div>
-              <!--<p class="title-desc">-->
-              <!--{{item.created|DateShow}} 来自 {{item.poster.orgList[0].name}}-->
-              <!--</p>-->
-              <!--</div>-->
-            </div>
-            <!--<div class="col col-center col-66">-->
-            <!--<p class="title-header">-->
-            <!--<span>{{item.poster.nickname}}</span> <img class="gender-logo" ng-src="img/user/gender-{{item.poster.gender}}.png">-->
-            <!--</p>-->
 
-            <!--<p class="title-desc">-->
-            <!--{{item.created|DateShow}} 来自 {{item.poster.orgList[0].name}}-->
-            <!--</p>-->
-            <!--</div>-->
-            <!--<div class="col  icon ion-chevron-down col-top"  style="text-align:center" ng-click="vm.moreOpt(item)"></div>-->
+            </div>
+
           </div>
         </div>
         <div class="row content-wrap topic-tag-wrap" ng-if="item.tagInfoList != null && item.tagInfoList.length > 0">
-          <span class="topic-tag no-border" ng-repeat="tag in item.tagInfoList"> #{{tag.name}}#</span>
+          <div class="topic-tag no-border font-size-12" ng-repeat="tag in item.tagInfoList"> #{{tag.name}}#</div>
         </div>
 
-        <div class="row content-wrap">
+        <div class="content-wrap">
 
           <p ng-bind-html="item.content" class="auto-wrap font-size-12" style="padding-left: 5px"></p>
 
