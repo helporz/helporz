@@ -121,7 +121,7 @@
     httpErrorCodeServiceFactory.getErrCodeDescription = _getErrCodeDescription;
     httpErrorCodeServiceFactory.getErrorCodeDescription = _getErrCodeDescription;
     return httpErrorCodeServiceFactory;
-  }).factory("userLoginInfoService", ['localStorageService', function (localStorageService) {
+  }).factory("userLoginInfoService", ['localStorageService', 'utilConvertDateToString', function (localStorageService,utilConvertDateToString) {
     var userLoginInfoServiceFactory = {};
     var _saveLoginInfo = function (ticket, userInfo) {
       var loginInfo = {
@@ -150,11 +150,45 @@
       return loginInfo.userInfo.phoneNo;
     }
 
+    var _clear = function() {
+      localStorageService.update('userLoginInfo', null);
+    }
+
+    var _isShowIntro = function() {
+      var showIntroInfo =  localStorageService.get('showIntroInfo', null);
+      if( showIntroInfo == null || showIntroInfo.expireTime == null ) {
+        return true;
+      }
+
+      var currentDate = new Date();
+      var expireTime = utilConvertDateToString.getStringToDate(showIntroInfo.expireTime);
+      if( expireTime < currentDate ) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+
+    var _updateShowIntroInfo = function() {
+      var lastTime = new Date();
+      var expireTime = new Date();
+      expireTime.setDate(expireTime.getDate() + 2);
+      var showIntroInfo = {
+        lastTime: utilConvertDateToString.getDateToString(lastTime,'yyyy-MM-dd HH:mm:ss'),
+        expireTime:utilConvertDateToString.getDateToString(expireTime,'yyyy-MM-dd HH:mm:ss'),
+      }
+      localStorageService.update('showIntroInfo', showIntroInfo);
+    }
+
     return {
       saveLoginInfo: _saveLoginInfo,
       getLoginInfo: _getLoginInfo,
       getLoginTicket: _getLoginTicket,
-      getLoginPhoneNo: _getLoginPhoneNo
+      getLoginPhoneNo: _getLoginPhoneNo,
+      clear:_clear,
+      isShowIntro:_isShowIntro,
+      updateShowIntroInfo:_updateShowIntroInfo,
     };
   }]).factory('deviceService', ['$log', function ($log) {
     var deviceServiceFactory = {};
@@ -299,7 +333,21 @@
       }]).factory('uploadService', UploadServiceFactoryFn)
     .factory('downloadService', ['$log', DownloadServiceFactoryFn])
     .factory('debugHelpService', ['$log', DebugHelpServiceFactoryFn])
-    .constant('base64', (Base64ConstantFn)())
+    .factory('utilConvertDateToString', ['$filter', function ($filter) {
+      return {
+        getDateToString: function (date, format) {
+          if (angular.isDate(date) && angular.isString(format)) {
+            return $filter('date')(date, format);
+          }
+        },
+        getStringToDate: function (string) {
+          if (angular.isString(string)) {
+            return new Date(string.replace(/-/g, "/"));
+          }
+        }
+      };
+    }])
+  .constant('base64', (Base64ConstantFn)())
     .filter('DateShow', DateShowFn)
     .filter('String2Date', String2DateFn)
     .directive('focusMe', focusMeFn);
