@@ -13,7 +13,6 @@
 
   .group-list {
 
-
     .item {
       border: none;
 
@@ -50,9 +49,6 @@
   }
 }
 
-
-
-
 .group-header {
   font-size: 1em;
   height: 50%;
@@ -83,18 +79,16 @@
   }
 }
 
-.sys-topic  {
+.sys-topic {
   img {
     widht: 20px;
     height: 20px;
   }
 }
 
-
 .topic-group {
-  background-color: #D2E0E6;
+  background-color: #e4e4e4;//#D2E0E6;
   margin: 0px;
-
 
   .item {
     padding: 0px;
@@ -112,7 +106,7 @@
   }
 
   .content-wrap {
-    padding: 10px 5px;
+    padding: 5px 5px;
   }
 
   .add-topic {
@@ -132,6 +126,7 @@
   }
 
   .button-list-wrap {
+    margin-top: 10px;
     padding: 0px;
     border: 1px solid #e4e5e7;
     background-color: #e4e5e7;
@@ -140,6 +135,7 @@
   .title-header {
     font-size: 0.8em;
     color: black;
+    overflow:hidden; text-overflow:ellipsis;
   }
 
   .title-desc {
@@ -173,26 +169,21 @@
 }
 
 .user-topic {
-  img {
-
-  }
-
   .gender-logo {
     width: 8px;
     height: 8px;
   }
 
   .user-logo {
-    width: 30px;
-    max-height: 30px;
+    width: 34px;
+    max-height: 34px;
     border-radius: 50%;
     vertical-align: middle;
   }
 }
 
-
 .topic-publish-wrap {
-  background-color: #D2E0E6;
+  background-color: #ffffff;//#D2E0E6;
   margin: 0px;
 
   .bgc {
@@ -214,9 +205,60 @@
 .auto-wrap {
   word-wrap: break-word;
   word-break: normal;
-  white-space:normal !important;
+  white-space: normal !important;
 }
 
 .collection-color {
-  color:gold !important;
+  color: gold !important;
 }
+
+.topic-tag-wrap {
+  word-wrap:break-word;
+  padding-top:10px;
+  .topic-tag {
+    float:left;
+    height: 20px;
+    min-width: 65px;
+    border: 1px solid $color-theme;
+    border-radius: 11px;
+    font-size: 12px;
+    line-height:20px;
+    //padding: 3px 5px;
+    text-align: center;
+    margin:0px 5px;
+    word-wrap:break-word;
+
+  }
+
+  .tag-selected {
+    background-color:gold;
+  }
+
+  .no-border {
+    border-width: 0px !important;
+  }
+}
+
+
+.topic-comment {
+  .header {
+    padding: 5px;
+    background-color: $user-tag-color-0;
+    color:#FFFFFF;
+  }
+
+  .reply-content {
+    border: 0px solid;
+    border-radius: 11px;
+    background-color: $user-tag-bgcolor-1;
+    padding: 5px;
+    margin-bottom: 10px;
+
+
+  }
+
+  .item p {
+    font-size: 8px;
+  }
+}
+

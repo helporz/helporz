@@ -71,7 +71,8 @@
     'PlaygroundDBService',
     'playgroundTestConfigService',
     'userLoginInfoService',
-    'userNetService'
+    'userNetService',
+    'loginService'
   ];
 
   function init($ionicPlatform,
@@ -91,7 +92,8 @@
                 PlaygroundDBService,
                 playgroundTestConfigService,
                 userLoginInfoService,
-                userNetService) {
+                userNetService,
+                loginService) {
     $log.info('app.run.init');
 
     $ionicPlatform.ready(function () {
@@ -113,12 +115,12 @@
       }
 
       //wechat
-      if( window.cordova && window.cordova.plugins && window.cordova.plugins.Wechat) {
-				window.cordova.plugins.Wechat.isInstalled(function (installed) {
-					alert("Wechat installed: " + (installed ? "Yes" : "No"));
-				}, function (reason) {
-					alert("Failed: " + reason);
-				});
+      if (window.cordova && window.cordova.plugins && window.cordova.plugins.Wechat) {
+        window.cordova.plugins.Wechat.isInstalled(function (installed) {
+          alert("Wechat installed: " + (installed ? "Yes" : "No"));
+        }, function (reason) {
+          alert("Failed: " + reason);
+        });
       }
 
 
@@ -187,6 +189,16 @@
         catch (exception) {
           console.log(exception)
         }
+      }
+
+      if( loginService.isShowIntro()) {
+        $state.go('intro');
+      }
+      else if(loginService.isLogging()){
+        loginService.loginByTicket();
+      }
+      else {
+        $state.go('login');
       }
 
       document.addEventListener("deviceready", function () {
