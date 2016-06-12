@@ -35,7 +35,7 @@
         @include flex(0, 0, 34px);
       }
       .user-detail {
-        margin: 0 0 0 5px;
+        margin: 0 0 0 7px;
         @include display-flex();
         @include flex-direction(column);
         @include justify-content(center);
@@ -74,7 +74,7 @@
           }
         }
         .bottom {
-          margin-top: 4px;
+          margin-top: 5px;
           line-height: 1;
 
           @include display-flex();
@@ -103,6 +103,7 @@
       //height: 75px;
       .summary {
         padding: 2px 0;
+        word-break: break-all;
         white-space: pre-wrap;
         font-size: 14px;
 

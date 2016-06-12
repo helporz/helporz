@@ -1,23 +1,30 @@
-<ion-view hide-nav-bar="true" class="me">
-  <div class="nav row">
-    <!--<div class="col-20 col-center text-center">-->
-    <!--<button class="button button-icon icon ion-share"></button>-->
-    <!--</div>-->
-    <!--<div class="col-offset-10 col-40 col-center text-center">-->
-    <!--<p class="name color-white">xi匿名</p>-->
-    <!--</div>-->
-    <!--<div class="col-offset-10 col-20 text-center">-->
-    <!--<button class="button button-icon icon ion-share right"></button>-->
-    <!--</div>-->
+<ion-view view-title="{{vm.meInfo.remoteData.nickname}}" class="me">
+  <!--<div class="nav row">-->
+    <!--&lt;!&ndash;<div class="col-20 col-center text-center">&ndash;&gt;-->
+    <!--&lt;!&ndash;<button class="button button-icon icon ion-share"></button>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="col-offset-10 col-40 col-center text-center">&ndash;&gt;-->
+    <!--&lt;!&ndash;<p class="name color-white">xi匿名</p>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class="col-offset-10 col-20 text-center">&ndash;&gt;-->
+    <!--&lt;!&ndash;<button class="button button-icon icon ion-share right"></button>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
 
+    <!--<button class="button button-icon icon ion-compose" ng-click="vm.cb_edit()"></button>-->
+    <!--<p class="text-center name color-white">{{vm.meInfo.remoteData.nickname}}</p>-->
+    <!--<button class="button button-icon icon ion-gear-a" ng-click="vm.cb_setting()"></button>-->
+  <!--</div>-->
+
+  <ion-nav-buttons side="left">
     <button class="button button-icon icon ion-compose" ng-click="vm.cb_edit()"></button>
-    <p class="text-center name color-white">{{vm.meInfo.remoteData.nickname}}</p>
+  </ion-nav-buttons>
+
+  <ion-nav-buttons side="right">
     <button class="button button-icon icon ion-gear-a" ng-click="vm.cb_setting()"></button>
-  </div>
+  </ion-nav-buttons>
 
   <ion-content delegate-handle="meScroll">
     <div class="back-img" scale-top-bg></div>
-
 
     <div class="row mid">
       <div class="col-20 left text-center col-center">
@@ -32,10 +39,20 @@
       <div class="col-20 text-center col-center">
         <i class="side-icon button button-icon ion-chatbubble-working" ng-click=""></i>
       </div>
+
+
     </div>
 
-    <p class="sign text-center">{{vm.meInfo.remoteData.sign}}</p>
+    <div class="sign-impress-panel">
+      <p class="sign text-center" ng-show="vm.meInfo.remoteData.sign.length> 0">{{vm.meInfo.remoteData.sign}}</p>
 
+      <div class="bottom">
+        <div class="impress-panel" ng-repeat="item in vm.meInfo.ui_tags">
+          <p class="elem text-tag toggle-on {{item.className}}">{{item.text}}</p>
+        </div>
+      </div>
+
+    </div>
     <!--//////////////////////////////////////////////////-->
 
     <!--<ion-tabs class="tabs-striped padding-top">-->

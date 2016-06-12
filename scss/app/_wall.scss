@@ -1,0 +1,137 @@
+.wall {
+
+
+  .bgimg {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: -1;
+    //background-image: url("../img/wall/lanjie-di@2x.png")
+  }
+
+  .top-panel {
+    padding: 1.25em 0 0 0;
+    @include display-flex();
+    @include align-items(center);
+
+    .top-icon {
+      color: #fbdd52;
+      font-size: 15px;
+      margin: 0 0 0 30px;
+    }
+    .top-txt {
+      @include display_inline-flex();
+      color: $color-text-primary;
+      margin: 0 0 0 5px;
+    }
+  }
+
+  .count-panel {
+
+    @include display-flex();
+    @include align-items(center);
+    @include flex-direction(column);
+
+    .person-count-panel {
+      @include display-flex();
+      @include align-items(baseline);
+      line-height: 0.7;
+      padding: 20px 0  20px 0;
+
+      .person-count {
+        font-size: 90px;
+        color: $color-text-primary;
+        margin-bottom: 0;
+      }
+
+      .person-txt {
+        color: $color-text-primary;
+        font-size: 15px;
+        margin-left: 10px;
+        margin-bottom: 0;
+        position: relative;
+        bottom: 2px;
+      }
+    }
+
+    .txt-enter-school {
+      font-size: 15px;
+      color: $color-text-secondary;
+    }
+  }
+
+  .div-line {
+    margin: 20px 20px 2px 20px;
+    height: 1px;
+    background-color: $color-text-thirdly;
+  }
+
+  .mid-panel {
+    @include display-flex();
+    @include align-items(center);
+    @include flex-direction(column);
+  }
+
+  .txt-reward {
+    margin-top: 40px;
+    font-size: 48px;
+    color: $color-text-secondary;
+  }
+  .txt-reward-desc {
+    margin-top: 8px;
+    font-size: 15px;
+    color: $color-text-secondary;
+  }
+
+  .reward-panel {
+    width: 150px;
+    @include display-flex();
+    @include justify-content(space-between);
+
+    .reward-icon-panel {
+      @include display-flex();
+      @include flex-direction(column);
+      @include align-items(center);
+      margin-top: 15px;
+
+      .reward-icon {
+        width: 50px;
+        height: 50px;
+      }
+      .reward-txt {
+        font-size: 14px;
+        color: $color-text-secondary;
+        margin-top: 3px;
+      }
+    }
+  }
+
+}
+
+.wall-footer {
+  border-top-width: 0 !important; //overwrite .bar-footer
+  background-image: linear-gradient(0deg, #ddd, #ddd 0%, transparent 0%);
+
+  .bottom-panel {
+    @include display-flex();
+    @include justify-content(space-between);
+    @include align-items(center);
+    padding: 5px;
+    width: 100%;
+
+    .bottom-txt {
+      font-size: 15px;
+      margin-bottom: 0;
+      color: $color-text-secondary;
+    }
+
+    .bottom-ok {
+      width: 80px;
+      border-radius: 7px;
+      border-style: none;
+      font-size: 15px;
+
+      @include ho-button-color($color-theme, $color-theme-dark);
+    }
+  }
+}

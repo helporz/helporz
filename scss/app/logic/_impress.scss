@@ -34,3 +34,6 @@
 .impress-12{
   @include ho-toggle-color($color-theme,$impress-color-12)
 }
+.impress-13{
+  @include ho-toggle-color($color-theme,$impress-color-13)
+}

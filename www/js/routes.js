@@ -43,6 +43,11 @@
           templateUrl: 'modules/info/info.html',
           controller: 'infoCtrl'
         });
+        $stateProvider.state('wall', {
+          url: '/wall',
+          templateUrl: 'modules/wall/wall.html',
+          controller: 'wallCtrl'
+        });
 
         // if none of the above states are matched, use this as the fallback
 
@@ -55,6 +60,9 @@
         }
         else if(g_TestFlag == enumTestFlag.INFO){
           $urlRouterProvider.otherwise('/info');
+        }
+        else if(g_TestFlag == enumTestFlag.WALL){
+          $urlRouterProvider.otherwise('/wall');
         }
         else{
           $urlRouterProvider.otherwise('/login');

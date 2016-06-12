@@ -295,6 +295,8 @@
         _ctlSelf.selectedSubRewardType, 1, 0).then(function () {
           alert("发布任务成功");
           _ctlSelf.closeModal();
+          // 加入标志量,以供其他页面update
+          taskNetService.cache.isPostTaskNeedRefresh = true;
         }, function (error) {
           alert("发布任务失败:" + error);
         });

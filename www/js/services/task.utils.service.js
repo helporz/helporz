@@ -243,6 +243,8 @@
             taskItem.ui_tagText2 = "任务取消";
             taskItem.ui_tagText3 = "已搞定";
             taskItem.ui_stateDesc = "我取消了";
+
+            console.error("任务进行中,发单者不能取消");
           }
           else if (state == 32) {  //accepter cancel
             taskItem.ui_tagState1 = enumTagState_1.DONE;

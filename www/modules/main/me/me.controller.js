@@ -7,11 +7,12 @@
 
   angular.module('main.me')
     .controller('mainMeCtrl', ['$state', '$scope', '$ionicLoading', '$ionicPopup', '$ionicScrollDelegate', '$ionicActionSheet',
-      '$timeout', '$interval', 'userNetService',
+      '$timeout', '$interval', 'userNetService', 'impressUtils',
       'errorCodeService', mainMeCtrl])
 
   function mainMeCtrl($state, $scope, $ionicLoading, $ionicPopup, $ionicScrollDelegate, $ionicActionSheet,
-                      $timeout, $interval, userNetService, errorCodeService) {
+                      $timeout, $interval, userNetService, impressUtils,
+                      errorCodeService) {
     var vm = $scope.vm = {};
 
     vm.cb_edit = function () {
@@ -113,6 +114,10 @@
       //vm.meInfo.userPropInfoList = selfInfo.userPropInfoList;
 
       vm.meInfo.remoteData = selfInfo;
+
+      var impressUI = impressUtils.impressUI();
+      //vm.meInfo.ui_tags = vm.meInfo.remoteData.tags.concat();
+      vm.meInfo.ui_tags = [impressUI[0], impressUI[2], impressUI[3]];
 
       $timeout(function () {
         $scope.$apply();

@@ -202,6 +202,8 @@
         .then(getSelfInfo, processFailed)
         .then(loginIM, processFailed)
         .then(function () {
+          $ionicLoading.hide();
+
           PlaygroundStartupService.initService(userLoginInfoService.getLoginInfo().userInfo.userId);
           _innerDefer.resolve();
         }, function (error) {

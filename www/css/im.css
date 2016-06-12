@@ -43,9 +43,6 @@
 .rj-stable-content {
   background-color: #EEE; }
 
-.bar-footer {
-  border-top: 1px solid #EEE !important; }
-
 .bar-footer textarea {
   resize: none;
   height: 21px;
@@ -227,5 +224,3 @@
   color: #FFF;
   font-size: 300%;
   background-color: rgba(0, 0, 0, 0.5); }
-
-/*# sourceMappingURL=im.css.map */

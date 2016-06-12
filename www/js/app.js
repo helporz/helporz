@@ -25,8 +25,10 @@
     'com.helporz.utils.service',
     'com.helproz.task.publish',
     'com.helporz.playground',
+    'com.helporz.user.netservice',
     'main',
-    'info'
+    'info',
+    'wall',
   ])
 
     .run(init)
@@ -68,6 +70,8 @@
     'dbService',
     'PlaygroundDBService',
     'playgroundTestConfigService',
+    'userLoginInfoService',
+    'userNetService',
     'loginService'
   ];
 
@@ -87,6 +91,8 @@
                 dbService,
                 PlaygroundDBService,
                 playgroundTestConfigService,
+                userLoginInfoService,
+                userNetService,
                 loginService) {
     $log.info('app.run.init');
 
@@ -232,6 +238,19 @@
       }, false);
 
     });
+
+
+    //自动登陆
+    //var loginInfo = userLoginInfoService.getLoginInfo()
+    //var needLogin = true
+    //if (loginInfo != null ){
+    //  userNetService.loginByTicket(loginInfo.ticket, '', function(newTicket, isNewUser){
+    //
+    //  }, function(errorCode){
+    //
+    //  })
+    //}
+    //$state.go('main.near');
   }
 
   function ConfigForTest(playgroundTestConfigService) {
