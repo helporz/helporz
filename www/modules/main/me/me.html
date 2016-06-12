@@ -44,7 +44,7 @@
     </div>
 
     <div class="sign-impress-panel">
-      <p class="sign text-center">{{vm.meInfo.remoteData.sign}}</p>
+      <p class="sign text-center" ng-show="vm.meInfo.remoteData.sign.length> 0">{{vm.meInfo.remoteData.sign}}</p>
 
       <div class="bottom">
         <div class="impress-panel" ng-repeat="item in vm.meInfo.ui_tags">

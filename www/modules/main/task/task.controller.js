@@ -6,7 +6,7 @@
   'use strict';
 
   angular.module('main.task')
-    .controller('mainTaskCtrl', ['$log', '$state', '$ionicLoading', '$ionicPopup', 'widgetDelegate',
+    .controller('mainTaskCtrl', ['$log', '$state', '$ionicLoading', '$ionicPopup', 'widgetDelegate', '$ionicScrollDelegate',
       '$scope', 'taskNetService', 'taskUtils', '$timeout', mainTaskCtrl]);
 
 
@@ -17,14 +17,9 @@
   };
 
 
-  function mainTaskCtrl($log, $state, $ionicLoading, $ionicPopup, widgetDelegate, $scope, taskNetService, taskUtils, $timeout) {
+  function mainTaskCtrl($log, $state, $ionicLoading, $ionicPopup, widgetDelegate, $ionicScrollDelegate,
+                        $scope, taskNetService, taskUtils, $timeout) {
     var vm = $scope.vm = {};
-
-    //vm.doRefresh = function () {
-    //  taskNetService.queryNewTaskList().then(flushSuccessFn, flushFailedFn).finally(function () {
-    //    $scope.$broadcast('scroll.refreshComplete');
-    //  });
-    //};
 
     //fixme:因为点击会穿透,同时触发多个事件,这里先用标记来屏蔽,点击按钮后间隔一段时间才可触发下一次点击回调
     vm._isClicking = false;
@@ -41,8 +36,8 @@
     }
 
     vm.tabSelectedIndex = 0;
-    vm.isPostTaskNeedRefresh = true;
-    vm.isAcceptTaskNeedRefresh = true;
+
+    vm.taskScroll = $ionicScrollDelegate.$getByHandle('taskScroll');
 
     $scope.$on("$ionicView.enter", function () {
       //var ctrl = widgetDelegate.findWidget('hoTabSet', 'task');
@@ -68,7 +63,7 @@
       //将tab选中信息保存到delegate里
       widgetDelegate.getWidgetStatic('hoTabSet', 'task').last = 0;
 
-      if (vm.isPostTaskNeedRefresh == true) {
+      if (taskNetService.cache.isPostTaskNeedRefresh == true) {
         $ionicLoading.show({
           template: '加载数据中...'
         });
@@ -81,6 +76,8 @@
       else {
         vm.repeatList = taskNetService.cache.postTaskList;
       }
+
+      vm.taskScroll.scrollTop();
     }
 
     var _cb_failed = function (error) {
@@ -88,12 +85,12 @@
     }
 
     var _cb_getPostTaskSuccess = function (taskList) {
-      vm.isPostTaskNeedRefresh = false;
+      taskNetService.cache.cache.isPostTaskNeedRefresh = false;
 
       taskNetService.cache.postTaskList = taskList;
       //
       for (var i in taskList) {
-        taskList[i].ui_identifier = "援助人";
+        taskList[i].ui_identifier = "联系援助人";
         taskList[i].ui_nickname = taskList[i].accepter != null ? taskList[i].accepter.nickname : "";
         taskList[i].ui_avatar = taskList[i].accepter != null ? taskList[i].accepter.avator : "";
         taskList[i].ui_taskIcon = taskUtils.iconByTypeValue(taskList[i].taskTypesId);
@@ -104,12 +101,12 @@
     }
 
     var _cb_getAcceptTaskSuccess = function (taskList) {
-      vm.isAcceptTaskNeedRefresh = false;
+      taskNetService.cache.isAcceptTaskNeedRefresh = false;
 
       taskNetService.cache.acceptTaskList = taskList;
 
       for (var i in taskList) {
-        taskList[i].ui_identifier = "求助人";
+        taskList[i].ui_identifier = "联系求助人";
         taskList[i].ui_nickname = taskList[i].poster.nickname;
         taskList[i].ui_avatar = taskList[i].poster.avator;
         taskList[i].ui_taskIcon = taskUtils.iconByTypeValue(taskList[i].taskTypesId);
@@ -125,7 +122,7 @@
       //将tab选中信息保存到delegate里
       widgetDelegate.getWidgetStatic('hoTabSet', 'task').last = 1;
 
-      if (vm.isAcceptTaskNeedRefresh == true) {
+      if (taskNetService.cache.isAcceptTaskNeedRefresh == true) {
         $ionicLoading.show({
           template: '加载数据中...'
         });
@@ -138,6 +135,8 @@
       else {
         vm.repeatList = taskNetService.cache.acceptTaskList;
       }
+
+      vm.taskScroll.scrollTop();
     };
 
     /////////////////////////////////////
@@ -219,7 +218,7 @@
             function (data, status) {
               console.log(data);
               if (data.code == 200) {
-                vm.isPostTaskNeedRefresh = true;
+                taskNetService.cache.isPostTaskNeedRefresh = true;
                 vm.cb_post();
               } else {
 
@@ -258,7 +257,7 @@
             function (data, status) {
               console.log(data);
               if (data.code == 200) {
-                vm.isAcceptTaskNeedRefresh = true;
+                taskNetService.cache.isAcceptTaskNeedRefresh = true;
                 vm.cb_accept();
               } else {
 
@@ -323,7 +322,7 @@
             function (data, status) {
               console.log(data);
               if (data.code == 200) {
-                vm.isPostTaskNeedRefresh = true;
+                taskNetService.cache.isPostTaskNeedRefresh = true;
                 vm.cb_post();
               } else {
 
@@ -360,7 +359,7 @@
             function (data, status) {
               console.log(data);
               if (data.code == 200) {
-                vm.isAcceptTaskNeedRefresh = true;
+                taskNetService.cache.isAcceptTaskNeedRefresh = true;
                 vm.cb_accept();
               } else {
 

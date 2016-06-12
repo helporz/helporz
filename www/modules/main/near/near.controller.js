@@ -80,6 +80,12 @@
 
         item.ui_tags = item.poster.tags.concat();
 
+        item.ui_tags = [];
+        var tags = item.poster.tags;
+        for(var tagIdx = 0; tagIdx < tags.length; tagIdx++){
+          item.ui_tags.push(impressUI[tags[tagIdx].id-1])
+        }
+
         //temp
         //item.ui_tags = [impressUI[0], impressUI[2], impressUI[3]];
       }

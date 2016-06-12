@@ -109,7 +109,12 @@
         .then(loginIM, processFailed)
         .then(function () {
           $ionicLoading.hide();
-          $state.go('main.near');
+
+          if (userNetService.cache.selfInfo.avatar != ''){
+            $state.go('main.near');
+          } else {
+            $state.go('info');
+          }
         }, function (error) {
           $ionicLoading.hide();
           alert(error);

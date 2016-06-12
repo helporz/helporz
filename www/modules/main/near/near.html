@@ -9,11 +9,12 @@
     </ion-refresher>
 
     <ion-list>
-      <ion-item class="topics bottom-bordered bottom-bordered-small" collection-repeat="item in vm.items"
+      <ion-item class="topics bottom-bordered bottom-bordered-normal" ng-repeat="item in vm.items"
                 href="#/main/near/task-detail/{{item.id}}" item-height="223px">
+        <!--<ion-item class="topics bottom-bordered bottom-bordered-small" collection-repeat="item in vm.items"-->
+                  <!--href="#/main/near/task-detail/{{item.id}}" item-height="223px">-->
         <div class="row nopadding">
           <div class="content-left">
-            <!--<img class="task-img" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g"   reset-img>-->
             <img class="task-img" src={{item.icon}} reset-img>
 
             <p class="task-type">{{item.typeName}}</p>
@@ -42,7 +43,8 @@
             <div class="div-line-1"></div>
 
             <div class="summary-panel">
-              <p class="summary">{{item.summary}}</p>
+              <!--<p class="summary" clamp>{{item.summary}}</p>-->
+              <p class="summary" clamp="{{item.summary}}"></p>
 
               <div class="appendix">
                 <i class="icon ion-ios-clock-outline font-size-13 deadline "></i>

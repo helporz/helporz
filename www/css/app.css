@@ -89,6 +89,7 @@
 
 .item.activated {
   background-color: white; }
+
 .item .item-content.activated {
   background-color: white; }
 
@@ -139,11 +140,11 @@
 .text-tag {
   display: inline-block;
   line-height: 16px;
-  padding: 0 4px !important;
+  padding: 0 6.5px !important;
   font-size: 10px !important;
-  -webkit-border-radius: 3px !important;
-  -moz-border-radius: 3px !important;
-  border-radius: 3px !important; }
+  -webkit-border-radius: 8px !important;
+  -moz-border-radius: 8px !important;
+  border-radius: 8px !important; }
 
 .button-light-red {
   border-style: solid;
@@ -166,6 +167,7 @@
       background-color: #FF432F;
       box-shadow: none;
       color: #fff; }
+
 .ho-button.button-gray {
   border-style: solid;
   border-width: 1px; }
@@ -231,12 +233,13 @@
   .bottom-bordered.bottom-bordered-small {
     border-bottom-width: 5px !important; }
   .bottom-bordered.bottom-bordered-normal {
-    border-bottom-width: 10px !important; }
+    border-bottom-width: 7px !important; }
   .bottom-bordered.bottom-bordered-big {
-    border-bottom-width: 15px !important; }
+    border-bottom-width: 10px !important; }
 
 .ho-list .list {
   width: 100%; }
+
 .ho-list .ho-item {
   padding: 0;
   display: -webkit-box;
@@ -727,6 +730,7 @@
 .ho-search-page .input {
   position: absolute;
   top: 0; }
+
 .ho-search-page .search-list {
   position: absolute;
   top: 30px; }
@@ -839,6 +843,15 @@
     color: white !important;
     background-color: #bf8fc5 !important; }
 
+.impress-13 {
+  border-color: #FF432F !important;
+  background-color: white !important;
+  color: #FF432F !important; }
+  .impress-13.toggle-on {
+    border-color: #bbbbbb !important;
+    color: white !important;
+    background-color: #bbbbbb !important; }
+
 .info {
   background-color: white; }
   .info .top-panel {
@@ -876,6 +889,7 @@
       left: 4px;
       padding: 1px 0 0 0;
       width: 90%; }
+
 .school-search .school-search-item.activated {
   background-color: #e8e7ed; }
 
@@ -884,6 +898,7 @@
   top: 0;
   width: 100%;
   z-index: -1; }
+
 .wall .top-panel {
   padding: 1.25em 0 0 0;
   display: -webkit-box;
@@ -909,6 +924,7 @@
     display: inline-flex;
     color: #2a2a2a;
     margin: 0 0 0 5px; }
+
 .wall .count-panel {
   display: -webkit-box;
   display: -webkit-flex;
@@ -955,10 +971,12 @@
   .wall .count-panel .txt-enter-school {
     font-size: 15px;
     color: #878787; }
+
 .wall .div-line {
   margin: 20px 20px 2px 20px;
   height: 1px;
   background-color: #dddddd; }
+
 .wall .mid-panel {
   display: -webkit-box;
   display: -webkit-flex;
@@ -977,14 +995,17 @@
   -moz-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column; }
+
 .wall .txt-reward {
   margin-top: 40px;
   font-size: 48px;
   color: #878787; }
+
 .wall .txt-reward-desc {
   margin-top: 8px;
   font-size: 15px;
   color: #878787; }
+
 .wall .reward-panel {
   width: 150px;
   display: -webkit-box;
@@ -1096,7 +1117,7 @@
       -ms-flex: 0 0 34px;
       flex: 0 0 34px; }
     .topics .content-right .user-panel .user-detail {
-      margin: 0 0 0 5px;
+      margin: 0 0 0 7px;
       display: -webkit-box;
       display: -webkit-flex;
       display: -moz-box;
@@ -1147,7 +1168,7 @@
           color: #878787;
           font-size: 9px; }
       .topics .content-right .user-panel .user-detail .bottom {
-        margin-top: 4px;
+        margin-top: 5px;
         line-height: 1;
         display: -webkit-box;
         display: -webkit-flex;
@@ -1173,6 +1194,7 @@
       color: #5f9cc5; }
     .topics .content-right .summary-panel .summary {
       padding: 2px 0;
+      word-break: break-all;
       white-space: pre-wrap;
       font-size: 14px;
       display: -webkit-box;
@@ -1277,6 +1299,7 @@
 
 .task-item .item-content {
   padding: 0; }
+
 .task-item .task-header {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1288,7 +1311,8 @@
   -ms-flex-align: center;
   -webkit-align-items: center;
   -moz-align-items: center;
-  align-items: center; }
+  align-items: center;
+  height: 36px; }
   .task-item .task-header .left {
     -webkit-box-flex: 1;
     -webkit-flex: 1 0 30%;
@@ -1313,17 +1337,18 @@
       height: 22px;
       border-radius: 50%; }
     .task-item .task-header .left .name {
-      padding-right: 5px;
+      padding-right: 8px;
       font-size: 13px;
       margin-bottom: 0; }
     .task-item .task-header .left .desc {
-      color: white;
-      background-color: #FF432F;
+      background-color: #eee;
+      color: #878787;
       font-size: 11px;
-      height: 14px;
+      border-radius: 3px;
+      height: 22px;
       vertical-align: middle;
-      line-height: 13px;
-      padding: 1px; }
+      line-height: 18px;
+      padding: 2px 6px; }
   .task-item .task-header .right {
     -webkit-box-flex: 1;
     -webkit-flex: 1;
@@ -1351,8 +1376,9 @@
     .task-item .task-header .right .chat {
       padding-right: 18px;
       margin: -8px;
-      font-size: 10px;
-      color: #FF432F; }
+      font-size: 8px;
+      color: #878787; }
+
 .task-item .task-body {
   height: 90px;
   display: -webkit-box;
@@ -1367,11 +1393,7 @@
   -moz-align-items: center;
   align-items: center;
   background-color: #f7f7f7;
-  border-style: solid;
-  border-left-color: #ffd0ce;
-  border-left-width: 2px;
-  border-bottom-color: #e4e4e4;
-  border-bottom-width: 1px; }
+  border-style: solid; }
   .task-item .task-body .left {
     height: 70px;
     -webkit-box-flex: 1;
@@ -1408,7 +1430,7 @@
       height: 45px;
       border-radius: 50%; }
     .task-item .task-body .left .task-desc {
-      color: #2a2a2a;
+      color: #878787;
       font-size: 12px;
       margin-top: 7px; }
   .task-item .task-body .div-line {
@@ -1427,6 +1449,7 @@
       width: 120px;
       height: 1px;
       border: 1px solid #33cd5f; }
+
 .task-item .task-foot {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1444,8 +1467,7 @@
   -webkit-justify-content: flex-end;
   -moz-justify-content: flex-end;
   justify-content: flex-end;
-  height: 28px;
-  padding-top: 5px; }
+  height: 36px; }
   .task-item .task-foot .align-right {
     -webkit-box-align: center;
     -ms-flex-align: center;
@@ -1735,9 +1757,11 @@
 
 .task-state .task-dot-ctn {
   padding: 0 42px; }
+
 .task-state .task-desc-ctn {
   padding: 0 42px;
   padding-bottom: 5px; }
+
 .task-state .comment-board {
   padding: 10px; }
   .task-state .comment-board .title {
@@ -1803,6 +1827,7 @@
     .task-state .comment-board .comment-panel p {
       font-size: 12px;
       color: #878787; }
+
 .task-state .div-text-panel {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1954,14 +1979,20 @@
     -moz-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    justify-content: center;
     width: 100%;
-    height: 55px; }
+    height: 55px;
+    padding-bottom: 15px; }
     .me .sign-impress-panel .sign {
-      padding: 0 0 0 3px;
+      padding: 0;
+      margin: 0 0 5px 0;
       font-size: 13px;
       color: #fff; }
     .me .sign-impress-panel .bottom {
-      margin-top: 2px;
       line-height: 1;
       display: -webkit-box;
       display: -webkit-flex;
@@ -1980,8 +2011,10 @@
       -moz-justify-content: center;
       justify-content: center; }
       .me .sign-impress-panel .bottom .impress-panel {
-        margin-right: 5px; }
+        margin: 0 3px 0 3px; }
         .me .sign-impress-panel .bottom .impress-panel .elem {
+          border: 1px solid white !important;
+          border-radius: 9px !important;
           margin-bottom: 0; }
   .me .tab-container {
     top: 160px; }
@@ -2057,10 +2090,13 @@
 
 .edit-sheet .textarea-big {
   height: 150px; }
+
 .edit-sheet .textarea-normal {
   height: 100px; }
+
 .edit-sheet .line {
   height: 40px; }
+
 .edit-sheet .button-commit {
   border-radius: 5px;
   margin: 10px 5%;
@@ -2211,9 +2247,11 @@
 .playground-list .slide-box .slide-item-wrap {
   width: 100%;
   height: 100px; }
+
 .playground-list .slide-box img {
   width: 100%;
   height: 100px; }
+
 .playground-list .group-list .item {
   border: none; }
   .playground-list .group-list .item :after {
@@ -2318,6 +2356,7 @@
 .user-topic .gender-logo {
   width: 8px;
   height: 8px; }
+
 .user-topic .user-logo {
   width: 30px;
   max-height: 30px;
@@ -2346,5 +2385,3 @@
 
 .collection-color {
   color: gold !important; }
-
-/*# sourceMappingURL=app.css.map */

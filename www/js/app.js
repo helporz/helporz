@@ -25,6 +25,7 @@
     'com.helporz.utils.service',
     'com.helproz.task.publish',
     'com.helporz.playground',
+    'com.helporz.user.netservice',
     'main',
     'info',
     'wall',
@@ -68,7 +69,9 @@
     'userImgFileService',
     'dbService',
     'PlaygroundDBService',
-    'playgroundTestConfigService'
+    'playgroundTestConfigService',
+    'userLoginInfoService',
+    'userNetService'
   ];
 
   function init($ionicPlatform,
@@ -86,7 +89,9 @@
                 userImgFileService,
                 dbService,
                 PlaygroundDBService,
-                playgroundTestConfigService) {
+                playgroundTestConfigService,
+                userLoginInfoService,
+                userNetService) {
     $log.info('app.run.init');
 
     $ionicPlatform.ready(function () {
@@ -221,6 +226,19 @@
       }, false);
 
     });
+
+
+    //自动登陆
+    //var loginInfo = userLoginInfoService.getLoginInfo()
+    //var needLogin = true
+    //if (loginInfo != null ){
+    //  userNetService.loginByTicket(loginInfo.ticket, '', function(newTicket, isNewUser){
+    //
+    //  }, function(errorCode){
+    //
+    //  })
+    //}
+    //$state.go('main.near');
   }
 
   function ConfigForTest(playgroundTestConfigService) {

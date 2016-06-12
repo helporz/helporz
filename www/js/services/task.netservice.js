@@ -16,7 +16,9 @@
       isNearTaskNeedRefresh: true,
       nearTaskList: [],
 
+      isPostTaskNeedRefresh: true,
       postTaskList: [],
+      isAcceptTaskNeedRefresh: true,
       acceptTaskList: []
     };
 
