@@ -273,6 +273,10 @@
     var _findRecords = function (table, where) {
       var _innerDefer = $q.defer();
       dbService.findRecords(table, where).then(function (res) {
+        if( typeof res == 'undefined' || res === null ) {
+          _innerDefer.resolve(new Array());
+          return;
+        }
         var records = new Array();
         if (res.rows.length) {
           for (var index = 0; index < res.rows.length; ++index) {
