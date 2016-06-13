@@ -258,6 +258,18 @@
       return httpBaseService.getForPromise('/task/query/accepted', params);
     }
 
+    var _getCompletedAcceptTaskList = function (pageNum, pageSize) {
+      var params = {
+        pageNum: pageNum,
+        pageSize: pageSize
+      };
+      return httpBaseService.getForPromise('/task/query/accepted/completed', params);
+    }
+
+    var _getUncompletedAcceptTaskList = function () {
+      return httpBaseService.getForPromise('/task/query/accepted/uncompleted', null);
+    }
+
     var _getPostTaskList = function (pageIndex, pageSize) {
       var params = {
         pageIndex: pageIndex,
@@ -265,6 +277,19 @@
       };
 
       return httpBaseService.getForPromise('/task/query/posted', params);
+    }
+
+    var _getCompletedPostTaskList = function (pageNum, pageSize) {
+      var params = {
+        pageNum: pageNum,
+        pageSize: pageSize
+      };
+
+      return httpBaseService.getForPromise('/task/query/posted/completed', params);
+    }
+
+    var _getUncompletedPostTaskList = function () {
+      return httpBaseService.getForPromise('/task/query/posted/uncompleted');
     }
 
     var _commentTask = function (taskId, comment) {
@@ -289,7 +314,11 @@
       commentByAcceptor: _commentByAcceptor,
       queryTaskInfo: _queryTaskInfo,
       getAcceptTaskList: _getAcceptTaskList,
+      getCompletedAcceptTaskList:_getCompletedAcceptTaskList,
+      getUncompletedAcceptTaskList:_getUncompletedAcceptTaskList,
       getPostTaskList: _getPostTaskList,
+      getCompletedPostTaskList:_getCompletedPostTaskList,
+      getUncompletedPostTaskList:_getUncompletedPostTaskList,
       commentTask: _commentTask,
       getTaskSharePage: _getTaskSharePage,
       queryNewTaskList: _queryNewTaskList,
