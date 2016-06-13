@@ -1117,7 +1117,7 @@
       -ms-flex: 0 0 34px;
       flex: 0 0 34px; }
     .topics .content-right .user-panel .user-detail {
-      margin: 0 0 0 7px;
+      margin: 2px 0 0 7px;
       display: -webkit-box;
       display: -webkit-flex;
       display: -moz-box;
@@ -1180,12 +1180,7 @@
         -ms-flex-align: center;
         -webkit-align-items: center;
         -moz-align-items: center;
-        align-items: center;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        -webkit-justify-content: center;
-        -moz-justify-content: center;
-        justify-content: center; }
+        align-items: center; }
         .topics .content-right .user-panel .user-detail .bottom .impress-panel {
           margin-right: 5px; }
           .topics .content-right .user-panel .user-detail .bottom .impress-panel .elem {
@@ -1282,6 +1277,9 @@
       margin: 10px 0 7px 0;
       height: 1px;
       background-color: #e4e4e4; }
+
+.task-view {
+  background: #e8e7ed; }
 
 .task-title-container {
   padding-top: 10px;
@@ -2244,6 +2242,39 @@
   flex: 0 0 15%;
   max-width: 15%; }
 
+.col-5 {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 5%;
+  -moz-box-flex: 0;
+  -moz-flex: 0 0 5%;
+  -ms-flex: 0 0 5%;
+  flex: 0 0 5%;
+  max-width: 5%; }
+
+.mini-pic {
+  max-height: 70px;
+  max-width: 70px; }
+
+.big-pic {
+  max-height: 140px;
+  max-width: 140px; }
+
+.mid-pic {
+  max-height: 100px;
+  max-width: 100px; }
+
+.blank-right {
+  padding-right: 5px; }
+
+.blank-bottom {
+  padding-bottom: 5px; }
+
+.blank-top {
+  padding-top: 5px; }
+
+.favourite {
+  color: red; }
+
 .playground-list .slide-box .slide-item-wrap {
   width: 100%;
   height: 100px; }
@@ -2302,7 +2333,7 @@
   height: 20px; }
 
 .topic-group {
-  background-color: #D2E0E6;
+  background-color: #e4e4e4;
   margin: 0px; }
   .topic-group .item {
     padding: 0px;
@@ -2314,7 +2345,7 @@
   .topic-group .row {
     padding: 0px; }
   .topic-group .content-wrap {
-    padding: 10px 5px; }
+    padding: 5px 5px; }
   .topic-group .add-topic {
     /*position:fixed;*/
     position: absolute;
@@ -2330,12 +2361,15 @@
     font-size: 50px;
     color: red; }
   .topic-group .button-list-wrap {
+    margin-top: 10px;
     padding: 0px;
     border: 1px solid #e4e5e7;
     background-color: #e4e5e7; }
   .topic-group .title-header {
     font-size: 0.8em;
-    color: black; }
+    color: black;
+    overflow: hidden;
+    text-overflow: ellipsis; }
   .topic-group .title-desc {
     font-size: 0.2em; }
   .topic-group .bgc {
@@ -2358,13 +2392,13 @@
   height: 8px; }
 
 .user-topic .user-logo {
-  width: 30px;
-  max-height: 30px;
+  width: 34px;
+  max-height: 34px;
   border-radius: 50%;
   vertical-align: middle; }
 
 .topic-publish-wrap {
-  background-color: #D2E0E6;
+  background-color: #ffffff;
   margin: 0px; }
   .topic-publish-wrap .bgc {
     background-color: #f8f8f8; }
@@ -2385,3 +2419,37 @@
 
 .collection-color {
   color: gold !important; }
+
+.topic-tag-wrap {
+  word-wrap: break-word;
+  padding-top: 10px; }
+  .topic-tag-wrap .topic-tag {
+    float: left;
+    height: 20px;
+    min-width: 65px;
+    border: 1px solid #FF432F;
+    border-radius: 11px;
+    font-size: 12px;
+    line-height: 20px;
+    text-align: center;
+    margin: 0px 5px;
+    word-wrap: break-word; }
+  .topic-tag-wrap .tag-selected {
+    background-color: gold; }
+  .topic-tag-wrap .no-border {
+    border-width: 0px !important; }
+
+.topic-comment .header {
+  padding: 5px;
+  background-color: #F55E5E;
+  color: #FFFFFF; }
+
+.topic-comment .reply-content {
+  border: 0px solid;
+  border-radius: 11px;
+  background-color: #a8e3e5;
+  padding: 5px;
+  margin-bottom: 10px; }
+
+.topic-comment .item p {
+  font-size: 8px; }

@@ -10,7 +10,7 @@
 
     <ion-list>
       <ion-item class="topics bottom-bordered bottom-bordered-normal" ng-repeat="item in vm.items"
-                href="#/main/near/task-detail/{{item.id}}" item-height="223px">
+               item-height="223px" ng-click="vm.cb_itemClick($index)">
         <!--<ion-item class="topics bottom-bordered bottom-bordered-small" collection-repeat="item in vm.items"-->
                   <!--href="#/main/near/task-detail/{{item.id}}" item-height="223px">-->
         <div class="row nopadding">

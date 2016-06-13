@@ -19,6 +19,7 @@ resources/ios
 # scss tool cache
 .sass-cache/
 *.css.map
+*.min.css
 
 # temp file
 .io-config.json

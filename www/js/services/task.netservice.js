@@ -19,7 +19,18 @@
       isPostTaskNeedRefresh: true,
       postTaskList: [],
       isAcceptTaskNeedRefresh: true,
-      acceptTaskList: []
+      acceptTaskList: [],
+
+
+      isPostTaskGoingRefresh: true,
+      postTaskGoingList: [],
+      isPostTaskFinishRefresh: true,
+      postTaskFinishList: [],
+
+      isAcceptTaskGoingRefresh: true,
+      acceptTaskGoingList: [],
+      isAcceptTaskFinishRefresh: true,
+      acceptTaskFinishList: [],
     };
 
     var _postTask = function (type, summary, pubLocation, startTime, deadLine, posterLong,

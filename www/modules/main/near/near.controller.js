@@ -6,11 +6,28 @@
   'use strict';
 
   angular.module('main.near')
-    .controller('mainNearCtrl', ['$log', '$ionicLoading', '$timeout', '$scope', 'taskNetService', 'userNetService',
+    .controller('mainNearCtrl', ['$state', '$log', '$ionicLoading', '$interval', '$timeout', '$scope', 'taskNetService', 'userNetService',
       'taskUtils', 'timeUtils', 'impressUtils', mainNearCtrl]);
 
-  function mainNearCtrl($log, $ionicLoading, $timeout, $scope, taskNetService, userNetService,
+
+
+  function mainNearCtrl($state, $log, $ionicLoading, $interval, $timeout, $scope, taskNetService, userNetService,
                         taskUtils, timeUtils, impressUtils) {
+
+    //fixme:因为点击会穿透,同时触发多个事件,这里先用标记来屏蔽,点击按钮后间隔一段时间才可触发下一次点击回调
+    var _isClicking = false;
+    var canClick = function () {
+      if (_isClicking == false) {
+        $timeout(function () {
+          _isClicking = false;
+        }, 300);
+        _isClicking = true;
+        return true;
+      } else {
+        return false;
+      }
+    }
+
     var vm = $scope.vm = {};
 
     vm.doRefresh = function () {
@@ -21,10 +38,7 @@
 
 
     $scope.$on("$ionicView.enter", function () {
-      if (taskNetService.cache.isNearTaskNeedRefresh) {
-        taskNetService.cache.isNearTaskNeedRefresh = false;
-        _refreshList();
-      }
+
 
       if (ho.isValid(userNetService.cache.selfInfo)) {
         vm.orgName = userNetService.cache.selfInfo.orgList[0].name;
@@ -33,21 +47,54 @@
       //$timeout(function(){
       //  $scope.$apply();
       //  });
+
+      vm.pollInterval = $interval(function(){
+        if (taskNetService.cache.isNearTaskNeedRefresh) {
+          taskNetService.cache.isNearTaskNeedRefresh = false;
+          _refreshList();
+        }
+      }, 500);
     });
 
+    $scope.$on('$ionicView.leave', function() {
+      $interval.cancel(vm.pollInterval);
+    })
+
+    vm.cb_itemClick = function(index) {
+      if(canClick() == false) {
+        return
+      }
+
+      $state.go('main.task-detail', {id: vm.items[index].id})
+    };
+
     vm.cb_acceptTask = function (index) {
+      if(canClick() == false) {
+        return
+      }
+
       var task = taskNetService.cache.nearTaskList[index];
+
+      if(userNetService.cache.selfInfo == null){
+        alert("未登录");
+        return;
+      }
+
+      if(userNetService.cache.selfInfo.userId == task.poster.userId) {
+        alert("不能接自己的单子");
+        return;
+      }
 
       $ionicLoading.show();
 
       taskNetService.acceptTask(task.id).then(
         function (data) {
-          taskNetService.queryNewTaskList().then(flushSuccessFn, flushFailedFn).finally(function () {
-            $ionicLoading.hide();
-          })
+          //taskNetService.queryNewTaskList().then(flushSuccessFn, flushFailedFn).finally(function () {
+          //  $ionicLoading.hide();
+          //})
+          taskNetService.cache.isNearTaskNeedRefresh = true;
         },
         function () {
-          $ionicLoading.hide();
         }).finally(function () {
           $ionicLoading.hide();
           console.log('accept taskid=' + task.id);

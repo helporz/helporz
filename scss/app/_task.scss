@@ -1,3 +1,7 @@
+.task-view {
+  background: $color-page-bg;
+}
+
 .task-title-container {
   padding-top: 10px;
   @include display-flex();
