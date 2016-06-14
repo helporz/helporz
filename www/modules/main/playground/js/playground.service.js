@@ -288,7 +288,7 @@
         }
         _innerDefer.resolve(records);
       }, function (err) {
-        _innerDefer.reject(error);
+        _innerDefer.reject(err);
       });
       return _innerDefer.promise;
     };
