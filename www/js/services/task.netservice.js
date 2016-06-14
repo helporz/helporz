@@ -292,6 +292,10 @@
       return httpBaseService.getForPromise('/task/query/posted/uncompleted');
     }
 
+    var _getTaskList = function () {
+      return httpBaseService.getForPromise('/task/query');
+    }
+
     var _commentTask = function (taskId, comment) {
       var data = {
         comment: comment
@@ -319,6 +323,7 @@
       getPostTaskList: _getPostTaskList,
       getCompletedPostTaskList:_getCompletedPostTaskList,
       getUncompletedPostTaskList:_getUncompletedPostTaskList,
+      getTaskList:_getTaskList,
       commentTask: _commentTask,
       getTaskSharePage: _getTaskSharePage,
       queryNewTaskList: _queryNewTaskList,

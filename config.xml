@@ -22,7 +22,7 @@
   <preference name="android-minSdkVersion" value="16"/>
   <preference name="BackupWebStorage" value="none"/>
   <preference name="SplashScreen" value="screen"/>
-  <preference name="SplashScreenDelay" value="10000"/>
+  <preference name="SplashScreenDelay" value="5000"/>
   <preference name="AndroidPersistentFileLocation" value="Internal"/>
   <preference name="iosPersistentFileLocation" value="Library"/>
   <preference name="iosExtraFilesystems" value="library,library-nosync,documents,documents-nosync,cache,bundle,root"/>
@@ -33,20 +33,18 @@
   </feature>
   <platform name="android">
     <icon src="resources/icon.png"/>
-    <splash density="xhdpi" src="resources/splash.png"/>
-    <splash density="hdpi" src="resources/splash.png"/>
-    <splash density="mdpi" src="resources/splash.png"/>
-    <splash density="xxhdpi" src="resources/splash.png"/>
-    <splash density="xxxhdpi" src="resources/splash.png"/>
+    <splash src="resources/android/splash/drawable-land-ldpi-screen.png" density="land-ldpi"/>
+    <splash src="resources/android/splash/drawable-land-mdpi-screen.png" density="land-mdpi"/>
+    <splash src="resources/android/splash/drawable-port-ldpi-screen.png" density="port-ldpi"/>
+    <splash src="resources/android/splash/drawable-port-mdpi-screen.png" density="port-mdpi"/>
+    <splash src="resources/android/splash/drawable-port-hdpi-screen.png" density="port-hdpi"/>
+    <splash src="resources/android/splash/drawable-port-xhdpi-screen.png" density="port-xhdpi"/>
   </platform>
   <platform name="ios">
     <icon src="resources/icon.png"/>
-    <splash src="resources/splash.png"/>
-    <splash density="xhdpi" src="resources/splash.png"/>
-    <splash density="hdpi" src="resources/splash.png"/>
-    <splash density="mdpi" src="resources/splash.png"/>
-    <splash density="xxhdpi" src="resources/splash.png"/>
-    <splash density="xxxhdpi" src="resources/splash.png"/>
+    <splash src="resources/ios/splash/Default-568h@2x~iphone.png" width="640" height="1136"/>
+    <splash src="resources/ios/splash/Default@2x~iphone.png" width="640" height="960"/>
+    <splash src="resources/ios/splash/Default~iphone.png" width="320" height="480"/>
   </platform>
   <plugin name="cordova-sqlite-storage" spec="~0.8.2"/>
   <plugin name="cordova-plugin-wechat" spec="~1.1.4">
