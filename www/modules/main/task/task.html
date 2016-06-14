@@ -1,4 +1,4 @@
-<ion-view view-title="Home">
+<ion-view view-title="Home" class="task-view">
   <ion-nav-title class="task-title-container">
     <ho-tab-set widget-id="task" first-on="last" class="ho-tabset ho-tabset-round ho-tabset-outline-theme">
       <ho-tab on-select="vm.cb_post()">我的求助</ho-tab>
@@ -6,7 +6,34 @@
     </ho-tab-set>
   </ion-nav-title>
 
-  <ion-content delegate-handle="taskScroll">
+  <!--<ho-tab-set widget-id="task-sub" class="ho-tabset ho-tabset-block ho-tabset-outline-theme"-->
+              <!--style="border-bottom: 1px solid">-->
+  <ho-tab-set ng-show='vm.tabSelectedIndex == 0' widget-id="task-post" first-on='last' class="ho-tabset ho-tabset-block ho-tabset-outline-theme"
+              style="position:absolute;
+                    top:64px;">
+    <ho-tab class="col-2" on-select="vm.cb_taskGoing()"
+            style="font-size:12px;padding-top:5px;height:38px;">
+      进行中</ho-tab>
+    <ho-tab class="col-2" on-select="vm.cb_taskFinish()"
+            style="font-size:12px;padding-top:5px;height:38px;">
+      已完成</ho-tab>
+  </ho-tab-set>
+
+  <ho-tab-set ng-show='vm.tabSelectedIndex == 1' widget-id="task-accept" first-on='last' class="ho-tabset ho-tabset-block ho-tabset-outline-theme"
+              style="position:absolute;
+                    top:64px;">
+    <ho-tab class="col-2" on-select="vm.cb_taskGoing()"
+            style="font-size:12px;padding-top:5px;height:38px;">
+      进行中</ho-tab>
+    <ho-tab class="col-2" on-select="vm.cb_taskFinish()"
+            style="font-size:12px;padding-top:5px;height:38px;">
+      已完成</ho-tab>
+  </ho-tab-set>
+
+  <ion-content delegate-handle="taskScroll" style="
+                                                position:absolute;
+                                                top:102px">
+
     <ion-refresher pulling-text="下拉刷新..." on-refresh="vm.doRefresh()">
     </ion-refresher>
 
@@ -58,8 +85,11 @@
                 'ion-ios-refresh':item.ui_tagState1==2,'ion-checkmark-circled':item.ui_tagState1==3,'ion-close-circled':item.ui_tagState1==1}"></div>
               </div>
 
-              <div class="div-line-0" ng-class="{'div-line-pending':item.ui_tagState2==-1, 'div-line-failed':item.ui_tagState2==1,
-            'div-line-success':item.ui_tagState2==0 || item.ui_tagState2>1}"></div>
+              <!--<div class="div-line-0" ng-class="{'div-line-pending':item.ui_tagState2==-1, 'div-line-failed':item.ui_tagState2==1,-->
+            <!--'div-line-success':item.ui_tagState2==0 || item.ui_tagState2>1}"></div>-->
+
+              <div class="div-line-0" ng-class="{'div-line-pending':item.ui_tagState2==-1,
+            'div-line-success':item.ui_tagState2>=0}"></div>
 
               <div class="dot dot-1">
                 <div class="icon" ng-class="{'dot-small':item.ui_tagState2<=0, 'dot-big':item.ui_tagState2>0,

@@ -297,6 +297,7 @@
           _ctlSelf.closeModal();
           // 加入标志量,以供其他页面update
           taskNetService.cache.isPostTaskNeedRefresh = true;
+          taskNetService.cache.isNearTaskNeedRefresh = true;
         }, function (error) {
           alert("发布任务失败:" + error);
         });

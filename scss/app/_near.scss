@@ -35,7 +35,7 @@
         @include flex(0, 0, 34px);
       }
       .user-detail {
-        margin: 0 0 0 7px;
+        margin: 2px 0 0 7px;
         @include display-flex();
         @include flex-direction(column);
         @include justify-content(center);
@@ -79,7 +79,6 @@
 
           @include display-flex();
           @include align-items(center);
-          @include justify-content(center);
 
           .impress-panel {
             margin-right: 5px;
