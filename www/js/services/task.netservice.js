@@ -22,14 +22,14 @@
       acceptTaskList: [],
 
 
-      isPostTaskGoingRefresh: true,
+      isPostTaskGoingNeedRefresh: true,
       postTaskGoingList: [],
-      isPostTaskFinishRefresh: true,
+      isPostTaskFinishNeedRefresh: true,
       postTaskFinishList: [],
 
-      isAcceptTaskGoingRefresh: true,
+      isAcceptTaskGoingNeedRefresh: true,
       acceptTaskGoingList: [],
-      isAcceptTaskFinishRefresh: true,
+      isAcceptTaskFinishNeedRefresh: true,
       acceptTaskFinishList: [],
     };
 
@@ -274,11 +274,35 @@
         pageNum: pageNum,
         pageSize: pageSize
       };
-      return httpBaseService.getForPromise('/task/query/accepted/completed', params);
+      var d = $q.defer();
+      return httpBaseService.getForPromise('/task/query/accepted/completed', params).then(
+        function(taskList) {
+          d.resolve(taskList);
+          cache.isAcceptTaskFinishNeedRefresh = false;
+          cache.acceptTaskFinishList = taskList;
+          return d.promise;
+        },
+        function(err) {
+          d.reject(err);
+          return d.promise;
+        }
+      )
     }
 
     var _getUncompletedAcceptTaskList = function () {
-      return httpBaseService.getForPromise('/task/query/accepted/uncompleted', null);
+      var d = $q.defer();
+      return httpBaseService.getForPromise('/task/query/accepted/uncompleted', null).then(
+        function(taskList) {
+          d.resolve(taskList);
+          cache.isAcceptTaskGoingNeedRefresh = false;
+          cache.acceptTaskGoingList = taskList;
+          return d.promise;
+        },
+        function(err) {
+          d.reject(err);
+          return d.promise;
+        }
+      )
     }
 
     var _getPostTaskList = function (pageIndex, pageSize) {
@@ -296,11 +320,35 @@
         pageSize: pageSize
       };
 
-      return httpBaseService.getForPromise('/task/query/posted/completed', params);
+      var d = $q.defer();
+      return httpBaseService.getForPromise('/task/query/posted/completed', params).then(
+				function(taskList) {
+					d.resolve(taskList);
+					cache.isPostTaskFinishNeedRefresh = false;
+          cache.postTaskFinishList = taskList;
+          return d.promise;
+				},
+        function(err) {
+          d.reject(err);
+          return d.promise;
+        }
+      );
     }
 
     var _getUncompletedPostTaskList = function () {
-      return httpBaseService.getForPromise('/task/query/posted/uncompleted');
+      var d = $q.defer();
+      return httpBaseService.getForPromise('/task/query/posted/uncompleted').then(
+        function(taskList) {
+          d.resolve(taskList);
+          cache.isPostTaskGoingNeedRefresh = false;
+          cache.postTaskGoingList = taskList;
+          return d.promise;
+        },
+        function(err) {
+          d.reject(err);
+          return d.promise;
+        }
+      )
     }
 
     var _commentTask = function (taskId, comment) {

@@ -16,6 +16,9 @@
     OPT_CANCEL: 2
   };
 
+  var POLL_MIN_TIME = 500;
+  var POLL_MAX_TIME = 5000;
+
 
   function mainTaskCtrl($log, $state, $ionicLoading, $ionicPopup, widgetDelegate, $ionicScrollDelegate,
                         $scope, taskNetService, taskUtils, $timeout, $interval) {
@@ -42,14 +45,19 @@
 
     vm.taskScroll = $ionicScrollDelegate.$getByHandle('taskScroll');
 
+
+
+    vm.pollIntervalTime = POLL_MIN_TIME;
+    vm.lastPollErrorOccurMS = 0;
+    vm.timeChecker = new Date();
     $scope.$on("$ionicView.enter", function () {
       vm.pollInterval = $interval(function () {
-        if (vm.tabSelectedIndex == 0) {
-          checkPostTaskRefresh();
-        } else {
-          checkAcceptTaskRefresh();
+        checkTaskNewState();
+        //网络条件不佳,或者从服务器读取数据出错的时候,会将轮训间隔调大,当一段时间不出错(网络恢复后),将轮询间隔重置成最小值
+        if(vm.lastPollErrorOccurMS > 0 || vm.timeChecker.getTime() - vm.lastPollErrorOccurMS > POLL_MAX_TIME + 2000){
+          vm.pollInterval = POLL_MIN_TIME;
         }
-      }, 500);
+      }, vm.pollIntervalTime);
     });
     $scope.$on("$ionicView.leave", function () {
       $interval.cancel(vm.pollInterval);
@@ -61,65 +69,68 @@
 
     var _cb_failed = function (error) {
       console.error(error);
+      //出错后将轮训间隔调大,减小服务器压力
+      vm.pollIntervalTime = POLL_MAX_TIME;
+      vm.lastPollErrorOccurMS = (new Date()).getTime();
     }
 
-    var _cb_getPostTaskSuccess = function (taskList) {
-      taskNetService.cache.isPostTaskNeedRefresh = false;
-
-      taskNetService.cache.postTaskList = taskList;
-      //
-      for (var i in taskList) {
-        taskList[i].ui_identifier = "联系援助人";
-        taskList[i].ui_nickname = taskList[i].accepter != null ? taskList[i].accepter.nickname : "";
-        taskList[i].ui_avatar = taskList[i].accepter != null ? taskList[i].accepter.avatar : "";
-        taskList[i].ui_taskIcon = taskUtils.iconByTypeValue(taskList[i].taskTypesId);
-        taskList[i].ui_taskTypeName = taskUtils.nameByTypeValue(taskList[i].taskTypesId);
-
-        taskUtils.taskStateToUiState(taskList[i], taskList[i].status, true);
-      }
-      vm.repeatList = taskNetService.cache.postTaskList;
-    }
-
-    var checkPostTaskRefresh = function () {
-      if (taskNetService.cache.isPostTaskNeedRefresh == true) {
-        $ionicLoading.show({
-          template: '加载中...'
-        });
-
-        taskNetService.getPostTaskList().then(_cb_getPostTaskSuccess, _cb_failed).finally(function () {
-          $ionicLoading.hide();
-        });
-      }
-    }
-
-    var _cb_getAcceptTaskSuccess = function (taskList) {
-      taskNetService.cache.isAcceptTaskNeedRefresh = false;
-
-      taskNetService.cache.acceptTaskList = taskList;
-
-      for (var i in taskList) {
-        taskList[i].ui_identifier = "联系求助人";
-        taskList[i].ui_nickname = taskList[i].poster.nickname;
-        taskList[i].ui_avatar = taskList[i].poster.avatar;
-        taskList[i].ui_taskIcon = taskUtils.iconByTypeValue(taskList[i].taskTypesId);
-        taskList[i].ui_taskTypeName = taskUtils.nameByTypeValue(taskList[i].taskTypesId);
-
-        taskUtils.taskStateToUiState(taskList[i], taskList[i].status, false);
-      }
-      vm.repeatList = taskNetService.cache.acceptTaskList;
-    }
-
-    var checkAcceptTaskRefresh = function () {
-      if (taskNetService.cache.isAcceptTaskNeedRefresh == true) {
-        $ionicLoading.show({
-          template: '加载中...'
-        });
-
-        taskNetService.getPostTaskList().then(_cb_getAcceptTaskSuccess, _cb_failed).finally(function () {
-          $ionicLoading.hide();
-        });
-      }
-    }
+    //var _cb_getPostTaskSuccess = function (taskList) {
+    //  taskNetService.cache.isPostTaskNeedRefresh = false;
+    //
+    //  taskNetService.cache.postTaskList = taskList;
+    //  //
+    //  for (var i in taskList) {
+    //    taskList[i].ui_identifier = "联系援助人";
+    //    taskList[i].ui_nickname = taskList[i].accepter != null ? taskList[i].accepter.nickname : "";
+    //    taskList[i].ui_avatar = taskList[i].accepter != null ? taskList[i].accepter.avatar : "";
+    //    taskList[i].ui_taskIcon = taskUtils.iconByTypeValue(taskList[i].taskTypesId);
+    //    taskList[i].ui_taskTypeName = taskUtils.nameByTypeValue(taskList[i].taskTypesId);
+    //
+    //    taskUtils.taskStateToUiState(taskList[i], taskList[i].status, true);
+    //  }
+    //  vm.repeatList = taskNetService.cache.postTaskList;
+    //}
+    //
+    //var checkPostTaskRefresh = function () {
+    //  if (taskNetService.cache.isPostTaskNeedRefresh == true) {
+    //    $ionicLoading.show({
+    //      template: '加载中...'
+    //    });
+    //
+    //    taskNetService.getPostTaskList().then(_cb_getPostTaskSuccess, _cb_failed).finally(function () {
+    //      $ionicLoading.hide();
+    //    });
+    //  }
+    //}
+    //
+    //var _cb_getAcceptTaskSuccess = function (taskList) {
+    //  taskNetService.cache.isAcceptTaskNeedRefresh = false;
+    //
+    //  taskNetService.cache.acceptTaskList = taskList;
+    //
+    //  for (var i in taskList) {
+    //    taskList[i].ui_identifier = "联系求助人";
+    //    taskList[i].ui_nickname = taskList[i].poster.nickname;
+    //    taskList[i].ui_avatar = taskList[i].poster.avatar;
+    //    taskList[i].ui_taskIcon = taskUtils.iconByTypeValue(taskList[i].taskTypesId);
+    //    taskList[i].ui_taskTypeName = taskUtils.nameByTypeValue(taskList[i].taskTypesId);
+    //
+    //    taskUtils.taskStateToUiState(taskList[i], taskList[i].status, false);
+    //  }
+    //  vm.repeatList = taskNetService.cache.acceptTaskList;
+    //}
+    //
+    //var checkAcceptTaskRefresh = function () {
+    //  if (taskNetService.cache.isAcceptTaskNeedRefresh == true) {
+    //    $ionicLoading.show({
+    //      template: '加载中...'
+    //    });
+    //
+    //    taskNetService.getPostTaskList().then(_cb_getAcceptTaskSuccess, _cb_failed).finally(function () {
+    //      $ionicLoading.hide();
+    //    });
+    //  }
+    //}
 
 
     //--------------------------------------------------
@@ -150,12 +161,11 @@
     }
 
     var _checkPostTaskGoing = function() {
-      if(taskNetService.cache.isPostTaskGoingRefresh == true) {
+      if(taskNetService.cache.isPostTaskGoingNeedRefresh == true) {
         $ionicLoading.show({
           template: '加载中...'
         });
-        taskNetService.getPostTaskList().then(function(taskList) {
-          taskNetService.cache.isPostTaskGoingRefresh = false;
+        taskNetService.getUncompletedPostTaskList().then(function(taskList) {
           vm.repeatList = taskList;
           _processTaskForUI(taskList, true);
         }, _cb_failed).finally(function(){
@@ -165,12 +175,11 @@
     };
 
     var _checkPostTaskFinish = function() {
-      if(taskNetService.cache.isPostTaskFinishRefresh == true) {
+      if(taskNetService.cache.isPostTaskFinishNeedRefresh == true) {
         $ionicLoading.show({
           template: '加载中...'
         });
-        taskNetService.getPostTaskList().then(function(taskList) {
-          taskNetService.cache.isPostTaskFinishRefresh = false;
+        taskNetService.getCompletedPostTaskList(0, 15).then(function(taskList) {
           vm.repeatList = taskList;
           _processTaskForUI(taskList, true);
         }, _cb_failed).finally(function(){
@@ -180,12 +189,11 @@
     };
 
     var _checkAcceptTaskGoing = function() {
-      if(taskNetService.cache.isAcceptTaskGoingRefresh == true) {
+      if(taskNetService.cache.isAcceptTaskGoingNeedRefresh == true) {
         $ionicLoading.show({
           template: '加载中...'
         });
-        taskNetService.getPostTaskList().then(function(taskList) {
-          taskNetService.cache.isAcceptTaskGoingRefresh = false;
+        taskNetService.getUncompletedAcceptTaskList().then(function(taskList) {
           vm.repeatList = taskList;
           _processTaskForUI(taskList, false);
         }, _cb_failed).finally(function(){
@@ -195,12 +203,11 @@
     };
 
     var _checkAcceptTaskFinish = function() {
-      if(taskNetService.cache.isAcceptTaskFinishRefresh == true) {
+      if(taskNetService.cache.isAcceptTaskFinishNeedRefresh == true) {
         $ionicLoading.show({
           template: '加载中...'
         });
-        taskNetService.getPostTaskList().then(function(taskList) {
-          taskNetService.cache.isAcceptTaskFinishRefresh = false;
+        taskNetService.getCompletedAcceptTaskList(0, 15).then(function(taskList) {
           vm.repeatList = taskList;
           _processTaskForUI(taskList, false);
         }, _cb_failed).finally(function(){
@@ -209,14 +216,7 @@
       }
     };
 
-    //var _cb_getPostTaskGoingSuccess = function (taskList) {
-    //}
-    //var _cb_getPostTaskFinishSuccess = function (taskList) {
-    //}
-    //var _cb_getAcceptTaskGoingSuccess = function (taskList) {
-    //}
-    //var _cb_getAcceptTaskFinishSuccess = function (taskList) {
-    //}
+
     var checkTaskNewState = function () {
       _checkPostTaskGoing();
       _checkPostTaskFinish();
