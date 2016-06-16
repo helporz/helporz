@@ -17,6 +17,7 @@
         if(loginService.isLogging()) {
           loginService.loginByTicket().then(function(){
             $log.info("登录成功");
+            $state.go('main.near');
           },function() {
             $state.go('login');
           });
