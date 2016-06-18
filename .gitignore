@@ -13,8 +13,8 @@ platforms/ios/helporz/*
 
 
 plugins/
-resources/android
-resources/ios
+#resources/android
+#resources/ios
 
 # scss tool cache
 .sass-cache/

@@ -9,11 +9,12 @@
     .controller('wallCtrl', ['$state', '$scope', '$ionicHistory', '$ionicLoading', '$ionicPopup', '$ionicScrollDelegate',
       '$ionicActionSheet',
       '$cordovaCamera', '$cordovaImagePicker', '$timeout', '$interval', 'userNetService',
-      'errorCodeService', 'schoolSelectService', wallCtrl])
+      'errorCodeService', 'schoolSelectService', 'SharePageService', wallCtrl])
 
   function wallCtrl($state, $scope, $ionicHistory, $ionicLoading, $ionicPopup, $ionicScrollDelegate,
                     $ionicActionSheet,
-                  $cordovaCamera, $cordovaImagePicker, $timeout, $interval, userNetService, errorCodeService, schoolSelectService) {
+                    $cordovaCamera, $cordovaImagePicker, $timeout, $interval, userNetService, errorCodeService, schoolSelectService,
+                    SharePageService) {
     var vm = $scope.vm = {};
 
 
@@ -45,44 +46,7 @@
       $ionicActionSheet.show(sheet);
 
       function buttonClicked(index) {
-        //if (!window.Wechat) return;
-
-        var title = "title";
-        var thumbnail = null;
-        var description = 'description';
-
-
-        description += ' 图虫日报，精选每日图虫热门图片。'
-
-        if (ho.isValid(window.cordova.plugins.Wechat) == false) {
-          alert(window.cordova.plugins.Wechat);
-        }
-        Wechat.share({
-          message: {
-            title: title,
-            description: description,
-            thumb: 'http://ww2.sinaimg.cn/large/61ff0de3gw1emj19ju7p4j2030030745.jpg',
-            media: {
-              type: Wechat.Type.WEBPAGE,
-              webpageUrl: 'http://www.helporz.com'
-            }
-          },
-          scene: index
-        });
-
-        //window.cordova.plugins.Wechat.share({
-        //  message: {
-        //    title: title,
-        //    description: description,
-        //    thumb:  'http://ww2.sinaimg.cn/large/61ff0de3gw1emj19ju7p4j2030030745.jpg' ,
-        //    media: {
-        //      type: Wechat.Type.WEBPAGE,
-        //      webpageUrl: post.url
-        //    }
-        //  },
-        //  scene: index
-        //});
-
+        SharePageService.shareApp(index);
       }
     }
 

@@ -38,7 +38,7 @@
 
             <div class="col col-5 col-center" style="padding-left: 0;padding-right:0;">
                 <span class="gender-icon  font-size-12"
-                      ng-class="{true:'ho-gender-female color-woman',false:'ho-gender-male color-man '}[vm.topic.poster.gender == 1]">
+                      ng-class="{false:'ho-gender-female color-woman',true:'ho-gender-male color-man '}[vm.topic.poster.gender == 1]">
                 </span>
             </div>
             <div class="col col-center">
@@ -158,7 +158,7 @@
                     <p class="title-header">
                       <span>{{item.commenter.nickname}}</span>
                     <span class="gender-icon  font-size-12"
-                          ng-class="{true:'ho-gender-female color-woman',false:'ho-gender-male color-man '}[item.commenter.gender == 1]">
+                          ng-class="{false:'ho-gender-female color-woman',true:'ho-gender-male color-man '}[item.commenter.gender == 1]">
                 </span>
                     </p>
                   </div>

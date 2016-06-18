@@ -160,14 +160,14 @@
       return httpBaseService.postForPromise('/playground/topic/' + topicId + '/comment/add', param);
     }
 
-    var _addTopic = function (groupId, content, imgCount, audioCount,tagInfoArray) {
-      var tagJsonList = (tagInfoArray!= null && tagInfoArray.length != 0)?JSON.stringify(tagInfoArray):null;
+    var _addTopic = function (groupId, content, imgCount, audioCount, tagInfoArray) {
+      var tagJsonList = (tagInfoArray != null && tagInfoArray.length != 0) ? JSON.stringify(tagInfoArray) : null;
       var param = {
         groupId: groupId,
         content: content,
         imgCount: imgCount,
         audioCount: audioCount,
-        tagList:tagJsonList,
+        tagList: tagJsonList,
       };
 
       return httpBaseService.postForPromise('/playground/topic/add', param);
@@ -189,9 +189,9 @@
       return httpBaseService.postForPromise('/playground/topic/collection/cancel', param);
     }
 
-    var _addShareCount = function (topicId) {
-      return httpBaseService.postForPromise('/playground/topic/' + topicId + '/addShareCount', null);
-    }
+    //var _addShareCount = function (topicId) {
+    //  return httpBaseService.postForPromise('/playground/topic/' + topicId + '/addShareCount', null);
+    //}
 
     var _getTopicTagList = function () {
       return httpBaseService.getForPromise('/playground/topic/tags', null);
@@ -216,7 +216,7 @@
       addTopic: _addTopic,
       addCollectionTopic: _addCollectionTopic,
       cancelCollectionTopic: _cancelCollectionTopic,
-      addShareCount: _addShareCount,
+      //addShareCount: _addShareCount,
       getTopicTagList: _getTopicTagList,
     };
   };
@@ -273,7 +273,7 @@
     var _findRecords = function (table, where) {
       var _innerDefer = $q.defer();
       dbService.findRecords(table, where).then(function (res) {
-        if( typeof res == 'undefined' || res === null ) {
+        if (typeof res == 'undefined' || res === null) {
           _innerDefer.resolve(new Array());
           return;
         }
@@ -584,9 +584,10 @@
   }
 
   topicServiceFactoryFn.$inject = ['$log', '$q', '$$HashMap', 'PlaygroundDBService', 'PlaygroundNetService',
-    'favouriteTopicService', 'topicBlacklistService', 'filterTopicService'];
+    'favouriteTopicService', 'topicBlacklistService', 'filterTopicService', 'SharePageWrapService'];
   function topicServiceFactoryFn($log, $q, $$HashMap, PlaygroundDBService, PlaygroundNetService,
-                                 favouriteTopicService, topicBlacklistService, filterTopicService) {
+                                 favouriteTopicService, topicBlacklistService, filterTopicService,
+                                 SharePageWrapService) {
     var _topicCacheTable = new $$HashMap([], true);
     var _sysTopicCacheTable = new $$HashMap([], true);
     var _topicTagList = null;
@@ -687,7 +688,7 @@
     }
 
     var _shareTopic = function (topic) {
-      PlaygroundNetService.addShareCount(topic.id).then(function (res) {
+      SharePageWrapService.shareTopic(topic.id,1).then(function (res) {
         topic.shareCount++;
       }, function (error) {
 
@@ -794,9 +795,9 @@
     };
   }
 
-  function PlaygroundStartupServiceFn(topicService,PlaygroundDBService,favouriteTopicService,
-    topicBlacklistService,filterTopicService) {
-    var _init = function(currentUserId) {
+  function PlaygroundStartupServiceFn(topicService, PlaygroundDBService, favouriteTopicService,
+                                      topicBlacklistService, filterTopicService) {
+    var _init = function (currentUserId) {
       PlaygroundDBService.createTable();
       topicService.initService();
       favouriteTopicService.buildCacheFromDB(currentUserId);
@@ -805,7 +806,7 @@
     }
 
     return {
-      initService:_init
+      initService: _init
     }
   }
 })();
