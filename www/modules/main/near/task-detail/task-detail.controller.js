@@ -6,10 +6,10 @@
   'use strict';
 
   angular.module('main.near.taskdetail')
-    .controller('mainNearTaskDetailCtrl', ['$state', '$scope', '$timeout', '$stateParams', 'taskNetService',
+    .controller('mainNearTaskDetailCtrl', ['$state', '$scope', '$ionicScrollDelegate', '$timeout', '$stateParams', 'taskNetService',
       'taskUtils', 'impressUtils', mainNearTaskDetailCtrl]);
 
-  function mainNearTaskDetailCtrl($state, $scope, $timeout, $stateParams, taskNetService,
+  function mainNearTaskDetailCtrl($state, $scope, $ionicScrollDelegate, $timeout, $stateParams, taskNetService,
                                   taskUtils, impressUtils) {
     console.log($stateParams);
 
@@ -20,8 +20,8 @@
 
       vm.task.icon = taskUtils.iconByTypeValue(vm.task.taskTypesId);
       vm.task.typeName = taskUtils.nameByTypeValue(vm.task.taskTypesId);
-      vm.task.commentCount = vm.task.commentList? vm.task.commentList.length: 0;
-
+      vm.task.commentList = vm.task.commentList || [1,2];
+      vm.task.commentCount = vm.task.commentList.length;
 
       // impresses
       var impressUI = impressUtils.impressUI();
@@ -74,6 +74,21 @@
         }).finally(function () {
           $ionicLoading.hide();
         });
+    }
+
+    vm.input = '';
+
+    vm.viewScroll = $ionicScrollDelegate.$getByHandle('taskDetailScroll');
+    window.addEventListener("native.keyboardshow", function(e){
+      //vm.viewScroll.scrollBottom();
+    });
+
+    vm.testShow = function() {
+      ionic.trigger('native.keyboardshow');
+    }
+
+    vm.testHide = function() {
+      ionic.trigger('native.keyboardhide');
     }
   }
 })()

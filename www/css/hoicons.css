@@ -21,14 +21,17 @@
 .ho-chat-2:before,
 .ho-gender-female:before,
 .ho-gender-male:before,
-.ho-task-list:before,
+.ho-discover:before,
 .ho-rmb-on:before,
 .ho-who:before,
 .ho-head-1:before,
 .ho-head-2:before,
+.ho-orz:before,
 .ho-graduation-cap:before,
 .ho-gender-both:before,
-.ho-person:before {
+.ho-person:before,
+.ho-add-on:before,
+.ho-task:before {
   display: inline-block;
   font-family: "Hoicons";
   speak: none;
@@ -68,7 +71,7 @@
 .ho-gender-male:before {
   content: ""; }
 
-.ho-task-list:before {
+.ho-discover:before {
   content: ""; }
 
 .ho-rmb-on:before {
@@ -83,6 +86,9 @@
 .ho-head-2:before {
   content: ""; }
 
+.ho-orz:before {
+  content: ""; }
+
 .ho-graduation-cap:before {
   content: ""; }
 
@@ -91,3 +97,9 @@
 
 .ho-person:before {
   content: ""; }
+
+.ho-add-on:before {
+  content: ""; }
+
+.ho-task:before {
+  content: ""; }

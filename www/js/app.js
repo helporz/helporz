@@ -251,6 +251,7 @@
     //  })
     //}
     //$state.go('main.near');
+
   }
 
   function ConfigForTest(playgroundTestConfigService) {

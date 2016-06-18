@@ -111,12 +111,13 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
 }
 
 // button
-@mixin ho-button-color($color, $active-color) {
-  background-color: $color;
-  color: white;
+@mixin ho-button-color($bgcolor, $active-bgcolor, $textcolor, $active-textcolor) {
+  background-color: $bgcolor;
+  color: $textcolor;
   &.active,
   &.activated {
-    background-color: $active-color;
+    background-color: $active-bgcolor;
+    color: $active-textcolor;
   }
 }
 
@@ -167,8 +168,9 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
   //@include align-items(center);
   //@include justify-content(center);
   &.button-theme {
-    @include ho-button-color($color-theme, $color-theme-dark);
+    @include ho-button-color($color-theme, $color-theme-dark, white, white);
   }
+
 }
 
 //////////////////////////////////////////////////

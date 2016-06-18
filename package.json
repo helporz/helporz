@@ -28,9 +28,9 @@
     "cordova-sqlite-storage",
     "cordova-plugin-camera",
     "cordova-plugin-image-picker",
-    "ionic-plugin-keyboard",
     "cordova-plugin-wechat",
-    "cordova-plugin-jmessage"
+    "cordova-plugin-jmessage",
+    "ionic-plugin-keyboard"
   ],
   "cordovaPlatforms": [
     "android",

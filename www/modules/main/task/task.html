@@ -1,8 +1,14 @@
 <ion-view view-title="Home" class="task-view">
   <ion-nav-title class="task-title-container">
     <ho-tab-set widget-id="task" first-on="last" class="ho-tabset ho-tabset-round ho-tabset-outline-theme">
-      <ho-tab on-select="vm.cb_post()">我的求助</ho-tab>
-      <ho-tab on-select="vm.cb_accept()">我的援助</ho-tab>
+      <ho-tab on-select="vm.cb_post()">
+        我的求助
+        <ho-badge count="128" ng-class="{'ho-badge-reverse':vm.tabSelectedIndex==1}"></ho-badge>
+      </ho-tab>
+      <ho-tab on-select="vm.cb_accept()">
+        我的援助
+        <ho-badge count="22" ng-class="{'ho-badge-reverse':vm.tabSelectedIndex==0}"></ho-badge>
+      </ho-tab>
     </ho-tab-set>
   </ion-nav-title>
 
@@ -10,29 +16,32 @@
               <!--style="border-bottom: 1px solid">-->
   <ho-tab-set ng-show='vm.tabSelectedIndex == 0' widget-id="task-post" first-on='last' class="ho-tabset ho-tabset-block ho-tabset-outline-theme"
               style="position:absolute;
-                    top:64px;">
-    <ho-tab class="col-2" on-select="vm.cb_taskGoing()"
+                    top:64px;
+                    border-bottom:1px solid #dddddd">
+    <ho-tab class="col-2" on-select="vm.cb_taskPostGoing()"
             style="font-size:12px;padding-top:5px;height:38px;">
-      进行中</ho-tab>
-    <ho-tab class="col-2" on-select="vm.cb_taskFinish()"
+      进行中
+      <ho-badge count="2"></ho-badge>
+    </ho-tab>
+    <ho-tab class="col-2" on-select="vm.cb_taskPostFinish()"
             style="font-size:12px;padding-top:5px;height:38px;">
-      已完成</ho-tab>
+      已结束</ho-tab>
   </ho-tab-set>
 
   <ho-tab-set ng-show='vm.tabSelectedIndex == 1' widget-id="task-accept" first-on='last' class="ho-tabset ho-tabset-block ho-tabset-outline-theme"
               style="position:absolute;
                     top:64px;">
-    <ho-tab class="col-2" on-select="vm.cb_taskGoing()"
+    <ho-tab class="col-2" on-select="vm.cb_taskAcceptGoing()"
             style="font-size:12px;padding-top:5px;height:38px;">
       进行中</ho-tab>
-    <ho-tab class="col-2" on-select="vm.cb_taskFinish()"
+    <ho-tab class="col-2" on-select="vm.cb_taskAcceptFinish()"
             style="font-size:12px;padding-top:5px;height:38px;">
-      已完成</ho-tab>
+      已结束</ho-tab>
   </ho-tab-set>
 
   <ion-content delegate-handle="taskScroll" style="
                                                 position:absolute;
-                                                top:102px">
+                                                top:104px">
 
     <ion-refresher pulling-text="下拉刷新..." on-refresh="vm.doRefresh()">
     </ion-refresher>
@@ -53,7 +62,7 @@
 
             <p class="name">{{item.ui_nickname}}</p>
 
-            <p class="desc">{{item.ui_identifier}}</p>
+            <p class="desc" ng-if="item.ui_identifier != ''">{{item.ui_identifier}}</p>
           </div>
           <div class="right">
             <!--<button class="chat button button-icon icon ion-ios-chatbubble-outline"-->
