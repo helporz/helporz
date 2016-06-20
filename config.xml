@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.helporz.hybridapp" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.helporz.hybrid" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>helporz</name>
   <description>
         An Ionic Framework and Cordova project.
@@ -87,7 +87,7 @@
   <plugin name="cordova-plugin-dialogs" spec="~1.2.0"/>
   <plugin name="cordova-plugin-statusbar" spec="~2.1.2"/>
   <plugin name="cordova-plugin-jmessage" spec="https://github.com/jpush/jmessage-phonegap-plugin.git">
-    <variable name="APP_KEY" value="111a4caa0fbbc9a1334d0d3a"/>
+    <variable name="APP_KEY" value="049e53804cad513c749bbd1c"/>
   </plugin>
   <plugin name="cordova-plugin-camera" spec="~2.1.1"/>
   <plugin name="cordova-plugin-image-picker" spec="https://github.com/wymsee/cordova-imagePicker.git"/>
