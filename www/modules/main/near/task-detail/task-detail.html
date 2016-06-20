@@ -9,8 +9,8 @@
 </style>
 
 <ion-view view-title="任务详情">
-  <ion-content class="topics">
-    <div class="row nopadding bottom-bordered bottom-bordered-big">
+  <ion-content class="has-footer" delegate-handle="taskDetailScroll">
+    <div class="topics row nopadding bottom-bordered bottom-bordered-normal">
       <div class="content-left">
         <img class="task-img" src={{vm.task.icon}} reset-img>
 
@@ -76,5 +76,56 @@
         </div>
       </div>
     </div>
+
+    <ion-list class="ho-list self">
+      <ion-item class="ho-item ho-item-header-icon-title">
+        <i class="side-icon icon ho-chat-0"></i>
+
+        <p class="title">留言{{vm.task.commentList.length}}条</p>
+      </ion-item>
+    </ion-list>
+
+    <div class="task-comment-panel" ng-repeat="item in vm.task.commentList">
+      <img class="avatar"
+           src="http://g.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=d4d0c467b5de9c82a630f18b59b1ac3c/e850352ac65c103815cbee9cb4119313b07e8932.jpg">
+
+      <div class="right-panel">
+
+        <div class="first-line-panel">
+          <div class="name-gender-panel">
+            <span class="name">张三</span>
+            <i class="gender-icon ho-gender-female color-woman font-size-12"></i>
+          </div>
+
+          <span class="time">jifeefjie time</span>
+        </div>
+
+        <p class="comment">
+          jifejifjelfjweji放假诶放假啦金额近法律界俄方解决方法🐔放假了放假恶疾飞机飞机翻了几分饥饿疗法 i 就诶风景法律界俄方将诶风景
+        </p>
+
+      </div>
+    </div>
+
+
   </ion-content>
+
+  <ion-footer-bar align-title="left" keyboard-attach class="bar-assertive task-detail-footer-bar">
+    <div class="buttons">
+      <button class="button" ng-click="vm.testShow()">show</button>
+    </div>
+    <input type="text" ng-model="vm.input" placeholder="请输入学校">
+    <div class="buttons">
+      <button class="button" ng-click="vm.testHide()">hide</button>
+    </div>
+  </ion-footer-bar>
+
+  <!--<div class="ho-bottom-input" keyboard-attach >-->
+    <!--<div class="input-region">-->
+      <!--<i class="input-icon icon ion-ios-search-strong color-text-secondary font-size-17"></i>-->
+      <!--<input type="text" ng-model="vm.input" placeholder="请输入学校">-->
+    <!--</div>-->
+
+    <!--<button class="send" ng-disabled="vm.input.length==0">发送</button>-->
+  <!--</div>-->
 </ion-view>

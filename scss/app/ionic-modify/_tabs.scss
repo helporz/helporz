@@ -52,5 +52,24 @@
   //@include display-flex();
 }
 
+.tab-item-active-style-1 {
+  color: $color-theme;
+}
 
+.tab-item-inactive-style-1 {
+  opacity: 1 !important;
+  color: $color-text-secondary !important;
+}
 
+.tab-item-icon-only {
+  margin-top: 5px !important;
+  height: 36px !important;
+  font-size: 36px !important;
+}
+
+.tab-item .icon {
+  display: block;
+  margin: 2px 0 0 0;
+  height: 29px;
+  font-size: 29px;
+}

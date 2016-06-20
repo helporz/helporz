@@ -13,7 +13,8 @@
     'main.me',
     'com.helproz.task.publish',
     'impress.utils.service',
-    'com.helporz.playground'
+    'com.helporz.playground',
+    'com.helporz.im'
   ]).config(mainConfig).controller('mainController', mainControllerFn).run(mainRun);
 
   mainControllerFn.$inject = ['$scope', '$ionicModal', 'taskPublishModalService'];
@@ -78,6 +79,16 @@
           'me': {
             templateUrl: 'modules/main/me/me.html',
             controller: 'mainMeCtrl'
+          }
+        }
+      })
+
+      .state('main.im', {
+        url: '/me/im',
+        views: {
+          'me': {
+            templateUrl:'modules/im/list.html',
+            controller:'imMessageListController',
           }
         }
       })

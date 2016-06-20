@@ -239,24 +239,36 @@
       return null;
     };
     var _getTaskInPostList = function (taskId) {
-      if (cache.postTaskList) {
-        for (var i = 0; i < cache.postTaskList.length; i++) {
-          if (cache.postTaskList[i].id == taskId) {
-            return cache.postTaskList[i];
+      if (cache.postTaskGoingList) {
+        for (var i = 0; i < cache.postTaskGoingList.length; i++) {
+          if (cache.postTaskGoingList[i].id == taskId) {
+            return cache.postTaskGoingList[i];
           }
         }
-        return null;
+      }
+      if (cache.postTaskFinishList) {
+        for (var i = 0; i < cache.postTaskFinishList.length; i++) {
+          if (cache.postTaskFinishList[i].id == taskId) {
+            return cache.postTaskFinishList[i];
+          }
+        }
       }
       return null;
     };
     var _getTaskInAcceptList = function (taskId) {
-      if (cache.acceptTaskList) {
-        for (var i = 0; i < cache.acceptTaskList.length; i++) {
-          if (cache.acceptTaskList[i].id == taskId) {
-            return cache.acceptTaskList[i];
+      if (cache.acceptTaskGoingList) {
+        for (var i = 0; i < cache.acceptTaskGoingList.length; i++) {
+          if (cache.acceptTaskGoingList[i].id == taskId) {
+            return cache.acceptTaskGoingList[i];
           }
         }
-        return null;
+      }
+      if (cache.acceptTaskFinishList) {
+        for (var i = 0; i < cache.acceptTaskFinishList.length; i++) {
+          if (cache.acceptTaskFinishList[i].id == taskId) {
+            return cache.acceptTaskFinishList[i];
+          }
+        }
       }
       return null;
     };
@@ -352,7 +364,26 @@
     }
 
     var _getTaskList = function () {
-      return httpBaseService.getForPromise('/task/query');
+      var d = $q.defer();
+      return httpBaseService.getForPromise('/task/query').then(
+        function(taskList) {
+          d.resolve(taskList);
+          cache.isPostTaskGoingNeedRefresh = false;
+          cache.isPostTaskFinishNeedRefresh = false;
+          cache.isAcceptTaskGoingNeedRefresh = false;
+          cache.isAcceptTaskFinishNeedRefresh = false;
+          cache.postTaskGoingList = taskList.uncompletedPostList || [];
+          cache.postTaskFinishList = taskList.completedPostList || [];
+          cache.acceptTaskGoingList = taskList.uncompletedAcceptList || [];
+          cache.acceptTaskFinishList = taskList.completedAcceptList || [];
+          ho.trace(taskList);
+          return d.promise;
+        },
+        function(err) {
+          d.reject(err);
+          return d.promise;
+        }
+      )
     }
 
     var _commentTask = function (taskId, comment) {

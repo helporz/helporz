@@ -81,6 +81,10 @@
       //}
     }
 
+    vm.cb_im = function() {
+      $state.go('main.im');
+    }
+
     // me info
     vm.meInfo = {};
 

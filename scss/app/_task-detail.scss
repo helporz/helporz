@@ -1,0 +1,55 @@
+.task-comment-panel {
+  @include display-flex();
+  @include align-items(top);
+  border-bottom: 1px solid $color-div-line;
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    margin: 10px;
+  }
+
+  .right-panel {
+    padding: 8px 8px 8px 0;
+    width: calc(100% - 54px);
+
+    .first-line-panel {
+      @include display-flex();
+      @include align-items(center);
+      @include justify-content(space-between);
+
+      .name-gender-panel {
+        @include display-flex();
+        @include align-items(center);
+
+        .name {
+          margin-right: 5px;
+          color: $color-text-secondary;
+        }
+        .gender-icon {
+
+        }
+      }
+
+      .time {
+        color: $color-text-secondary;
+      }
+    }
+
+    .comment {
+      margin-bottom: 0;
+      color: $color-text-primary;
+    }
+
+  }
+}
+
+.task-detail-footer-bar {
+  &.bar-footer {
+    &.has-tabs {
+      bottom: 0px;
+    }
+  }
+}
+

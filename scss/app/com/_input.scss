@@ -1,0 +1,68 @@
+
+.ho-bottom-input {
+  background-color: #f8f8f8;
+  padding: 5px 5px;
+  //border-width: 0 0 1px 0;
+  //border-style: solid;
+  //border-color: $color-div-line;
+
+  position: absolute;
+  bottom: 0;
+  border-top: 1px solid $color-div-line;
+  width: 100%;
+  height: 44px;
+  @include display-flex();
+
+
+  .input-region {
+    @include display-flex();
+
+    background-color: white;
+    border: 1px solid $color-div-line;
+    border-radius: 7px;
+    width: calc(100% - 60px);
+
+    .input-icon {
+      margin: 6px 0 0 8px;
+    }
+
+    input {
+      position: relative;
+      left: 4px;
+      //margin: 7px 0;
+      padding: 1px 0 0 0;
+      height: 30px;
+      width: calc(100% - 30px);
+    }
+  }
+
+  //button[disabled] {
+  //  background-color: $color-text-thirdly;
+  //  color: $color-text-secondary;
+  //}
+
+  //button[disabled] {
+  //  background-color: red;
+  //  color: red;
+  //}
+
+  .send {
+    margin-left: 5px;
+    text-align: center;
+    padding: 2px 5px;
+    width: 55px;
+    height: 33px;
+    border-radius: 7px;
+    font-size: 12px;
+    line-height: 25px;
+    border: 1px solid $button-accept-bordercolor;
+
+    @include ho-button-color($button-accept-bgcolor, $button-accept-bordercolor, $button-accept-txtcolor, white);
+
+    &[disabled] {
+      background-color: $color-text-thirdly;
+      color: $color-text-secondary;
+      border-color: $color-text-thirdly;
+    }
+  }
+}

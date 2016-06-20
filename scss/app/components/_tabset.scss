@@ -88,7 +88,8 @@ $tab-font-size: 12px;
       @include align-items(center);
       @include justify-content(center);
 
-      @include ho-tab-color($color-text-secondary, white, white, $color-theme, white, $color-theme);
+      //@include ho-tab-color($color-text-primary, white, white, $color-theme, white, $color-theme);
+      @include ho-tab-color(#777777, white, white, $color-theme, white, $color-theme);
 
       &.col-2 {
         @include flex(0, 0, 50%);

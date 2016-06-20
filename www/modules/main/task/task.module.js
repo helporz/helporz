@@ -9,6 +9,7 @@
     'com.helporz.task.netservice',
     'app.task.utils.service',
     'components.widgets.hoTabSet',
+    'components.widgets.hoBadge',
 
     'main.comment',
     'main.task.taskState'

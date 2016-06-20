@@ -3845,7 +3845,9 @@ function keyboardNativeShow(e) {
     ionic.keyboard.isClosing = false;
   }
 
-  ionic.keyboard.height = e.keyboardHeight;
+  // ionic.keyboard.height = e.keyboardHeight;
+//lkj keyboard:del above
+
   //console.log('nativeshow keyboard height:' + e.keyboardHeight);
 
   if (wasOrientationChange) {
@@ -4040,6 +4042,9 @@ function keyboardPreventDefault(e) {
  * or not
  */
 function keyboardWaitForResize(callback, isOpening) {
+  //lkj keyboard:
+  return;
+
   clearInterval(waitForResizeTimer);
   var count = 0;
   var maxCount;
@@ -7359,7 +7364,11 @@ ionic.scroll = {
           // shrink scrollview so we can actually scroll if the input is hidden
           // if it isn't shrink so we can scroll to inputs under the keyboard
           // inset modals won't shrink on Android on their own when the keyboard appears
-          if ( !isPopover && (ionic.Platform.isIOS() || ionic.Platform.isFullScreen || isInsetModal) ) {
+
+          // if ( !isPopover && (ionic.Platform.isIOS() || ionic.Platform.isFullScreen || isInsetModal) ) {
+            //lkj keyboard:
+          if ( !isPopover && (ionic.Platform.isFullScreen || isInsetModal) ) {
+            //]]
             // if there are things below the scroll view account for them and
             // subtract them from the keyboard height when resizing
             // E - D                         E                         D
@@ -61411,6 +61420,13 @@ IonicModule
 
     var scrollCtrl;
 
+    // lkj: make defualt transition css
+    var css = {};
+    css[ionic.CSS.TRANSITION_DURATION] = '500ms';
+    css['-webkit-transition-timing-function'] = 'cubic-bezier(0.36, 0.66, 0.04, 1)';
+    css['transition-timing-function'] = 'cubic-bezier(0.36, 0.66, 0.04, 1)';
+
+
     function onShow(e) {
       if (ionic.Platform.isAndroid() && !ionic.Platform.isFullScreen) {
         return;
@@ -61418,10 +61434,30 @@ IonicModule
 
       //for testing
       var keyboardHeight = e.keyboardHeight || (e.detail && e.detail.keyboardHeight);
-      element.css('bottom', keyboardHeight + "px");
+
+      //lkj test
+      keyboardHeight = 310;
+      // element.css('bottom', keyboardHeight + "px");
+
+
+      ////////////
+      var dest = '-' + keyboardHeight + 'px';
+      css[ionic.CSS.TRANSFORM] = 'translate3d(0, ' + dest + ', 0)';
+      ionic.DomUtil.cachedStyles(element, css);
+
+
+      ////////////
+
       scrollCtrl = element.controller('$ionicScroll');
       if (scrollCtrl) {
-        scrollCtrl.scrollView.__container.style.bottom = keyboardHeight + keyboardAttachGetClientHeight(element[0]) + "px";
+        // scrollCtrl.scrollView.__container.style.bottom = keyboardHeight + keyboardAttachGetClientHeight(element[0]) + "px";
+      
+
+        // var dest = "-" + (keyboardAttachGetClientHeight(element[0])+ 210) + "px";
+        var dest = "-" + keyboardHeight + "px";
+        css[ionic.CSS.TRANSFORM] = 'translate3d(0, ' + dest + ', 0)';
+        // ionic.DomUtil.cachedStyles(scrollCtrl.scrollView.__container, css);
+
       }
     }
 
@@ -61430,9 +61466,24 @@ IonicModule
         return;
       }
 
-      element.css('bottom', '');
+      // element.css('bottom', '');
+
+      ////////////
+      var css = {}
+      css[ionic.CSS.TRANSFORM] = 'translate3d(0, 0, 0)';
+      ionic.DomUtil.cachedStyles(element, css);
+
+
+      ////////////
+
       if (scrollCtrl) {
         scrollCtrl.scrollView.__container.style.bottom = '';
+        // scrollCtrl.resize();  //lkj keyboard: add this to fix ionic bug
+
+
+        var css = {}
+        css[ionic.CSS.TRANSFORM] = 'translate3d(0, 0, 0)';
+        // ionic.DomUtil.cachedStyles(scrollCtrl.scrollView.__container, css);
       }
     }
 
@@ -63873,6 +63924,8 @@ function($compile, $ionicConfig, $ionicBind, $ionicViewSwitcher, $ionicTabsDeleg
         attrStr('hidden', attr.hidden) +
         attrStr('disabled', attr.disabled) +
         attrStr('class', attr['class']) +
+        attrStr('custom-style', attr.customStyle) +   //lkj modify: tab
+        attrStr('icon-only', attr.iconOnly) + 
         '></ion-tab-nav>';
 
       //Remove the contents of the element so we can compile them later, if tab is selected
@@ -64007,7 +64060,7 @@ function($compile, $ionicConfig, $ionicBind, $ionicViewSwitcher, $ionicTabsDeleg
     }
   };
 }]);
-
+//lkj modify: add 'customStyle etc'
 IonicModule
 .directive('ionTabNav', [function() {
   return {
@@ -64015,12 +64068,15 @@ IonicModule
     replace: true,
     require: ['^ionTabs', '^ionTab'],
     template:
-    '<a ng-class="{\'tab-item-active\': isTabActive(), \'has-badge\':badge, \'tab-hidden\':isHidden()}" ' +
+    '<a ng-class="{\'tab-item-active\': isTabActive(), \'has-badge\':badge, \'tab-hidden\':isHidden(), ' + 
+                  '\'tab-item-active-style-1\': isTabActive() && customStyle==\'1\',' + 
+                  '\'tab-item-inactive-style-1\': !isTabActive() && customStyle==\'1\',' + 
+                  '}" ' +
       ' ng-disabled="disabled()" class="tab-item">' +
       '<span class="badge {{badgeStyle}}" ng-if="badge">{{badge}}</span>' +
-      '<i class="icon {{getIconOn()}}" ng-if="getIconOn() && isTabActive()"></i>' +
-      '<i class="icon {{getIconOff()}}" ng-if="getIconOff() && !isTabActive()"></i>' +
-      '<span class="tab-title" ng-bind-html="title"></span>' +
+      '<i class="icon {{getIconOn()}}" ng-if="getIconOn() && isTabActive()" ng-class="{\'tab-item-icon-only\':iconOnly!=undefined}"></i>' +
+      '<i class="icon {{getIconOff()}}" ng-if="getIconOff() && !isTabActive()" ng-class="{\'tab-item-icon-only\':iconOnly!=undefined}"></i>' +
+      '<span class="tab-title" ng-show="iconOnly==undefined" ng-bind-html="title"></span>' +
     '</a>',
     scope: {
       title: '@',
@@ -64031,7 +64087,9 @@ IonicModule
       hidden: '@',
       disabled: '&',
       badgeStyle: '@',
-      'class': '@'
+      'class': '@',
+      customStyle: '@',
+      iconOnly: '@',    //lkj modify: tab
     },
     link: function($scope, $element, $attrs, ctrls) {
       var tabsCtrl = ctrls[0],
