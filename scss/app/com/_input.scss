@@ -28,11 +28,22 @@
 
     input {
       position: relative;
-      left: 4px;
+      left: 6px;
       //margin: 7px 0;
       padding: 1px 0 0 0;
       height: 30px;
-      width: calc(100% - 30px);
+      width: calc(100% - 12px);
+    }
+
+    textarea {
+      resize: none;
+
+      position: relative;
+      top: 6px;
+      left: 6px;
+      padding: 1px 0 0 0;
+      height: 20px;
+      width: calc(100% - 10px);
     }
   }
 
@@ -49,7 +60,9 @@
   .send {
     margin-left: 5px;
     text-align: center;
-    padding: 2px 5px;
+    padding: 0 5px;
+    position: absolute;
+    bottom: 5px;
     width: 55px;
     height: 33px;
     border-radius: 7px;

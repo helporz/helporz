@@ -31,7 +31,8 @@
 .ho-gender-both:before,
 .ho-person:before,
 .ho-add-on:before,
-.ho-task:before {
+.ho-task:before,
+.ho-edit:before {
   display: inline-block;
   font-family: "Hoicons";
   speak: none;
@@ -103,3 +104,6 @@
 
 .ho-task:before {
   content: ""; }
+
+.ho-edit:before {
+  content: ""; }

@@ -6,7 +6,9 @@
     'use strict';
     angular.module('com.helporz.im',['com.helporz.im.controllers',
       'com.helporz.im.services',
-      'monospaced.elastic']);
+      //'monospaced.elastic'
+      'components.widgets.hoBottomInput'
+    ]);
 
     angular.module('com.helporz.im.controllers', ['com.helporz.im.services'])
       .controller('imMessageListController', function($scope,
@@ -276,7 +278,7 @@
                   }
                 }
               },function(msgDtl,response) {
-                alert('send message failed');
+                //alert('send message failed');
                 msgDtl.sendState=-1;
                 imMessageService.updateMessage(msgDtl.username,msgDtl.toUsername,msgDtl);
                 $scope.messageDetails = imMessageService.getLocalMessageList(msgDtl.username,msgDtl.toUsername);

@@ -168,6 +168,11 @@
               if (taHeight !== mirrorHeight) {
                 scope.$emit('elastic:resize', $ta, taHeight, mirrorHeight);
                 ta.style.height = mirrorHeight + 'px';
+                //lkj
+                ionic.trigger('elastic:resize', {
+                  tagHeight: taHeight,
+                  mirrorHeight: mirrorHeight
+                }, true);
               }
 
               scope.$emit('taResize', $ta);

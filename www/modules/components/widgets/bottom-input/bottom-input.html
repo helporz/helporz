@@ -1,0 +1,11 @@
+<div class="ho-bottom-input" ho-keyboard-attach>
+  <div class="input-region">
+    <!--<i class="input-icon icon ho-edit color-text-secondary font-size-14"></i>-->
+    <!--<input type="text" ng-model="vm.input" placeholder="有什么想说...">-->
+    <textarea ng-model="input" placeholder="{{placeholder}}" required minlength="1" maxlength="1500"
+                  msd-elastic></textarea>
+  </div>
+
+  <button class="send" ng-disabled="input.length==0 || input == undefined" ng-click="send()">发送
+  </button>
+</div>
