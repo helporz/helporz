@@ -6,7 +6,7 @@
   "use strict;"
 
   angular.module('com.helporz.login', ['ngCordova', 'com.helporz.utils.service', 'com.helporz.user.netservice', 'com.helporz.jim.services',
-    'com.helporz.playground'])
+    'com.helporz.playground','com.helporz.task.netservice','com.helporz.task.noticemessage'])
     .factory('loginService', loginServiceFn)
     .controller('loginCtrl', loginCtrl)
     .directive('getsmscode', ['$http', '$log', 'pushService', function ($http, $log, pushService) {
@@ -181,14 +181,14 @@
 
   loginServiceFn.$inject = ['$q','$http','$log',
     '$ionicLoading', 'deviceService', 'errorCodeService', 'httpErrorCodeService', 'userLoginInfoService', 'userNetService',
-    'jimService', 'debugHelpService', 'PlaygroundStartupService','utilConvertDateToString'];
+    'jimService', 'debugHelpService', 'PlaygroundStartupService','utilConvertDateToString','taskNetService','NoticeMessageService'];
   function loginServiceFn($q,$http, $log, $ionicLoading, deviceService, errorCodeService, httpErrorCodeService,
                           userLoginInfoService, userNetService, jimService, debugHelpService, PlaygroundStartupService,
-                          utilConvertDateToString) {
+                          utilConvertDateToString,taskNetService,NoticeMessageService) {
     var loginTicket;
     var _login = function (phoneNo, smsCode) {
       var deviceInfo = deviceService.getDeviceInfo();
-      var _innerDefer = $q.defer();
+      //var _innerDefer = $q.defer();
       //$http({
       //  method: 'POST', url: appConfig.API_SVC_URL + "/user/verify_sms", data: {
       //    type: deviceInfo.type,
@@ -197,42 +197,62 @@
       //    'Content-Type': 'application/x-www-form-urlencoded'
       //  }
       //})
-        userNetService.login(deviceInfo.type,phoneNo,smsCode)
-        .then(processLoginResponse, processLoginFailedResponse)
-        .then(getSelfInfo, processFailed)
-        .then(loginIM, processFailed)
-        .then(function () {
-          PlaygroundStartupService.initService(userLoginInfoService.getLoginInfo().userInfo.userId);
-          _innerDefer.resolve();
-        }, function (error) {
-          _innerDefer.reject();
-        });
-
-      return _innerDefer.promise;
+      var netPromise = userNetService.login(deviceInfo.type,phoneNo,smsCode);
+      return _loginProcessForPromise(netPromise);
+      //  userNetService.login(deviceInfo.type,phoneNo,smsCode)
+      //  .then(processLoginResponse, processLoginFailedResponse)
+      //  .then(getSelfInfo, processFailed)
+      //  .then(loginIM, processFailed)
+      //  .then(function () {
+      //    PlaygroundStartupService.initService(userLoginInfoService.getLoginInfo().userInfo.userId);
+      //    _innerDefer.resolve();
+      //  }, function (error) {
+      //    _innerDefer.reject();
+      //  });
+      //
+      //return _innerDefer.promise;
     }
 
     var _loginByTicket = function () {
       var _innerDefer = $q.defer();
       var loginTicket = userLoginInfoService.getLoginTicket();
       if( loginTicket == null || loginTicket === '') {
-          _innerDefer.reject;
+          _innerDefer.reject();
         return _innerDefer.promise;
       }
 
       var date = utilConvertDateToString.getDateToString(new Date,'yyyy-MM-dd HH:mm:ss');
-      userNetService.loginByTicket(loginTicket,date).then(processLoginResponse, processLoginFailedResponse)
+      var netPromise = userNetService.loginByTicket(loginTicket,date);
+      return _loginProcessForPromise(netPromise);
+
+      //userNetService.loginByTicket(loginTicket,date).then(processLoginResponse, processLoginFailedResponse)
+      //  .then(getSelfInfo, processFailed)
+      //  .then(loginIM, processFailed)
+      //  .then(function () {
+      //    PlaygroundStartupService.initService(userLoginInfoService.getLoginInfo().userInfo.userId);
+      //    _innerDefer.resolve();
+      //  }, function (error) {
+      //    _innerDefer.reject();
+      //  });
+      //
+      //return _innerDefer.promise;
+    }
+
+    var _loginProcessForPromise = function(netPromise) {
+      var _innerDefer = $q.defer();
+      netPromise.then(processLoginResponse, processLoginFailedResponse)
         .then(getSelfInfo, processFailed)
         .then(loginIM, processFailed)
         .then(function () {
-          PlaygroundStartupService.initService(userLoginInfoService.getLoginInfo().userInfo.userId);
+          var userId = userLoginInfoService.getLoginInfo().userInfo.userId;
+          PlaygroundStartupService.initService(userId);
+          NoticeMessageService.initService(userId);
           _innerDefer.resolve();
         }, function (error) {
           _innerDefer.reject();
         });
-
       return _innerDefer.promise;
     }
-
     var _logout = function() {
       var _innerDefer = $q.defer();
       var loginTicket = userLoginInfoService.getLoginTicket();
@@ -299,6 +319,12 @@
     function loginIM(userInfo) {
       userLoginInfoService.saveLoginInfo(loginTicket, userInfo);
       //return jimService.loginForPromise(userInfo.phoneNo + "-" + userInfo.userId, userInfo.imPassword);
+
+      //taskNetService.getCompletedAcceptTaskList(0,10);
+      //taskNetService.getUncompletedAcceptTaskList();
+      //taskNetService.getCompletedPostTaskList(0,10);
+      //taskNetService.getUncompletedPostTaskList();
+      //taskNetService.getTaskList();
       return jimService.testloginForPromise(userInfo.phoneNo + "-" + userInfo.userId, userInfo.imPassword);
     }
   }

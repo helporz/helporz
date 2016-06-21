@@ -64,7 +64,7 @@
       var _defaultGetRegistrationCB = function(data) {
         try {
           console.log("JPushPlugin:registrationID is "+ data);
-          alert("JPushPlugin:registrationID is "+ data);
+          //alert("JPushPlugin:registrationID is "+ data);
           if( data !== '' ) {
             registrationId = data;
           }

@@ -382,7 +382,7 @@
 
   function DateShowFn() {
     var filterFn = function (dateString) {
-      var d = new Date(dateString).getTime();
+      var d = new Date(dateString.replace( /-/g , "/" )).getTime();
       var currentDate = new Date().getTime();
       var diffTimes = currentDate - d;
       if (diffTimes < 2 * 60 * 1000) {
