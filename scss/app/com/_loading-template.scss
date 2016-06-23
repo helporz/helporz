@@ -1,0 +1,27 @@
+.loading-tpl-icon-text {
+  .tpl-icon {
+    height: 28px;
+    width: 28px;
+    font-size: 30px;
+  }
+  .tpl-text {
+    font-size: 15px;
+    color: white;
+    width: 60px;
+    padding-top: 5px;
+    margin: 0;
+
+    &.tpl-text-width-80 {
+      width: 80px;
+    }
+    &.tpl-text-width-100 {
+      width: 100px;
+    }
+    &.tpl-text-width-120 {
+      width: 120px;
+    }
+    &.tpl-text-width-140 {
+      width: 140px;
+    }
+  }
+}

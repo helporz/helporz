@@ -61408,7 +61408,7 @@ IonicModule
  */
 
 IonicModule
-.directive('keyboardAttach', function() {
+.directive('keyboardAttach', ['$timeout', function($timeout) {
   return function(scope, element) {
     ionic.on('native.keyboardshow', onShow, window);
     ionic.on('native.keyboardhide', onHide, window);
@@ -61420,45 +61420,65 @@ IonicModule
 
     var scrollCtrl;
 
-    // lkj: make defualt transition css
+    //lkj keyboard: make defualt transition css
     var css = {};
     css[ionic.CSS.TRANSITION_DURATION] = '500ms';
     css['-webkit-transition-timing-function'] = 'cubic-bezier(0.36, 0.66, 0.04, 1)';
     css['transition-timing-function'] = 'cubic-bezier(0.36, 0.66, 0.04, 1)';
 
+    //lkj fix: ios 8+中UIKeyboardWillShowNotification触发多次
+    var time = 0;
 
     function onShow(e) {
-      if (ionic.Platform.isAndroid() && !ionic.Platform.isFullScreen) {
-        return;
-      }
+      console.log('ios trigger keyboardshow');
 
-      //for testing
-      var keyboardHeight = e.keyboardHeight || (e.detail && e.detail.keyboardHeight);
+      // time++;
+      // if(time == 1 || time > 2) {
+      //   return;
+      // }
+      // //短时间多次触发时，屏蔽之
+      // if(time == 2) {
+      //   $timeout(function(){
+      //     time = 0;
+      //   },500);
+      // }
 
-      //lkj test
-      keyboardHeight = 310;
-      // element.css('bottom', keyboardHeight + "px");
-
-
-      ////////////
-      var dest = '-' + keyboardHeight + 'px';
-      css[ionic.CSS.TRANSFORM] = 'translate3d(0, ' + dest + ', 0)';
-      ionic.DomUtil.cachedStyles(element, css);
+      console.log('actually trigger keyboardshow');
 
 
-      ////////////
+      $timeout(function() {
+        if (ionic.Platform.isAndroid() && !ionic.Platform.isFullScreen) {
+          return;
+        }
 
-      scrollCtrl = element.controller('$ionicScroll');
-      if (scrollCtrl) {
-        // scrollCtrl.scrollView.__container.style.bottom = keyboardHeight + keyboardAttachGetClientHeight(element[0]) + "px";
-      
+        //for testing
+        var keyboardHeight = e.keyboardHeight || (e.detail && e.detail.keyboardHeight);
 
-        // var dest = "-" + (keyboardAttachGetClientHeight(element[0])+ 210) + "px";
-        var dest = "-" + keyboardHeight + "px";
+       
+        //lkj test
+        // keyboardHeight = 310;
+        // element.css('bottom', keyboardHeight + "px");
+
+
+        ////////////
+        var dest = '-' + keyboardHeight + 'px';
         css[ionic.CSS.TRANSFORM] = 'translate3d(0, ' + dest + ', 0)';
-        // ionic.DomUtil.cachedStyles(scrollCtrl.scrollView.__container, css);
+        ionic.DomUtil.cachedStyles(element, css);
+        ////////////
 
-      }
+        scrollCtrl = element.controller('$ionicScroll');
+        if (scrollCtrl) {
+          // scrollCtrl.scrollView.__container.style.bottom = keyboardHeight + keyboardAttachGetClientHeight(element[0]) + "px";
+        
+
+          // var dest = "-" + (keyboardAttachGetClientHeight(element[0])+ 210) + "px";
+          var dest = "-" + keyboardHeight + "px";
+          css[ionic.CSS.TRANSFORM] = 'translate3d(0, ' + dest + ', 0)';
+          ionic.DomUtil.cachedStyles(scrollCtrl.scrollView.__container, css);
+
+        }
+      },40);
+      
     }
 
     function onHide() {
@@ -61469,7 +61489,6 @@ IonicModule
       // element.css('bottom', '');
 
       ////////////
-      var css = {}
       css[ionic.CSS.TRANSFORM] = 'translate3d(0, 0, 0)';
       ionic.DomUtil.cachedStyles(element, css);
 
@@ -61481,9 +61500,8 @@ IonicModule
         // scrollCtrl.resize();  //lkj keyboard: add this to fix ionic bug
 
 
-        var css = {}
         css[ionic.CSS.TRANSFORM] = 'translate3d(0, 0, 0)';
-        // ionic.DomUtil.cachedStyles(scrollCtrl.scrollView.__container, css);
+        ionic.DomUtil.cachedStyles(scrollCtrl.scrollView.__container, css);
       }
     }
 
@@ -61496,7 +61514,7 @@ IonicModule
       ionic.off('native.hidekeyboard', onHide, window);
     });
   };
-});
+}]);
 
 function keyboardAttachGetClientHeight(element) {
   return element.clientHeight;

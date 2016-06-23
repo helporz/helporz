@@ -8,7 +8,7 @@
   }
 </style>
 
-<ion-view view-title="任务详情">
+<ion-view view-title="求助详情">
   <ion-content class="has-footer" delegate-handle="taskDetailScroll">
     <div class="topics row nopadding bottom-bordered bottom-bordered-normal">
       <div class="content-left">
@@ -70,7 +70,7 @@
             <i class="elem2 icon ho-share font-size-13"></i>
             <span class="count">0</span>
           </div>
-          <button class="button-accept  button-light-red _accept-bt" ng-click="vm.submit()">
+          <button ng-show="!vm.ui_taskAccepte" class="button-accept  button-light-red _accept-bt" ng-click="vm.submit()">
             接单
           </button>
         </div>
@@ -79,7 +79,7 @@
 
     <ion-list class="ho-list self">
       <ion-item class="ho-item ho-item-header-icon-title">
-        <i class="side-icon icon ho-chat-0"></i>
+        <i class="side-icon icon ho-chat-0 color-theme"></i>
 
         <p class="title">留言{{vm.task.commentList.length}}条</p>
       </ion-item>
@@ -87,22 +87,28 @@
 
     <div class="task-comment-panel" ng-repeat="item in vm.task.commentList">
       <img class="avatar"
-           src="http://g.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=d4d0c467b5de9c82a630f18b59b1ac3c/e850352ac65c103815cbee9cb4119313b07e8932.jpg">
+           src="http://g.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=d4d0c467b5de9c82a630f18b59b1ac3c/e850352ac65c103815cbee9cb4119313b07e8932.jpg"
+           ng-src="{{item.avatar}}" live-image>
 
       <div class="right-panel">
 
         <div class="first-line-panel">
           <div class="name-gender-panel">
-            <span class="name">张三</span>
+            <span class="name">{{item.nickname}}</span>
             <i class="gender-icon ho-gender-female color-woman font-size-12"></i>
           </div>
 
-          <span class="time">jifeefjie time</span>
+          <span class="time">{{item.created | DateShow}} &nbsp {{''+(1+$index)+'楼'}}</span>
+          <!--<span class="time">{{item.ui_createTime}}</span>-->
         </div>
 
-        <p class="comment">
-          jifejifjelfjweji放假诶放假啦金额近法律界俄方解决方法🐔放假了放假恶疾飞机飞机翻了几分饥饿疗法 i 就诶风景法律界俄方将诶风景
-        </p>
+        <div class="comment-panel">
+          <!--<p class="comment-without-icon">-->
+          <p ng-class="{'comment-with-icon': item.ui_canContact,'comment-without-icon': !item.ui_canContact}">
+						{{item.comment}}
+					</p>
+          <i ng-if="item.ui_canContact" class="comment-icon icon ho-chat-0" ng-click="vm.cb_contact()"></i>
+        </div>
 
       </div>
     </div>
@@ -110,22 +116,26 @@
 
   </ion-content>
 
-  <ion-footer-bar align-title="left" keyboard-attach class="bar-assertive task-detail-footer-bar">
-    <div class="buttons">
-      <button class="button" ng-click="vm.testShow()">show</button>
-    </div>
-    <input type="text" ng-model="vm.input" placeholder="请输入学校">
-    <div class="buttons">
-      <button class="button" ng-click="vm.testHide()">hide</button>
-    </div>
-  </ion-footer-bar>
+  <!--<ion-footer-bar align-title="left" keyboard-attach class="bar-assertive task-detail-footer-bar">-->
+  <!--<div class="buttons">-->
+  <!--<button class="button" ng-click="vm.testShow()">show</button>-->
+  <!--</div>-->
+  <!--<input type="text" ng-model="vm.input" placeholder="请输入学校">-->
+  <!--<div class="buttons">-->
+  <!--<button class="button" ng-click="vm.testHide()">hide</button>-->
+  <!--</div>-->
+  <!--</ion-footer-bar>-->
 
-  <!--<div class="ho-bottom-input" keyboard-attach >-->
+  <!--<div class="ho-bottom-input" ho-keyboard-attach>-->
     <!--<div class="input-region">-->
-      <!--<i class="input-icon icon ion-ios-search-strong color-text-secondary font-size-17"></i>-->
-      <!--<input type="text" ng-model="vm.input" placeholder="请输入学校">-->
+      <!--<i class="input-icon icon ho-edit color-text-secondary font-size-14"></i>-->
+      <!--&lt;!&ndash;<input type="text" ng-model="vm.input" placeholder="有什么想说...">&ndash;&gt;-->
+        <!--<textarea ng-model="vm.input" value="" placeholder="Send a message..." required minlength="1" maxlength="1500"-->
+                  <!--msd-elastic></textarea>-->
     <!--</div>-->
 
-    <!--<button class="send" ng-disabled="vm.input.length==0">发送</button>-->
+    <!--<button class="send" ng-disabled="vm.input.length==0" ng-click="vm.send()">发送</button>-->
   <!--</div>-->
+
+  <ho-bottom-input input="vm.input" placeholder="想说点啥" send="vm.send()"></ho-bottom-input>
 </ion-view>

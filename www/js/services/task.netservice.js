@@ -238,6 +238,26 @@
       }
       return null;
     };
+
+    var _queryTaskInNearList = function(taskId) {
+      var d = $q.defer();
+      return _queryTaskInfo(taskId).then(
+        function(task) {
+          d.resolve(task);
+          for (var i in cache.nearTaskList) {
+            if(cache.nearTaskList[i].id = taskId){
+              cache.nearTaskList[i] = task;
+            }
+          }
+          return d.promise;
+        },
+        function(err) {
+          d.reject(err);
+          return d.promise;
+        }
+      )
+    }
+
     var _getTaskInPostList = function (taskId) {
       if (cache.postTaskGoingList) {
         for (var i = 0; i < cache.postTaskGoingList.length; i++) {
@@ -426,6 +446,7 @@
 
       //util get
       getTaskInNearList: _getTaskInNearList,
+      queryTaskInNearList: _queryTaskInNearList,  // 暂时不用
       getTaskInPostList: _getTaskInPostList,
       getTaskInAcceptList: _getTaskInAcceptList
     };

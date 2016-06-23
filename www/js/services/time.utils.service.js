@@ -23,14 +23,16 @@
         var nowMilliSec = now.getTime();
 
         //计算出相差天数
-        var days = Math.floor((nowMilliSec - beforeMilliSec) / (24 * 3600 * 1000));
+        var left = nowMilliSec - beforeMilliSec;
+        var days = Math.floor(left / (24 * 3600 * 1000));
 
         //小时数
-        var left = now % (24 * 3600 * 1000);    //计算天数后剩余的毫秒数
+        //var left = now % (24 * 3600 * 1000);    //计算天数后剩余的毫秒数
+        left = left - days * 24 * 3600 * 1000;
         var hours = Math.floor(left / (3600 * 1000));
 
         //计算相差分钟数
-        left = left % (3600 * 1000)        //计算小时数后剩余的毫秒数
+        left = left -  hours * (3600 * 1000)        //计算小时数后剩余的毫秒数
         var minutes = Math.floor(left / (60 * 1000))
 
         var ret = '';
@@ -43,8 +45,11 @@
         if (minutes > 0) {
           ret += minutes + '分钟';
         }
-        ret += '前';
-
+        if (ret == '') {
+          ret = '现在';
+        }else{
+          ret += '前';
+        }
         return ret;
       }
 
@@ -55,14 +60,16 @@
         var nowMilliSec = now.getTime();
 
         //计算出相差天数
-        var days = Math.floor((nowMilliSec - beforeMilliSec) / (24 * 3600 * 1000));
+        var left = nowMilliSec - beforeMilliSec;
+        var days = Math.floor(left / (24 * 3600 * 1000));
 
         //小时数
-        var left = now % (24 * 3600 * 1000);    //计算天数后剩余的毫秒数
+        //var left = now % (24 * 3600 * 1000);    //计算天数后剩余的毫秒数
+        left = left - days * 24 * 3600 * 1000;
         var hours = Math.floor(left / (3600 * 1000));
 
         //计算相差分钟数
-        left = left % (3600 * 1000)        //计算小时数后剩余的毫秒数
+        left = left -  hours * (3600 * 1000)        //计算小时数后剩余的毫秒数
         var minutes = Math.floor(left / (60 * 1000))
 
         var ret = '';
@@ -81,7 +88,11 @@
           }
         }
 
-        ret += '前';
+        if (ret == '') {
+          ret = '现在';
+        } else {
+          ret += '前';
+        }
         return ret;
       }
 

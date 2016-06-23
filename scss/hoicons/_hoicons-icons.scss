@@ -21,6 +21,7 @@
 .#{$hoicons-prefix}person:before,
 .#{$hoicons-prefix}add-on:before,
 .#{$hoicons-prefix}task:before,
+.#{$hoicons-prefix}edit:before,
 
 {
   @extend .ion;
@@ -46,3 +47,4 @@
 .#{$hoicons-prefix}person:before{ content: $hoicon-var-person; }
 .#{$hoicons-prefix}add-on:before{ content: $hoicon-var-add-on; }
 .#{$hoicons-prefix}task:before{ content: $hoicon-var-task; }
+.#{$hoicons-prefix}edit:before{ content: $hoicon-var-edit; }
