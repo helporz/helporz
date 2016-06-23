@@ -175,10 +175,10 @@
           sql = sql.replace('#cols#', cols.join(',')).replace('#rows#', rows.join(','));
           return sql;
         },
-        sqlBath:function(sqlList) {
+        sqlBatch:function(sqlList) {
           var _dbDefer = $q.defer();
           dbconn && dbconn.transaction(function (tx) {
-            tx.sqlBath(sqlList,  function (tx, res) {
+            tx.sqlBatch(sqlList,  function (tx, res) {
               _dbDefer.resolve(res);
               //callback && callback(res);
             }, function (tx,e) {

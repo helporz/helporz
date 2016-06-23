@@ -19,10 +19,10 @@
           //$window.plugins.jmessagePlugin.init();
           //设置tag和Alias触发事件处理
 
-          $document.on("jpush.setTagsWithAlias", config.onSetTagsWithAlias);
-          $document.on("jpush.openNotification", config.onOpenNotification);
-          $document.on("jpush.receiveNotification", config.onReceiveNotification);
-          $document.on("jpush.receiveMessage", config.onReceivePushMessage);
+          //$document.on("jpush.setTagsWithAlias", config.onSetTagsWithAlias);
+          //$document.on("jpush.openNotification", config.onOpenNotification);
+          //$document.on("jpush.receiveNotification", config.onReceiveNotification);
+          //$document.on("jpush.receiveMessage", config.onReceivePushMessage);
 
           //document.addEventListener('jpush.setTagsWithAlias',config.stac,false);
           //打开推送消息事件处理
@@ -30,6 +30,14 @@
 
           $window.plugins.jPushPlugin.setDebugMode(true);
         }
+      }
+
+      var _setNotificationFn = function(callbackConfig) {
+        console.log('set jpush notification function');
+        $document.on("jpush.setTagsWithAlias", callbackConfig.onSetTagsWithAlias);
+        $document.on("jpush.openNotification", callbackConfig.onOpenNotification);
+        $document.on("jpush.receiveNotification", callbackConfig.onReceiveNotification);
+        $document.on("jpush.receiveMessage", callbackConfig.onReceivePushMessage);
       }
       //获取状态
       var _isPushStopped=function(fun){
@@ -90,8 +98,10 @@
       jpushServiceFactory.setTagsWithAlias=_setTagsWithAlias;
       jpushServiceFactory.setTags=_setTags;
       jpushServiceFactory.setAlias=_setAlias;
-      jpushServiceFactory.getReistrationID = _getRegistrationID;
-      jpushServiceFactory.getCurrentReistrationID = _getCurrentRegistrationID;
+      jpushServiceFactory.getRegistrationID = _getRegistrationID;
+      jpushServiceFactory.getCurrentRegistrationID = _getCurrentRegistrationID;
+
+      jpushServiceFactory.setNotificationFn = _setNotificationFn;
 
       return jpushServiceFactory;
     }

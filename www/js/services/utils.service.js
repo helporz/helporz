@@ -505,8 +505,12 @@
   }
 
   function DebugHelpServiceFactoryFn($log) {
-    var obj2String = function (o) {
+    var obj2String = function (o,maxDeepCount,currentDeepIndex) {
       var r = [];
+
+      if( currentDeepIndex >= maxDeepCount ) {
+        return o.toString();
+      }
       if (o == null) {
         return '';
       }
@@ -517,7 +521,7 @@
 
         if (!o.sort) {
           for (var i in o) {
-            r.push(i + ":" + obj2String(o[i]));
+            r.push(i + ":" + obj2String(o[i],maxDeepCount,currentDeepIndex + 1));
           }
           if (!!document.all && !/^\n?function\s*toString\(\)\s*\{\n?\s*\[native code\]\n?\s*\}\n?\s*$/.test(o.toString)) {
             r.push("toString:" + o.toString.toString());
@@ -525,20 +529,27 @@
           r = "{" + r.join() + "}";
         } else {
           for (var i = 0; i < o.length; i++) {
-            r.push(obj2String(o[i]))
+            r.push(obj2String(o[i],maxDeepCount,currentDeepIndex + 1))
           }
           r = "[" + r.join() + "]";
         }
+        $log.debug(r);
         return r;
       }
+      $log.debug(o.toString());
       return o.toString();
     }
 
-    var writeObj = function (obj) {
+    var writeObj = function (obj,maxDeepCount) {
+      if( typeof maxDeepCount !== 'undefined' || maxDeepCount !== null) {
+        maxDeepCount = 100;
+      }
+      //$log.debug('maxDeepCount' + maxDeepCount);
       var description = "";
       for (var i in obj) {
         var property = obj[i];
-        description += i + " = " + obj2String(property) + "\n";
+        //$log.error('i' + i + '= property ' + property);
+        description += i + " = " + obj2String(property,maxDeepCount,0) + "\n";
       }
       $log.debug(description);
       return description;
