@@ -50,7 +50,7 @@
               $log.error("undefined device");
             }
 
-            var hid = pushService.getCurrentReistrationID();
+            var hid = pushService.getCurrentRegistrationID();
             if (hid != null && hid !== '') {
               deviceInfo.hid = hid;
               $log.info("device hid:" + hid);

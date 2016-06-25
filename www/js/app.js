@@ -26,6 +26,7 @@
     'com.helproz.task.publish',
     'com.helporz.playground',
     'com.helporz.user.netservice',
+    'com.helporz.task.noticemessage',
     'main',
     'info',
     'wall',
@@ -72,7 +73,7 @@
     'playgroundTestConfigService',
     'userLoginInfoService',
     'userNetService',
-    'loginService'
+    'loginService',
   ];
 
   function init($ionicPlatform,
@@ -123,74 +124,6 @@
         });
       }
 
-
-      var onOpenNotification = function (event) {
-        console.log(" index onOpenNotification");
-
-        try {
-          var alertContent;
-          if (device.platform == "Android") {
-            alertContent = event.alert;
-          } else {
-            alertContent = event.aps.alert;
-          }
-          //alert("open Notificaiton:" + alertContent);
-
-        }
-        catch (exception) {
-          console.log("JPushPlugin:onOpenNotification" + exception);
-        }
-      }
-
-      var onReceiveNotification = function (event) {
-        console.log(" index onReceiveNotification");
-        try {
-          var alertContent;
-          if (device.platform == "Android") {
-            //alertContent = window.plugins.jPushPlugin.receiveNotification.alert;
-            alertContent = event.alert;
-          } else {
-            alertContent = event.aps.alert;
-          }
-          //alert("Receive Notificaiton:" + alertContent);
-          //$("#notificationResult").html(alertContent);
-
-        }
-        catch (exeption) {
-          console.log(exception)
-        }
-      }
-
-      var onReceivePushMessage = function (event) {
-        try {
-          var message;
-          if (device.platform == "Android") {
-            message = event.message;
-          } else {
-            message = event.content;
-          }
-          console.log(message);
-          //alert("Receive Push Message:" + message );
-          //$("#messageResult").html(message);
-        }
-        catch (exception) {
-          console.log("JPushPlugin:onReceivePushMessage-->" + exception);
-        }
-      }
-
-      var onSetTagsWithAlias = function (event) {
-        try {
-          console.log("onSetTagsWithAlias");
-          var result = "result code:" + event.resultCode + " ";
-          result += "tags:" + event.tags + " ";
-          result += "alias:" + event.alias + " ";
-          $("#tagAliasResult").html(result);
-        }
-        catch (exception) {
-          console.log(exception)
-        }
-      }
-
       if( loginService.isShowIntro()) {
         $state.go('intro');
       }
@@ -217,17 +150,11 @@
           alert('failed');
         });
 
-        var config = {
-          onOpenNotification: onOpenNotification,
-          onReceiveNotification: onReceiveNotification,
-          onReceivePushMessage: onReceivePushMessage,
-          onSetTagsWithAlias: onSetTagsWithAlias
-        };
 
         jimService.init();
-        pushService.init(config);
+        pushService.init();
 
-        pushService.getReistrationID();
+        //pushService.getRegistrationID();
 
         if (device.platform != "Android") {
           window.plugins.jPushPlugin.setDebugModeFromIos();
