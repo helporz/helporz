@@ -29,8 +29,8 @@
       @include justify-content(center);
       @include align-items(center);
       > * {
-        margin: 10px 10px 5px;
-        transform: scale(1.2);
+        margin: 7px 5px 2px;
+        transform: scale(1.1);
       }
     }
 
@@ -41,9 +41,30 @@
       padding: 0 50px;
 
       p {
+        width: 100%;
         font-size: 12px;
+        margin: 0;
         color: $color-text-secondary;
       }
+    }
+
+
+  }
+
+  .state-desc-panel {
+    //margin: 10px;
+    //-webkit-border-radius: 5px;
+    //-moz-border-radius: 5px;
+    //border-radius: 5px;
+    background-color: $color-div-line;
+    @include display-flex();
+    @include justify-content(center);
+    @include align-items(center);
+
+    p {
+      margin: 10px 10px 15px;
+      color: $color-text-secondary;
+      font-size: 12px;
     }
   }
 

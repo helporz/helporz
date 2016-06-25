@@ -70,7 +70,9 @@
             <i class="elem2 icon ho-share font-size-13"></i>
             <span class="count">0</span>
           </div>
-          <button ng-show="!vm.ui_taskAccepte" class="button-accept  button-light-red _accept-bt" ng-click="vm.submit()">
+          <p class="my-task-txt" ng-if="vm.task.ui_isMyTask">我的求助</p>
+          <button class="button-accept  button-light-red _accept-bt" ng-if="!vm.task.ui_isMyTask" ng-click="vm.cb_acceptTask($index)">
+          <!--<button ng-show="!vm.ui_taskAccepte" class="button-accept  button-light-red _accept-bt" ng-click="vm.submit()">-->
             接单
           </button>
         </div>

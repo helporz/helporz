@@ -173,6 +173,16 @@
         }
       })
 
+      .state('main.task_task-detail', {
+        url: '/task/task-state/:id',
+        views: {
+          'task': {
+            templateUrl: 'modules/main/near/task-detail/task-detail.html',
+            controller: 'mainNearTaskDetailCtrl'
+          }
+        }
+      })
+
     ;
 
     //tab位置设置到下面

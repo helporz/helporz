@@ -60,6 +60,13 @@
         //color: $color-theme;
         color: $color-text-secondary;
       }
+
+
+      .time {
+        margin: 1px 7px 0;
+        color: $color-text-secondary;
+        font-size: 9px;
+      }
     }
 
   }
@@ -114,9 +121,6 @@
 
       }
 
-
-
-
     }
   }
 
@@ -144,6 +148,7 @@
     p {
       color: $color-text-secondary;
       font-size: 12px;
+      margin-right: 10px;
     }
     button {
       line-height: 1;
@@ -266,7 +271,7 @@
     border-radius: 50%;
   }
   .dot-big {
-    font-size: 32px;
+    font-size: 27px;
     //&.doing {
     //  color: $color-success;
     //}

@@ -29,10 +29,12 @@
 
 
       // impresses
-      var impressUI = impressUtils.impressUI();
-      vm.task.ui_tags = vm.task.poster.tags.concat();
-      vm.task.ui_tags = [impressUI[0], impressUI[2], impressUI[3]];
+      //var impressUI = impressUtils.impressUI();
+      //vm.task.ui_tags = vm.task.poster.tags.concat();
+      //vm.task.ui_tags = [impressUI[0], impressUI[2], impressUI[3]];
 
+      vm.task.ui_tags = [];
+      impressUtils.netTagsToUiTags(vm.task.ui_tags, vm.task.poster.tags);
 
       taskUtils.taskStateToUiState(vm.task, vm.task.status, isPosterOrAccepter);
 
@@ -66,34 +68,74 @@
       //temp show all
       vm.showMyComment = false;
       vm.showOtherComment = false;
+      vm.showState = 0; // 0 none, 1 my, 2 other
 
-      if (isPosterOrAccepter===true){
-        if(vm.task.posterComment){
+      if (isPosterOrAccepter===true){   // user is poster
+        if(vm.task.posterCommentLevel != 0){
 					vm.showMyComment = true;
 					vm.ui_myComment = vm.task.posterComment;
-					vm.ui_myCommentLevel = vm.task.posterCommentLevel;
-					vm.ui_myCommentTags = vm.task.posterTags;
+					vm.ui_myCommentLevel = '' + vm.task.posterCommentLevel;
+
+          vm.ui_myCommentTags = [];
+          impressUtils.netTagsToUiTags(vm.ui_myCommentTags, vm.task.posterTags);
         }
-        if(vm.task.accepterComment) {
+        if(vm.task.accepterCommentLevel != 0 && vm.task.posterCommentLevel != 0) {    // 如果自己没有评价,那么看不到对方的评价
           vm.showOtherComment = true;
           vm.ui_otherComment = vm.task.accepterComment;
-          vm.ui_otherCommentLevel = vm.task.otherCommentLevel;
-          vm.ui_otherCommentTags = vm.task.otherTags;
+          vm.ui_otherCommentLevel = '' + vm.task.accepterCommentLevel;
+
+          vm.ui_otherCommentTags = [];
+          impressUtils.netTagsToUiTags(vm.ui_otherCommentTags, vm.task.accepterTags);
         }
+
+        if(vm.task.status == '128' || vm.task.status == '256') {  // 发单人确认'成功' or '失败'
+          if (vm.task.posterCommentLevel == 0) {
+            vm.showState = 1;
+          } else {
+            if (vm.task.accepterCommentLevel == 0) {
+              vm.showState = 2;
+            } else {
+              vm.showState = 0;
+            }
+          }
+        }
+        if(vm.task.status == '32') {    // 接单人放弃,那么只有user可以单向评价他
+          if(!vm.task.posterComment) {
+            vm.showState = 1;
+          }
+        }
+
       }
 
-      else {
-        if(vm.task.posterComment){
+      else {  // user is accepter
+
+        if(vm.task.posterCommentLevel != 0 && vm.task.accepterCommentLevel != 0){   // 如果自己没有评价,那么看不到对方的评价
 					vm.showOtherComment = true;
 					vm.ui_otherComment = vm.task.posterComment;
-					vm.ui_otherCommentLevel = vm.task.posterCommentLevel;
-					vm.ui_otherCommentTags = vm.task.posterTags;
+					vm.ui_otherCommentLevel = '' + vm.task.posterCommentLevel;
+
+          vm.ui_otherCommentTags = [];
+          impressUtils.netTagsToUiTags(vm.ui_otherCommentTags, vm.task.posterTags);
         }
-        if(vm.task.accepterComment) {
+        if(vm.task.accepterCommentLevel != 0) {
           vm.showMyComment = true;
           vm.ui_myComment = vm.task.accepterComment;
-          vm.ui_myCommentLevel = vm.task.otherCommentLevel;
-          vm.ui_myCommentTags = vm.task.otherTags;
+          vm.ui_myCommentLevel = '' + vm.task.accepterCommentLevel;
+
+          vm.ui_myCommentTags = [];
+          impressUtils.netTagsToUiTags(vm.ui_myCommentTags, vm.task.accepterTags);
+        }
+
+        if(vm.task.status == '128' || vm.task.status == '256') {
+          if (vm.task.accepterCommentLevel == 0) {
+            vm.showState = 1;
+          } else {
+            if (vm.task.posterCommentLevel == 0) {
+              vm.showState = 2;
+            } else {
+              vm.showState = 0;
+            }
+          }
         }
       }
 

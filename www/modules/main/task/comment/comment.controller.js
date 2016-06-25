@@ -6,11 +6,11 @@
   'use strict';
 
   angular.module('main.comment')
-    .controller('mainCommentCtrl', ['$stateParams', '$log', '$ionicLoading', '$ionicPopup',
+    .controller('mainCommentCtrl', ['$state', '$stateParams', '$timeout', '$log', '$ionicLoading', '$ionicPopup',
       '$ionicActionSheet', '$cordovaCamera', '$cordovaImagePicker',
       '$scope', 'taskNetService', 'taskUtils', 'impressUtils', mainCommentCtrl]);
 
-  function mainCommentCtrl($stateParams, $log, $ionicLoading, $ionicPopup,
+  function mainCommentCtrl($state, $stateParams, $timeout, $log, $ionicLoading, $ionicPopup,
                            $ionicActionSheet, $cordovaCamera, $cordovaImagePicker,
                            $scope, taskNetService, taskUtils, impressUtils) {
     var vm = $scope.vm = {};
@@ -38,7 +38,7 @@
               quality: 100,                                            //相片质量0-100
               destinationType: Camera.DestinationType.FILE_URI,        //返回类型：DATA_URL= 0，返回作为 base64 編碼字串。 FILE_URI=1，返回影像档的 URI。NATIVE_URI=2，返回图像本机URI (例如，資產庫)
               sourceType: Camera.PictureSourceType.CAMERA,             //从哪里选择图片：PHOTOLIBRARY=0，相机拍照=1，SAVEDPHOTOALBUM=2。0和1其实都是本地图库
-              allowEdit: false,                                        //在选择之前允许修改截图
+              allowEdit: true,                                        //在选择之前允许修改截图
               encodingType: Camera.EncodingType.JPEG,                   //保存的图片格式： JPEG = 0, PNG = 1
               targetWidth: 200,                                        //照片宽度
               targetHeight: 200,                                       //照片高度
@@ -49,10 +49,8 @@
             };
 
             $cordovaCamera.getPicture(options).then(function (imgUrl) {
-              vm.selectedPics.push({
-                src: imgUrl
-              });
-              alert('selected:' + vm.selectedPics.length);
+              vm.selectedPics.push(imgUrl);
+              alert('selected:' + imgUrl);
             }, function (err) {
               alert('err: camera get picture err=' + err);
             });
@@ -60,35 +58,46 @@
           // 打开 ImagePicker
           else {
             var options = {
-              maximumImagesCount: 10,
+              maximumImagesCount: 4,
               width: 800,
               height: 800,
               quality: 80
             };
-            alert('before $cordovaImagePicker.getPictures');
-            $cordovaImagePicker.getPictures(options).then(function (imgUrl) {
-              vm.selectedPics.push({
-                src: imgUrl
-              })
-              alert('img:' + imgUrl);
+            //$cordovaImagePicker.getPictures(options).then(function (imgUrl) {
+            //  vm.selectedPics.push({
+            //    src: imgUrl
+            //  })
+            //  alert('img:' + imgUrl);
+            //}, function (err) {
+            //  alert('err: pick image, err=' + err);
+            //});
+
+            $cordovaImagePicker.getPictures(options).then(function (imgUrls) {
+              alert('imgUrls=' + imgUrls + ';imgUrls[0]=' + imgUrls[0]);
+              for (var index = 0; index < imgUrls.length; ++index) {
+                resolveLocalFileSystemURL(imgUrls[index], function (entry) {
+                  $log.info('image cvd file:' + entry.toInternalURL());
+                  alert('internal='+ entry.toInternalURL() + 'native=' + entry.toNativeURL());
+                  if(vm.selectedPics.length < 4){
+                    vm.selectedPics.push(entry.toNativeURL());
+                  }
+                });
+              }
             }, function (err) {
-              // error getting photos
               alert('err: pick image, err=' + err);
             });
-            alert('before $window.imagePicker.getPictures');
-            $window.imagePicker.getPictures(
-              function (results) {
-                for (var i = 0; i < results.length; i++) {
-                  console.log('Image URI: ' + results[i]);
-                  alert('img:' + results[i]);
-                }
-              }, function (error) {
-                console.log('Error: ' + error);
-              }
-            );
+            //$window.imagePicker.getPictures(
+            //  function (results) {
+            //    for (var i = 0; i < results.length; i++) {
+            //      console.log('Image URI: ' + results[i]);
+            //      alert('img:' + results[i]);
+            //    }
+            //  }, function (error) {
+            //    console.log('Error: ' + error);
+            //  }
+            //);
 
           }
-
 
           return true;
         },
@@ -161,7 +170,7 @@
       vm.task = taskNetService.cache.acceptTaskList[params[1]];
     });
 
-    vm.submit = function () {
+    vm.cb_submit = function () {
       $ionicLoading.show();
 
       //is acceptor
@@ -170,48 +179,51 @@
         var imgNativePathList = [];
         var audioNativePathList = [];
         taskNetService.commentByAcceptor(vm.taskId, vm.starScore, vm.commentText, buildImpressIdList(vm.impressIndices),
-          imgNativePathList,
+          vm.selectedPics,
           audioNativePathList).then(
-          function (res) {
-            $ionicPopup.alert({
-              title: '成功提示',
-              template: '评论成功'
-            }).then(function (res) {
-              console.error(res);
-            })
+          function (data) {
+            $ionicLoading.show({
+              duration: 1500,
+              templateUrl: 'modules/components/templates/ionic-loading/remark-success.html'
+            });
+            $timeout(function() {
+              taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
+              taskNetService.cache.isAcceptTaskFinishNeedRefresh = true;
+              $state.go('main.task');
+            }, 1500);
+
           }, function (error) {
-            $ionicPopup.alert({
-              title: '错误提示',
-              template:error
-            }).then(function (res) {
-              console.error(res);
-            })
+            $ionicLoading.show({
+              duration: 1500,
+              templateUrl: 'modules/components/templates/ionic-loading/com-unknown-error.html'
+            });
           }).finally(function () {
-            $ionicLoading.hide();
           });
       }
       // is poster
       else {
         var imgNativePathList = [];
         var audioNativePathList = [];
-        taskNetService.commentByPoster(vm.taskId, vm.starScore, vm.commentText, buildImpressIdList(vm.impressIndices),imgNativePathList,
+        taskNetService.commentByPoster(vm.taskId, vm.starScore, vm.commentText, buildImpressIdList(vm.impressIndices),
+          vm.selectedPics,
           audioNativePathList).then(
-          function (res) {
-            $ionicPopup.alert({
-              title: '成功提示',
-              template: '评论成功'
-            }).then(function (res) {
-              console.error(res);
-            })
+          function (data) {
+            $ionicLoading.show({
+              duration: 1500,
+              templateUrl: 'modules/components/templates/ionic-loading/remark-success.html'
+            });
+            $timeout(function() {
+              taskNetService.cache.isPostTaskGoingNeedRefresh = true;
+              taskNetService.cache.isPostTaskFinishNeedRefresh = true;
+              $state.go('main.task');
+            }, 1500);
+
           }, function (error) {
-            $ionicPopup.alert({
-              title: '错误提示',
-              template:error
-            }).then(function (res) {
-              console.error(res);
-            })
+            $ionicLoading.show({
+              duration: 1500,
+              templateUrl: 'modules/components/templates/ionic-loading/com-unknown-error.html'
+            });
           }).finally(function () {
-            $ionicLoading.hide();
           });
       }
 

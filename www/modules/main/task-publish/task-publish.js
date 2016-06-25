@@ -156,9 +156,9 @@
   }
 
 
-  taskPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', '$ionicPopup', '$cordovaDatePicker',
+  taskPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', '$ionicPopup', '$ionicLoading', '$timeout', '$cordovaDatePicker',
     'taskPublishModalService', 'taskNetService', 'taskUtils', 'taskDesc'];
-  function taskPublishControllerFn($scope, $log, $ionicModal, $ionicPopup, $cordovaDatePicker,
+  function taskPublishControllerFn($scope, $log, $ionicModal, $ionicPopup, $ionicLoading, $timeout, $cordovaDatePicker,
                                    taskPublishModalService, taskNetService, taskUtils, taskDesc) {
     var _ctlSelf = this;
 
@@ -293,13 +293,26 @@
         , 0.0, 0.0,
         _ctlSelf.selectedRewardType,
         _ctlSelf.selectedSubRewardType, 1, 0).then(function () {
-          alert("发布任务成功");
-          _ctlSelf.closeModal();
-          // 加入标志量,以供其他页面update
-          taskNetService.cache.isPostTaskNeedRefresh = true;
-          taskNetService.cache.isNearTaskNeedRefresh = true;
+
+          $ionicLoading.show({
+            duration: 1500,
+            templateUrl: 'modules/components/templates/ionic-loading/task-post-success.html'
+          })
+          $timeout(function() {
+            _ctlSelf.closeModal();
+
+            // 加入标志量,以供其他页面update
+            taskNetService.cache.isPostTaskGoingNeedRefresh = true;
+            taskNetService.cache.isNearTaskNeedRefresh = true;
+          }, 1500)
+
+          //alert("发布任务成功");
         }, function (error) {
-          alert("发布任务失败:" + error);
+          //alert("发布任务失败:" + error);
+          $ionicLoading.show({
+            duration: 1500,
+            templateUrl: 'modules/components/templates/ionic-loading/com-network-error.html'
+          })
         });
     }
   }

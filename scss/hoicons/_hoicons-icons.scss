@@ -22,6 +22,15 @@
 .#{$hoicons-prefix}add-on:before,
 .#{$hoicons-prefix}task:before,
 .#{$hoicons-prefix}edit:before,
+.#{$hoicons-prefix}task-wait-overtime:before,
+.#{$hoicons-prefix}task-going:before,
+.#{$hoicons-prefix}task-unfinish:before,
+.#{$hoicons-prefix}task-finish:before,
+.#{$hoicons-prefix}task-wait:before,
+.#{$hoicons-prefix}task-confirm-wait:before,
+.#{$hoicons-prefix}task-giveup:before,
+.#{$hoicons-prefix}task-going-overtime:before,
+.#{$hoicons-prefix}task-remark:before,
 
 {
   @extend .ion;
@@ -48,3 +57,13 @@
 .#{$hoicons-prefix}add-on:before{ content: $hoicon-var-add-on; }
 .#{$hoicons-prefix}task:before{ content: $hoicon-var-task; }
 .#{$hoicons-prefix}edit:before{ content: $hoicon-var-edit; }
+
+.#{$hoicons-prefix}task-wait-overtime:before{ content: $hoicon-var-task-wait-overtime; }
+.#{$hoicons-prefix}task-going:before{ content: $hoicon-var-task-going; }
+.#{$hoicons-prefix}task-unfinish:before{ content: $hoicon-var-task-unfinish; }
+.#{$hoicons-prefix}task-finish:before{ content: $hoicon-var-task-finish; }
+.#{$hoicons-prefix}task-wait:before{ content: $hoicon-var-task-wait; }
+.#{$hoicons-prefix}task-confirm-wait:before{ content: $hoicon-var-task-confirm-wait; }
+.#{$hoicons-prefix}task-giveup:before{ content: $hoicon-var-task-giveup; }
+.#{$hoicons-prefix}task-going-overtime:before{ content: $hoicon-var-task-going-overtime; }
+.#{$hoicons-prefix}task-remark:before{ content: $hoicon-var-task-remark; }

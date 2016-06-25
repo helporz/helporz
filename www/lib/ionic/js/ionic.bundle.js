@@ -52580,6 +52580,9 @@ function($ionicLoadingConfig, $ionicBody, $ionicTemplateLoader, $ionicBackdrop, 
   var deregisterStateListener2 = noop;
   var loadingShowDelay = $q.when();
 
+  //lkj loading:
+  var _showStackCount = 0;
+
   return {
     /**
      * @ngdoc method
@@ -52609,7 +52612,7 @@ function($ionicLoadingConfig, $ionicBody, $ionicTemplateLoader, $ionicBackdrop, 
     /**
      * @private for testing
      */
-    _getLoader: getLoader
+    _getLoader: getLoader,
   };
 
   function getLoader() {
@@ -52643,6 +52646,10 @@ function($ionicLoadingConfig, $ionicBody, $ionicTemplateLoader, $ionicBackdrop, 
               +options.duration
             );
           }
+          //lkj loading:
+          else{
+            _showStackCount ++;
+          }
 
           deregisterBackAction();
           //Disable hardware back button while loading
@@ -52673,6 +52680,11 @@ function($ionicLoadingConfig, $ionicBody, $ionicTemplateLoader, $ionicBackdrop, 
           self.isShown = true;
         };
         self.hide = function() {
+          _showStackCount--;
+          if(_showStackCount>0)
+          {
+            return;
+          }
 
           deregisterBackAction();
           if (self.isShown) {
@@ -61415,10 +61427,10 @@ IonicModule
 
     //deprecated
     ionic.on('native.showkeyboard', onShow, window);
-    ionic.on('native.hidekeyboard', onHide, window);
+    ionic.on('native.hidek  eyboard', onHide, window);
 
-
-    var scrollCtrl;
+              
+    var scrollCtrl; 
 
     //lkj keyboard: make defualt transition css
     var css = {};

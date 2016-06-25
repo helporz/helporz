@@ -18,10 +18,13 @@
     $scope.$on("$ionicView.beforeEnter", function() {
       // 直接从near的cache里获取,而不是从新从服务器取
       vm.task = taskNetService.getTaskInNearList($stateParams.id);
+      if(ho.isValid(vm.task)==false){
+        vm.task = taskNetService.getTaskInPostList($stateParams.id);
+      }
 
       vm.task.icon = taskUtils.iconByTypeValue(vm.task.taskTypesId);
       vm.task.typeName = taskUtils.nameByTypeValue(vm.task.taskTypesId);
-      vm.task.commentCount = vm.task.commentList.length;
+      vm.task.commentCount = vm.task.commentList ? vm.task.commentList.length : 0;
 
 
       var myId = userNetService.cache.selfInfo.userId;
@@ -33,6 +36,7 @@
 				if (pieces.length != 6) alert('network err: task created time is not valid')
 				var before = new Date(pieces[0], parseInt(pieces[1]) - 1, pieces[2], pieces[3], pieces[4], pieces[5]);
 				item.ui_createTime = timeUtils.formatSimpleTimeBeforeNow(before);
+        item.ui_isMyTask = vm.task.poster.userId == myId;
 
         //item.ui_createTime = item.created | DateShow;
         item.ui_canContact = vm.task.poster.userId == myId && item.commentator != myId;
@@ -40,9 +44,8 @@
 
 
       // impresses
-      var impressUI = impressUtils.impressUI();
-      vm.task.ui_tags = vm.task.poster.tags.concat();
-      vm.task.ui_tags = [impressUI[0], impressUI[2], impressUI[3]];
+      vm.task.ui_tags = [];
+      impressUtils.netTagsToUiTags(vm.task.ui_tags, vm.task.poster.tags);
 
       // has been accepted
       vm.ui_taskAccepte = false;
@@ -73,7 +76,20 @@
     //  }
     //};
 
-    vm.submit = function(){
+    vm.cb_acceptTask = function(){
+      if(userNetService.cache.selfInfo == null){
+        alert('未登录');
+        return;
+      }
+
+      if(userNetService.cache.selfInfo.userId == vm.task.poster.userId) {
+        $ionicLoading.show({
+          duration: 1500,
+          templateUrl: 'modules/components/templates/ionic-loading/task-cannot-accept-self-post.html'
+        });
+        return;
+      }
+
       $ionicLoading.show();
       taskNetService.acceptTask(vm.task.id).then(
         function (data) {
@@ -81,11 +97,12 @@
           if (data.code == 200) {
             //成功
             taskNetService.cache.isNearTaskNeedRefresh = true;
+            taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
             $ionicLoading.show({
               duration: 1500,
               templateUrl: 'modules/components/templates/ionic-loading/task-accept-success.html'
             });
-            $ionicLoading(function(){
+            $timeout(function(){
               $state.go('main.near');
             }, 1500);
           } else {
@@ -96,10 +113,10 @@
               duration: 1500,
               templateUrl: 'modules/components/templates/ionic-loading/task-not-exist.html'
             });
-            $ionicLoading(function(){
-              $state.go('main.near');
-            }, 1500);
+
           }
+
+
         }, function (data) {
           //temp:
           $ionicLoading.show({
@@ -143,6 +160,7 @@
             vm.ui_taskAccepted = taskNow.status != 0;
             vm.ui_canContact = taskNow.poster.userId == userNetService.cache.selfInfo.userId;
             vm.task.commentList = taskNow.commentList;
+            vm.task.commentCount = vm.task.commentList.length;
 
             $ionicLoading.show({
               duration: 1500,

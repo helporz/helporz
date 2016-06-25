@@ -30,6 +30,8 @@ var g_TestFlag = enumTestFlag.NONE;
 //g_TestFlag = enumTestFlag.INFO;
 //g_TestFlag = enumTestFlag.WALL;
 
+var g_isDebug = true;
+
 var ho = {
   isValid: function(value){
     return typeof value !== 'undefined' && value !== null;
@@ -37,6 +39,12 @@ var ho = {
 
   trace: function(obj) {
     return JSON.stringify(obj);
+  },
+
+  alert: function(v) {
+    if (g_isDebug) {
+      alert(v);
+    }
   }
 }
 

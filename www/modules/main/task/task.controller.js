@@ -16,7 +16,7 @@
     OPT_CANCEL: 2
   };
 
-  var POLL_MIN_TIME = 500;
+  var POLL_MIN_TIME = 100;
   var POLL_MAX_TIME = 5000;
 
 
@@ -49,6 +49,7 @@
 
     vm.pollIntervalTime = POLL_MIN_TIME;
     vm.lastPollErrorOccurMS = 0;
+    vm.isNetSynchronizing = false;
     vm.timeChecker = new Date();
     $scope.$on("$ionicView.enter", function () {
       // 首次判断读取任务
@@ -57,31 +58,35 @@
         taskNetService.cache.isAcceptTaskGoingNeedRefresh &&
         taskNetService.cache.isAcceptTaskFinishNeedRefresh
       ){
-        $ionicLoading.show({
-          template: '加载中...'
-        });
+        vm.isNetSynchronizing = true;
+
+        $ionicLoading.show();
         taskNetService.getTaskList().then(function(taskList) {
           vm.repeatList = taskList.uncompletedPostList;
           _processTaskForUI(taskList.uncompletedPostList, true);
           _processTaskForUI(taskList.completedPostList, true);
           _processTaskForUI(taskList.uncompletedAcceptList, false);
           _processTaskForUI(taskList.completedAcceptList, false);
+
           vm.taskScroll.scrollTop();
         }, _cb_failed).finally(function(){
           $ionicLoading.hide();
-
-
-          // 开始轮询
-          vm.pollInterval = $interval(function () {
-            checkTaskNewState();
-            //网络条件不佳,或者从服务器读取数据出错的时候,会将轮训间隔调大,当一段时间不出错(网络恢复后),将轮询间隔重置成最小值
-            if(vm.lastPollErrorOccurMS > 0 || vm.timeChecker.getTime() - vm.lastPollErrorOccurMS > POLL_MAX_TIME + 2000){
-              vm.pollInterval = POLL_MIN_TIME;
-            }
-          }, vm.pollIntervalTime);
+          vm.isNetSynchronizing = false;
         })
       }
 
+      // 开始轮询
+      vm.pollInterval = $interval(function () {
+        //如果正在同步,跳过本次轮训
+        if(vm.isNetSynchronizing == true) {
+          return;
+        }
+        checkTaskNewState();
+        //网络条件不佳,或者从服务器读取数据出错的时候,会将轮训间隔调大,当一段时间不出错(网络恢复后),将轮询间隔重置成最小值
+        if(vm.lastPollErrorOccurMS > 0 || vm.timeChecker.getTime() - vm.lastPollErrorOccurMS > POLL_MAX_TIME + 2000){
+          vm.pollInterval = POLL_MIN_TIME;
+        }
+      }, vm.pollIntervalTime);
 
     });
     $scope.$on("$ionicView.leave", function () {
@@ -105,7 +110,7 @@
       if (isPoster == true) {
         for (var i in taskList) {
           taskList[i].ui_identifier = taskList[i].accepter != null ? "联系援助人" : "";
-          taskList[i].ui_nickname = taskList[i].accepter != null ? taskList[i].accepter.nickname : "会是谁呢?";
+          taskList[i].ui_nickname = taskList[i].accepter != null ? taskList[i].accepter.nickname : "神秘大侠";
           taskList[i].ui_avatar = taskList[i].accepter != null ? taskList[i].accepter.avatar : "";
           taskList[i].ui_taskIcon = taskUtils.iconByTypeValue(taskList[i].taskTypesId);
           taskList[i].ui_taskTypeName = taskUtils.nameByTypeValue(taskList[i].taskTypesId);
@@ -128,60 +133,68 @@
 
     var _checkPostTaskGoing = function() {
       if(taskNetService.cache.isPostTaskGoingNeedRefresh == true) {
-        $ionicLoading.show({
-          template: '加载中...'
-        });
+        $ionicLoading.show();
+        vm.isNetSynchronizing = true;
         taskNetService.getUncompletedPostTaskList().then(function(taskList) {
-          vm.repeatList = taskList;
           _processTaskForUI(taskList, true);
-        }, _cb_failed).finally(function(){
+          if(vm.tabSelectedIndex==0 && vm.postTabSelectedIndex==0){
+            vm.repeatList = taskList;
+            vm.taskScroll.scrollTop();
+          }
           $ionicLoading.hide();
-          vm.taskScroll.scrollTop();
+        }, _cb_failed).finally(function(){
+          vm.isNetSynchronizing = false;
         })
       }
     };
 
     var _checkPostTaskFinish = function() {
       if(taskNetService.cache.isPostTaskFinishNeedRefresh == true) {
-        $ionicLoading.show({
-          template: '加载中...'
-        });
+        $ionicLoading.show();
+        vm.isNetSynchronizing = true;
         taskNetService.getCompletedPostTaskList(1, 15).then(function (taskList) {
-          vm.repeatList = taskList;
           _processTaskForUI(taskList, true);
-        }, _cb_failed).finally(function () {
+          if(vm.tabSelectedIndex==0 && vm.postTabSelectedIndex==1){
+            vm.repeatList = taskList;
+            vm.taskScroll.scrollTop();
+          }
           $ionicLoading.hide();
-          vm.taskScroll.scrollTop();
+        }, _cb_failed).finally(function () {
+          vm.isNetSynchronizing = false;
         })
       }
     };
 
     var _checkAcceptTaskGoing = function() {
       if(taskNetService.cache.isAcceptTaskGoingNeedRefresh == true) {
-        $ionicLoading.show({
-          template: '加载中...'
-        });
+        $ionicLoading.show();
+        vm.isNetSynchronizing = true;
         taskNetService.getUncompletedAcceptTaskList().then(function(taskList) {
-          vm.repeatList = taskList;
           _processTaskForUI(taskList, false);
-        }, _cb_failed).finally(function(){
+          if(vm.tabSelectedIndex==1 && vm.postTabSelectedIndex==0){
+            vm.repeatList = taskList;
+            vm.taskScroll.scrollTop();
+          }
           $ionicLoading.hide();
-          vm.taskScroll.scrollTop();
+        }, _cb_failed).finally(function(){
+          vm.isNetSynchronizing = false;
         })
       }
     };
 
     var _checkAcceptTaskFinish = function() {
       if(taskNetService.cache.isAcceptTaskFinishNeedRefresh == true) {
-        $ionicLoading.show({
-          template: '加载中...'
-        });
+        $ionicLoading.show();
+        vm.isNetSynchronizing = true;
         taskNetService.getCompletedAcceptTaskList(1, 15).then(function(taskList) {
-          vm.repeatList = taskList;
           _processTaskForUI(taskList, false);
-        }, _cb_failed).finally(function(){
+           if(vm.tabSelectedIndex==1 && vm.postTabSelectedIndex==1){
+            vm.repeatList = taskList;
+            vm.taskScroll.scrollTop();
+          }
           $ionicLoading.hide();
-          vm.taskScroll.scrollTop();
+        }, _cb_failed).finally(function(){
+          vm.isNetSynchronizing = false;
         })
       }
     };
@@ -286,12 +299,35 @@
 
     /////////////////////////////////////
     vm.doRefresh = function () {
-      taskNetService.getPostTaskList().then(_cb_getPostTaskSuccess, _cb_failed).finally(function () {
-        taskNetService.getAcceptTaskList().then(_cb_getAcceptTaskSuccess, _cb_failed).finally(function () {
-          $scope.$broadcast('scroll.refreshComplete');
-          $ionicLoading.hide();
-        });
-      });
+      //taskNetService.getPostTaskList().then(_cb_getPostTaskSuccess, _cb_failed).finally(function () {
+      //  taskNetService.getAcceptTaskList().then(_cb_getAcceptTaskSuccess, _cb_failed).finally(function () {
+      //    $scope.$broadcast('scroll.refreshComplete');
+      //    $ionicLoading.hide();
+      //  });
+      //});
+
+      taskNetService.getTaskList().then(function(taskList) {
+        vm.repeatList = taskList.uncompletedPostList;
+        _processTaskForUI(taskList.uncompletedPostList, true);
+        _processTaskForUI(taskList.completedPostList, true);
+        _processTaskForUI(taskList.uncompletedAcceptList, false);
+        _processTaskForUI(taskList.completedAcceptList, false);
+        if(vm.tabSelectedIndex==0 && vm.postTabSelectedIndex==0) {
+          vm.repeatList = taskList.uncompletedPostList;
+        }
+        else if(vm.tabSelectedIndex==0 && vm.postTabSelectedIndex==1) {
+          vm.repeatList = taskList.completedPostList;
+        }
+        else if(vm.tabSelectedIndex==1 && vm.acceptTabSelectedIndex==0) {
+          vm.repeatList = taskList.uncompletedAcceptList;
+        }
+        else if(vm.tabSelectedIndex==1 && vm.acceptTabSelectedIndex==1) {
+          vm.repeatList = taskList.completedAcceptList;
+        }
+        vm.taskScroll.scrollTop();
+      }, _cb_failed).finally(function() {
+        $scope.$broadcast('scroll.refreshComplete');
+      })
     };
 
     //////////////////////////////////////////////////
@@ -327,13 +363,22 @@
         if (task.status == 0) {  //waiting  -- 取消
           $ionicLoading.show();
           taskNetService.cancelByPoster(task.id).then(
-            function (data, status) {
+            function (data) {
               console.log(data);
               if (data.code == 200) {
-                taskNetService.cache.isPostTaskFinishNeedRefresh = true;
+
+                $ionicLoading.show({
+                  duration: 1500,
+                  templateUrl: 'modules/components/templates/ionic-loading/com-cancel-success.html'
+                });
+                $timeout(function() {
+                  taskNetService.cache.isPostTaskFinishNeedRefresh = true;
+                  taskNetService.cache.isPostTaskGoingNeedRefresh = true;
+                }, 1500);
               } else {
               }
-            }, function (data, status) {
+            }, function (data) {
+              $ionicLoading.hide();
               $ionicPopup.alert({
                 title: '错误提示',
                 template: data
@@ -341,8 +386,6 @@
                 console.error(data);
               })
             }).finally(function () {
-              $ionicLoading.hide();
-              vm.clearClickTarget();
             });
         }
         else if (task.status == 2) {  //wait over time
@@ -359,15 +402,17 @@
         }
         else if (task.status == 64) { //accepter confirm success  -- 未完成援助
           $ionicLoading.show();
-          taskNetService.confirmByPoster(task.id, 128).then(  //ask:xiaolang  status: success,failed
-            function (data, status) {
-              console.log(data);
-              if (data.code == 200) {
+          taskNetService.confirmByPoster(task.id, 256).then(  //ask:xiaolang  status: success,failed
+            function (data) {
+							//vm.cb_post();
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+              });
+              $timeout(function() {
                 taskNetService.cache.isPostTaskFinishNeedRefresh = true;
-                vm.cb_post();
-              } else {
+              }, 1500);
 
-              }
             }, function (data, status) {
               $ionicPopup.alert({
                 title: '错误提示',
@@ -400,14 +445,25 @@
           $ionicLoading.show();
           taskNetService.cancelByAcceptor(task.id).then(  //ask:xiaolang  status: success,failed
             function (data, status) {
-              console.log(data);
-              if (data.code == 200) {
-                taskNetService.cache.isAcceptTaskFinishNeedRefresh = true;
-                vm.cb_accept();
-              } else {
+              //console.log(data);
+              //if (data.code == 200) {
+              //  taskNetService.cache.isAcceptTaskFinishNeedRefresh = true;
+              //  vm.cb_accept();
+              //} else {
+              //
+              //}
 
-              }
-            }, function (data, status) {
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+              });
+              $timeout(function() {
+                taskNetService.cache.isAcceptTaskFinishNeedRefresh = true;
+              }, 1500);
+
+            }, function (data) {
+              $ionicLoading.hide();
+              //temp
               $ionicPopup.alert({
                 title: '错误提示',
                 template: data
@@ -415,7 +471,6 @@
                 console.error(data);
               })
             }).finally(function () {
-              $ionicLoading.hide();
             });
         }
         else if (task.status == 8) {  //going on overtime
@@ -447,7 +502,7 @@
       if (vm.tabSelectedIndex == 0) {
 
         if (task.status == 0) { //wait
-          console.log('大侠召唤术');
+          $state.go('main.task_task-detail', {id: task.id})
         }
         else if (task.status == 2) {  //wait over time - 大侠召唤术
           console.log('大侠召唤术');
@@ -458,36 +513,55 @@
         else if (task.status == 8) {  //going on overtime -- 评价
           gotoComment(task.id, 'poster');
         }
-        else if (task.status == 32) { //accepter cancel -- 评价
-          gotoComment(task.id, 'poster');
+        else if (task.status == 32) { //acceptor cancel -- 评价
+          if(task.posterCommentLevel == 0) {
+            gotoComment(task.id, 'poster');
+          }else{
+            gotoTaskState(task.id);
+          }
         }
-        else if (task.status == 64) { //accepter confirm success  -- 确认完成援助
+        else if (task.status == 64) { //poster confirm success  -- 确认完成援助
           $ionicLoading.show();
           taskNetService.confirmByPoster(task.id, 128).then(  //ask:xiaolang  status: success,failed
-            function (data, status) {
-              console.log(data);
-              if (data.code == 200) {
-                taskNetService.cache.isPostTaskFinishNeedRefresh = true;
-                vm.cb_post();
-              } else {
+            function (data) {
+              //console.log(data);
+              //if (data.code == 200) {
+              //  taskNetService.cache.isPostTaskFinishNeedRefresh = true;
+              //  vm.cb_post();
+              //} else {
+              //
+              //}
 
-              }
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+              });
+              $timeout(function() {
+                taskNetService.cache.isPostTaskGoingNeedRefresh = true;
+              }, 1500);
+
             }, function (data, status) {
-              $ionicPopup.alert({
-                title: '错误提示',
-                template: data
-              }).then(function (res) {
-                console.error(data);
-              })
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-fail.html'
+              });
+              ho.alert(data);
             }).finally(function () {
-              $ionicLoading.hide();
             });
         }
         else if (task.status == 128) { //poster confirm success -- 评价
-          gotoComment(task.id, 'poster');
+          if(task.posterCommentLevel == 0){
+            gotoComment(task.id, 'poster');
+          }else {
+            gotoTaskState(task.id);
+          }
         }
         else if (task.status == 256) { //poster confirm failed -- 评价
-          gotoComment(task.id, 'poster');
+          if(task.posterCommentLevel == 0){
+            gotoComment(task.id, 'poster');
+          }else {
+            gotoTaskState(task.id);
+          }
         }
       }
       // accepter
@@ -501,23 +575,35 @@
         else if (task.status == 4) {  // going on -- 我已完成援助
           $ionicLoading.show();
           taskNetService.completeByAcceptor(task.id).then(
-            function (data, status) {
-              console.log(data);
-              if (data.code == 200) {
-                taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
-                vm.cb_accept();
-              } else {
+            function (data) {
+              //if (data.code == 200) {
+              //  taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
+              //  vm.cb_accept();
+              //} else {
+              //}
 
-              }
-            }, function (data, status) {
-              $ionicPopup.alert({
-                title: '错误提示',
-                template: data
-              }).then(function (res) {
-                console.error(data);
-              })
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+              });
+              $timeout(function() {
+                taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
+              }, 1500);
+
+            }, function (data) {
+              //$ionicPopup.alert({
+              //  title: '错误提示',
+              //  template: data
+              //}).then(function (res) {
+              //  console.error(data);
+              //})
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-fail.html'
+              });
+
+              ho.alert(data);
             }).finally(function () {
-              $ionicLoading.hide();
             });
         }
         else if (task.status == 8) {  //going on overtime -- 评价
@@ -530,10 +616,18 @@
           console.error('invalid task opt: accepter confirm success - accepter active');
         }
         else if (task.status == 128) { //accepter confirm success -- 评价留言
-          gotoComment(task.id, 'accepter');
+          if(task.accepterCommentLevel == 0) {
+            gotoComment(task.id, 'accepter');
+          }else{
+            gotoTaskState(task.id);
+          }
         }
         else if (task.status == 256) { //accepter confirm failed -- 评价留言
-          gotoComment(task.id, 'accepter');
+          if(task.accepterCommentLevel == 0){
+            gotoComment(task.id, 'accepter');
+          }else{
+            gotoTaskState(task.id);
+          }
         }
       }
     }

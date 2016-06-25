@@ -74,7 +74,9 @@
                 <i class="elem2 icon ho-share font-size-13"></i>
                 <span class="count">0</span>
               </div>
-              <button class="button-accept  button-light-red" ng-click="vm.cb_acceptTask($index)">
+
+              <p class="my-task-txt" ng-if="item.ui_isMyTask">我的求助</p>
+              <button class="button-accept  button-light-red" ng-if="!item.ui_isMyTask" ng-click="vm.cb_acceptTask($index)">
                 接单
               </button>
             </div>

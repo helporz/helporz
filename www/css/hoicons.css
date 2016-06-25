@@ -32,7 +32,16 @@
 .ho-person:before,
 .ho-add-on:before,
 .ho-task:before,
-.ho-edit:before {
+.ho-edit:before,
+.ho-task-wait-overtime:before,
+.ho-task-going:before,
+.ho-task-unfinish:before,
+.ho-task-finish:before,
+.ho-task-wait:before,
+.ho-task-confirm-wait:before,
+.ho-task-giveup:before,
+.ho-task-going-overtime:before,
+.ho-task-remark:before {
   display: inline-block;
   font-family: "Hoicons";
   speak: none;
@@ -107,3 +116,30 @@
 
 .ho-edit:before {
   content: ""; }
+
+.ho-task-wait-overtime:before {
+  content: ""; }
+
+.ho-task-going:before {
+  content: ""; }
+
+.ho-task-unfinish:before {
+  content: ""; }
+
+.ho-task-finish:before {
+  content: ""; }
+
+.ho-task-wait:before {
+  content: ""; }
+
+.ho-task-confirm-wait:before {
+  content: ""; }
+
+.ho-task-giveup:before {
+  content: ""; }
+
+.ho-task-going-overtime:before {
+  content: ""; }
+
+.ho-task-remark:before {
+  content: ""; }

@@ -3,18 +3,19 @@ $comment-left-margin:12px;
   background-color: white;
 
   .input-area {
-    padding: 5px 10px;
+    padding: 5px 0;
     height: 80px;
     width: 100%;
+    resize: none;
   }
 
   .comment-panel {
-    padding: 5px 10px;
+    padding: 10px 10px;
     background-color: white;
 
     .pic-panel {
       @include display-flex();
-      height: 80px;
+      height: 70px;
     }
     .pic {
       border: 2px solid $color-text-thirdly;
@@ -33,15 +34,15 @@ $comment-left-margin:12px;
     background-color: white;
     padding-bottom: 10px;
 
-    .name1 {
-      margin: 0 $comment-left-margin;
-      font-size: 15px;
-    }
-
     .star-panel {
       @include display-flex();
       @include align-items(center);
       height: 40px;
+      .name {
+        margin: 0 $comment-left-margin;
+        color: $color-text-primary;
+        font-size: 15px;
+      }
     }
 
     .div-line {
@@ -59,6 +60,12 @@ $comment-left-margin:12px;
       margin: $comment-left-margin 0 $comment-left-margin $comment-left-margin ;
       @include display-flex();
       @include align-items(center);
+
+      .name {
+        margin: 0;
+        color: $color-text-primary;
+        font-size: 15px;
+      }
 
       button {
         margin-left: 10px;
@@ -130,12 +137,16 @@ $comment-left-margin:12px;
     .impress-div {
       height: 22px;
       width: 65px;
-      border: 1px solid $color-theme;
       border-radius: 11px;
       font-size: 12px;
       @include display-flex();
       @include justify-content(center);
       @include align-items(center);
+
+      //更改了需求:改成灰色
+      //border: 1px solid $color-text-secondary !important;
+      //color: $color-text-secondary !important;
+      border: 1px solid;
     }
   }
 
