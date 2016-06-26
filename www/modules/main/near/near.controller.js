@@ -7,12 +7,12 @@
 
   angular.module('main.near')
     .controller('mainNearCtrl', ['$state', '$log', '$ionicLoading', '$interval', '$timeout', '$scope', 'taskNetService', 'userNetService',
-      'taskUtils', 'timeUtils', 'impressUtils', mainNearCtrl]);
+      'taskUtils', 'timeUtils', 'impressUtils', 'intervalCenter', mainNearCtrl]);
 
 
 
   function mainNearCtrl($state, $log, $ionicLoading, $interval, $timeout, $scope, taskNetService, userNetService,
-                        taskUtils, timeUtils, impressUtils) {
+                        taskUtils, timeUtils, impressUtils, intervalCenter) {
 
     //fixme:因为点击会穿透,同时触发多个事件,这里先用标记来屏蔽,点击按钮后间隔一段时间才可触发下一次点击回调
     var _isClicking = false;
@@ -36,6 +36,12 @@
       });
     };
 
+    var intervalFunc = function(){
+      if (taskNetService.cache.isNearTaskNeedRefresh) {
+        taskNetService.cache.isNearTaskNeedRefresh = false;
+        _refreshList();
+      }
+    }
 
     $scope.$on("$ionicView.enter", function () {
 
@@ -48,16 +54,13 @@
       //  $scope.$apply();
       //  });
 
-      vm.pollInterval = $interval(function(){
-        if (taskNetService.cache.isNearTaskNeedRefresh) {
-          taskNetService.cache.isNearTaskNeedRefresh = false;
-          _refreshList();
-        }
-      }, 500);
+      intervalCenter.add(0, 'near.controller', intervalFunc);
+
     });
 
     $scope.$on('$ionicView.leave', function() {
-      $interval.cancel(vm.pollInterval);
+      //$interval.cancel(vm.pollInterval);
+      intervalCenter.remove(0, 'near.controller', intervalFunc);
     })
 
     vm.cb_itemClick = function(index) {

@@ -17,6 +17,7 @@
     'com.helporz.im',
     'app.routes',
     'app.directives',
+    'interval.service',
     'app.time.utils.service',
     'starter.controllers',
     'starter.services',

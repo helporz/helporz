@@ -52218,7 +52218,7 @@ IonicModule
   // iOS Transitions
   // -----------------------
   //lkj hidetabs:
-  provider.transitions.views.ios = function(enteringEle, leavingEle, direction, shouldAnimate, rootTabsEle, enableBack) {
+  provider.transitions.views.ios = function(enteringEle, leavingEle, direction, shouldAnimate, rootTabsEle, leavingViewIsRoot, enteringViewIsRoot) {
 
     function setStyles(ele, opacity, x, boxShadowOpacity) {
       var css = {};
@@ -52249,7 +52249,7 @@ IonicModule
           setStyles(enteringEle, 1, (1 - step) * 99, 1 - step); // starting at 98% prevents a flicker
           setStyles(leavingEle, (1 - 0.1 * step), step * -33, -1);
 
-          if(rootTabsEle){
+          if(rootTabsEle && step==1 && leavingViewIsRoot){
             setTabStyles(rootTabsEle, (1 - 0.1 * step), step * 100, -1);
           }
 
@@ -52257,7 +52257,7 @@ IonicModule
           setStyles(enteringEle, (1 - 0.1 * (1 - step)), (1 - step) * -33, -1);
           setStyles(leavingEle, 1, step * 100, 1 - step);
 
-          if(rootTabsEle && enableBack == false){
+          if(rootTabsEle && step==1 && enteringViewIsRoot){
             setTabStyles(rootTabsEle, (1 - 0.1 * (1 - step)), (1 - step) *  100, -1);
           }
 
@@ -55018,6 +55018,7 @@ function($timeout, $document, $q, $ionicClickBlock, $ionicConfig, $ionicNavBarDe
 
             var enteringData = getTransitionData(viewLocals, enteringEle, registerData.direction, enteringView);
             var transitionFn = $ionicConfig.transitions.views[enteringData.transition] || $ionicConfig.transitions.views.none;
+
             transitionFn(enteringEle, null, enteringData.direction, true).run(0);
 
             enteringEle.data(DATA_VIEW, {
@@ -55073,7 +55074,7 @@ function($timeout, $document, $q, $ionicClickBlock, $ionicConfig, $ionicNavBarDe
           var transitionFn = $ionicConfig.transitions.views[enteringData.transition] || $ionicConfig.transitions.views.none;
           var viewTransition = transitionFn(enteringEle, leavingEle, enteringData.direction,
                                             enteringData.shouldAnimate && allowAnimate && renderEnd,
-                                            tabsEle, enableBack);
+                                            tabsEle, leavingView.index==0, enteringView.index==0);
 
           if (viewTransition.shouldAnimate) {
             // attach transitionend events (and fallback timer)

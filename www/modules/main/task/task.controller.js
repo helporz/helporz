@@ -7,7 +7,7 @@
 
   angular.module('main.task')
     .controller('mainTaskCtrl', ['$log', '$state', '$ionicLoading', '$ionicPopup', 'widgetDelegate', '$ionicScrollDelegate',
-      '$scope', 'taskNetService', 'taskUtils', '$timeout', '$interval', mainTaskCtrl]);
+      '$scope', 'taskNetService', 'taskUtils', '$timeout', '$interval', 'intervalCenter', mainTaskCtrl]);
 
 
   var enumClickTarget = {
@@ -16,12 +16,12 @@
     OPT_CANCEL: 2
   };
 
-  var POLL_MIN_TIME = 100;
+  var POLL_MIN_TIME = 200;
   var POLL_MAX_TIME = 5000;
 
 
   function mainTaskCtrl($log, $state, $ionicLoading, $ionicPopup, widgetDelegate, $ionicScrollDelegate,
-                        $scope, taskNetService, taskUtils, $timeout, $interval) {
+                        $scope, taskNetService, taskUtils, $timeout, $interval, intervalCenter) {
     var vm = $scope.vm = {};
 
     //fixme:因为点击会穿透,同时触发多个事件,这里先用标记来屏蔽,点击按钮后间隔一段时间才可触发下一次点击回调
@@ -46,11 +46,29 @@
     vm.taskScroll = $ionicScrollDelegate.$getByHandle('taskScroll');
 
 
-
     vm.pollIntervalTime = POLL_MIN_TIME;
     vm.lastPollErrorOccurMS = 0;
     vm.isNetSynchronizing = false;
     vm.timeChecker = new Date();
+
+
+    var intervalFunc = function () {
+      //如果正在同步,跳过本次轮训
+      if(vm.isNetSynchronizing == true) {
+        return;
+      }
+      checkTaskNewState();
+      //网络条件不佳,或者从服务器读取数据出错的时候,会将轮训间隔调大,当一段时间不出错(网络恢复后),将轮询间隔重置成最小值
+      if(vm.lastPollErrorOccurMS > 0 || vm.timeChecker.getTime() - vm.lastPollErrorOccurMS > POLL_MAX_TIME + 2000){
+        //vm.pollInterval = POLL_MIN_TIME;
+
+        //从快轮询移除,加到慢轮训
+        intervalCenter.remove(0, 'task.controller', intervalFunc);
+        intervalCenter.add(1, 'task.controller', intervalFunc);
+      }
+    }
+
+
     $scope.$on("$ionicView.enter", function () {
       // 首次判断读取任务
       if(taskNetService.cache.isPostTaskGoingNeedRefresh &&
@@ -75,23 +93,35 @@
         })
       }
 
-      // 开始轮询
-      vm.pollInterval = $interval(function () {
-        //如果正在同步,跳过本次轮训
-        if(vm.isNetSynchronizing == true) {
-          return;
-        }
-        checkTaskNewState();
-        //网络条件不佳,或者从服务器读取数据出错的时候,会将轮训间隔调大,当一段时间不出错(网络恢复后),将轮询间隔重置成最小值
-        if(vm.lastPollErrorOccurMS > 0 || vm.timeChecker.getTime() - vm.lastPollErrorOccurMS > POLL_MAX_TIME + 2000){
-          vm.pollInterval = POLL_MIN_TIME;
-        }
-      }, vm.pollIntervalTime);
+      //// 开始轮询
+      //if(vm.pollInterval == undefined){
+      //  vm.pollInterval = $interval(function () {
+      //    //如果正在同步,跳过本次轮训
+      //    if(vm.isNetSynchronizing == true) {
+      //      return;
+      //    }
+      //    checkTaskNewState();
+      //    //网络条件不佳,或者从服务器读取数据出错的时候,会将轮训间隔调大,当一段时间不出错(网络恢复后),将轮询间隔重置成最小值
+      //    if(vm.lastPollErrorOccurMS > 0 || vm.timeChecker.getTime() - vm.lastPollErrorOccurMS > POLL_MAX_TIME + 2000){
+      //      vm.pollInterval = POLL_MIN_TIME;
+      //    }
+      //  }, vm.pollIntervalTime);
+      //}
+
+      intervalCenter.add(0, 'task.controller', intervalFunc);
+
 
     });
     $scope.$on("$ionicView.leave", function () {
-      $interval.cancel(vm.pollInterval);
+      //$interval.cancel(vm.pollInterval);
+      //vm.pollInterval = undefined;
+
+      // try to remove from intervalCenter
+      intervalCenter.remove(0, 'task.controller', intervalFunc);
+      intervalCenter.remove(1, 'task.controller', intervalFunc);
     });
+
+
 
 
     //////////////////////////////////////////////////
