@@ -159,12 +159,15 @@
           <!--<button ng-hide ng-show="item.status==1024" class="align-right ho-button  button-light-red ho-button-small">评价对方</button>-->
 
           <div ng-if="item.ui_showOptPassive==true"
-               class="align-right ho-button button-gray button-outline ho-button-small"
-               ng-click="vm.opt_passive($index)">{{item.ui_textOptPassive}}
+               class="ho-button button-gray button-outline ho-button-small flex-center"
+               ng-click="vm.opt_passive($index)">
+            {{item.ui_textOptPassive}}
           </div>
           <div ng-if="item.ui_showOptActive==true"
-               class="align-right ho-button button-light-red ho-button-small"
-               ng-click="vm.opt_active($index)">{{item.ui_textOptActive}}
+               class="ho-button button-light-red ho-button-small flex-center" ng-class="{'has-badge':item.ui_badgeOptActive}"
+               ng-click="vm.opt_active($index)">
+            {{item.ui_textOptActive}}
+            <div ng-if="item.ui_badgeOptActive" class="badge-dot"></div>
           </div>
         </div>
 

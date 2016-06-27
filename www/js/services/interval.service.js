@@ -16,14 +16,14 @@
         {}  // infrequence
         ];
 
-      $interval(function(){
+      setInterval(function(){
         var v = intervals[0];
         for(var k in v) {
           v[k]();
         }
       }, 200);
 
-      $interval(function() {
+      setInterval(function() {
         var v = intervals[1];
         for(var k in v) {
           v[k]();
@@ -48,7 +48,7 @@
           console.error('' + key + ' need intervalFunc, but not');
           return;
         }
-        intervals[frequencyLevel].key = func;
+        intervals[frequencyLevel][key] = func;
       }
 
       function remove(frequencyLevel, key) {

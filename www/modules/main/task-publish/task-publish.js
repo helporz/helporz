@@ -4,7 +4,7 @@
 ;
 (function () {
   'use strict';
-  angular.module('com.helproz.task.publish', ['ionic', 'com.helporz.task.netservice', 'ngCordova.plugins.datePicker',
+  angular.module('com.helporz.task.publish', ['ionic', 'com.helporz.task.netservice', 'ngCordova.plugins.datePicker',
     'app.task.utils.service']).config(publishConfigFn)
     .controller('testTaskPublishController', testTaskPublishControllerFn)
     .controller('taskPublishController', taskPublishControllerFn)

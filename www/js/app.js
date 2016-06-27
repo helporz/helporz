@@ -24,7 +24,8 @@
     'com.helporz.login',
     'com.helporz.intro',
     'com.helporz.utils.service',
-    'com.helproz.task.publish',
+    'com.helporz.task.publish',
+    'com.helporz.task.netservice',
     'com.helporz.playground',
     'com.helporz.user.netservice',
     'com.helporz.task.noticemessage',
@@ -74,7 +75,9 @@
     'playgroundTestConfigService',
     'userLoginInfoService',
     'userNetService',
+    'taskNetService',
     'loginService',
+    'intervalCenter'
   ];
 
   function init($ionicPlatform,
@@ -95,7 +98,9 @@
                 playgroundTestConfigService,
                 userLoginInfoService,
                 userNetService,
-                loginService) {
+                taskNetService,
+                loginService,
+                intervalCenter) {
     $log.info('app.run.init');
 
     $ionicPlatform.ready(function () {
@@ -165,20 +170,15 @@
         }
       }, false);
 
+      //notice message
+      taskNetService.observeNoticeMessage();
+
+      // test:
+      intervalCenter.add(1, 'app.noticeMessage', function(){
+        taskNetService.fetchNoticeMessage();
+      });
+
     });
-
-
-    //自动登陆
-    //var loginInfo = userLoginInfoService.getLoginInfo()
-    //var needLogin = true
-    //if (loginInfo != null ){
-    //  userNetService.loginByTicket(loginInfo.ticket, '', function(newTicket, isNewUser){
-    //
-    //  }, function(errorCode){
-    //
-    //  })
-    //}
-    //$state.go('main.near');
 
   }
 
