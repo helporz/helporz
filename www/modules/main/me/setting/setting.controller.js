@@ -6,9 +6,10 @@
   'use strict';
 
   angular.module('main.setting')
-    .controller('mainSettingCtrl', ['$scope', '$timeout', '$state', '$stateParams', 'taskNetService', 'taskUtils', 'mainEditSheetService', mainSettingCtrl]);
+    .controller('mainSettingCtrl', ['$scope', '$timeout', '$state', '$stateParams', 'taskNetService', 'taskUtils',
+      'mainEditSheetService','SharePageWrapService', mainSettingCtrl]);
 
-  function mainSettingCtrl($scope, $timeout, $state, $stateParams, taskNetService, taskUtils, mainEditSheetService) {
+  function mainSettingCtrl($scope, $timeout, $state, $stateParams, taskNetService, taskUtils, mainEditSheetService,SharePageWrapService) {
     console.log($stateParams);
 
     var vm = $scope.vm = {};
@@ -29,6 +30,6 @@
     vm.cb_about = function(){
       $state.go('main.about');
     }
-
+    vm.SharePageWrapService = SharePageWrapService;
   }
 })()
