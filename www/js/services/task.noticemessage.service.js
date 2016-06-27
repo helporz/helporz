@@ -12,12 +12,19 @@
     .factory('NoticeMessageServiceTest', NoticeMessageServiceTestFn);
 
 
-
   NoticeMessageServiceFn.$inject = ['$log', '$q', 'NoticeMessageDB', 'NoticeMessageNetService', 'pushService', 'debugHelpService'];
 
   function NoticeMessageServiceFn($log, $q, NoticeMessageDB, NoticeMessageNetService, pushService, debugHelpService) {
     var _observerList = new Array();
     var _currentUserId = null;
+    var NOTICE_TYPE = {
+      POSTER_UNCOMPLETED_TASK_MESSAGE_TYPE: 1,
+      ACCEPTER_UNCOMPLETED_TASK_MESSAGE_TYPE: 2,
+      COMMENT_TASK_MESSAGE_TYPE: 3,
+      FRIEND_TASK_MESSAGE_TYPE: 4,
+      POSTER_COMPLETED_TASK_MESSAGE_TYPE: 5,
+      ACCEPTER_COMPLETED_TASK_MESSAGE_TYPE: 6,
+    };
 
     var onOpenNotification = function (event) {
       console.log(" index onOpenNotification");
@@ -214,6 +221,138 @@
       return _innerDefer.promise;
     }
 
+    var getAllNoticeMessageEx = function () {
+      var _innerDefer = $q.defer();
+      _refreshNoticeMessageListFromServer().then(function () {
+        NoticeMessageDB.getAllUnreadMessageEx(' correlationId desc ').then(function (res) {
+            var uncompleted_post_task_message_list = new Array();
+            var completed_post_task_message_list = new Array();
+            var uncompleted_accept_task_message_list = new Array();
+            var completed_accept_task_message_list = new Array();
+            var comment_task_message_list = new Array();
+            var friend_task_message_list = new Array();
+
+            //POSTER_UNCOMPLETED_TASK_MESSAGE_TYPE: 1,
+            //  ACCEPTER_UNCOMPLETED_TASK_MESSAGE_TYPE
+            //:
+            //2,
+            //  COMMENT_TASK_MESSAGE_TYPE
+            //:
+            //3,
+            //  FRIEND_TASK_MESSAGE_TYPE
+            //:
+            //4,
+            //  POSTER_COMPLETED_TASK_MESSAGE_TYPE
+            //:
+            //5,
+            //  ACCEPTER_COMPLETED_TASK_MESSAGE_TYPE
+            //:
+            //6,
+            var currentCorrelationId = null;
+            var correlationCompletedPostMessage = null;
+            var correlationUncompletedPostMessage = null;
+            var correlationCompletedAcceptMessage = null;
+            var correlationUncompletedAcceptMessage = null;
+            $log.info('raw notice message length:' + res.length);
+
+            for (var index = 0; index < res.length; ++index) {
+              if (res[index].type == NOTICE_TYPE.COMMENT_TASK_MESSAGE_TYPE) {
+                comment_task_message_list.push(res[index]);
+                continue;
+              }
+
+              if (res[index].type == NOTICE_TYPE.FRIEND_TASK_MESSAGE_TYPE) {
+                friend_task_message_list.push(res[index]);
+              }
+
+              if (currentCorrelationId == null) {
+                currentCorrelationId = res[index].correlationId;
+              }
+
+              if (currentCorrelationId === res[index].correlationId) {
+                switch (res[index].type) {
+                  case NOTICE_TYPE.POSTER_UNCOMPLETED_TASK_MESSAGE_TYPE:
+                    if (correlationCompletedPostMessage == null) {
+                      correlationUncompletedPostMessage = res[index];
+                    }
+                    break;
+                  case NOTICE_TYPE.POSTER_COMPLETED_TASK_MESSAGE_TYPE:
+                    correlationCompletedPostMessage = res[index];
+                    correlationUncompletedPostMessage = null;
+                    break;
+                  case NOTICE_TYPE.ACCEPTER_UNCOMPLETED_TASK_MESSAGE_TYPE:
+                    if (correlationCompletedAcceptMessage == null) {
+                      correlationUncompletedAcceptMessage = res[index];
+                    }
+                    break;
+                  case NOTICE_TYPE.ACCEPTER_COMPLETED_TASK_MESSAGE_TYPE:
+                    correlationCompletedAcceptMessage = res[index];
+                    correlationUncompletedAcceptMessage = null;
+                    break;
+
+                }
+
+              }
+              else {
+                if (correlationCompletedPostMessage != null) {
+                  completed_post_task_message_list.push(correlationCompletedPostMessage);
+                }
+
+                if (correlationUncompletedPostMessage != null) {
+                  uncompleted_post_task_message_list.push(correlationUncompletedPostMessage);
+                }
+
+                if (correlationCompletedAcceptMessage != null) {
+                  completed_accept_task_message_list.push(correlationCompletedAcceptMessage);
+                }
+
+                if (correlationUncompletedAcceptMessage != null) {
+                  uncompleted_accept_task_message_list.push(correlationUncompletedAcceptMessage);
+                }
+
+                currentCorrelationId = res[index].correlationId;
+                correlationCompletedPostMessage = null;
+                correlationUncompletedPostMessage = null;
+                correlationCompletedAcceptMessage = null;
+                correlationUncompletedAcceptMessage = null;
+                --index; //下次循环再处理
+
+              }
+            }
+
+            //处理最后一的correlationId的消息
+            if (correlationCompletedPostMessage != null) {
+              completed_post_task_message_list.push(correlationCompletedPostMessage);
+            }
+
+            if (correlationUncompletedPostMessage != null) {
+              uncompleted_post_task_message_list.push(correlationUncompletedPostMessage);
+            }
+
+            if (correlationCompletedAcceptMessage != null) {
+              completed_accept_task_message_list.push(correlationCompletedAcceptMessage);
+            }
+
+            if (correlationUncompletedAcceptMessage != null) {
+              uncompleted_accept_task_message_list.push(correlationUncompletedAcceptMessage);
+            }
+            var noticeMessageData = {
+              uncompleted_post_task_message_list: uncompleted_post_task_message_list,
+              completed_post_task_message_list: completed_post_task_message_list,
+              uncompleted_accept_task_message_list: uncompleted_accept_task_message_list,
+              completed_accept_task_message_list: completed_accept_task_message_list,
+              comment_task_message_list: comment_task_message_list,
+              friend_task_message_list: friend_task_message_list,
+            }
+            _innerDefer.resolve(noticeMessageData);
+          },
+          function (error) {
+            _innerDefer.reject(error);
+          })
+      });
+      return _innerDefer.promise;
+    }
+
     var _setReadFlagByCorrelationId = function (type, correlationId) {
       return NoticeMessageDB.setReadFlagByCorrelationId(type, correlationId);
     }
@@ -222,22 +361,33 @@
       return NoticeMessageDB.setReadFlagForLessAndEqualSerialNo(type, serialNo);
     }
 
+    var setReadFlagByType = function (type) {
+      return NoticeMessageDB.setReadFlagByType(type);
+    }
+
+    var setReadFlagBySerialNo = function (serialNo) {
+      return NoticeMessageDB.setReadFlagBySerialNo(serialNo);
+    }
+
     return {
       initService: _initService,
       onReceiveNoticeMessageList: _onReceiveNoticeMessageList,
       refreshNoticeMessageListFromServer: _refreshNoticeMessageListFromServer,
       registerObserver: _registerObserver,
       getNoticeMessage: _getNoticeMessage,
-      getAllNoticeMessage:getAllNoticeMessage,
+      getAllNoticeMessage: getAllNoticeMessage,
+      getAllNoticeMessageEx: getAllNoticeMessageEx,
       setReadFlagByCorrelationId: _setReadFlagByCorrelationId,
       setReadFlagForLessAndEqualSerialNo: _setReadFlagForLessAndEqualSerialNo,
+      setReadFlagByType: setReadFlagByType,
+      setReadFlagBySerialNo: setReadFlagBySerialNo,
     };
 
 
   }
 
-  NoticeMessageDBFn.$inject = ['$log', '$q', 'dbService','debugHelpService'];
-  function NoticeMessageDBFn($log, $q, dbService,debugHelpService) {
+  NoticeMessageDBFn.$inject = ['$log', '$q', 'dbService', 'debugHelpService'];
+  function NoticeMessageDBFn($log, $q, dbService, debugHelpService) {
     var patterns = {
       noticeMessage: {'userId': '0', 'serialNo': '0', 'type': 0, 'correlationId': '0', 'message': null, 'ext': null},
       userMaxNoticeSerialNo: {'userId': '0', 'serialNo': '0'},
@@ -264,7 +414,7 @@
 
     var _currentUserId = null;
     var _initDB = function (userId) {
-      $log.info('NoticeMessageDB init -> userId:'+userId);
+      $log.info('NoticeMessageDB init -> userId:' + userId);
       if (userId != null) {
         _currentUserId = userId;
       }
@@ -314,7 +464,7 @@
     }
 
     var _addNoticeMessages = function (maxSerialNo, noticeMessageList) {
-      $log.debug('addNoticeMessage maxSerialNo:' + maxSerialNo );
+      $log.debug('addNoticeMessage maxSerialNo:' + maxSerialNo);
       var _innerDefer = $q.defer();
 
       for (var index = 0; index < noticeMessageList.length; ++index) {
@@ -371,6 +521,29 @@
       return _innerDefer.promise;
     }
 
+    var setReadFlagByType = function (type, correlationId) {
+      var _innerDefer = $q.defer();
+      dbService.dropRecords('noticeMessage', 'userId ="' +
+        _currentUserId + '" and type = "' + type + '"').then(function (res) {
+        _innerDefer.resolve();
+      }, function (error) {
+        _innerDefer.reject();
+      });
+      return _innerDefer.promise;
+    }
+
+    var setReadFlagBySerialNo = function (serialNo) {
+      var _innerDefer = $q.defer();
+      dbService.dropRecords('noticeMessage', 'userId ="' +
+        _currentUserId + '" and serialNo = "' + serialNo + '"').then(function (res) {
+        _innerDefer.resolve();
+      }, function (error) {
+        _innerDefer.reject();
+      });
+      return _innerDefer.promise;
+    }
+
+
     var _getUnReadMessageByType = function (type) {
       var _innerDefer = $q.defer();
       dbService.findRecordsEx('noticeMessage',
@@ -394,6 +567,21 @@
         })
       return _innerDefer.promise;
     }
+
+    var getAllUnreadMessageEx = function (orderBy) {
+      var _innerDefer = $q.defer();
+      var where = "userId='#uId#'".replace('#uId#', _currentUserId) + " order by " + orderBy;
+      dbService.findRecordsEx('noticeMessage',
+        where,
+        patterns['noticeMessage']).then(function (res) {
+          _innerDefer.resolve(res);
+        }, function (error) {
+          _innerDefer.reject(error);
+        })
+
+      return _innerDefer.promise;
+    }
+
     return {
       initDB: _initDB,
       createRecord: _createRecord,
@@ -402,13 +590,16 @@
       addNoticeMessages: _addNoticeMessages,
       setReadFlagByCorrelationId: _setReadFlagByCorrelationId,
       setReadFlagForLessAndEqualSerialNo: _setReadFlagForLessAndEqualSerialNo,
+      setReadFlagByType: setReadFlagByType,
+      setReadFlagBySerialNo: setReadFlagBySerialNo,
       getUnReadMessageByType: _getUnReadMessageByType,
       getAllUnreadMessage: _getAllUnreadMessage,
+      getAllUnreadMessageEx: getAllUnreadMessageEx,
     };
   }
 
-  NoticeMessageNetServiceFn.$inject = ['$log','$q', 'httpBaseService'];
-  function NoticeMessageNetServiceFn($log,$q, httpBaseService) {
+  NoticeMessageNetServiceFn.$inject = ['$log', '$q', 'httpBaseService'];
+  function NoticeMessageNetServiceFn($log, $q, httpBaseService) {
     var _getUnreadMessageBySerialNo = function (serialNo) {
       $log.debug('getUnreadMessageBySerialNo:' + serialNo);
       var _innerDefer = $q.defer();
@@ -429,22 +620,90 @@
   }
 
   NoticeMessageServiceTestFn.$inject = ['$log', 'NoticeMessageService'];
-  function NoticeMessageServiceTestFn($log,NoticeMessageService) {
+  function NoticeMessageServiceTestFn($log, NoticeMessageService) {
     $log.error('NoticeMessageServiceTest');
     var unreadMessageList = null;
     var taskNoticeMessageMonitor = {
       onNotify: function () {
-        NoticeMessageService.getNoticeMessage(1).then(function (noticeMessageList) {
-          if (noticeMessageList != null && noticeMessageList.length > 0) {
-            unreadMessageList = noticeMessageList;
+        NoticeMessageService.getAllNoticeMessageEx().then(function (noticeMessageData) {
+          if(noticeMessageData.uncompleted_post_task_message_list!= null ) {
+            unreadMessageList = noticeMessageData.uncompleted_post_task_message_list;
             for (var msgIndex = 0; msgIndex < unreadMessageList.length; ++msgIndex) {
-              $log.info('noticemsg[#index#] serialNo[#serialNo#]'
-                .replace('#index#', msgIndex)
-                .replace('#serialNo#', unreadMessageList[msgIndex].serialNo));
+              $log.info('noticemsg[#index#] type[#type#] serialNo[#serialNo#] correlationId[#correlationId#] message[#message#]'
+                .replace('#index#', msgIndex).replace('#type#',unreadMessageList[msgIndex].type)
+                .replace('#serialNo#', unreadMessageList[msgIndex].serialNo).replace("correlationId",unreadMessageList[msgIndex].correlationId).
+                replace("message",unreadMessageList[msgIndex].message)
+              );
             }
-
-            NoticeMessageService.setReadFlagForLessAndEqualSerialNo(1,noticeMessageList[0].serialNo);
           }
+
+          if(noticeMessageData.completed_post_task_message_list != null ) {
+            unreadMessageList = noticeMessageData.completed_post_task_message_list ;
+            for (var msgIndex = 0; msgIndex < unreadMessageList.length; ++msgIndex) {
+              $log.info('noticemsg[#index#] type[#type#] serialNo[#serialNo#] correlationId[#correlationId#] message[#message#]'
+                  .replace('#index#', msgIndex).replace('#type#',unreadMessageList[msgIndex].type)
+                  .replace('#serialNo#', unreadMessageList[msgIndex].serialNo).replace("correlationId",unreadMessageList[msgIndex].correlationId).
+                  replace("message",unreadMessageList[msgIndex].message)
+              );
+            }
+          }
+
+          if( noticeMessageData.uncompleted_accept_task_message_list != null ) {
+            unreadMessageList = noticeMessageData.uncompleted_accept_task_message_list;
+            for (var msgIndex = 0; msgIndex < unreadMessageList.length; ++msgIndex) {
+              $log.info('noticemsg[#index#] type[#type#] serialNo[#serialNo#] correlationId[#correlationId#] message[#message#]'
+                  .replace('#index#', msgIndex).replace('#type#',unreadMessageList[msgIndex].type)
+                  .replace('#serialNo#', unreadMessageList[msgIndex].serialNo).replace("correlationId",unreadMessageList[msgIndex].correlationId).
+                  replace("message",unreadMessageList[msgIndex].message)
+              );
+            }
+          }
+
+          if( noticeMessageData.completed_accept_task_message_list != null ) {
+            unreadMessageList = noticeMessageData.completed_accept_task_message_list;
+            for (var msgIndex = 0; msgIndex < unreadMessageList.length; ++msgIndex) {
+              $log.info('noticemsg[#index#] type[#type#] serialNo[#serialNo#] correlationId[#correlationId#] message[#message#]'
+                  .replace('#index#', msgIndex).replace('#type#',unreadMessageList[msgIndex].type)
+                  .replace('#serialNo#', unreadMessageList[msgIndex].serialNo).replace("correlationId",unreadMessageList[msgIndex].correlationId).
+                  replace("message",unreadMessageList[msgIndex].message)
+              );
+            }
+          }
+
+          if( noticeMessageData.comment_task_message_list != null ) {
+            unreadMessageList = noticeMessageData.comment_task_message_list;
+            for (var msgIndex = 0; msgIndex < unreadMessageList.length; ++msgIndex) {
+              $log.info('noticemsg[#index#] type[#type#] serialNo[#serialNo#] correlationId[#correlationId#] message[#message#]'
+                  .replace('#index#', msgIndex).replace('#type#',unreadMessageList[msgIndex].type)
+                  .replace('#serialNo#', unreadMessageList[msgIndex].serialNo).replace("correlationId",unreadMessageList[msgIndex].correlationId).
+                  replace("message",unreadMessageList[msgIndex].message)
+              );
+            }
+          }
+
+          if( noticeMessageData.friend_task_message_list != null ) {
+            unreadMessageList = noticeMessageData.friend_task_message_list;
+            for (var msgIndex = 0; msgIndex < unreadMessageList.length; ++msgIndex) {
+              $log.info('noticemsg[#index#] type[#type#] serialNo[#serialNo#] correlationId[#correlationId#] message[#message#]'
+                  .replace('#index#', msgIndex).replace('#type#',unreadMessageList[msgIndex].type)
+                  .replace('#serialNo#', unreadMessageList[msgIndex].serialNo).replace("correlationId",unreadMessageList[msgIndex].correlationId).
+                  replace("message",unreadMessageList[msgIndex].message)
+              );
+            }
+          }
+
+          //NoticeMessageService.setReadFlagByType(1);
+
+          //if (noticeMessageList != null && noticeMessageList.length > 0) {
+          //  unreadMessageList = noticeMessageList;
+          //  for (var msgIndex = 0; msgIndex < unreadMessageList.length; ++msgIndex) {
+          //    $log.info('noticemsg[#index#] serialNo[#serialNo#]'
+          //      .replace('#index#', msgIndex)
+          //      .replace('#serialNo#', unreadMessageList[msgIndex].serialNo));
+          //  }
+          //
+          //  NoticeMessageService.setReadFlagForLessAndEqualSerialNo(1, noticeMessageList[0].serialNo);
+          //}
         }, function (error) {
           $log.error(error);
         });

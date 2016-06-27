@@ -175,20 +175,20 @@
           sql = sql.replace('#cols#', cols.join(',')).replace('#rows#', rows.join(','));
           return sql;
         },
-        sqlBatch:function(sqlList) {
-          var _dbDefer = $q.defer();
-          dbconn && dbconn.transaction(function (tx) {
-            tx.sqlBatch(sqlList,  function (tx, res) {
-              _dbDefer.resolve(res);
-              //callback && callback(res);
-            }, function (tx,e) {
-              console.log("ERROR: " + e.message);
-              _dbDefer.reject(e);
-            });
-          });
-          //console.log(sql);
-          return _dbDefer.promise;
-        }
+        //sqlBatch:function(sqlList) {
+        //  var _dbDefer = $q.defer();
+        //  dbconn && dbconn.transaction(function (tx) {
+        //    tx.sqlBatch(sqlList,  function (tx, res) {
+        //      _dbDefer.resolve(res);
+        //      //callback && callback(res);
+        //    }, function (tx,e) {
+        //      console.log("ERROR: " + e.message);
+        //      _dbDefer.reject(e);
+        //    });
+        //  });
+        //  //console.log(sql);
+        //  return _dbDefer.promise;
+        //}
       };
     }
   }
