@@ -201,6 +201,19 @@
       return _innerDefer.promise;
     }
 
+    var getAllNoticeMessage = function () {
+      var _innerDefer = $q.defer();
+      _refreshNoticeMessageListFromServer().then(function () {
+        NoticeMessageDB.getAllUnreadMessage().then(function (res) {
+            _innerDefer.resolve(res);
+          },
+          function (error) {
+            _innerDefer.reject(error);
+          })
+      });
+      return _innerDefer.promise;
+    }
+
     var _setReadFlagByCorrelationId = function (type, correlationId) {
       return NoticeMessageDB.setReadFlagByCorrelationId(type, correlationId);
     }
@@ -215,6 +228,7 @@
       refreshNoticeMessageListFromServer: _refreshNoticeMessageListFromServer,
       registerObserver: _registerObserver,
       getNoticeMessage: _getNoticeMessage,
+      getAllNoticeMessage:getAllNoticeMessage,
       setReadFlagByCorrelationId: _setReadFlagByCorrelationId,
       setReadFlagForLessAndEqualSerialNo: _setReadFlagForLessAndEqualSerialNo,
     };

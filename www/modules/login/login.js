@@ -179,10 +179,10 @@
 
   }
 
-  loginServiceFn.$inject = ['$q','$http','$log',
+  loginServiceFn.$inject = ['$ionicHistory','$q','$http','$log',
     '$ionicLoading', 'deviceService', 'errorCodeService', 'httpErrorCodeService', 'userLoginInfoService', 'userNetService',
     'jimService', 'debugHelpService', 'PlaygroundStartupService','utilConvertDateToString','taskNetService','NoticeMessageService'];
-  function loginServiceFn($q,$http, $log, $ionicLoading, deviceService, errorCodeService, httpErrorCodeService,
+  function loginServiceFn($ionicHistory,$q,$http, $log, $ionicLoading, deviceService, errorCodeService, httpErrorCodeService,
                           userLoginInfoService, userNetService, jimService, debugHelpService, PlaygroundStartupService,
                           utilConvertDateToString,taskNetService,NoticeMessageService) {
     var loginTicket;
@@ -247,6 +247,7 @@
           var userId = userLoginInfoService.getLoginInfo().userInfo.userId;
           PlaygroundStartupService.initService(userId);
           NoticeMessageService.initService(userId);
+          $ionicHistory.clearHistory();
           _innerDefer.resolve();
         }, function (error) {
           _innerDefer.reject();

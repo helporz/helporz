@@ -177,7 +177,9 @@
     this.deadline = null;//new Date();
     this.startTime = null;//new Date();
 
-    this.setStartTime = function () {
+    this.setStartTime = function (event) {
+      event.preventDefault();
+
       var currentDate = new Date();
 
       var options = {
@@ -193,6 +195,7 @@
         }
         else {
           _ctlSelf.startTime = date;
+          $log.info('set start time:' + date);
           _ctlSelf.startTimeShow = getDateShowString(date);
         }
       }, function (error) {
@@ -200,7 +203,8 @@
       });
     }
 
-    this.setDeadline = function () {
+    this.setDeadline = function (event) {
+      event.preventDefault();
       var currentDate = new Date();
 
       var options = {
@@ -216,6 +220,7 @@
         }
         else {
           _ctlSelf.deadline = date;
+          $log.info('set deadline:' + date)
           _ctlSelf.deadlineShow = getDateShowString(date);
         }
       }, function (error) {
@@ -256,11 +261,11 @@
       var errMsg = '';
       ////////////////////////////////////////////////
       //为了方便浏览器调试增加如下代码
-      if (_ctlSelf.startTimeShow != null) {
+      if (_ctlSelf.startTime == null && _ctlSelf.startTimeShow != null) {
         _ctlSelf.startTime = new Date(_ctlSelf.startTimeShow);
       }
 
-      if (_ctlSelf.deadlineShow != null) {
+      if (_ctlSelf.deadline == null && _ctlSelf.deadlineShow != null) {
         _ctlSelf.deadline = new Date(_ctlSelf.deadlineShow);
       }
       ////////////////////////////////////////////////

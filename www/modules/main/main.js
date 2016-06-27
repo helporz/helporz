@@ -87,8 +87,8 @@
         url: '/me/im',
         views: {
           'me': {
-            templateUrl:'modules/im/list.html',
-            controller:'imMessageListController',
+            templateUrl: 'modules/im/list.html',
+            controller: 'imMessageListController',
           }
         }
       })
@@ -179,44 +179,68 @@
     $ionicConfigProvider.tabs.position('bottom')
   }
 
-  mainRun.$inject = ['$ionicPlatform', '$ionicPopup','$rootScope','$location'];
-  function mainRun($ionicPlatform,$ionicPopup,$rootScope,$location) {
+  mainRun.$inject = ['$log','$ionicPlatform', '$ionicPopup', '$rootScope', '$location','$ionicHistory'];
+  function mainRun($log,$ionicPlatform, $ionicPopup, $rootScope, $location,$ionicHistory) {
+
+    function showConfirm() {
+      var popupScope = $rootScope.$new();
+
+      popupScope.cancel = function() {
+
+      };
+      popupScope.exit = function() {
+        ionic.Platform.exitApp();
+      }
+      var exitConfirmPopup = $ionicPopup.show(
+        {
+          templateUrl: 'modules/main/exit-confirm-popup.html',
+          title: null,
+          subTitle: null,
+          scope: popupScope
+        }
+      );
+
+      //var confirmPopup = $ionicPopup.confirm({
+      //  title: '<strong>退出应用?</strong>',
+      //  template: '你确定要退出应用吗?',
+      //  okText: '退出',
+      //  cancelText: '取消'
+      //});
+      //
+      //confirmPopup.then(function (res) {
+      //  if (res) {
+      //    ionic.Platform.exitApp();
+      //  } else {
+      //    // Don't close
+      //  }
+      //});
+    }
+
+    //$rootScope.showConfirm = showConfirm;
     //主页面显示退出提示框
-    //$ionicPlatform.registerBackButtonAction(function (e) {
-    //
-    //  e.preventDefault();
-    //
-    //  function showConfirm() {
-    //    var confirmPopup = $ionicPopup.confirm({
-    //      title: '<strong>退出应用?</strong>',
-    //      template: '你确定要退出应用吗?',
-    //      okText: '退出',
-    //      cancelText: '取消'
-    //    });
-    //
-    //    confirmPopup.then(function (res) {
-    //      if (res) {
-    //        ionic.Platform.exitApp();
-    //      } else {
-    //        // Don't close
-    //      }
-    //    });
-    //  }
-    //
-    //  // Is there a page to go back to?
-    //  if ($location.path() == '/home' ) {
-    //    showConfirm();
-    //  } else if ($rootScope.$viewHistory.backView ) {
-    //    console.log('currentView:', $rootScope.$viewHistory.currentView);
-    //    // Go back in history
-    //    $rootScope.$viewHistory.backView.go();
-    //  } else {
-    //    // This is the last page: Show confirmation popup
-    //    showConfirm();
-    //  }
-    //
-    //  return false;
-    //}, 101);
+    $ionicPlatform.registerBackButtonAction(function (e) {
+
+      e.preventDefault();
+
+
+
+      $log.info('current location:' + $location.path());
+      // Is there a page to go back to?
+      if ($location.path().indexOf('/main') == 0) {
+        //showConfirm();
+        ionic.Platform.exitApp();
+      } else if ($ionicHistory.backView()) {
+        console.log('currentView:', $ionicHistory.currentView);
+        // Go back in history
+        $ionicHistory.goBack();
+      } else {
+        // This is the last page: Show confirmation popup
+        //showConfirm();
+        ionic.Platform.exitApp();
+      }
+
+      return false;
+    }, 101);
   }
 
 })()

@@ -8,8 +8,8 @@
     .factory('SharePageService', SharePageServiceFn)
     .factory('SharePageWrapService',SharePageWrapServiceFn);
 
-  SharePageServiceFn.$inject = ['$q', 'httpBaseService'];
-  function SharePageServiceFn($q, httpBaseService) {
+  SharePageServiceFn.$inject = ['$log','$q', 'httpBaseService'];
+  function SharePageServiceFn($log,$q, httpBaseService) {
 
     var _sharePageCommon = function (url,scene) {
       var _innerDefer = $q.defer();
@@ -24,14 +24,16 @@
                 webpageUrl: res.link
               }
             },
-            scene: index
+            scene: scene
           }, function () {
             _innerDefer.resolve();
           },
-          function () {
+          function (error) {
+            $log.error("微信分享接口调用失败"+error);
             _innerDefer.reject();
           });
       }, function (res) {
+        $log.error("获取分享信息失败"+res);
         _innerDefer.reject();
       });
       return _innerDefer.promise;
