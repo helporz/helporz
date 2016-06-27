@@ -261,13 +261,21 @@
       var errMsg = '';
       ////////////////////////////////////////////////
       //为了方便浏览器调试增加如下代码
-      if (_ctlSelf.startTime == null && _ctlSelf.startTimeShow != null) {
-        _ctlSelf.startTime = new Date(_ctlSelf.startTimeShow);
+
+      if( g_isDebug == true ) {
+        _ctlSelf.startTime = new Date();
+        _ctlSelf.deadline = new Date();
+        _ctlSelf.startTime.setMonth(_ctlSelf.startTime.getMonth() + 1);
+        _ctlSelf.deadline.setMonth(_ctlSelf.deadline.getMonth() + 2);
       }
 
-      if (_ctlSelf.deadline == null && _ctlSelf.deadlineShow != null) {
-        _ctlSelf.deadline = new Date(_ctlSelf.deadlineShow);
-      }
+      //if (_ctlSelf.startTime == null && _ctlSelf.startTimeShow != null) {
+      //  _ctlSelf.startTime = new Date(_ctlSelf.startTimeShow);
+      //}
+      //
+      //if (_ctlSelf.deadline == null && _ctlSelf.deadlineShow != null) {
+      //  _ctlSelf.deadline = new Date(_ctlSelf.deadlineShow);
+      //}
       ////////////////////////////////////////////////
 
       if (_ctlSelf.selectedRewardType == 0 || _ctlSelf.selectedSubRewardType == 0) {
