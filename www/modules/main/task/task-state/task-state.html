@@ -2,18 +2,19 @@
   ._desc-p {
     margin-bottom: 0 !important;
   }
+
   /*._accept-bt {*/
-    /*bottom: 22px !important;*/
+  /*bottom: 22px !important;*/
   /*}*/
 </style>
 
-<ion-view  view-title="任务状态" >
+<ion-view view-title="任务详情">
   <ion-content class="task-state topics">
     <div class="row nopadding bottom-bordered bottom-bordered-small">
       <div class="content-left">
         <img class="task-img" src={{vm.task.icon}} reset-img>
 
-        <p lass="task-type">{{vm.task.typeName}}</p>
+        <p class="task-type">{{vm.task.typeName}}</p>
       </div>
       <div class="content-right">
         <div class="row user-panel nopadding">
@@ -26,7 +27,7 @@
                 <i class="gender-icon ho-gender-female color-woman font-size-12"></i>
               </div>
 
-              <p class="time">{{vm.task.ext_createTime}}</p>
+              <p class="time">{{vm.task.created | DateShow}}</p>
             </div>
             <div class="bottom">
               <div class="impress-panel" ng-repeat="item in vm.task.ui_tags">
@@ -61,52 +62,85 @@
         <!--<div class="div-line-2"></div>-->
 
         <!--<div class="bottom-panel">-->
-          <!--<div>-->
-            <!--<i class="elem2 icon ho-chat-0 font-size-13"></i>-->
-            <!--<span class="count">{{vm.task.commentCount}}</span>-->
-          <!--</div>-->
-          <!--<div>-->
-            <!--<i class="elem2 icon ho-share font-size-13"></i>-->
-            <!--<span class="count">0</span>-->
-          <!--</div>-->
-          <!--<button class="button-accept  button-light-red _accept-bt" ng-click="">-->
-            <!--接单-->
-          <!--</button>-->
+        <!--<div>-->
+        <!--<i class="elem2 icon ho-chat-0 font-size-13"></i>-->
+        <!--<span class="count">{{vm.task.commentCount}}</span>-->
+        <!--</div>-->
+        <!--<div>-->
+        <!--<i class="elem2 icon ho-share font-size-13"></i>-->
+        <!--<span class="count">0</span>-->
+        <!--</div>-->
+        <!--<button class="button-accept  button-light-red _accept-bt" ng-click="">-->
+        <!--接单-->
+        <!--</button>-->
         <!--</div>-->
       </div>
     </div>
 
     <div class="task-dot-ctn">
 
+      <!--<div class="dot dot-0">-->
+        <!--<div class="icon" ng-class="{-->
+              <!--'dot-small':vm.task.ui_tagState1==0, 'dot-big':vm.task.ui_tagState1>0, 'offset-right':vm.task.ui_tagState1>0,-->
+              <!--'success-bg':vm.task.ui_tagState1==0, 'success':vm.task.ui_tagState1>2, 'failed':vm.task.ui_tagState1>0&&vm.task.ui_tagState1<=2,-->
+                <!--'ho-task-wait':vm.task.ui_tagState1==3,'ho-task-wait-overtime':vm.task.ui_tagState1==2,'ho-task-unfinish':vm.task.ui_tagState1==1}"></div>-->
+      <!--</div>-->
+
+      <!--<div class="div-line-0" ng-class="{'div-line-pending':vm.task.ui_tagState2==-1, 'div-line-failed':vm.task.ui_tagState2==1,-->
+            <!--'div-line-success':vm.task.ui_tagState2==0 || vm.task.ui_tagState2>1}"></div>-->
+
+      <!--<div class="dot dot-1">-->
+        <!--<div class="icon" ng-class="{'dot-small':vm.task.ui_tagState2<=0, 'dot-big':vm.task.ui_tagState2>0,-->
+              <!--'pending-bg':vm.task.ui_tagState2==-1, 'success-bg':vm.task.ui_tagState2==0, 'failed':vm.task.ui_tagState2==1,-->
+              <!--'success':vm.task.ui_tagState2>1,-->
+                   <!--'ion-ios-refresh':vm.task.ui_tagState2==2, 'ion-checkmark-circled':vm.task.ui_tagState2==3,-->
+                    <!--'ion-close-circled':vm.task.ui_tagState2==1}"></div>-->
+      <!--</div>-->
+
+      <!--<div class="div-line-1"-->
+           <!--ng-class="{'div-line-pending':vm.task.ui_tagState3==-1,'div-line-failed':vm.task.ui_tagState3==1, 'div-line-success':vm.task.ui_tagState3>1}"></div>-->
+
+      <!--<div class="dot dot-2">-->
+        <!--<div class="icon" ng-class="{'dot-small':vm.task.ui_tagState3==-1, 'dot-big':vm.task.ui_tagState3>0,-->
+               <!--'offset-left':vm.task.ui_tagState3>0,-->
+               <!--'pending-bg':vm.task.ui_tagState3==-1, 'failed':vm.task.ui_tagState3==1, 'success':vm.task.ui_tagState3>1,-->
+                  <!--'ion-close-circled':vm.task.ui_tagState3==1, 'ion-ios-refresh':vm.task.ui_tagState3==2,-->
+                  <!--'ion-checkmark-circled':vm.task.ui_tagState3==3 }"></div>-->
+      <!--</div>-->
+
       <div class="dot dot-0">
         <div class="icon" ng-class="{
-              'dot-small':vm.task.ui_tagState1==0, 'dot-big':vm.task.ui_tagState1>0, 'offset-right':vm.task.ui_tagState1>0,
-              'success-bg':vm.task.ui_tagState1==0, 'success':vm.task.ui_tagState1>1, 'failed':vm.task.ui_tagState1==1,
-                'ion-ios-refresh':vm.task.ui_tagState1==2,'ion-checkmark-circled':vm.task.ui_tagState1==3,'ion-close-circled':vm.task.ui_tagState1==1}"></div>
+                    'dot-small':vm.task.ui_tagState1==0, 'dot-big':vm.task.ui_tagState1>0, 'offset-right':vm.task.ui_tagState1>0,
+              'success-bg':vm.task.ui_tagState1==0, 'success':vm.task.ui_tagState1>2, 'failed':vm.task.ui_tagState1>0&&vm.task.ui_tagState1<=2,
+                'ho-task-wait':vm.task.ui_tagState1==3,'ho-task-wait-overtime':vm.task.ui_tagState1==2,'ho-task-unfinish':vm.task.ui_tagState1==1}"></div>
       </div>
 
-      <div class="div-line-0" ng-class="{'div-line-pending':vm.task.ui_tagState2==-1, 'div-line-failed':vm.task.ui_tagState2==1,
-            'div-line-success':vm.task.ui_tagState2==0 || vm.task.ui_tagState2>1}"></div>
+      <!--<div class="div-line-0" ng-class="{'div-line-pending':item.ui_tagState2==-1, 'div-line-failed':item.ui_tagState2==1,-->
+      <!--'div-line-success':item.ui_tagState2==0 || item.ui_tagState2>1}"></div>-->
+
+      <div class="div-line-0" ng-class="{'div-line-pending':vm.task.ui_tagState2==-1,
+            'div-line-success':vm.task.ui_tagState2>=0}"></div>
 
       <div class="dot dot-1">
         <div class="icon" ng-class="{'dot-small':vm.task.ui_tagState2<=0, 'dot-big':vm.task.ui_tagState2>0,
-              'pending-bg':vm.task.ui_tagState2==-1, 'success-bg':vm.task.ui_tagState2==0, 'failed':vm.task.ui_tagState2==1,
-              'success':vm.task.ui_tagState2>1,
-                   'ion-ios-refresh':vm.task.ui_tagState2==2, 'ion-checkmark-circled':vm.task.ui_tagState2==3,
-                    'ion-close-circled':vm.task.ui_tagState2==1}"></div>
+              'pending-bg':vm.task.ui_tagState2==-1, 'success-bg':vm.task.ui_tagState2==0,
+              'failed':vm.task.ui_tagState2==1||vm.task.ui_tagState2==2,
+              'success':vm.task.ui_tagState2>=3,
+                   'ho-task-giveup':vm.task.ui_tagState2==1, 'ho-task-going-overtime':vm.task.ui_tagState2==2,
+                    'ho-task-going':vm.task.ui_tagState2==3}"></div>
       </div>
 
       <div class="div-line-1"
-           ng-class="{'div-line-pending':vm.task.ui_tagState3==-1,'div-line-failed':vm.task.ui_tagState3==1, 'div-line-success':vm.task.ui_tagState3>1}"></div>
+           ng-class="{'div-line-pending':vm.task.ui_tagState3==-1, 'div-line-success':vm.task.ui_tagState3>=1}"></div>
 
       <div class="dot dot-2">
         <div class="icon" ng-class="{'dot-small':vm.task.ui_tagState3==-1, 'dot-big':vm.task.ui_tagState3>0,
                'offset-left':vm.task.ui_tagState3>0,
                'pending-bg':vm.task.ui_tagState3==-1, 'failed':vm.task.ui_tagState3==1, 'success':vm.task.ui_tagState3>1,
-                  'ion-close-circled':vm.task.ui_tagState3==1, 'ion-ios-refresh':vm.task.ui_tagState3==2,
-                  'ion-checkmark-circled':vm.task.ui_tagState3==3 }"></div>
+                  'ho-task-unfinish':vm.task.ui_tagState3==1, 'ho-task-confirm-wait':vm.task.ui_tagState3==2,
+                  'ho-task-finish':vm.task.ui_tagState3==3 }"></div>
       </div>
-    </div>
+
     </div>
 
     <div class="task-desc-ctn bottom-bordered bottom-bordered-small">
@@ -124,54 +158,68 @@
       <div class="div-text-panel">
         <div class="left-line"></div>
         <p class="mid-text">满意度与印象点评</p>
+
         <div class="right-line"></div>
       </div>
 
       <div class="star-panel">
-        <five-stars value={{vm.ui_otherCommentLevel}}></five-stars>
+        <five-stars value="vm.ui_otherCommentLevel"></five-stars>
       </div>
 
-      <div class="impress-panel" ng-repeat="item in vm.ui_myCommentTags">
-        <p class="text-tag toggle-on {{item.className}}">{{item.text}}</p>
+      <div class="impress-panel">
+        <p class="text-tag toggle-on {{item.className}}" ng-repeat="item in vm.ui_otherCommentTags">{{item.text}}</p>
       </div>
 
       <div class="div-text-panel">
         <div class="left-line"></div>
         <p class="mid-text">留言</p>
+
         <div class="right-line"></div>
       </div>
 
       <div class="comment-panel">
-        {{vm.ui_otherComment}}
+        <p align="center">{{vm.ui_otherComment}}</p>
       </div>
     </div>
 
-    <div class="comment-board bottom-bordered bottom-bordered-small" ng-hide ng-show="vm.showMyComment==true">
+    <div class="comment-board" ng-hide ng-show="vm.showMyComment==true">
+    <!--<div class="comment-board bottom-bordered bottom-bordered-small" ng-hide ng-show="vm.showMyComment==true">-->
       <p class="title"><b>我的点评</b></p>
 
       <div class="div-text-panel">
         <div class="left-line"></div>
         <p class="mid-text">满意度与印象点评</p>
+
         <div class="right-line"></div>
       </div>
 
       <div class="star-panel">
-        <five-stars value={{vm.ui_myCommentLevel}}>></five-stars>
+        <five-stars value="vm.ui_myCommentLevel"></five-stars>
       </div>
 
-      <div class="impress-panel" ng-repeat="item in vm.ui_otherCommentTags">
-        <p class="text-tag toggle-on {{item.className}}">{{item.text}}</p>
+      <div class="impress-panel">
+        <p class="text-tag toggle-on {{item.className}}" ng-repeat="item in vm.ui_myCommentTags">{{item.text}}</p>
       </div>
 
       <div class="div-text-panel">
         <div class="left-line"></div>
         <p class="mid-text">留言</p>
+
         <div class="right-line"></div>
       </div>
 
       <div class="comment-panel">
-        {{vm.task.ui_myComment}}
+        <p align="center">{{vm.ui_myComment}}</p>
       </div>
+    </div>
+
+    <div class="state-desc-panel">
+      <p ng-if="vm.showState==1">
+        请尽快评价对方
+      </p>
+      <p ng-if="vm.showState==2">
+        等待对方的评价
+      </p>
     </div>
 
   </ion-content>

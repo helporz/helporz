@@ -9,11 +9,7 @@
 
     .factory('impressUtils', [function () {
 
-      return {
-        impressUI: impressUI
-      }
-
-      function impressUI() {
+      var impressUI = function() {
         return [
           {
             id:1,
@@ -81,6 +77,31 @@
             className: 'impress-13'
           }
         ]
+      };
+
+      var netTagsToUiTags = function(uiTags, netTags) {
+        if(angular.isArray(uiTags) == false || uiTags.length != 0){
+          console.error('netTagsToUiTags error: not array');
+          ho.alert('netTagsToUiTags error');
+          return;
+        }
+        if(netTags){
+          if(angular.isArray(netTags) == false) {
+            console.error('netTags error: not array')
+          }
+        }else{
+          netTags = [];
+        }
+
+        var impressUI = this.impressUI();
+        for(var idx in netTags) {
+          uiTags.push(impressUI[netTags[idx].id]);
+        }
+      };
+
+      return {
+        impressUI: impressUI,
+        netTagsToUiTags: netTagsToUiTags
       }
 
     }])

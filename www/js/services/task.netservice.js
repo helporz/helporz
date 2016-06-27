@@ -31,6 +31,12 @@
       acceptTaskGoingList: [],
       isAcceptTaskFinishNeedRefresh: true,
       acceptTaskFinishList: [],
+
+      // notice
+      nm_post: [],
+      nm_accept: [],
+      nm_comment: [],
+      nm_follow: [],
     };
 
     var _postTask = function (type, summary, pubLocation, startTime, deadLine, posterLong,

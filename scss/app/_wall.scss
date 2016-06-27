@@ -13,11 +13,11 @@
     padding: 1.25em 0 0 0;
     @include display-flex();
     @include align-items(center);
+    @include justify-content(center);
 
     .top-icon {
       color: #fbdd52;
       font-size: 15px;
-      margin: 0 0 0 30px;
     }
     .top-txt {
       @include display_inline-flex();
@@ -75,7 +75,7 @@
   .txt-reward {
     margin-top: 40px;
     font-size: 48px;
-    color: $color-text-secondary;
+    color: #444;
   }
   .txt-reward-desc {
     margin-top: 8px;
@@ -110,7 +110,8 @@
 
 .wall-footer {
   border-top-width: 0 !important; //overwrite .bar-footer
-  background-image: linear-gradient(0deg, #ddd, #ddd 0%, transparent 0%);
+  background-image: linear-gradient(0deg, #ddd, #ddd 0%, transparent 0%); // overwrite ionic
+  background-color: #eeeeee;
 
   .bottom-panel {
     @include display-flex();
@@ -119,10 +120,16 @@
     padding: 5px;
     width: 100%;
 
-    .bottom-txt {
-      font-size: 15px;
-      margin-bottom: 0;
-      color: $color-text-secondary;
+    .bottom-txt-panel {
+      width: calc( 100% - 90px );
+      @include display-flex();
+      @include justify-content(center);
+      @include align-items(center);
+      .bottom-txt {
+        font-size: 15px;
+        margin-bottom: 0;
+        color: #444;
+      }
     }
 
     .bottom-ok {
@@ -131,7 +138,7 @@
       border-style: none;
       font-size: 15px;
 
-      @include ho-button-color($color-theme, white, $color-theme-dark, white);
+      @include ho-button-color($color-theme, $color-theme-dark, white, white);
     }
   }
 }

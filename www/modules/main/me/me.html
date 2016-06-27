@@ -188,11 +188,11 @@
           </div>
           <!-- lkj:note: 这里不加vm.activeTab==1 多点几次会使ng-hide失效.不知道这坑是为啥...-->
           <button class="right ho-button button-theme button-outline ho-button-small ion-ios-plus-empty"
-                  ng-hide ng-show="vm.activeTab == 1 &&item.follow==false">&nbsp关注
+                  ng-if="vm.activeTab == 1 &&item.follow==false">&nbsp关注
           </button>
           <button
             class="right ho-button button-theme button-gray button-outline ho-button-small ion-ios-checkmark-empty"
-            ng-hide ng-show="vm.activeTab == 1  && item.follow==true">&nbsp已关注
+            ng-if="vm.activeTab == 1  && item.follow==true">&nbsp已关注
           </button>
         </ion-item>
 

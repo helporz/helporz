@@ -1,34 +1,33 @@
-<ion-view view-title="评价" class="comment">
-
+<ion-view view-title="留言评价" class="comment">
 
   <ion-content class="has-header">
 
     <div class="comment-panel bottom-bordered bottom-bordered-normal">
-      <textarea class="input-area" placeholder="吐槽表白随你便" ng-model="vm.commentText"></textarea>
+      <textarea class="input-area" placeholder="事情终于搞定啦!点赞还是吐槽?和对方帅哥或萌妹子来张留念合影给大家看看?"
+                ng-model="vm.commentText"></textarea>
 
       <div class="pic-panel" >
         <div ng-repeat="item in vm.selectedPics">
 
-          <img class="pic" ng-src="{{item.src}}" live-image on-click="vm.cb_deletePic($index)">
+          <img class="pic" ng-src="{{item}}" live-image on-click="vm.cb_deletePic($index)">
 
         </div>
-        <img class="pic add" src="img/main/task/camera-red.png" ng-click="vm.cb_addPic()">
+        <img class="pic add" ng-show="vm.selectedPics.length<4" src="img/main/task/camera-gray.png" ng-click="vm.cb_addPic()">
       </div>
     </div>
-
 
 
     <div class="impress-base-panel">
 
       <div class="star-panel">
-        <p class="name1"> 满意度: </p>
+        <p class="name"> 满意度: </p>
         <five-stars value="vm.starScore"></five-stars>
       </div>
 
       <div class="div-line"></div>
 
       <div class="impress-select-panel">
-        <i class="name2">印象点评:</i>
+        <i class="name">印象点评:</i>
         <!--<button ng-repeat="item in vm.impress" class="impress-button {{item.className}}" ng-click="vm.cb_impressDiselect($index)">{{item.text}}>-->
           <!--<i class="icon ion-close-circled close"></i>-->
         </button>
@@ -76,7 +75,7 @@
 
 
     <div class="padding">
-      <button class="ho-button-block button-theme" ng-click="vm.submit()">
+      <button class="ho-button-block button-theme" ng-click="vm.cb_submit()">
         提交
       </button>
     </div>

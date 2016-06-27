@@ -7,12 +7,12 @@
 
   angular.module('main.near')
     .controller('mainNearCtrl', ['$state', '$log', '$ionicLoading', '$interval', '$timeout', '$scope', 'taskNetService', 'userNetService',
-      'taskUtils', 'timeUtils', 'impressUtils', mainNearCtrl]);
+      'taskUtils', 'timeUtils', 'impressUtils', 'intervalCenter', mainNearCtrl]);
 
 
 
   function mainNearCtrl($state, $log, $ionicLoading, $interval, $timeout, $scope, taskNetService, userNetService,
-                        taskUtils, timeUtils, impressUtils) {
+                        taskUtils, timeUtils, impressUtils, intervalCenter) {
 
     //fixme:因为点击会穿透,同时触发多个事件,这里先用标记来屏蔽,点击按钮后间隔一段时间才可触发下一次点击回调
     var _isClicking = false;
@@ -36,6 +36,12 @@
       });
     };
 
+    var intervalFunc = function(){
+      if (taskNetService.cache.isNearTaskNeedRefresh) {
+        taskNetService.cache.isNearTaskNeedRefresh = false;
+        _refreshList();
+      }
+    }
 
     $scope.$on("$ionicView.enter", function () {
 
@@ -48,16 +54,13 @@
       //  $scope.$apply();
       //  });
 
-      vm.pollInterval = $interval(function(){
-        if (taskNetService.cache.isNearTaskNeedRefresh) {
-          taskNetService.cache.isNearTaskNeedRefresh = false;
-          _refreshList();
-        }
-      }, 500);
+      intervalCenter.add(0, 'near.controller', intervalFunc);
+
     });
 
     $scope.$on('$ionicView.leave', function() {
-      $interval.cancel(vm.pollInterval);
+      //$interval.cancel(vm.pollInterval);
+      intervalCenter.remove(0, 'near.controller', intervalFunc);
     })
 
     vm.cb_itemClick = function(index) {
@@ -75,15 +78,18 @@
 
       var task = taskNetService.cache.nearTaskList[index];
 
-      if(userNetService.cache.selfInfo == null){
-        alert("未登录");
-        return;
-      }
-
-      if(userNetService.cache.selfInfo.userId == task.poster.userId) {
-        alert("不能接自己的单子");
-        return;
-      }
+      //if(userNetService.cache.selfInfo == null){
+      //  alert('未登录');
+      //  return;
+      //}
+      //
+      //if(userNetService.cache.selfInfo.userId == task.poster.userId) {
+      //  $ionicLoading.show({
+      //    duration: 1500,
+      //    templateUrl: 'modules/components/templates/ionic-loading/task-cannot-accept-self-post.html'
+      //  });
+      //  return;
+      //}
 
       $ionicLoading.show();
 
@@ -92,11 +98,31 @@
           //taskNetService.queryNewTaskList().then(flushSuccessFn, flushFailedFn).finally(function () {
           //  $ionicLoading.hide();
           //})
-          taskNetService.cache.isNearTaskNeedRefresh = true;
+
+          if (data.code == 200) {
+            //成功
+            $ionicLoading.show({
+              duration: 1500,
+              templateUrl: 'modules/components/templates/ionic-loading/task-accept-success.html'
+            });
+            $timeout(function() {
+              taskNetService.cache.isNearTaskNeedRefresh = true;
+              taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
+            }, 1500);
+          } else {
+            //失败
+            //temp:
+            $ionicLoading.show({
+              duration: 1500,
+              templateUrl: 'modules/components/templates/ionic-loading/task-not-exist.html'
+            });
+            $timeout(function() {
+              taskNetService.cache.isNearTaskNeedRefresh = true;
+            }, 1500);
+          }
         },
         function () {
         }).finally(function () {
-          $ionicLoading.hide();
           console.log('accept taskid=' + task.id);
         });
     }
@@ -112,12 +138,12 @@
 
 
       // process attr
-      var impressUI = impressUtils.impressUI();
       for (var i = 0; i < $scope.vm.items.length; i++) {
         var item = $scope.vm.items[i];
         item.icon = taskUtils.iconByTypeValue(item.taskTypesId);
         item.typeName = taskUtils.nameByTypeValue(item.taskTypesId);
         item.commentCount = item.commentList ? item.commentList.length : 0;
+        item.ui_isMyTask = userNetService.cache.selfInfo.userId == item.poster.userId;
 
         //计算出发帖和现在的时间差
         var pieces = item.created.split(/[\:\-\s]/);
@@ -125,13 +151,8 @@
         var before = new Date(pieces[0], parseInt(pieces[1]) - 1, pieces[2], pieces[3], pieces[4], pieces[5]);
         item.ui_createTime = timeUtils.formatSimpleTimeBeforeNow(before);
 
-        item.ui_tags = item.poster.tags.concat();
-
         item.ui_tags = [];
-        var tags = item.poster.tags;
-        for(var tagIdx = 0; tagIdx < tags.length; tagIdx++){
-          item.ui_tags.push(impressUI[tags[tagIdx].id-1])
-        }
+        impressUtils.netTagsToUiTags(item.ui_tags, item.poster.tags);
 
         //temp
         //item.ui_tags = [impressUI[0], impressUI[2], impressUI[3]];
@@ -152,9 +173,7 @@
     }
 
     function _refreshList() {
-      $ionicLoading.show({
-        template: '加载数据中...'
-      });
+      $ionicLoading.show();
       taskNetService.queryNewTaskList().then(flushSuccessFn, flushFailedFn).finally(function () {
         $ionicLoading.hide();
       });

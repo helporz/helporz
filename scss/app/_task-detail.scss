@@ -42,7 +42,6 @@
       margin-top: 7px;
       @include display-flex();
       @include align-items(top);
-      @include justify-content(space-between);
 
       .comment-with-icon {
         width: calc(100% - 40px);
