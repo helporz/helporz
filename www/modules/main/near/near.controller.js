@@ -54,13 +54,13 @@
       //  $scope.$apply();
       //  });
 
-      intervalCenter.add(0, 'near.controller', intervalFunc);
+      intervalCenter.add(0, 'near', intervalFunc);
 
     });
 
     $scope.$on('$ionicView.leave', function() {
       //$interval.cancel(vm.pollInterval);
-      intervalCenter.remove(0, 'near.controller', intervalFunc);
+      intervalCenter.remove(0, 'near', intervalFunc);
     })
 
     vm.cb_itemClick = function(index) {

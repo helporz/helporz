@@ -11,15 +11,18 @@
     'main.post',
     'main.task',
     'main.me',
-    'com.helproz.task.publish',
+    'com.helporz.task.publish',
     'impress.utils.service',
     'com.helporz.playground',
-    'com.helporz.im'
+    'com.helporz.im',
+    'interval.service'
   ]).config(mainConfig).controller('mainController', mainControllerFn).run(mainRun);
 
-  mainControllerFn.$inject = ['$scope', '$ionicModal', 'taskPublishModalService'];
-  function mainControllerFn($scope, $ionicModal, taskPublishModalService) {
-    $scope.vm = {};
+  mainControllerFn.$inject = ['$scope', '$ionicModal', 'taskPublishModalService',
+    'taskNetService', 'intervalCenter', '$ionicTabsDelegate', '$timeout'];
+  function mainControllerFn($scope, $ionicModal, taskPublishModalService,
+                            taskNetService, intervalCenter, $ionicTabsDelegate, $timeout) {
+    var vm = $scope.vm = {};
     $ionicModal.fromTemplateUrl('modules/main/task-publish/modal-list.html', {
       scope: $scope,
       animation: "slide-in-up"
@@ -31,6 +34,31 @@
     $scope.vm.showPublishList = function () {
       $scope.vm.publishListModal.show();
     }
+
+    vm.ui_taskBadge = 0;
+    vm.ui_taskBadge_old = 0;
+
+    $scope.$on("$ionicView.enter", function () {
+      //刷新tab标签数
+      intervalCenter.add(0, 'main', function(){
+        var cache = taskNetService.cache;
+        taskNetService.nm_total_changed = false;
+        if(taskNetService.nm_total_changed) {
+					vm.ui_taskBadge = cache.nm_accept.length +
+													cache.nm_post.length +
+													cache.nm_comment.length +
+													cache.nm_follow.length;
+					$timeout(function(){
+						$scope.$apply();
+					})
+        }
+      });
+
+    });
+
+    $scope.$on('$ionicView.leave', function() {
+      intervalCenter.remove(0, 'main');
+    })
   }
 
   mainConfig.$inject = ['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider'];
@@ -203,7 +231,7 @@
       }
       var exitConfirmPopup = $ionicPopup.show(
         {
-          templateUrl: 'modules/main/exit-confirm-popup.html',
+          templateUrl: 'modules//exit-confirm-popup.html',
           title: null,
           subTitle: null,
           scope: popupScope

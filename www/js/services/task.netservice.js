@@ -6,9 +6,11 @@
 (function () {
   'use strict'
   angular.module('com.helporz.task.netservice', []).factory('taskNetService', ['$q', '$log', 'httpBaseService',
-    'errorCodeService', 'httpErrorCodeService','uploadService','userLoginInfoService', TaskNetServiceFactoryFn]);
+    'errorCodeService', 'httpErrorCodeService','uploadService','userLoginInfoService',
+    'NoticeMessageService', TaskNetServiceFactoryFn]);
 
-  function TaskNetServiceFactoryFn($q, $log, httpBaseService, errorCodeService, httpErrorCodeService,uploadService,userLoginInfoService) {
+  function TaskNetServiceFactoryFn($q, $log, httpBaseService, errorCodeService, httpErrorCodeService,uploadService,userLoginInfoService,
+  NoticeMessageService) {
 
     // cache
     var cache = {
@@ -37,6 +39,8 @@
       nm_accept: [],
       nm_comment: [],
       nm_follow: [],
+      nm_total_changed: false,
+      nm_task_changed: false
     };
 
     var _postTask = function (type, summary, pubLocation, startTime, deadLine, posterLong,
@@ -423,6 +427,31 @@
       return httpBaseService.getForPromise('/task/' + taskId + '/share_page', null);
     }
 
+    // notice message
+    var _fetchNoticeMessage = function() {
+      NoticeMessageService.getAllNoticeMessage().then(function (noticeMessageList) {
+        if (noticeMessageList != null && noticeMessageList.length > 0) {
+          var unreadMessageList = noticeMessageList;
+          for (var msgIndex = 0; msgIndex < unreadMessageList.length; ++msgIndex) {
+            $log.info('noticemsg[#index#] serialNo[#serialNo#]'
+              .replace('#index#', msgIndex)
+              .replace('#serialNo#', unreadMessageList[msgIndex].serialNo));
+          }
+
+          //NoticeMessageService.setReadFlagForLessAndEqualSerialNo(1,noticeMessageList[0].serialNo);
+        }
+      }, function (error) {
+        $log.error(error);
+      });
+    };
+
+    var _observeNoticeMessage = function() {
+      var taskNoticeMessageMonitor = {
+        onNotify: _fetchNoticeMessage
+      }
+      NoticeMessageService.registerObserver(taskNoticeMessageMonitor);
+    };
+
     return {
       postTask: _postTask,
       acceptTask: _acceptTask,
@@ -447,6 +476,7 @@
       uploadTaskCommentImgByAcceptor:_uploadTaskCommentImgByAcceptor,
       uploadTaskCommentAudioByPoster:_uploadTaskCommentAudioByPoster,
       uploadTaskCommentAudioByAceptor:_uploadTaskCommentAudioByAcceptor,
+
       //cache
       cache: cache,
 
@@ -454,7 +484,11 @@
       getTaskInNearList: _getTaskInNearList,
       queryTaskInNearList: _queryTaskInNearList,  // 暂时不用
       getTaskInPostList: _getTaskInPostList,
-      getTaskInAcceptList: _getTaskInAcceptList
+      getTaskInAcceptList: _getTaskInAcceptList,
+
+      // notice message
+      fetchNoticeMessage: _fetchNoticeMessage,
+      observeNoticeMessage: _observeNoticeMessage
     };
   }
 })();

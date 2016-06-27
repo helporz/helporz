@@ -7,7 +7,7 @@
 
   angular.module('main.task')
     .controller('mainTaskCtrl', ['$log', '$state', '$ionicLoading', '$ionicPopup', 'widgetDelegate', '$ionicScrollDelegate',
-      '$scope', 'taskNetService', 'taskUtils', '$timeout', '$interval', 'intervalCenter', mainTaskCtrl]);
+      '$scope', 'taskNetService', 'taskUtils', '$timeout', 'intervalCenter', mainTaskCtrl]);
 
 
   var enumClickTarget = {
@@ -21,7 +21,7 @@
 
 
   function mainTaskCtrl($log, $state, $ionicLoading, $ionicPopup, widgetDelegate, $ionicScrollDelegate,
-                        $scope, taskNetService, taskUtils, $timeout, $interval, intervalCenter) {
+                        $scope, taskNetService, taskUtils, $timeout, intervalCenter) {
     var vm = $scope.vm = {};
 
     //fixme:因为点击会穿透,同时触发多个事件,这里先用标记来屏蔽,点击按钮后间隔一段时间才可触发下一次点击回调
@@ -63,8 +63,8 @@
         //vm.pollInterval = POLL_MIN_TIME;
 
         //从快轮询移除,加到慢轮训
-        intervalCenter.remove(0, 'task.controller', intervalFunc);
-        intervalCenter.add(1, 'task.controller', intervalFunc);
+        intervalCenter.remove(0, 'task', intervalFunc);
+        intervalCenter.add(1, 'task', intervalFunc);
       }
     }
 
@@ -87,6 +87,9 @@
           _processTaskForUI(taskList.completedAcceptList, false);
 
           vm.taskScroll.scrollTop();
+          $timeout(function(){
+            $scope.$apply();
+          })
         }, _cb_failed).finally(function(){
           $ionicLoading.hide();
           vm.isNetSynchronizing = false;
@@ -172,6 +175,9 @@
             vm.taskScroll.scrollTop();
           }
           $ionicLoading.hide();
+          $timeout(function(){
+            $scope.$apply();
+          })
         }, _cb_failed).finally(function(){
           vm.isNetSynchronizing = false;
         })
@@ -189,6 +195,9 @@
             vm.taskScroll.scrollTop();
           }
           $ionicLoading.hide();
+          $timeout(function(){
+            $scope.$apply();
+          })
         }, _cb_failed).finally(function () {
           vm.isNetSynchronizing = false;
         })
@@ -206,6 +215,9 @@
             vm.taskScroll.scrollTop();
           }
           $ionicLoading.hide();
+          $timeout(function(){
+            $scope.$apply();
+          })
         }, _cb_failed).finally(function(){
           vm.isNetSynchronizing = false;
         })
@@ -223,6 +235,9 @@
             vm.taskScroll.scrollTop();
           }
           $ionicLoading.hide();
+          $timeout(function(){
+            $scope.$apply();
+          })
         }, _cb_failed).finally(function(){
           vm.isNetSynchronizing = false;
         })

@@ -138,14 +138,17 @@
 
       .thank {
         display: inline;
-        color: $color-theme;
-        font-size: 10px;
+        color: $color-text-secondary;
+        font-size: 11px;
       }
       .thank-what {
         display: inline;
+        font-size: 11px;
         margin-left: 2px;
-        color: #fff;
-        background-color: $color-theme;
+        //color: #fff;
+        //background-color: $color-theme;
+
+        color: $button-accept-txtcolor;
       }
 
     }

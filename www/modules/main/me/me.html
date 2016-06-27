@@ -48,7 +48,8 @@
 
       <div class="bottom">
         <div class="impress-panel" ng-repeat="item in vm.meInfo.ui_tags">
-          <p class="elem text-tag toggle-on {{item.className}}">{{item.text}}</p>
+          <!--<p class="elem text-tag toggle-on {{item.className}}">{{item.text}}</p>-->
+          <p class="elem text-tag toggle-on color-white">{{item.text}}</p>
         </div>
       </div>
 
@@ -187,12 +188,16 @@
             <p class="desc">{{item.desc}}</p>
           </div>
           <!-- lkj:note: 这里不加vm.activeTab==1 多点几次会使ng-hide失效.不知道这坑是为啥...-->
-          <button class="right ho-button button-theme button-outline ho-button-small ion-ios-plus-empty"
-                  ng-if="vm.activeTab == 1 &&item.follow==false">&nbsp关注
+          <button class="right ho-button button-theme button-outline ho-button-small min-width-60"
+                  ng-if="vm.activeTab == 1 &&item.follow==false">
+            <i class="icon ion-ios-plus-empty"></i>
+            &nbsp关注
           </button>
           <button
-            class="right ho-button button-theme button-gray button-outline ho-button-small ion-ios-checkmark-empty"
-            ng-if="vm.activeTab == 1  && item.follow==true">&nbsp已关注
+            class="right ho-button button-theme button-gray button-outline ho-button-small min-width-60"
+            ng-if="vm.activeTab == 1  && item.follow==true">
+            <i class="icon ion-ios-checkmark-empty"></i>
+            &nbsp已关注
           </button>
         </ion-item>
 
