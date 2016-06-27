@@ -7,14 +7,14 @@
 
   angular.module('main.near.taskdetail')
     .controller('mainNearTaskDetailCtrl', ['$state', '$scope', '$ionicScrollDelegate', '$ionicLoading', '$ionicPopup', '$timeout', '$stateParams', 'taskNetService',
-      'taskUtils', 'userNetService', 'impressUtils', 'timeUtils', mainNearTaskDetailCtrl]);
+      'taskUtils', 'userNetService', 'impressUtils', 'timeUtils','SharePageWrapService', mainNearTaskDetailCtrl]);
 
   function mainNearTaskDetailCtrl($state, $scope, $ionicScrollDelegate, $ionicLoading, $ionicPopup, $timeout, $stateParams, taskNetService,
-                                  taskUtils, userNetService, impressUtils, timeUtils) {
+                                  taskUtils, userNetService, impressUtils, timeUtils,SharePageWrapService) {
     console.log($stateParams);
 
     var vm = $scope.vm = {};
-
+    vm.sharePageService = SharePageWrapService;
     $scope.$on("$ionicView.beforeEnter", function() {
       // 直接从near的cache里获取,而不是从新从服务器取
       vm.task = taskNetService.getTaskInNearList($stateParams.id);

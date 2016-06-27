@@ -40,7 +40,7 @@
     }
 
     var _shareApp = function (scene) {
-      var _url = '/message/share_page';
+      var url = '/message/share_page';
       return _sharePageCommon(url,scene);
     }
 
@@ -90,7 +90,7 @@
     }
 
     var _shareApp = function () {
-      var _url = '/message/share_page';
+      var url = '/message/share_page';
       return _sharePageCom(url);
     }
 
