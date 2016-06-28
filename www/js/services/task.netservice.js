@@ -427,6 +427,13 @@
       return httpBaseService.getForPromise('/task/' + taskId + '/share_page', null);
     }
 
+    var getWaitingTaskList = function(userId) {
+      var param = {
+        userId:userId,
+      }
+      return httpBaseService.getForPromise('/task/query/status/waiting',param);
+    }
+
     // notice message
     var _fetchNoticeMessage = function() {
       NoticeMessageService.getAllNoticeMessage().then(function (noticeMessageList) {
@@ -476,6 +483,7 @@
       uploadTaskCommentImgByAcceptor:_uploadTaskCommentImgByAcceptor,
       uploadTaskCommentAudioByPoster:_uploadTaskCommentAudioByPoster,
       uploadTaskCommentAudioByAceptor:_uploadTaskCommentAudioByAcceptor,
+      getWaitingTaskList:getWaitingTaskList,
 
       //cache
       cache: cache,
