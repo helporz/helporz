@@ -8,8 +8,8 @@
 .#{$hoicons-prefix}location:before,
 .#{$hoicons-prefix}chat-1:before,
 .#{$hoicons-prefix}chat-2:before,
-.#{$hoicons-prefix}gender-female:before,
-.#{$hoicons-prefix}gender-male:before,
+.#{$hoicons-prefix}setting:before,
+.#{$hoicons-prefix}invite:before,
 .#{$hoicons-prefix}discover:before,
 .#{$hoicons-prefix}rmb-on:before,
 .#{$hoicons-prefix}who:before,
@@ -31,6 +31,8 @@
 .#{$hoicons-prefix}task-giveup:before,
 .#{$hoicons-prefix}task-going-overtime:before,
 .#{$hoicons-prefix}task-remark:before,
+.#{$hoicons-prefix}gender-female:before,
+.#{$hoicons-prefix}gender-male:before,
 
 {
   @extend .ion;
@@ -43,8 +45,8 @@
 .#{$hoicons-prefix}location:before{ content: $hoicon-var-location; }
 .#{$hoicons-prefix}chat-1:before{ content: $hoicon-var-chat-1; }
 .#{$hoicons-prefix}chat-2:before{ content: $hoicon-var-chat-2; }
-.#{$hoicons-prefix}gender-female:before{ content: $hoicon-var-gender-female; }
-.#{$hoicons-prefix}gender-male:before{ content: $hoicon-var-gender-male; }
+.#{$hoicons-prefix}setting:before{ content: $hoicon-var-setting; }
+.#{$hoicons-prefix}invite:before{ content: $hoicon-var-invite; }
 .#{$hoicons-prefix}discover:before{ content: $hoicon-var-discover; }
 .#{$hoicons-prefix}rmb-on:before{ content: $hoicon-var-rmb-on; }
 .#{$hoicons-prefix}who:before{ content: $hoicon-var-who; }
@@ -57,7 +59,6 @@
 .#{$hoicons-prefix}add-on:before{ content: $hoicon-var-add-on; }
 .#{$hoicons-prefix}task:before{ content: $hoicon-var-task; }
 .#{$hoicons-prefix}edit:before{ content: $hoicon-var-edit; }
-
 .#{$hoicons-prefix}task-wait-overtime:before{ content: $hoicon-var-task-wait-overtime; }
 .#{$hoicons-prefix}task-going:before{ content: $hoicon-var-task-going; }
 .#{$hoicons-prefix}task-unfinish:before{ content: $hoicon-var-task-unfinish; }
@@ -67,3 +68,5 @@
 .#{$hoicons-prefix}task-giveup:before{ content: $hoicon-var-task-giveup; }
 .#{$hoicons-prefix}task-going-overtime:before{ content: $hoicon-var-task-going-overtime; }
 .#{$hoicons-prefix}task-remark:before{ content: $hoicon-var-task-remark; }
+.#{$hoicons-prefix}gender-female:before{ content: $hoicon-var-gender-female; }
+.#{$hoicons-prefix}gender-male:before{ content: $hoicon-var-gender-male; }

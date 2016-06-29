@@ -437,12 +437,33 @@
     // notice message
     var _fetchNoticeMessage = function() {
       NoticeMessageService.getAllNoticeMessage().then(function (noticeMessageList) {
+
+        // clear notice message cache
+        var post = cache.nm_post = [];
+        var accept = cache.nm_accept = [];
+        var comment = cache.nm_comment = [];
+        var follow = cache.nm_follow = [];
+        cache.nm_total_changed = true;
+        cache.nm_task_changed = true;
+
+        // analyze fetched message
         if (noticeMessageList != null && noticeMessageList.length > 0) {
           var unreadMessageList = noticeMessageList;
           for (var msgIndex = 0; msgIndex < unreadMessageList.length; ++msgIndex) {
             $log.info('noticemsg[#index#] serialNo[#serialNo#]'
               .replace('#index#', msgIndex)
               .replace('#serialNo#', unreadMessageList[msgIndex].serialNo));
+
+            var msg = unreadMessageList[msgIndex];
+            if(msg.type == 1) {
+              post.push(msg);
+            }else if(msg.type == 2) {
+              accept.push(msg);
+            }else if(msg.type == 3) {
+              comment.push(msg);
+            }else if(msg.type == 4) {
+              follow.push(msg);
+            }
           }
 
           //NoticeMessageService.setReadFlagForLessAndEqualSerialNo(1,noticeMessageList[0].serialNo);

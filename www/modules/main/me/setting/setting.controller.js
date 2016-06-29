@@ -7,9 +7,13 @@
 
   angular.module('main.setting')
     .controller('mainSettingCtrl', ['$scope', '$timeout', '$state', '$stateParams', 'taskNetService', 'taskUtils',
-      'mainEditSheetService','SharePageWrapService', mainSettingCtrl]);
+      'mainEditSheetService','SharePageWrapService', 'userLoginInfoService', 'userNetService',
+      '$ionicLoading',
+      mainSettingCtrl]);
 
-  function mainSettingCtrl($scope, $timeout, $state, $stateParams, taskNetService, taskUtils, mainEditSheetService,SharePageWrapService) {
+  function mainSettingCtrl($scope, $timeout, $state, $stateParams, taskNetService, taskUtils,
+                           mainEditSheetService,SharePageWrapService, userLoginInfoService, userNetService,
+                           $ionicLoading) {
     console.log($stateParams);
 
     var vm = $scope.vm = {};
@@ -30,6 +34,27 @@
     vm.cb_about = function(){
       $state.go('main.about');
     }
+
+    vm.cb_logout = function() {
+      $ionicLoading.show();
+      var loginTicket = userLoginInfoService.getLoginTicket();
+      userNetService.logout(loginTicket, 'noop').then(
+        function (data) {
+          $ionicLoading.show({
+            duration: 1500,
+            templateUrl: 'modules/components/templates/ionic-loading/user-logout-success.html'
+          });
+          $timeout(function () {
+            $state.go('login');
+          }, 1500);
+
+        }, function (data) {
+          $ionicLoading.hide();
+          ho.alertObject(data);
+        }).finally(function () {
+        });
+    }
+
     vm.SharePageWrapService = SharePageWrapService;
   }
 })()

@@ -45,6 +45,12 @@ var ho = {
     if (g_isDebug) {
       alert(v);
     }
+  },
+
+  alertObject: function(v) {
+    if(g_isDebug) {
+      alert(JSON.stringify(v));
+    }
   }
 }
 

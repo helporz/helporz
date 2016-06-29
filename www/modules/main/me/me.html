@@ -20,24 +20,25 @@
   </ion-nav-buttons>
 
   <ion-nav-buttons side="right">
-    <button class="button button-icon icon ho-chat-2" ng-click="vm.cb_setting()"></button>
+    <button class="button button-icon icon ho-chat-2" ng-click="vm.cb_im()"></button>
   </ion-nav-buttons>
 
   <ion-content delegate-handle="meScroll">
     <div class="back-img" scale-top-bg></div>
 
-    <div class="row mid">
-      <div class="col-20 left text-center col-center">
-        <button class="side-icon button button-icon ion-android-person-add" ng-click="vm.cb_share()"></button>
+    <div class="mid">
+      <div class="mid-left-panel">
+        <button class="side-icon button button-icon ho-invite" ng-click="vm.cb_share()"></button>
       </div>
-      <div class="col-25 text-center">
+      <div class="avatar-panel">
         <img class="avatar" ng-src="{{vm.meInfo.remoteData.avatar}}"
              src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g"
              live-image on-click="vm.meInfo.cb_avatar()">
+        <img class="gender color-man" ng-src="{{vm.meInfo.remoteData.gender==1?'img/com/gender-male.png':'img/com/gender-female.png'}}">
       </div>
       <!--<button class="col-20 right button button-icon ion-chatbubble-working"></button>-->
-      <div class="col-20 text-center col-center">
-        <i class="side-icon button button-icon ion-gear-a" ng-click="vm.cb_im()"></i>
+      <div class="mid-right-panel">
+        <i class="side-icon button button-icon ho-setting" ng-click="vm.cb_setting()"></i>
       </div>
 
 

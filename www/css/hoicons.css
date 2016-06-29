@@ -19,8 +19,8 @@
 .ho-location:before,
 .ho-chat-1:before,
 .ho-chat-2:before,
-.ho-gender-female:before,
-.ho-gender-male:before,
+.ho-setting:before,
+.ho-invite:before,
 .ho-discover:before,
 .ho-rmb-on:before,
 .ho-who:before,
@@ -41,7 +41,9 @@
 .ho-task-confirm-wait:before,
 .ho-task-giveup:before,
 .ho-task-going-overtime:before,
-.ho-task-remark:before {
+.ho-task-remark:before,
+.ho-gender-female:before,
+.ho-gender-male:before {
   display: inline-block;
   font-family: "Hoicons";
   speak: none;
@@ -75,10 +77,10 @@
 .ho-chat-2:before {
   content: ""; }
 
-.ho-gender-female:before {
+.ho-setting:before {
   content: ""; }
 
-.ho-gender-male:before {
+.ho-invite:before {
   content: ""; }
 
 .ho-discover:before {
@@ -143,3 +145,9 @@
 
 .ho-task-remark:before {
   content: ""; }
+
+.ho-gender-female:before {
+  content: ""; }
+
+.ho-gender-male:before {
+  content: ""; }

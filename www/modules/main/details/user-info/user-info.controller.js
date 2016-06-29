@@ -16,7 +16,7 @@
     var vm = $scope.vm = {};
 
     vm.userInfo = {};
-    $scope.$on("$ionicView.enter", function () {
+    $scope.$on("$ionicView.beforeEnter", function () {
       vm.userInfo.remoteData = userNetService.cache.userInfo[$stateParams.id];
 
       var impressUI = impressUtils.impressUI();
