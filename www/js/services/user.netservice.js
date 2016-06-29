@@ -133,7 +133,7 @@
       return httpBaseService.postForPromise('/user/self/update_nickname',param);
     }
 
-    var updateAvatar = function(nativeUrl) {
+    var uploadAvatar = function(nativeUrl) {
       var headers = {
         Connection: "close",
         'x-login-key': userLoginInfoService.getLoginTicket()
