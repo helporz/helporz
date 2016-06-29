@@ -11,7 +11,7 @@
     </label>
 
     <label ng-show="vm.isInputOrTextarea==true" class="item item-input item-stacked-label">
-      <input class="{{vm.className}}" type="text" placeholder="{{vm.placeholder}}">
+      <input class="{{vm.className}}" type="text" ng-model="vm.mod_text" placeholder="{{vm.placeholder}}">
     </label>
 
     <!--<button class="button ion-android-happy button-commit button-accept button-light-red">-->
@@ -19,7 +19,7 @@
     <!--</button>-->
 
     <div class="padding">
-      <button class="ho-button-block button-theme">
+      <button class="ho-button-block button-theme" ng-click="vm.cb_ok()">
         提交
       </button>
     </div>

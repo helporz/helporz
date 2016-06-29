@@ -466,7 +466,6 @@
                 console.error(data);
               })
             }).finally(function () {
-              $ionicLoading.hide();
             });
         }
         else if (task.status == 128) { //poster confirm success

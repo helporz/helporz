@@ -45,8 +45,33 @@
 
   .mid {
     padding-top: 15px;
+    width: 100%;
     .left {
       margin-left: 17%;
+    }
+    .left-data-show {
+      @include display-flex();
+      @include align-items(center);
+      @include flex-direction(column);
+      @include justify-content(center);
+      width: 20%;
+      margin-left: 17%;
+      padding-right: 10px;
+
+      .txt-0 {
+        font-size: 12px;
+        color: white;
+      }
+      .div-line {
+        background-color: white;
+        width: 60px;
+        height: 1px;
+
+      }
+      .txt-1 {
+        font-size: 12px;
+        color: white;
+      }
     }
     .avatar {
       width: 70px;
@@ -59,7 +84,46 @@
     .side-icon {
       color: #fff;
       @include transform-origin(center, center);
-      @include transform(scale(1.5));
+      //@include transform(scale(1.5));
+      font-size: 28px;
+    }
+
+    .right-follow {
+      width: 40%;
+      //margin-right: 17px;
+      padding-left: 10px;
+
+      @include display-flex();
+      @include align-items(center);
+      //@include justify-content(center);
+
+      .follow-bt {
+        padding: 2px 24px;
+        height: 24px;
+        font-size: 10px;
+        font-weight: bold;
+        //min-width: 60px;
+        //text-align: center;
+        border-radius: 14px;
+        @include display-flex();
+        @include align-items(center);
+        @include justify-content(center);
+
+        &.follow-bt-active {
+          border: 1px solid white;
+          //background-color: #f89e01;
+          background-color: $color-theme;
+          color: white;
+        }
+
+        &.follow-bt-inactive {
+          border: none;
+          color: $color-theme;
+          background-color: $button-accept-bordercolor;
+          //background-color: #ffde00;
+          //color: black;
+        }
+      }
     }
   }
 
@@ -154,6 +218,18 @@
           font-size: 13px;
           color: $color-text-secondary;
         }
+      }
+
+      .bt-active {
+        border: 1px solid $button-accept-txtcolor;
+        background: white;
+        color: $button-accept-txtcolor;
+      }
+
+      .bt-inactive {
+        border-width: 0;
+        background: $button-accept-bgcolor;
+        color: $button-accept-txtcolor;
       }
     }
 

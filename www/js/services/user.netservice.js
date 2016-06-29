@@ -162,6 +162,7 @@
       getSelfInfoForPromise: _getSelfInfoForPromise,
       updateGender: updateGender,
       updateOrg: updateOrg,
+      updateDepartment: updateDepartment,
       updateDormitory:updateDormitory,
       updateHometown:updateHometown,
       updateNickname:updateNickname,

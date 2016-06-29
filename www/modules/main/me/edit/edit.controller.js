@@ -7,11 +7,13 @@
 
   angular.module('main.edit')
     .controller('mainEditCtrl', ['$scope', '$timeout', '$state', '$stateParams', 'taskNetService', 'taskUtils',
-      '$ionicHistory', '$ionicActionSheet', '$cordovaCamera', '$cordovaImagePicker', '$window', 'mainEditSheetService',
+      '$ionicHistory', '$ionicActionSheet', '$ionicLoading', '$cordovaCamera', '$cordovaImagePicker', '$window',
+      'mainEditSheetService', 'userNetService',
       mainEditCtrl]);
 
   function mainEditCtrl($scope, $timeout, $state, $stateParams, taskNetService, taskUtils, $ionicHistory,
-                        $ionicActionSheet, $cordovaCamera, $cordovaImagePicker, $window, mainEditSheetService) {
+                        $ionicActionSheet, $ionicLoading, $cordovaCamera, $cordovaImagePicker, $window,
+                        mainEditSheetService, userNetService) {
     var vm = $scope.vm = {};
 
     $scope.$on("$ionicView.beforeEnter", function () {
@@ -20,6 +22,17 @@
 
     vm.cb_back = function () {
       $ionicHistory.goBack(-1);
+    }
+
+    $scope.$on("$ionicView.enter", function () {
+      var selfInfo = userNetService.cache.selfInfo;
+      vm.edit.nickname = selfInfo.nickname;
+      vm.edit.org = selfInfo.orgList[0];
+      vm.edit.department = selfInfo.department;
+      vm.edit.dormitory = selfInfo.dormitory;
+      vm.edit.gender = selfInfo.gender == 1 ? "男": "女";
+      vm.edit.hometown = selfInfo.hometown;
+      vm.edit.sign = selfInfo.sign;
     }
 
     vm.edit = {
@@ -117,6 +130,29 @@
         mainEditSheetService.isInputOrTextarea = true;
         mainEditSheetService.placeholder = '起个好听的名字吧';
         mainEditSheetService.className = '';
+        mainEditSheetService.cb = function(txt) {
+          $ionicLoading.show();
+          userNetService.updateNickname(txt).then(
+            function (data) {
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+              });
+              userNetService.cache.selfInfo.nickname = txt;
+              $timeout(function() {
+                $ionicHistory.goBack(-1);
+              }, 1500);
+
+            }, function (data) {
+              $ionicPopup.alert({
+                title: '错误提示',
+                template: data
+              }).then(function (res) {
+                console.error(data);
+              })
+            }).finally(function () {
+            });
+        }
         $state.go('main.edit-sheet');
       },
 
@@ -125,6 +161,29 @@
         mainEditSheetService.isInputOrTextarea = true;
         mainEditSheetService.placeholder = '你是哪个大学的';
         mainEditSheetService.className = '';
+        mainEditSheetService.cb = function(txt) {
+          $ionicLoading.show();
+          userNetService.updateOrg(txt).then(
+            function (data) {
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+              });
+              userNetService.cache.selfInfo.orgList[0] = txt;
+              $timeout(function() {
+                $ionicHistory.goBack(-1);
+              }, 1500);
+
+            }, function (data) {
+              $ionicPopup.alert({
+                title: '错误提示',
+                template: data
+              }).then(function (res) {
+                console.error(data);
+              })
+            }).finally(function () {
+            });
+        }
         $state.go('main.edit-sheet');
       },
       cb_department: function () {
@@ -132,6 +191,29 @@
         mainEditSheetService.isInputOrTextarea = true;
         mainEditSheetService.placeholder = '你是哪个系的';
         mainEditSheetService.className = '';
+        mainEditSheetService.cb = function(txt) {
+          $ionicLoading.show();
+          userNetService.updateOrg(txt).then(
+            function (data) {
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+              });
+              userNetService.cache.selfInfo.department = txt;
+              $timeout(function() {
+                $ionicHistory.goBack(-1);
+              }, 1500);
+
+            }, function (data) {
+              $ionicPopup.alert({
+                title: '错误提示',
+                template: data
+              }).then(function (res) {
+                console.error(data);
+              })
+            }).finally(function () {
+            });
+        }
         $state.go('main.edit-sheet');
       },
       cb_dormitory: function () {
@@ -139,6 +221,29 @@
         mainEditSheetService.isInputOrTextarea = true;
         mainEditSheetService.placeholder = '你是哪个寝室哪个楼的';
         mainEditSheetService.className = '';
+        mainEditSheetService.cb = function(txt) {
+          $ionicLoading.show();
+          userNetService.updateDormitory(txt).then(
+            function (data) {
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+              });
+              userNetService.cache.selfInfo.dormitory = txt;
+              $timeout(function() {
+                $ionicHistory.goBack(-1);
+              }, 1500);
+
+            }, function (data) {
+              $ionicPopup.alert({
+                title: '错误提示',
+                template: data
+              }).then(function (res) {
+                console.error(data);
+              })
+            }).finally(function () {
+            });
+        }
         $state.go('main.edit-sheet');
       },
 
@@ -162,6 +267,25 @@
 
             }
 
+            $ionicLoading.show();
+            userNetService.updateGender(index+1).then(
+              function (data) {
+                $ionicLoading.show({
+                  duration: 1500,
+                  templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+                });
+                userNetService.cache.selfInfo.gender = index+1;
+                vm.edit.gender = userNetService.cache.selfInfo.gender == 1 ? "男": "女";
+              }, function (data) {
+                $ionicPopup.alert({
+                  title: '错误提示',
+                  template: data
+                }).then(function (res) {
+                  console.error(data);
+                })
+              }).finally(function () {
+              });
+
           },
           cancelText: "取消",
           cancel: function () {
@@ -177,6 +301,29 @@
         mainEditSheetService.isInputOrTextarea = true;
         mainEditSheetService.placeholder = '老家是哪里的';
         mainEditSheetService.className = '';
+        mainEditSheetService.cb = function(txt) {
+          $ionicLoading.show();
+          userNetService.updateHometown(txt).then(
+            function (data) {
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+              });
+              userNetService.cache.selfInfo.hometown = txt;
+              $timeout(function() {
+                $ionicHistory.goBack(-1);
+              }, 1500);
+
+            }, function (data) {
+              $ionicPopup.alert({
+                title: '错误提示',
+                template: data
+              }).then(function (res) {
+                console.error(data);
+              })
+            }).finally(function () {
+            });
+        }
         $state.go('main.edit-sheet');
       },
 
@@ -185,6 +332,29 @@
         mainEditSheetService.isInputOrTextarea = true;
         mainEditSheetService.placeholder = '...';
         mainEditSheetService.className = '';
+        mainEditSheetService.cb = function(txt) {
+          $ionicLoading.show();
+          userNetService.updateHometown(txt).then(
+            function (data) {
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+              });
+              userNetService.cache.selfInfo.hometown = txt;
+              $timeout(function() {
+                $ionicHistory.goBack(-1);
+              }, 1500);
+
+            }, function (data) {
+              $ionicPopup.alert({
+                title: '错误提示',
+                template: data
+              }).then(function (res) {
+                console.error(data);
+              })
+            }).finally(function () {
+            });
+        }
         $state.go('main.edit-sheet');
       }
     };

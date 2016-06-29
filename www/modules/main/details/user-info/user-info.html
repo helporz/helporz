@@ -1,33 +1,46 @@
-<ion-view class="me">
+<ion-view class="me" view-title="{{vm.userInfo.remoteData.nickname}}">
   <!--<div class="nav row">-->
-    <!--<button class="button button-icon icon ion-android-arrow-back" ng-click="vm.cb_back()"></button>-->
-    <!--<p class="text-center name color-white">{{vm.userInfo.remoteData.nickname}}</p>-->
-    <!--&lt;!&ndash;<button class="col-offset-10 col-20 button button-icon icon ion-share"></button>&ndash;&gt;-->
+  <!--<button class="button button-icon icon ion-android-arrow-back" ng-click="vm.cb_back()"></button>-->
+  <!--<p class="text-center name color-white">{{vm.userInfo.remoteData.nickname}}</p>-->
+  <!--&lt;!&ndash;<button class="col-offset-10 col-20 button button-icon icon ion-share"></button>&ndash;&gt;-->
   <!--</div>-->
 
   <ion-content>
     <div class="back-img" scale-top-bg></div>
 
     <div class="row mid">
-      <div class="col-20 left text-center col-center">
-        <button class="side-icon button button-icon ion-android-person-add"></button>
+      <!--<div class="col-20 left text-center col-center">-->
+        <!--<button class="side-icon button button-icon ion-android-person-add"></button>-->
+      <!--</div>-->
+
+      <div class="left-data-show">
+        <div class="txt-0">帮过12人</div>
+        <div class="div-line"></div>
+        <div class="txt-1">帮过12人</div>
       </div>
+
       <div class="col-25 text-center">
         <img class="avatar" ng-src="{{vm.userInfo.remoteData.avator}}"
              src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g"
              live-image>
       </div>
       <!--<button class="col-20 right button button-icon ion-chatbubble-working"></button>-->
-      <div class="col-20 text-center col-center">
-        <i class="side-icon button button-icon ion-chatbubble-working" ng-click=""></i>
+      <!--<div class="col-20 text-center col-center">-->
+        <!--<i class="side-icon button button-icon ion-chatbubble-working" ng-click=""></i>-->
+      <!--</div>-->
+
+      <div class="right-follow">
+        <button class="follow-bt follow-bt-inactive">关注</button>
       </div>
     </div>
 
     <div class="sign-impress-panel">
       <p class="sign text-center">{{vm.userInfo.remoteData.sign}}</p>
 
-      <div class="impress-panel" ng-repeat="item in vm.userInfo.ui_tags">
-        <p class="elem text-tag toggle-on {{item.className}}">{{item.text}}</p>
+      <div class="bottom">
+        <div class="impress-panel" ng-repeat="item in vm.userInfo.ui_tags">
+          <p class="elem text-tag toggle-on color-white">{{item.text}}</p>
+        </div>
       </div>
     </div>
 

@@ -1,0 +1,42 @@
+.button-icon.icon:before {
+  font-size: 28px !important;
+}
+
+.button {
+  .badge-count {
+
+    top: -33px;
+    right:calc(50% - 29px);
+    height:auto;
+
+    position:relative;
+    //display:table-footer-group;
+    margin-left: 5px;
+
+    @include display-flex();
+  }
+  //:before {
+  //  width: 3px;
+  //  height: auto;
+  //  content: ' ';
+  //}
+  //:after {
+  //  width: -10px;
+  //  content: ' ';
+  //}
+  .count {
+    margin: 0;
+    padding:1px 6px;
+    background-color:white;
+    color:#ef473a;
+    font-size:11px;
+    line-height:16px;
+    z-index: 1;
+    min-width:10px;
+    border-radius:10px;
+    vertical-align:baseline;
+    text-align:center;
+    white-space:nowrap;
+    font-weight:bold;
+  }
+}

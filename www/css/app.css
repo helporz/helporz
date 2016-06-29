@@ -507,6 +507,37 @@
   border-color: transparent;
   background: none; }
 
+.button-icon.icon:before {
+  font-size: 28px !important; }
+
+.button .badge-count {
+  top: -33px;
+  right: calc(50% - 29px);
+  height: auto;
+  position: relative;
+  margin-left: 5px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex; }
+
+.button .count {
+  margin: 0;
+  padding: 1px 6px;
+  background-color: white;
+  color: #ef473a;
+  font-size: 11px;
+  line-height: 16px;
+  z-index: 1;
+  min-width: 10px;
+  border-radius: 10px;
+  vertical-align: baseline;
+  text-align: center;
+  white-space: nowrap;
+  font-weight: bold; }
+
 [tab-view-state="entering"], [tab-view-state="leaving"] {
   -webkit-transition-duration: 500ms;
   transition-duration: 500ms;
@@ -2231,9 +2262,46 @@
     height: 180px;
     z-index: -999; }
   .me .mid {
-    padding-top: 15px; }
+    padding-top: 15px;
+    width: 100%; }
     .me .mid .left {
       margin-left: 17%; }
+    .me .mid .left-data-show {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -moz-box;
+      display: -moz-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      -moz-align-items: center;
+      align-items: center;
+      -webkit-box-direction: normal;
+      -webkit-box-orient: vertical;
+      -webkit-flex-direction: column;
+      -moz-flex-direction: column;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      -moz-justify-content: center;
+      justify-content: center;
+      width: 20%;
+      margin-left: 17%;
+      padding-right: 10px; }
+      .me .mid .left-data-show .txt-0 {
+        font-size: 12px;
+        color: white; }
+      .me .mid .left-data-show .div-line {
+        background-color: white;
+        width: 60px;
+        height: 1px; }
+      .me .mid .left-data-show .txt-1 {
+        font-size: 12px;
+        color: white; }
     .me .mid .avatar {
       width: 70px;
       height: 70px;
@@ -2245,8 +2313,51 @@
       color: #fff;
       -webkit-transform-origin: center center;
       transform-origin: center center;
-      -webkit-transform: scale(1.5);
-      transform: scale(1.5); }
+      font-size: 28px; }
+    .me .mid .right-follow {
+      width: 40%;
+      padding-left: 10px;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -moz-box;
+      display: -moz-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      -moz-align-items: center;
+      align-items: center; }
+      .me .mid .right-follow .follow-bt {
+        padding: 2px 24px;
+        height: 24px;
+        font-size: 10px;
+        font-weight: bold;
+        border-radius: 14px;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -moz-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        -moz-align-items: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        -moz-justify-content: center;
+        justify-content: center; }
+        .me .mid .right-follow .follow-bt.follow-bt-active {
+          border: 1px solid white;
+          background-color: #FF432F;
+          color: white; }
+        .me .mid .right-follow .follow-bt.follow-bt-inactive {
+          border: none;
+          color: #FF432F;
+          background-color: #ffd0ce; }
   .me .sign-impress-panel {
     display: -webkit-box;
     display: -webkit-flex;
@@ -2332,6 +2443,14 @@
   .me .ho-list.friend ion-item .content .desc {
     font-size: 13px;
     color: #878787; }
+  .me .ho-list.friend .bt-active {
+    border: 1px solid #f78058;
+    background: white;
+    color: #f78058; }
+  .me .ho-list.friend .bt-inactive {
+    border-width: 0;
+    background: #ffeceb;
+    color: #f78058; }
   .me .belongings .me-card {
     padding-right: 4px;
     width: 64px;

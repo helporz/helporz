@@ -20,7 +20,7 @@
   </ion-nav-buttons>
 
   <ion-nav-buttons side="right">
-    <button class="button button-icon icon ion-gear-a" ng-click="vm.cb_setting()"></button>
+    <button class="button button-icon icon ho-chat-2" ng-click="vm.cb_setting()"></button>
   </ion-nav-buttons>
 
   <ion-content delegate-handle="meScroll">
@@ -37,7 +37,7 @@
       </div>
       <!--<button class="col-20 right button button-icon ion-chatbubble-working"></button>-->
       <div class="col-20 text-center col-center">
-        <i class="side-icon button button-icon ion-chatbubble-working" ng-click="vm.cb_im()"></i>
+        <i class="side-icon button button-icon ion-gear-a" ng-click="vm.cb_im()"></i>
       </div>
 
 
@@ -188,13 +188,13 @@
             <p class="desc">{{item.desc}}</p>
           </div>
           <!-- lkj:note: 这里不加vm.activeTab==1 多点几次会使ng-hide失效.不知道这坑是为啥...-->
-          <button class="right ho-button button-theme button-outline ho-button-small min-width-60"
+          <button class="right ho-button button-theme button-outline ho-button-small min-width-60 bt-active"
                   ng-if="vm.activeTab == 1 &&item.follow==false">
             <i class="icon ion-ios-plus-empty"></i>
             &nbsp关注
           </button>
           <button
-            class="right ho-button button-theme button-gray button-outline ho-button-small min-width-60"
+            class="right ho-button button-theme button-gray button-outline ho-button-small min-width-60 bt-inactive"
             ng-if="vm.activeTab == 1  && item.follow==true">
             <i class="icon ion-ios-checkmark-empty"></i>
             &nbsp已关注

@@ -1,4 +1,13 @@
 <ion-view view-title="Home" class="task-view">
+
+  <style type="text/css">
+    .bar.bar-helporz-theme .title {
+      left: 0 !important;
+      right: 0 !important;
+    }
+
+  </style>
+
   <ion-nav-title class="task-title-container">
     <ho-tab-set widget-id="task" first-on="last" class="ho-tabset ho-tabset-round ho-tabset-outline-theme">
       <ho-tab on-select="vm.cb_post()">
@@ -10,7 +19,17 @@
         <ho-badge count="22" ng-class="{'ho-badge-reverse':vm.tabSelectedIndex==0}"></ho-badge>
       </ho-tab>
     </ho-tab-set>
+
+
   </ion-nav-title>
+
+  <ion-nav-buttons side="right">
+    <button class="button button-icon icon ho-chat-2">
+      <div class="badge-count">
+        <p class="count">8</p>
+      </div>
+    </button>
+  </ion-nav-buttons>
 
   <!--<ho-tab-set widget-id="task-sub" class="ho-tabset ho-tabset-block ho-tabset-outline-theme"-->
   <!--style="border-bottom: 1px solid">-->
