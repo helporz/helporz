@@ -152,6 +152,13 @@
         '/user/self/id_card_photo_ex', headers);
     }
 
+    var updateSign = function(sign) {
+      var param = {
+        sign:sign,
+      };
+      return httpBaseService.postForPromise('/user/self/update_sign',param);
+    }
+
     return {
       login: _login,
       loginByTicket: _loginByTicket,
@@ -168,6 +175,7 @@
       updateNickname:updateNickname,
       uploadAvatar:uploadAvatar,
       uploadIDCardPhoto:uploadIDCardPhoto,
+      updateSign:updateSign,
       cache: _cache
     };
   }
