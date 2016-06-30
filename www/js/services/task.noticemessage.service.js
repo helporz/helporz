@@ -109,7 +109,7 @@
         message.type = event.type;
         message.correlationId = event.correlation_id;
       }
-      $log.info(debugHelpService.writeObj(message));
+      //$log.info(debugHelpService.writeObj(message));
       return message;
     }
 
@@ -432,7 +432,7 @@
       var _innerDefer = $q.defer();
       dbService.findRecords('userMaxNoticeSerialNo', 'userId = "' + _currentUserId + '"').then(function (res) {
         $log.info('userMaxNoticeSerialNo success');
-        debugHelpService.writeObj(res);
+        //debugHelpService.writeObj(res);
         if (typeof res == 'undefined' || res === null) {
           _innerDefer.resolve("0");
           return;

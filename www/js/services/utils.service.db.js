@@ -17,6 +17,10 @@
 
       var _executeSqlList = function(sqlList) {
         var _innerDefer = $q.defer();
+        for(var idx = 0; idx < sqlList.length; ++idx) {
+          $log.info('executeSqlList:' + sqlList[idx]);
+        }
+
         dbconn.sqlBatch(sqlList,function(){
           _innerDefer.resolve();
         },function(tx,error){
@@ -40,6 +44,50 @@
         executeSqlList:_executeSqlList,
         setDBConn: _setDBConn,
         createRow: _createRow,
+        addRecords: function(table,records,pattern) {
+          var key = '';
+          var i = '';
+          if( angular.isArray(records)) {
+            if (!records || !records.length) {
+              return;
+            }
+          }
+          else {
+            var temp = new Array();
+            temp.push(records);
+            records = temp;
+          }
+
+          //var pattern = patterns[table];
+          var sql = "INSERT INTO `#table#` (#cols#) VALUES #rows#;".replace('#table#', table);
+          var cols = [], rows = [];
+          for (key in pattern) {
+            cols.push('`' + key + '`');
+          }
+          for (i in records) {
+            var row = [];
+            for (key in pattern) {
+              var val = (records[i][key] || pattern[key]);
+              row.push(val === null ? "null" : "'" + val + "'");
+            }
+            rows.push("(#row#)".replace("#row#", row.join(',')));
+          }
+          sql = sql.replace('#cols#', cols.join(',')).replace('#rows#', rows.join(','));
+
+          sql = sql + ";select last_insert_rowid();";
+          var _dbDefer = $q.defer();
+          dbconn && dbconn.transaction(function (tx) {
+            tx.executeSql(sql, [], function (tx, res) {
+              _dbDefer.resolve(res);
+              //callback && callback(res);
+            }, function (tx,e) {
+              console.log("ERROR: " + e.message);
+              _dbDefer.reject(e);
+            });
+          });
+          console.log(sql);
+          return _dbDefer.promise;
+        },
         saveRecords: function (table, records,pattern) {
           var key = '';
           var i = '';
@@ -175,6 +223,32 @@
           sql = sql.replace('#cols#', cols.join(',')).replace('#rows#', rows.join(','));
           return sql;
         },
+        updateData:function(table,where,cols) {
+          var _dbDefer = $q.defer();
+
+          var key = '';
+          var value = '';
+
+          var colList = [];
+
+          for( key in cols) {
+            colList.push("#key# = '#value#'".replace('#key#',key),replace('#value#',cols[key]));
+          }
+
+          var sql = "update `#table#` SET #cols# where #where#;".
+            replace('#table#', table).replace('#where#', where || '').replace('#cols#',colList.join(','));
+          dbconn && dbconn.transaction(function (tx) {
+            tx.executeSql(sql, [], function (tx, res) {
+              //callback && callback(res);
+              _dbDefer.resolve(res);
+            }, function (tx,e) {
+              console.log("ERROR: " + e.message);
+              _dbDefer.reject(e);
+            });
+          });
+          console.log(sql);
+          return _dbDefer.promise;
+        }
         //sqlBatch:function(sqlList) {
         //  var _dbDefer = $q.defer();
         //  dbconn && dbconn.transaction(function (tx) {

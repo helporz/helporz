@@ -6,9 +6,9 @@
   'use strict';
 
   angular.module('com.helporz.user.netservice', ['com.helporz.utils.service']).factory('userNetService', ['$q', '$log', 'httpBaseService',
-    'errorCodeService', 'httpErrorCodeService','uploadService','userLoginInfoService' ,UserNetServiceFactoryFn])
+    'errorCodeService', 'httpErrorCodeService', 'uploadService', 'userLoginInfoService', UserNetServiceFactoryFn])
 
-  function UserNetServiceFactoryFn($q, $log, httpBaseService, errorCodeService, httpErrorCodeService,uploadService,
+  function UserNetServiceFactoryFn($q, $log, httpBaseService, errorCodeService, httpErrorCodeService, uploadService,
                                    userLoginInfoService) {
 
     // cache
@@ -98,42 +98,42 @@
 
     var updateOrg = function (orgId) {
       var param = {
-        orgId:orgId,
+        orgId: orgId,
       }
-      return httpBaseService.postForPromise('/user/self/update_org',param);
+      return httpBaseService.postForPromise('/user/self/update_org', param);
     }
 
-    var updateDormitory = function(dormitory) {
+    var updateDormitory = function (dormitory) {
       var param = {
-        dormitory:dormitory,
+        dormitory: dormitory,
       }
-      return httpBaseService.postForPromise('/user/self/update_dormitory',param);
+      return httpBaseService.postForPromise('/user/self/update_dormitory', param);
     }
 
-    var updateDepartment = function(department) {
+    var updateDepartment = function (department) {
       var param = {
-        department:department,
+        department: department,
       }
-      return httpBaseService.postForPromise('/user/self/update_department',param);
+      return httpBaseService.postForPromise('/user/self/update_department', param);
     }
 
-    var updateHometown = function(hometown) {
+    var updateHometown = function (hometown) {
       var param = {
-        hometown:hometown,
+        hometown: hometown,
       }
 
-      return httpBaseService.postForPromise('/user/self/update_hometown',param);
+      return httpBaseService.postForPromise('/user/self/update_hometown', param);
     }
 
-    var updateNickname = function(nickname) {
+    var updateNickname = function (nickname) {
       var param = {
-        nickname:nickname,
+        nickname: nickname,
       };
 
-      return httpBaseService.postForPromise('/user/self/update_nickname',param);
+      return httpBaseService.postForPromise('/user/self/update_nickname', param);
     }
 
-    var uploadAvatar = function(nativeUrl) {
+    var uploadAvatar = function (nativeUrl) {
       var headers = {
         Connection: "close",
         'x-login-key': userLoginInfoService.getLoginTicket()
@@ -143,7 +143,7 @@
 
     }
 
-    var uploadIDCardPhoto = function(nativeUrl) {
+    var uploadIDCardPhoto = function (nativeUrl) {
       var headers = {
         Connection: "close",
         'x-login-key': userLoginInfoService.getLoginTicket()
@@ -152,13 +152,52 @@
         '/user/self/id_card_photo_ex', headers);
     }
 
-    var updateSign = function(sign) {
+    var updateSign = function (sign) {
       var param = {
-        sign:sign,
+        sign: sign,
       };
-      return httpBaseService.postForPromise('/user/self/update_sign',param);
+      return httpBaseService.postForPromise('/user/self/update_sign', param);
     }
 
+    var attention = function (userId) {
+      return httpBaseService.postForPromise('/user/attention/{userId}/remark'.replace('{userId}', userId), null);
+    }
+
+    var unattention = function (userId) {
+      return httpBaseService.postForPromise('/user/unattention/{userId}'.replace('{userId}', userId), null);
+    }
+
+    var getAttentionList = function () {
+      return httpBaseService.getForPromise('/user/attention', null);
+    }
+
+    var isAttention = function (userId) {
+      return httpBaseService.getForPromise('/user/attention/{userId}'.replace('{userId}', userId), null);
+    }
+
+    var getFunsList = function () {
+      return httpBaseService.getForPromise('/user/funs', null);
+    }
+
+    var getFriendList = function () {
+      return httpBaseService.getForPromise('/user/friends', null);
+    }
+
+    var getVisitorList = function () {
+      return httpBaseService.getForPromise('/user/visitor', null);
+    }
+
+    var getOrgList = function () {
+      return httpBaseService.getForPromise('/user/orgs', null);
+    }
+
+    var getOrgMemberCount = function (orgId) {
+      return httpBaseService.getForPromise('/user/org/{orgId}/memberCount'.replace('{orgId}', orgId), null);
+    }
+
+    var getTagList = function () {
+      return httpBaseService.getForPromise('/user/tag/list', null);
+    }
     return {
       login: _login,
       loginByTicket: _loginByTicket,
@@ -170,12 +209,22 @@
       updateGender: updateGender,
       updateOrg: updateOrg,
       updateDepartment: updateDepartment,
-      updateDormitory:updateDormitory,
-      updateHometown:updateHometown,
-      updateNickname:updateNickname,
-      uploadAvatar:uploadAvatar,
-      uploadIDCardPhoto:uploadIDCardPhoto,
-      updateSign:updateSign,
+      updateDormitory: updateDormitory,
+      updateHometown: updateHometown,
+      updateNickname: updateNickname,
+      uploadAvatar: uploadAvatar,
+      uploadIDCardPhoto: uploadIDCardPhoto,
+      updateSign: updateSign,
+      attention: attention,
+      unattention: unattention,
+      getAttentionList: getAttentionList,
+      isAttention: isAttention,
+      getFunsList: getFunsList,
+      getFriendList: getFriendList,
+      getVisitorList: getVisitorList,
+      getOrgList: getOrgList,
+      getOrgMemberCount: getOrgMemberCount,
+      getTagList: getTagList,
       cache: _cache
     };
   }
