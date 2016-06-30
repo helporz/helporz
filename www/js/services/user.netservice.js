@@ -159,32 +159,55 @@
       return httpBaseService.postForPromise('/user/self/update_sign', param);
     }
 
-    var attention = function (userId) {
-      return httpBaseService.postForPromise('/user/attention/{userId}/remark'.replace('{userId}', userId), null);
+    var attention = function (userId,remark) {
+      if( typeof remark === 'undefined' || remark == null || remark === '') {
+       remark = '未填写'
+      }
+
+      var param = {
+        remark:remark,
+      }
+      return httpBaseService.postForPromise('/user/attention/{userId}/remark'.replace('{userId}', userId), param);
     }
 
     var unattention = function (userId) {
       return httpBaseService.postForPromise('/user/unattention/{userId}'.replace('{userId}', userId), null);
     }
 
-    var getAttentionList = function () {
-      return httpBaseService.getForPromise('/user/attention', null);
+    var getAttentionList = function (pageIndex,pageSize) {
+      var param = {
+        pageIndex:pageIndex,
+        pageSize:pageSize,
+      }
+      return httpBaseService.getForPromise('/user/attention', param);
     }
 
     var isAttention = function (userId) {
       return httpBaseService.getForPromise('/user/attention/{userId}'.replace('{userId}', userId), null);
     }
 
-    var getFunsList = function () {
-      return httpBaseService.getForPromise('/user/funs', null);
+    var getFunsList = function (pageIndex,pageSize) {
+      var param = {
+        pageIndex:pageIndex,
+        pageSize:pageSize,
+      }
+      return httpBaseService.getForPromise('/user/funs', param);
     }
 
-    var getFriendList = function () {
-      return httpBaseService.getForPromise('/user/friends', null);
+    var getFriendList = function (pageIndex,pageSize) {
+      var param = {
+        pageIndex:pageIndex,
+        pageSize:pageSize,
+      }
+      return httpBaseService.getForPromise('/user/friends', param);
     }
 
-    var getVisitorList = function () {
-      return httpBaseService.getForPromise('/user/visitor', null);
+    var getVisitorList = function (pageIndex,pageSize) {
+      var param = {
+        pageIndex:pageIndex,
+        pageSize:pageSize,
+      }
+      return httpBaseService.getForPromise('/user/visitor', param);
     }
 
     var getOrgList = function () {
