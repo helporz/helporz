@@ -167,7 +167,7 @@
       var param = {
         remark:remark,
       }
-      return httpBaseService.postForPromise('/user/attention/{userId}/remark'.replace('{userId}', userId), param);
+      return httpBaseService.postForPromise('/user/attention/{userId}'.replace('{userId}', userId), param);
     }
 
     var unattention = function (userId) {
