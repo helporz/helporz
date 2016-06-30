@@ -140,16 +140,17 @@
       //@include justify-content(center);
 
       .follow-bt {
-        padding: 2px 24px;
+        padding: 2px 0;
         height: 24px;
+        width: 68px;
         font-size: 10px;
         font-weight: bold;
         //min-width: 60px;
-        //text-align: center;
         border-radius: 14px;
-        @include display-flex();
-        @include align-items(center);
-        @include justify-content(center);
+        //text-align: center;
+        //@include display-flex();
+        //@include align-items(center);
+        //@include justify-content(center);
 
         &.follow-bt-active {
           border: 1px solid white;
@@ -238,7 +239,6 @@
   //////////////////////////////////////////////////
   // tab page
   .tab-panel {
-    margin-top: 10px;
     background: white !important;
   }
 
@@ -250,6 +250,14 @@
     }
 
     &.friend {
+      .tab-panel {
+        //height: 35px;
+        @include display-flex();
+        @include align-items(center);
+        @include justify-content(center);
+
+        padding: 7px;
+      }
       ion-item .content {
         .name {
           padding-top: 2px;

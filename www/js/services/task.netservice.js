@@ -39,7 +39,6 @@
       nm_accept: [],
       nm_comment: [],
       nm_follow: [],
-      nm_total_changed: false,
       nm_task_changed: false
     };
 
@@ -443,7 +442,6 @@
         var accept = cache.nm_accept = [];
         var comment = cache.nm_comment = [];
         var follow = cache.nm_follow = [];
-        cache.nm_total_changed = true;
         cache.nm_task_changed = true;
 
         // analyze fetched message
