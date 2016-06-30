@@ -1,18 +1,18 @@
-<ion-view view-title="{{vm.meInfo.remoteData.nickname}}" class="me">
+<ion-view view-title="{{vm.ui_title}}" class="me">
   <!--<div class="nav row">-->
-    <!--&lt;!&ndash;<div class="col-20 col-center text-center">&ndash;&gt;-->
-    <!--&lt;!&ndash;<button class="button button-icon icon ion-share"></button>&ndash;&gt;-->
-    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-    <!--&lt;!&ndash;<div class="col-offset-10 col-40 col-center text-center">&ndash;&gt;-->
-    <!--&lt;!&ndash;<p class="name color-white">xi匿名</p>&ndash;&gt;-->
-    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-    <!--&lt;!&ndash;<div class="col-offset-10 col-20 text-center">&ndash;&gt;-->
-    <!--&lt;!&ndash;<button class="button button-icon icon ion-share right"></button>&ndash;&gt;-->
-    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+  <!--&lt;!&ndash;<div class="col-20 col-center text-center">&ndash;&gt;-->
+  <!--&lt;!&ndash;<button class="button button-icon icon ion-share"></button>&ndash;&gt;-->
+  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+  <!--&lt;!&ndash;<div class="col-offset-10 col-40 col-center text-center">&ndash;&gt;-->
+  <!--&lt;!&ndash;<p class="name color-white">xi匿名</p>&ndash;&gt;-->
+  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+  <!--&lt;!&ndash;<div class="col-offset-10 col-20 text-center">&ndash;&gt;-->
+  <!--&lt;!&ndash;<button class="button button-icon icon ion-share right"></button>&ndash;&gt;-->
+  <!--&lt;!&ndash;</div>&ndash;&gt;-->
 
-    <!--<button class="button button-icon icon ion-compose" ng-click="vm.cb_edit()"></button>-->
-    <!--<p class="text-center name color-white">{{vm.meInfo.remoteData.nickname}}</p>-->
-    <!--<button class="button button-icon icon ion-gear-a" ng-click="vm.cb_setting()"></button>-->
+  <!--<button class="button button-icon icon ion-compose" ng-click="vm.cb_edit()"></button>-->
+  <!--<p class="text-center name color-white">{{vm.meInfo.remoteData.nickname}}</p>-->
+  <!--<button class="button button-icon icon ion-gear-a" ng-click="vm.cb_setting()"></button>-->
   <!--</div>-->
 
   <ion-nav-buttons side="left">
@@ -20,24 +20,26 @@
   </ion-nav-buttons>
 
   <ion-nav-buttons side="right">
-    <button class="button button-icon icon ho-chat-2" ng-click="vm.cb_setting()"></button>
+    <button class="button button-icon icon ho-chat-2" ng-click="vm.cb_im()"></button>
   </ion-nav-buttons>
 
   <ion-content delegate-handle="meScroll">
     <div class="back-img" scale-top-bg></div>
 
-    <div class="row mid">
-      <div class="col-20 left text-center col-center">
-        <button class="side-icon button button-icon ion-android-person-add" ng-click="vm.cb_share()"></button>
+    <div class="mid">
+      <div class="mid-left-panel">
+        <button class="side-icon button button-icon ho-invite" ng-click="vm.cb_share()"></button>
       </div>
-      <div class="col-25 text-center">
+      <div class="avatar-panel">
         <img class="avatar" ng-src="{{vm.meInfo.remoteData.avatar}}"
              src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g"
              live-image on-click="vm.meInfo.cb_avatar()">
+        <img class="gender color-man"
+             ng-src="{{vm.meInfo.remoteData.gender==1?'img/com/gender-male.png':'img/com/gender-female.png'}}">
       </div>
       <!--<button class="col-20 right button button-icon ion-chatbubble-working"></button>-->
-      <div class="col-20 text-center col-center">
-        <i class="side-icon button button-icon ion-gear-a" ng-click="vm.cb_im()"></i>
+      <div class="mid-right-panel">
+        <i class="side-icon button button-icon ho-setting" ng-click="vm.cb_setting()"></i>
       </div>
 
 
@@ -80,15 +82,15 @@
     <!--</ion-tab>-->
     <!--</ion-tabs>-->
 
-    <ho-tab-set widget-id="meMid" class="ho-tabset ho-tabset-block ho-tabset-outline-theme">
-      <ho-tab class="col-2" on-select="vm.onChangeTab(0)" style="font-size:14px;padding-top:5px;height:48px;">
+    <ho-tab-set widget-id="meMid" class="ho-tabset ho-tabset-block ">
+      <ho-tab class="col-2 ho-tab-weak-gray-bg" on-select="vm.onChangeTab(0)" style="font-size:14px;padding-top:5px;height:48px;">
         <strong>自己</strong></ho-tab>
-      <ho-tab class="col-2" on-select="vm.onChangeTab(1)" style="font-size:14px;padding-top:5px;height:48px;">
+      <ho-tab class="col-2 ho-tab-weak-gray-bg" on-select="vm.onChangeTab(1)" style="font-size:14px;padding-top:5px;height:48px">
         <strong>伙伴</strong></ho-tab>
     </ho-tab-set>
 
     <div class="tab-panel">
-      <div ng-show="vm.activeTab == 0">
+      <div ng-if="vm.activeTab == 0">
         <ion-list class="ho-list self">
           <ion-item class="ho-item ho-item-header-icon-title">
             <i class="side-icon icon ho-me color-theme" style="font-size:15px;padding-left:9px"></i>
@@ -175,7 +177,26 @@
           </ion-item>
         </ion-list>
       </div>
+
       <ion-list class="ho-list friend">
+
+        <!--<div class="tab-panel" ng-if="vm.activeTab == 1">-->
+					<!--<ho-tab-set widget-id="me-friend" first-on="last" class="ho-tabset ho-tabset-block-border">-->
+						<!--<ho-tab class="col-2 ho-tab-gray" on-select="vm.cb_post()" style="">-->
+							<!--关注-->
+							<!--<ho-badge ng-if="vm.badges.postGoing+vm.badges.postFinish>0"-->
+												<!--count="vm.badges.postGoing+ vm.badges.postFinish"-->
+												<!--ng-class="{'ho-badge-reverse':vm.tabSelectedIndex==1}"></ho-badge>-->
+						<!--</ho-tab>-->
+						<!--<ho-tab class="col-2 ho-tab-gray" on-select="vm.cb_accept()">-->
+						  <!--粉丝-->
+							<!--<ho-badge ng-if="vm.badges.acceptGoing+vm.badges.acceptFinish>0"-->
+												<!--count="vm.badges.acceptGoing + vm.badges.acceptFinish"-->
+												<!--ng-class="{'ho-badge-reverse':vm.tabSelectedIndex==0}"></ho-badge>-->
+						<!--</ho-tab>-->
+					<!--</ho-tab-set>-->
+        <!--</div>-->
+
         <ion-item class="ho-item ho-item-avatar" collection-repeat="item in vm.self.repeatList" item-height="54px"
                   item-width="100%">
           <!--<ion-item class="ho-item ho-item-avatar" ng-repeat="item in vm.self.friendList">-->
@@ -185,6 +206,7 @@
 
           <div class="content">
             <p class="name">{{item.name}}</p>
+
             <p class="desc">{{item.desc}}</p>
           </div>
           <!-- lkj:note: 这里不加vm.activeTab==1 多点几次会使ng-hide失效.不知道这坑是为啥...-->

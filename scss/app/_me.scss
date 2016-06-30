@@ -45,18 +45,24 @@
 
   .mid {
     padding-top: 15px;
-    width: 100%;
-    .left {
-      margin-left: 17%;
-    }
-    .left-data-show {
+    padding-bottom: 6px;
+
+    @include display-flex();
+    @include align-items(center);
+    @include justify-content(center);
+
+    //width: 100%;
+    .mid-left-panel {
       @include display-flex();
       @include align-items(center);
+      @include justify-content(center);
+    }
+    .left-data-show {
+      width: 80px;
+      @include display-flex();
+      @include align-items(flex-end);
       @include flex-direction(column);
       @include justify-content(center);
-      width: 20%;
-      margin-left: 17%;
-      padding-right: 10px;
 
       .txt-0 {
         font-size: 12px;
@@ -73,41 +79,78 @@
         color: white;
       }
     }
-    .avatar {
-      width: 70px;
+    .avatar-panel {
+      &:before {
+        width: 18px;
+        content: '';
+      }
+      width: 120px;
       height: 70px;
-      border-radius: 35px;
-      border-style: solid;
-      border-width: 1px;
-      border-color: #fff;
+      @include display-flex();
+      @include align-items(center);
+      @include justify-content(center);
+      .avatar {
+        width: 70px;
+        height: 70px;
+        border-radius: 35px;
+        border-style: solid;
+        border-width: 1px;
+        border-color: #fff;
+
+      }
+      .gender {
+        z-index: 1;
+        position: relative;
+        bottom: -25px;
+        left: -20px;
+        height: 18px;
+        width: 18px;
+        //border-radius:9px;
+        //border: 1px solid white;
+        //background-color: white;
+        //background-image: url("../img/com/gender-male.png");
+      }
     }
+    //.avatar-panel:before {
+    //  width: 18px;
+    //  content: '';
+    //}
+
+    .mid-right-panel {
+      @include display-flex();
+      @include align-items(center);
+      @include justify-content(center);
+    }
+
     .side-icon {
       color: #fff;
       @include transform-origin(center, center);
       //@include transform(scale(1.5));
       font-size: 28px;
+      padding: 0;
     }
 
     .right-follow {
-      width: 40%;
+      width: 80px;
       //margin-right: 17px;
-      padding-left: 10px;
+      padding-left: 0px;
 
       @include display-flex();
       @include align-items(center);
       //@include justify-content(center);
 
       .follow-bt {
-        padding: 2px 24px;
+        padding: 2px 0;
         height: 24px;
+        width: 68px;
         font-size: 10px;
         font-weight: bold;
         //min-width: 60px;
-        //text-align: center;
         border-radius: 14px;
-        @include display-flex();
-        @include align-items(center);
-        @include justify-content(center);
+        //text-align: center;
+        //@include display-flex();
+        //@include align-items(center);
+        //@include justify-content(center);
 
         &.follow-bt-active {
           border: 1px solid white;
@@ -118,10 +161,10 @@
 
         &.follow-bt-inactive {
           border: none;
-          color: $color-theme;
-          background-color: $button-accept-bordercolor;
-          //background-color: #ffde00;
-          //color: black;
+          //color: $color-theme;
+          //background-color: $button-accept-bordercolor;
+          background-color: #ffde00;
+          color: $color-text-primary;
         }
       }
     }
@@ -196,7 +239,6 @@
   //////////////////////////////////////////////////
   // tab page
   .tab-panel {
-    margin-top: 10px;
     background: white !important;
   }
 
@@ -208,6 +250,14 @@
     }
 
     &.friend {
+      .tab-panel {
+        //height: 35px;
+        @include display-flex();
+        @include align-items(center);
+        @include justify-content(center);
+
+        padding: 7px;
+      }
       ion-item .content {
         .name {
           padding-top: 2px;

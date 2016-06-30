@@ -12,11 +12,11 @@
     <ho-tab-set widget-id="task" first-on="last" class="ho-tabset ho-tabset-round ho-tabset-outline-theme">
       <ho-tab on-select="vm.cb_post()">
         我的求助
-        <ho-badge count="128" ng-class="{'ho-badge-reverse':vm.tabSelectedIndex==1}"></ho-badge>
+        <ho-badge ng-if="vm.badges.postGoing+vm.badges.postFinish>0" count="vm.badges.postGoing+ vm.badges.postFinish" ng-class="{'ho-badge-reverse':vm.tabSelectedIndex==1}"></ho-badge>
       </ho-tab>
       <ho-tab on-select="vm.cb_accept()">
         我的援助
-        <ho-badge count="22" ng-class="{'ho-badge-reverse':vm.tabSelectedIndex==0}"></ho-badge>
+        <ho-badge ng-if="vm.badges.acceptGoing+vm.badges.acceptFinish>0" count="vm.badges.acceptGoing + vm.badges.acceptFinish" ng-class="{'ho-badge-reverse':vm.tabSelectedIndex==0}"></ho-badge>
       </ho-tab>
     </ho-tab-set>
 
@@ -34,16 +34,16 @@
   <!--<ho-tab-set widget-id="task-sub" class="ho-tabset ho-tabset-block ho-tabset-outline-theme"-->
   <!--style="border-bottom: 1px solid">-->
   <ho-tab-set ng-show='vm.tabSelectedIndex == 0' widget-id="task-post" first-on='last'
-              class="ho-tabset ho-tabset-block ho-tabset-outline-theme"
+              class="ho-tabset ho-tabset-block"
               style="position:absolute;
                     top:64px;
                     border-bottom:1px solid #dddddd">
-    <ho-tab class="col-2" on-select="vm.cb_taskPostGoing()"
+    <ho-tab class="col-2 ho-tab-white-bg" on-select="vm.cb_taskPostGoing()"
             style="font-size:12px;padding-top:5px;height:38px;">
       进行中
       <ho-badge count="2"></ho-badge>
     </ho-tab>
-    <ho-tab class="col-2" on-select="vm.cb_taskPostFinish()"
+    <ho-tab class="col-2 ho-tab-white-bg" on-select="vm.cb_taskPostFinish()"
             style="font-size:12px;padding-top:5px;height:38px;">
       已结束
     </ho-tab>

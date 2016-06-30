@@ -71,6 +71,7 @@ $tab-font-size: 12px;
         @include ho-tab-color(white, $color-theme, white, $color-theme, white, white);
       }
     }
+
   }
 
   &.ho-tabset-block {
@@ -89,7 +90,13 @@ $tab-font-size: 12px;
       @include justify-content(center);
 
       //@include ho-tab-color($color-text-primary, white, white, $color-theme, white, $color-theme);
-      @include ho-tab-color(#777777, white, white, $color-theme, white, $color-theme);
+      &.ho-tab-white-bg {
+        @include ho-tab-color(#777777, white, white, $color-theme, white, $color-theme);
+      }
+
+      &.ho-tab-weak-gray-bg {
+        @include ho-tab-color(#777777, $color-page-bg-weak, $color-page-bg, $color-theme, $color-page-bg-weak, $color-theme);
+      }
 
       &.col-2 {
         @include flex(0, 0, 50%);
@@ -110,6 +117,52 @@ $tab-font-size: 12px;
       @include justify-content(center);
 
       @include ho-tab-color($color-text-thirdly, white, white, $color-text-secondary, $color-page-bg-weak, white);
+
+      &.col-2 {
+        @include flex(0, 0, 50%);
+      }
+    }
+  }
+
+  &.ho-tabset-block-border {
+    width: 100%;
+    @include display-flex();
+
+    :first-child {
+      border-top-left-radius: $tab-round-radius/4;
+      border-bottom-left-radius: $tab-round-radius/4;
+      //padding-left: 12px;
+      //border-left-width: 1px;
+    }
+    :last-child {
+      border-top-right-radius: $tab-round-radius/4;
+      border-bottom-right-radius: $tab-round-radius/4;
+      //padding-right: 12px;
+    }
+
+    > ho-tab {
+      border-style: solid;
+      border-width: 1px;
+
+      height: $tab-round-radius*2;
+      font-size: $tab-font-size;
+      padding: 0 7px;
+      @include display-flex();
+      @include align-items(center);
+      @include justify-content(center);
+
+      //@include ho-tab-color($color-text-primary, white, white, $color-theme, white, $color-theme);
+      &.ho-tab-white-bg {
+        @include ho-tab-color(#777777, white, white, $color-theme, white, $color-theme);
+      }
+
+      &.ho-tab-weak-gray-bg {
+        @include ho-tab-color(#777777, $color-page-bg-weak, $color-page-bg, $color-theme, $color-page-bg-weak, $color-theme);
+      }
+
+      &.ho-tab-gray {
+        @include ho-tab-color($color-text-secondary, #eee, $color-page-bg, #5a5a5a, white, $color-page-bg);
+      }
 
       &.col-2 {
         @include flex(0, 0, 50%);

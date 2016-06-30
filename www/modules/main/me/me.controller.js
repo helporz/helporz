@@ -94,7 +94,7 @@
       //$state.go('main.user-info', {id: 'user-123'});
     }
 
-    $scope.$on("$ionicView.enter", function () {
+    $scope.$on("$ionicView.beforeEnter", function () {
 
       var selfInfo = userNetService.cache.selfInfo;
 

@@ -9,7 +9,7 @@
         <div class="content-right">
           <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
           <img class="avatar" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g"
-               live-image ng-src="{{vm.edit.avatarLocalUrl}}">
+               live-image ng-src="{{vm.edit.avatar}}">
         </div>
       </ion-item>
       <ion-item class="ho-item" ng-click="vm.edit.cb_nickname()">
@@ -25,7 +25,7 @@
 
         <div class="content-right">
           <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
-          <span class="body">武汉科技大学</span>
+          <span class="body">{{vm.edit.org}}</span>
         </div>
       </ion-item>
       <ion-item class="ho-item" ng-click="vm.edit.cb_department()">
@@ -33,7 +33,7 @@
 
         <div class="content-right">
           <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
-          <span class="body">计算机系</span>
+          <span class="body">{{vm.edit.department}}</span>
         </div>
       </ion-item>
 
@@ -42,7 +42,7 @@
 
         <div class="content-right">
           <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
-          <span class="body">3单元812</span>
+          <span class="body">{{vm.edit.dormitory}}</span>
         </div>
       </ion-item>
 
@@ -51,7 +51,7 @@
 
         <div class="content-right">
           <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
-          <span class="body">湖北武汉</span>
+          <span class="body">{{vm.edit.hometown}}</span>
         </div>
       </ion-item>
 
@@ -60,7 +60,7 @@
 
         <div class="content-right">
           <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
-          <span class="body">男</span>
+          <span class="body">{{vm.edit.gender}}</span>
         </div>
       </ion-item>
 
@@ -69,7 +69,7 @@
 
         <div class="content-right">
           <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
-          <span class="body">没有见过的科技啊</span>
+          <span class="body">{{vm.edit.sign}}</span>
         </div>
       </ion-item>
     </ion-list>

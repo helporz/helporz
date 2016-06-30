@@ -51,8 +51,26 @@
     vm.isNetSynchronizing = false;
     vm.timeChecker = new Date();
 
+    vm.badges = {
+      postGoing: 0,
+      postFinish: 0,
+      acceptGoing: 0,
+      acceptFinish: 0,
+    }
+
 
     var intervalFunc = function () {
+      //检测未读消息产生的badge
+      if(taskNetService.cache.nm_task_changed) {
+        taskNetService.cache.nm_task_changed = false;
+
+        vm.badges.postGoing = taskNetService.cache.nm_post.length;
+        vm.badges.postFinish = taskNetService.cache.nm_post.length;
+
+        vm.badges.acceptGoing = taskNetService.cache.nm_accept.length;
+        vm.badges.acceptFinish = taskNetService.cache.nm_accept.length;
+      }
+
       //如果正在同步,跳过本次轮训
       if(vm.isNetSynchronizing == true) {
         return;
