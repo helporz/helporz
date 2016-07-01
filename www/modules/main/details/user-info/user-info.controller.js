@@ -108,6 +108,14 @@
             //shift()
             userNetService.cache.selfInfo.attentionList.splice(0, 0, data.data);
 
+            var funsList = userNetService.cache.selfInfo.funsList;
+            for(var i in funsList) {
+              if(funsList[i].userId == data.data.userId) {
+                funsList[i].isMutualAttention = true;
+                break;
+              }
+            }
+
           }, function (data) {
             $ionicLoading.hide();
             ho.alertObject(data);
@@ -141,6 +149,15 @@
                   for(var i in followList) {
                     if(followList[i].userId == vm.userInfo.remoteData.userId) {
                       followList.splice(i, 1);
+                      break;
+                    }
+                  }
+
+                  //更新粉丝列表中它的信息
+                  var funsList = userNetService.cache.selfInfo.funsList;
+                  for(var i in funsList) {
+                    if(funsList[i].userId == data.data.userId) {
+                      funsList[i].isMutualAttention = false;
                       break;
                     }
                   }

@@ -19,6 +19,7 @@
     'app.directives',
     'interval.service',
     'app.time.utils.service',
+    'app.user.utils.service',
     'starter.controllers',
     'starter.services',
     'com.helporz.login',

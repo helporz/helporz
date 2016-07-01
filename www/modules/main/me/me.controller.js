@@ -7,11 +7,11 @@
 
   angular.module('main.me')
     .controller('mainMeCtrl', ['$state', '$scope', '$ionicLoading', '$ionicPopup', '$ionicScrollDelegate', '$ionicActionSheet',
-      '$timeout', '$interval', 'userNetService', 'impressUtils',
+      '$timeout', '$interval', 'userNetService', 'impressUtils', 'userUtils',
       'errorCodeService','SharePageWrapService', mainMeCtrl])
 
   function mainMeCtrl($state, $scope, $ionicLoading, $ionicPopup, $ionicScrollDelegate, $ionicActionSheet,
-                      $timeout, $interval, userNetService, impressUtils,
+                      $timeout, $interval, userNetService, impressUtils, userUtils,
                       errorCodeService,SharePageWrapService) {
     var vm = $scope.vm = {};
 
@@ -98,31 +98,15 @@
 
       var selfInfo = userNetService.cache.selfInfo;
 
-      //vm.meInfo.accessUserList = selfInfo.accessUserList || [];
-      //vm.meInfo.nickname = selfInfo.nickname;
-      //vm.meInfo.sign = selfInfo.sign;
-      //vm.meInfo.avatar = selfInfo.avator || '';
-      //vm.meInfo.completedTaskCount = selfInfo.completedTaskCount;
-      //vm.meInfo.credit = selfInfo.credit || 0;
-      //vm.meInfo.department = selfInfo.department || '';
-      //vm.meInfo.dormitory = selfInfo.dormitory;
-      //
-      //vm.meInfo.experience = selfInfo.experience || 0;
-      //vm.meInfo.funsCount = selfInfo.funsCount || 0;
-      //
-      //vm.meInfo.gem = selfInfo.gem;
-      //vm.meInfo.gender = selfInfo.gender;
-      //vm.meInfo.helpUserCount = selfInfo.helpUserCount;
-      //vm.meInfo.hometown = selfInfo.hometown;
-      //vm.meInfo.level = selfInfo.level;
-      //
-      //vm.meInfo.userPropInfoList = selfInfo.userPropInfoList;
-
       vm.meInfo.remoteData = selfInfo;
 
-      var impressUI = impressUtils.impressUI();
-      //vm.meInfo.ui_tags = vm.meInfo.remoteData.tags.concat();
-      vm.meInfo.ui_tags = [impressUI[0], impressUI[2], impressUI[3]];
+      //var impressUI = impressUtils.impressUI();
+      ////vm.meInfo.ui_tags = vm.meInfo.remoteData.tags.concat();
+      //vm.meInfo.ui_tags = [impressUI[0], impressUI[2], impressUI[3]];
+
+      vm.meInfo.ui_tags = [];
+      impressUtils.netTagsToUiTags(vm.meInfo.ui_tags, selfInfo.tags);
+
 
       $timeout(function () {
         $scope.$apply();
@@ -146,7 +130,20 @@
       //  });
       //}
 
+      // pre-calc
+      var friends = userNetService.cache.selfInfo.attentionList;
+      for(var i in friends){
+        userUtils.uiProcessFollow(friends[i]);
+      }
+
+      friends = userNetService.cache.selfInfo.funsList;
+      for(var i in friends) {
+        userUtils.uiProcessFollowed(friends[i]);
+      }
+
     });
+
+
 
     vm.meInfo.accessUserAvatar = function (index) {
       if (ho.isValid(vm.meInfo.remoteData)) {
@@ -317,22 +314,99 @@
 
       self.tabFollow = index;
 
-      $timeout(function () {
-        $scope.$apply();
-      });
+      //$timeout(function () {
+      //  $scope.$apply();
+      //});
     };
 
     // friend callbacks
-    self.cb_follow = function() {
+    self.cb_follow = function(index) {
+      var friend = vm.self.repeatList[index];
+
+      $ionicLoading.show();
+      userNetService.attention(friend.userId).then(
+        function (data) {
+          $ionicLoading.hide();
+          $ionicLoading.show({
+            duration: 1500,
+            templateUrl: 'modules/components/templates/ionic-loading/user-follow-success.html'
+          });
+
+          friend = data.data
+          vm.self.repeatList[index] = friend;
+          //friend.isMutualAttention = true;
+
+          var follow = ho.clone(friend);
+          userUtils.uiProcessFollow(follow);
+          userNetService.cache.selfInfo.attentionList.splice(0, 0, follow);
+
+          userUtils.uiProcessFollowed(friend);
+
+          //$timeout(function () {
+          //  $scope.$apply();
+          //});
+
+        }, function (data) {
+          $ionicLoading.hide();
+          ho.alertObject(data);
+        }).finally(function () {
+        });
+    };
+
+    self.cb_postList = function(index) {
 
     };
 
-    self.cb_postList = function() {
+    self.cb_cancelFocus = function($index) {
+      $ionicActionSheet.show({
+        titleText: "真的要取消关注么",
+        buttons: [
+          {text: "<b>是</b>"},
+          {text: "<b>否</b>"}
+        ],
+        buttonClicked: function (index) {
+          if(index == 0) {
+            var friend = vm.self.repeatList[$index];
 
-    };
+            $ionicLoading.show();
+            userNetService.unattention(friend.userId).then(
+              function (data) {
+                $ionicLoading.hide();
+                $ionicLoading.show({
+                  duration: 1500,
+                  templateUrl: 'modules/components/templates/ionic-loading/com-cancel-success.html'
+                });
 
-    self.cb_cancelFocus = function() {
+                // 如果互关注,取消funs里面的互关注状态
+                if(friend.isMutualAttention) {
+                  var funsList = userNetService.cache.selfInfo.funsList;
+                  for(var i in funsList) {
+                    if(funsList[i].userId == friend.userId) {
+                      funsList[i].isMutualAttention = false;
+                      userUtils.uiProcessFollowed(funsList[i]);
+                      break;
+                    }
+                  }
+                }
 
+                userNetService.cache.selfInfo.attentionList.splice($index, 1);
+
+              }, function (data) {
+                $ionicLoading.hide();
+                ho.alertObject(data);
+              }).finally(function () {
+              });
+          }
+
+          return true;
+        },
+        cancelText: "取消",
+        cancel: function () {
+          // add cancel code..
+        },
+        destructiveButtonClicked: function () {
+        }
+      })
     };
 
 

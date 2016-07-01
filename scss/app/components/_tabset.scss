@@ -146,6 +146,7 @@ $tab-font-size: 12px;
 
       height: $tab-round-radius*2;
       font-size: $tab-font-size;
+      font-weight: bold;
       padding: 0 7px;
       @include display-flex();
       @include align-items(center);
@@ -161,7 +162,9 @@ $tab-font-size: 12px;
       }
 
       &.ho-tab-gray {
-        @include ho-tab-color($color-text-secondary, #eee, $color-page-bg, #5a5a5a, white, $color-page-bg);
+        @include ho-tab-color(#aaa, white, $color-page-bg, #6a6a6a, #eee, $color-page-bg);
+        // red theme
+        //@include ho-tab-color($color-theme, white, $color-theme, white, $color-theme, $color-theme);
       }
 
       &.col-2 {
