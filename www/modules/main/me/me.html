@@ -1,4 +1,4 @@
-<ion-view view-title="{{vm.ui_title}}" class="me">
+<ion-view class="me">
   <!--<div class="nav row">-->
   <!--&lt;!&ndash;<div class="col-20 col-center text-center">&ndash;&gt;-->
   <!--&lt;!&ndash;<button class="button button-icon icon ion-share"></button>&ndash;&gt;-->
@@ -18,6 +18,10 @@
   <ion-nav-buttons side="left">
     <button class="button button-icon icon ion-compose" ng-click="vm.cb_edit()"></button>
   </ion-nav-buttons>
+
+  <ion-nav-title class="title-container">
+    {{vm.meInfo.remoteData.nickname}}
+  </ion-nav-title>
 
   <ion-nav-buttons side="right">
     <button class="button button-icon icon ho-chat-2" ng-click="vm.cb_im()"></button>
@@ -83,9 +87,11 @@
     <!--</ion-tabs>-->
 
     <ho-tab-set widget-id="meMid" class="ho-tabset ho-tabset-block ">
-      <ho-tab class="col-2 ho-tab-weak-gray-bg" on-select="vm.onChangeTab(0)" style="font-size:14px;padding-top:5px;height:48px;">
+      <ho-tab class="col-2 ho-tab-weak-gray-bg" on-select="vm.onChangeTab(0)"
+              style="font-size:14px;padding-top:5px;height:48px;">
         <strong>自己</strong></ho-tab>
-      <ho-tab class="col-2 ho-tab-weak-gray-bg" on-select="vm.onChangeTab(1)" style="font-size:14px;padding-top:5px;height:48px">
+      <ho-tab class="col-2 ho-tab-weak-gray-bg" on-select="vm.onChangeTab(1)"
+              style="font-size:14px;padding-top:5px;height:48px">
         <strong>伙伴</strong></ho-tab>
     </ho-tab-set>
 
@@ -180,48 +186,116 @@
 
       <ion-list class="ho-list friend">
 
-        <!--<div class="tab-panel" ng-if="vm.activeTab == 1">-->
-					<!--<ho-tab-set widget-id="me-friend" first-on="last" class="ho-tabset ho-tabset-block-border">-->
-						<!--<ho-tab class="col-2 ho-tab-gray" on-select="vm.cb_post()" style="">-->
-							<!--关注-->
-							<!--<ho-badge ng-if="vm.badges.postGoing+vm.badges.postFinish>0"-->
-												<!--count="vm.badges.postGoing+ vm.badges.postFinish"-->
-												<!--ng-class="{'ho-badge-reverse':vm.tabSelectedIndex==1}"></ho-badge>-->
-						<!--</ho-tab>-->
-						<!--<ho-tab class="col-2 ho-tab-gray" on-select="vm.cb_accept()">-->
-						  <!--粉丝-->
-							<!--<ho-badge ng-if="vm.badges.acceptGoing+vm.badges.acceptFinish>0"-->
-												<!--count="vm.badges.acceptGoing + vm.badges.acceptFinish"-->
-												<!--ng-class="{'ho-badge-reverse':vm.tabSelectedIndex==0}"></ho-badge>-->
-						<!--</ho-tab>-->
-					<!--</ho-tab-set>-->
-        <!--</div>-->
+        <div class="tab-panel" ng-if="vm.activeTab == 1">
+          <ho-tab-set widget-id="me-friend" first-on="last" class="ho-tabset ho-tabset-block-border">
+            <ho-tab class="col-2 ho-tab-gray" on-select="vm.self.cb_tabFollow(0)" style="">
+              关注
+            </ho-tab>
+            <ho-tab class="col-2 ho-tab-gray" on-select="vm.self.cb_tabFollow(1)">
+              粉丝
+            </ho-tab>
+          </ho-tab-set>
+        </div>
 
-        <ion-item class="ho-item ho-item-avatar" collection-repeat="item in vm.self.repeatList" item-height="54px"
+        <!--<ion-item class="ho-item" collection-repeat="item in vm.self.repeatList" item-height="54px"-->
+                  <!--item-width="100%" ng-show="vm.self.ui_showFriendList==true">-->
+          <!--<img class="avatar" ng-src="{{item.avatar}}"-->
+               <!--src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=4123988153,51280834&fm=58"-->
+               <!--live-image>-->
+
+          <!--<div class="content-long"-->
+               <!--ng-class="{'content-short':vm.self.tabFollow==0 && item.recentTaskIdArray.length>0}">-->
+            <!--<p class="name">{{item.nickname}}</p>-->
+
+            <!--<p class="desc">{{item.sign}}</p>-->
+          <!--</div>-->
+
+
+
+          <!--<button class="bt-left ho-button button-theme ho-button-small min-width-60 bt-active"-->
+                  <!--ng-class="{'move-away': vm.self.tabFollow==1 && item.recentTaskIdArray.length==0}">-->
+            <!--&lt;!&ndash;<i class="icon ion-coffee"></i>&ndash;&gt;-->
+            <!--求助中-->
+          <!--</button>-->
+          <!--<button-->
+            <!--class="bt-right ho-button button-theme button-gray button-outline ho-button-small min-width-60 bt-inactive"-->
+            <!--ng-class="{'move-away': vm.self.tabFollow==1}">-->
+            <!--&lt;!&ndash;<i class="icon ion-ios-checkmark-empty"></i>&ndash;&gt;-->
+            <!--&lt;!&ndash;&nbsp已关注&ndash;&gt;-->
+            <!--已互关注-->
+          <!--</button>-->
+
+          <!--<button class="right ho-button button-theme ho-button-small min-width-60 bt-active"-->
+                  <!--ng-class="{'move-away': vm.self.tabFollow==0}">-->
+            <!--<i class="icon ion-ios-plus-empty"></i>-->
+            <!--&nbsp关注-->
+          <!--</button>-->
+          <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--</ion-item>-->
+
+
+        <ion-item class="ho-item" ng-repeat="item in vm.self.repeatList" item-height="54px"
                   item-width="100%">
-          <!--<ion-item class="ho-item ho-item-avatar" ng-repeat="item in vm.self.friendList">-->
-          <img class="avatar" ng-src="{{vm.avatar}}"
+          <img class="avatar" ng-src="{{item.avatar}}"
                src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=4123988153,51280834&fm=58"
                live-image>
 
-          <div class="content">
-            <p class="name">{{item.name}}</p>
+          <div class="content-long"
+               ng-class="{'content-short':vm.self.tabFollow==0 && item.recentTaskIdArray.length>0,
+                          'content-long': vm.self.tabFollow==1 || (vm.self.tabFollow==0&&item.recentTaskIdArray.length==0)}">
+            <p class="name">{{item.nickname}}</p>
 
-            <p class="desc">{{item.desc}}</p>
+            <p class="desc">{{item.sign}}</p>
           </div>
           <!-- lkj:note: 这里不加vm.activeTab==1 多点几次会使ng-hide失效.不知道这坑是为啥...-->
-          <button class="right ho-button button-theme button-outline ho-button-small min-width-60 bt-active"
-                  ng-if="vm.activeTab == 1 &&item.follow==false">
+
+          <button class=" width-60 bt-right ho-button button-theme ho-button-small bt-active "
+                  ng-if="vm.self.tabFollow==1&&item.isMutualAttention==false"
+                  ng-click="vm.self.cb_follow()">
             <i class="icon ion-ios-plus-empty"></i>
             &nbsp关注
           </button>
-          <button
-            class="right ho-button button-theme button-gray button-outline ho-button-small min-width-60 bt-inactive"
-            ng-if="vm.activeTab == 1  && item.follow==true">
-            <i class="icon ion-ios-checkmark-empty"></i>
-            &nbsp已关注
+
+          <button class=" width-60 bt-left ho-button button-theme ho-button-small bt-active "
+                  ng-if="vm.self.tabFollow==0 && item.recentTaskIdArray.length>0"
+                  ng-click="vm.self.cb_postList()">
+            <!--<i class="icon ion-coffee"></i>-->
+            求助中
           </button>
+          <button
+            class="width-60 bt-right ho-button button-theme button-gray button-outline ho-button-small bt-inactive "
+            ng-if="vm.self.tabFollow==0||(vm.self.tabFollow=1&&item.isMutualAttention==true)"
+            ng-click="vm.self.cb_cancelFocus()">
+            <!--<i class="icon ion-ios-checkmark-empty"></i>-->
+            <!--&nbsp已关注-->
+            {{item.isMutualAttention?'已互关注':'已关注'}}
+          </button>
+          <!--</div>-->
         </ion-item>
+
+        <!--<ion-item class="ho-item" ng-repeat="item in vm.self.funsList" item-height="54px"-->
+                  <!--item-width="100%" ng-show="vm.self.tabFollow==1">-->
+          <!--<img class="avatar" ng-src="{{item.avatar}}"-->
+               <!--src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=4123988153,51280834&fm=58"-->
+               <!--live-image>-->
+
+          <!--<div class="content-long"-->
+               <!--ng-class="{'content-short':vm.self.tabFollow==0 && item.recentTaskIdArray.length>0}">-->
+            <!--<p class="name">{{item.nickname}}</p>-->
+
+            <!--<p class="desc">{{item.sign}}</p>-->
+          <!--</div>-->
+          <!--&lt;!&ndash; lkj:note: 这里不加vm.activeTab==1 多点几次会使ng-hide失效.不知道这坑是为啥...&ndash;&gt;-->
+
+          <!--<button class="right ho-button button-theme ho-button-small min-width-60 bt-active"-->
+                  <!--ng-if="vm.self.tabFollow==1">-->
+            <!--<i class="icon ion-ios-plus-empty"></i>-->
+            <!--&nbsp关注-->
+          <!--</button>-->
+
+
+          <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--</ion-item>-->
 
       </ion-list>
 

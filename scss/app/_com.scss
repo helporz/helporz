@@ -152,7 +152,7 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
   padding: 2px 8px;
   height: 24px;
   border-radius: 5px;
-  font-size: 10px;
+  font-size: 11px;
   line-height: 18px;
 
   &.min-width-60 {
@@ -239,6 +239,13 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
   &.bottom-bordered-big {
     border-bottom-width: 10px !important;
   }
+}
+
+//////////////////////////////////////////////////
+// show hide
+.move-away {
+  //@include transition-transform(translate3d(-9999px, -9999px, 0px));
+  transform:translate3d(-9999px, -9999px, 0px) !important;
 }
 
 //////////////////////////////////////////////////
@@ -334,7 +341,7 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
       }
       .right {
         @include flex(0, 0, auto);
-        margin: 0 11px 0 10px;
+        margin: 0 5px 0 5px;
       }
     }
 

@@ -127,6 +127,25 @@
       $timeout(function () {
         $scope.$apply();
       });
+
+
+      //// test:
+      //vm._repeatList = userNetService.cache.selfInfo.attentionList;
+      //for(var i = 0; i < 100; ++i ){
+      //  vm._repeatList.push(userNetService.cache.selfInfo.attentionList)
+      //}
+
+      //vm.self.followList = [];
+      //for(var i = 0; i < 3; i++){
+      //
+      //  vm.self.followList.push({
+      //    avatar: '',
+      //    nickname: 'fjjjjjjeeee',
+      //    sign: 'fjeifj',
+      //    recentTaskIdArray: [1,2]
+      //  });
+      //}
+
     });
 
     vm.meInfo.accessUserAvatar = function (index) {
@@ -158,7 +177,7 @@
         vm.self.repeatList = [];
       }
       else {
-        vm.self.repeatList = vm.self.friendList;
+        //vm.self.repeatList = vm.self.friendList;
       }
 
       console.log('xxx'+ho.trace(vm.self.repeatList));
@@ -185,37 +204,37 @@
     self.smallCards = 10;
     self.bigCards = 20;
 
-    // visitors
-    self.visitors = [
-      {
-        url: 'http://t3.gstatic.cn/shopping?q=tbn:ANd9GcSCrdZNZUIlGriVTE3ZWMU_W5voV8527Q6PL8RGkMjtCFO1knnY6oIS1soNKN4&usqp=CAI'
-      },
-      {
-        url: 'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=545887065,3542527475&fm=58'
-      },
-      {
-        url: 'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=1902539898,1226346465&fm=58'
-      },
-      {
-        url: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=4123988153,51280834&fm=58'
-      },
-      {
-        url: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=4127652755,2340829936&fm=58'
-      },
-      //{
-      //  url: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g'
-      //},
-      //{
-      //  url: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g'
-      //}
-    ]
-    self.visitorImgWithIndex = function (index) {
-      if (angular.isDefined(self.visitors[index])) {
-        return self.visitors[index].url;
-      } else {
-        return '';
-      }
-    }
+    //// visitors
+    //self.visitors = [
+    //  {
+    //    url: 'http://t3.gstatic.cn/shopping?q=tbn:ANd9GcSCrdZNZUIlGriVTE3ZWMU_W5voV8527Q6PL8RGkMjtCFO1knnY6oIS1soNKN4&usqp=CAI'
+    //  },
+    //  {
+    //    url: 'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=545887065,3542527475&fm=58'
+    //  },
+    //  {
+    //    url: 'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=1902539898,1226346465&fm=58'
+    //  },
+    //  {
+    //    url: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=4123988153,51280834&fm=58'
+    //  },
+    //  {
+    //    url: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=4127652755,2340829936&fm=58'
+    //  },
+    //  //{
+    //  //  url: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g'
+    //  //},
+    //  //{
+    //  //  url: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g'
+    //  //}
+    //]
+    //self.visitorImgWithIndex = function (index) {
+    //  if (angular.isDefined(self.visitors[index])) {
+    //    return self.visitors[index].url;
+    //  } else {
+    //    return '';
+    //  }
+    //}
 
     self.cb_visitorImg = function (index) {
       console.log('click on image [' + index + ']');
@@ -247,6 +266,76 @@
 
     //////////////////////////////////////////////////
     // friend
+    self.tabFollow = 0;
+
+    self.ui_showFriendList = true;
+    self.cb_tabFollow = function(index) {
+      //if(index == 0) {
+      //  //vm.self.repeatList = userNetService.cache.selfInfo.attentionList;
+      //  //vm.self.repeatList = [];
+      //  vm.self.repeatList = userNetService.cache.selfInfo.attentionList;
+      //  self.ui_showFriendList = false;
+      //  $timeout(function() {
+      //    self.ui_showFriendList = true;
+      //    //vm.self.repeatList = userNetService.cache.selfInfo.attentionList;
+      //  },200);
+      //}else { //index==1
+      //  //vm.self.repeatList = userNetService.cache.selfInfo.funsList;
+      //  vm.self.repeatList = userNetService.cache.selfInfo.funsList;
+      //  self.ui_showFriendList = false;
+      //  $timeout(function() {
+      //    self.ui_showFriendList = true;
+      //  },200);
+
+
+      if(index == 0) {
+        vm.self.repeatList = (userNetService.cache.selfInfo.attentionList)
+          //.concat(userNetService.cache.selfInfo.attentionList);
+        //vm.self.repeatList = vm.self.repeatList.concat(userNetService.cache.selfInfo.attentionList)
+
+        //var xxx = []
+        //for(var i = 0; i < 3; i++){
+        //  xxx = xxx.concat(userNetService.cache.selfInfo.attentionList);
+        //}
+        //for(var i = 0; i < 300; i++){
+        //  vm.self.repeatList.push({
+        //    avatar: '',
+        //    nickname: 'fjjjjjjeeee',
+        //    sign: 'fjeifj'
+        //  });
+        //  //vm.self.repeatList.push(userNetService.cache.selfInfo.attentionList[i]);
+        //}
+        //vm.self.repeatList = xxx;
+        //vm.self.repeatList = vm._repeatList;
+
+        //vm.self.repeatList = vm.self.followList;
+
+      }else { //index==1
+        vm.self.repeatList = userNetService.cache.selfInfo.funsList;
+        //vm.self.funsList = userNetService.cache.selfInfo.funsList;
+      }
+
+      self.tabFollow = index;
+
+      $timeout(function () {
+        $scope.$apply();
+      });
+    };
+
+    // friend callbacks
+    self.cb_follow = function() {
+
+    };
+
+    self.cb_postList = function() {
+
+    };
+
+    self.cb_cancelFocus = function() {
+
+    };
+
+
     self.friendList = [
       {
         name: '小刚',

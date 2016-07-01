@@ -50,14 +50,14 @@
   </ho-tab-set>
 
   <ho-tab-set ng-show='vm.tabSelectedIndex == 1' widget-id="task-accept" first-on='last'
-              class="ho-tabset ho-tabset-block ho-tabset-outline-theme"
+              class="ho-tabset ho-tabset-block"
               style="position:absolute;
                     top:64px;">
-    <ho-tab class="col-2" on-select="vm.cb_taskAcceptGoing()"
+    <ho-tab class="col-2 ho-tab-white-bg" on-select="vm.cb_taskAcceptGoing()"
             style="font-size:12px;padding-top:5px;height:38px;">
       进行中
     </ho-tab>
-    <ho-tab class="col-2" on-select="vm.cb_taskAcceptFinish()"
+    <ho-tab class="col-2 ho-tab-white-bg" on-select="vm.cb_taskAcceptFinish()"
             style="font-size:12px;padding-top:5px;height:38px;">
       已结束
     </ho-tab>

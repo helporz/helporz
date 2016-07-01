@@ -24,16 +24,15 @@
       vm.userInfo.ui_tags = vm.userInfo.remoteData.tags.concat();
       vm.userInfo.ui_tags = [impressUI[0], impressUI[2], impressUI[3]];
 
-
-
+      // 是否已关注
       vm.userInfo.isFollowed = false;
-    });
-
-    $scope.$on("$ionicView.enter", function () {
-      vm.ui_title = vm.userInfo.remoteData.nickname;
-      $timeout(function(){
-        $scope.$apply();
-      })
+      var followList = userNetService.cache.selfInfo.attentionList;
+      for(var i in followList) {
+        if(followList[i].userId == vm.userInfo.remoteData.userId) {
+          vm.userInfo.isFollowed = true;
+          break;
+        }
+      }
     });
 
     vm.userInfo.accessUserAvatar = function (index) {
@@ -84,7 +83,37 @@
 
     vm.userInfo.cb_follow = function() {
       if(!vm.userInfo.isFollowed) {
-        vm.userInfo.isFollowed = true;
+
+        $ionicLoading.show();
+        userNetService.attention(vm.userInfo.remoteData.userId).then(
+          function (data) {
+            $ionicLoading.hide();
+            $ionicLoading.show({
+              duration: 1500,
+              templateUrl: 'modules/components/templates/ionic-loading/user-follow-success.html'
+            });
+
+            vm.userInfo.isFollowed = true;
+
+            ////检查粉丝列表是否有他
+            //var followedList = userNetService.cache.selfInfo.funsList;
+            //var isHeFollowMe = false;
+            //for(var i in followedList) {
+            //  if(followedList[i].userId == vm.userInfo.remoteData.userId) {
+            //    isHeFollowMe = true;
+            //    break;
+            //  }
+            //}
+
+            //shift()
+            userNetService.cache.selfInfo.attentionList.splice(0, 0, data.data);
+
+          }, function (data) {
+            $ionicLoading.hide();
+            ho.alertObject(data);
+          }).finally(function () {
+          });
+
       }else{
 
 
@@ -96,31 +125,31 @@
           ],
           buttonClicked: function (index) {
             if(index == 0) {
-              //
-              //$ionicLoading.show();
-              //userNetService.updateGender(index + 1).then(
-              //  function (data) {
-              //    $ionicLoading.hide();
-              //    $ionicLoading.show({
-              //      duration: 1500,
-              //      templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
-              //    });
-              //    userNetService.cache.selfInfo.gender = index + 1;
-              //    vm.edit.gender = userNetService.cache.selfInfo.gender == 1 ? "男" : "女";
-              //  }, function (data) {
-              //
-              //    $ionicPopup.alert({
-              //      title: '错误提示',
-              //      template: data
-              //    }).then(function (res) {
-              //      console.error(data);
-              //    })
-              //  }).finally(function () {
-              //  });
+              $ionicLoading.show();
+              userNetService.unattention(vm.userInfo.remoteData.userId).then(
+                function (data) {
+                  $ionicLoading.hide();
+                  $ionicLoading.show({
+                    duration: 1500,
+                    templateUrl: 'modules/components/templates/ionic-loading/com-cancel-success.html'
+                  });
 
-              vm.userInfo.isFollowed = false;
+                  vm.userInfo.isFollowed = false;
+
+                  //从列表删除
+                  var followList = userNetService.cache.selfInfo.attentionList;
+                  for(var i in followList) {
+                    if(followList[i].userId == vm.userInfo.remoteData.userId) {
+                      followList.splice(i, 1);
+                      break;
+                    }
+                  }
+                }, function (data) {
+                  $ionicLoading.hide();
+                  ho.alertObject(data);
+                }).finally(function () {
+                });
             }
-
 
             return true;
           },
