@@ -41,11 +41,12 @@
     <ho-tab class="col-2 ho-tab-white-bg" on-select="vm.cb_taskPostGoing()"
             style="font-size:12px;padding-top:5px;height:38px;">
       进行中
-      <ho-badge count="2"></ho-badge>
+      <ho-badge ng-if="vm.badges.postGoing>0" count="vm.badges.postGoing"></ho-badge>
     </ho-tab>
     <ho-tab class="col-2 ho-tab-white-bg" on-select="vm.cb_taskPostFinish()"
             style="font-size:12px;padding-top:5px;height:38px;">
       已结束
+      <ho-badge ng-if="vm.badges.postFinish>0" count="vm.badges.postFinish"></ho-badge>
     </ho-tab>
   </ho-tab-set>
 
@@ -56,10 +57,12 @@
     <ho-tab class="col-2 ho-tab-white-bg" on-select="vm.cb_taskAcceptGoing()"
             style="font-size:12px;padding-top:5px;height:38px;">
       进行中
+      <ho-badge ng-if="vm.badges.acceptGoing>0" count="vm.badges.acceptGoing"></ho-badge>
     </ho-tab>
     <ho-tab class="col-2 ho-tab-white-bg" on-select="vm.cb_taskAcceptFinish()"
             style="font-size:12px;padding-top:5px;height:38px;">
       已结束
+      <ho-badge ng-if="vm.badges.acceptFinish>0" count="vm.badges.acceptFinish"></ho-badge>
     </ho-tab>
   </ho-tab-set>
 
@@ -177,16 +180,37 @@
           <!--<button ng-hide ng-show="item.status==4" class="align-right ho-button  button-light-red ho-button-small">我已完成援助</button>-->
           <!--<button ng-hide ng-show="item.status==1024" class="align-right ho-button  button-light-red ho-button-small">评价对方</button>-->
 
+
+
+          <!--<div ng-if="item.ui_showOptPassive==true"-->
+               <!--class="ho-button button-gray button-outline ho-button-small flex-center"-->
+               <!--ng-click="vm.opt_passive($index)">-->
+            <!--{{item.ui_textOptPassive}}-->
+          <!--</div>-->
+          <!--<div ng-if="item.ui_showOptActive==true"-->
+               <!--class="ho-button button-light-red ho-button-small flex-center" ng-class="{'has-badge':item.ui_showBadge}"-->
+               <!--ng-click="vm.opt_active($index)">-->
+            <!--{{item.ui_textOptActive}}-->
+            <!--<div ng-if="item.ui_showBadge" class="badge-dot"></div>-->
+          <!--</div>-->
+
           <div ng-if="item.ui_showOptPassive==true"
                class="ho-button button-gray button-outline ho-button-small flex-center"
                ng-click="vm.opt_passive($index)">
             {{item.ui_textOptPassive}}
           </div>
+
+          <div ng-if="item.ui_showOptPassive2==true"
+               class="ho-button button-gray button-outline ho-button-small flex-center" ng-class="{'has-badge':item.ui_showPassive2Badge}"
+               ng-click="vm.opt_passive2($index)">
+            {{item.ui_textOptPassive2}}
+            <div ng-if="item.ui_showPassive2Badge" class="badge-dot"></div>
+          </div>
+
           <div ng-if="item.ui_showOptActive==true"
-               class="ho-button button-light-red ho-button-small flex-center" ng-class="{'has-badge':item.ui_badgeOptActive}"
+               class="ho-button button-light-red ho-button-small flex-center"
                ng-click="vm.opt_active($index)">
             {{item.ui_textOptActive}}
-            <div ng-if="item.ui_badgeOptActive" class="badge-dot"></div>
           </div>
         </div>
 

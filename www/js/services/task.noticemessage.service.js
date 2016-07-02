@@ -195,6 +195,10 @@
       _observerList.push(observer);
     }
 
+    var _getNoticeMessageTypes = function() {
+      return NOTICE_TYPE;
+    }
+
     var _getNoticeMessage = function (type) {
       var _innerDefer = $q.defer();
       _refreshNoticeMessageListFromServer().then(function () {
@@ -374,6 +378,7 @@
       onReceiveNoticeMessageList: _onReceiveNoticeMessageList,
       refreshNoticeMessageListFromServer: _refreshNoticeMessageListFromServer,
       registerObserver: _registerObserver,
+      getNoticeMessageTypes: _getNoticeMessageTypes,
       getNoticeMessage: _getNoticeMessage,
       getAllNoticeMessage: getAllNoticeMessage,
       getAllNoticeMessageEx: getAllNoticeMessageEx,
