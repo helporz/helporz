@@ -231,8 +231,16 @@
         '/task/' + taskId +'/topic/audio/false' , headers);
     };
 
-    var _queryNewTaskList = function () {
-      return httpBaseService.getForPromise('/task/query/random/new', null);
+    var _queryNewTaskList = function (beginTaskId,taskCount) {
+      var param = {};
+      if( beginTaskId != null && beginTaskId > 0 ) {
+        param.beginTaskId = beginTaskId;
+      }
+
+      if( taskCount != null && taskCount > 0) {
+        param.taskCount = taskCount;
+      }
+      return httpBaseService.getForPromise('/task/query/random/new', param);
     };
 
     var _queryTaskInfo = function (taskId) {

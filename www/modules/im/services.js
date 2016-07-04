@@ -636,7 +636,9 @@
         imMessageStorageService.addMessage(messageDetail).then(function (insertId) {
           messageDetail.id = insertId;
           for (var msgOb in msgObservers) {
-            msgObservers[msgOb].onReceiveMessage(messageDetail);
+            if( msgObservers[msgOb] != null ) {
+              msgObservers[msgOb].onReceiveMessage(messageDetail);
+            }
           }
         }, function (error) {
           $log.error(error);
