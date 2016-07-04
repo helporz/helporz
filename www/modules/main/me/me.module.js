@@ -13,6 +13,7 @@
     'main.userInfo',
     'main.setting',
     'main.edit',
+    'main.user-tasks',
   ]);
 
 })()

@@ -87,6 +87,7 @@
 
 .item.activated {
   background-color: white; }
+
 .item .item-content.activated {
   background-color: white; }
 
@@ -164,6 +165,7 @@
       background-color: #FF432F;
       box-shadow: none;
       color: #fff; }
+
 .ho-button.button-gray {
   border-style: solid;
   border-width: 1px; }
@@ -267,6 +269,7 @@
 
 .ho-list .list {
   width: 100%; }
+
 .ho-list .ho-item {
   padding: 0;
   display: -webkit-box;
@@ -528,6 +531,7 @@
   display: -moz-flex;
   display: -ms-flexbox;
   display: flex; }
+
 .button .count {
   margin: 0;
   padding: 1px 6px;
@@ -651,6 +655,7 @@
   height: 28px;
   width: 28px;
   font-size: 30px; }
+
 .loading-tpl-icon-text .tpl-text {
   font-size: 14px;
   color: white;
@@ -988,6 +993,7 @@
 .ho-search-page .input {
   position: absolute;
   top: 0; }
+
 .ho-search-page .search-list {
   position: absolute;
   top: 30px; }
@@ -1150,6 +1156,7 @@
       left: 4px;
       padding: 1px 0 0 0;
       width: 90%; }
+
 .school-search .school-search-item.activated {
   background-color: #e8e7ed; }
 
@@ -1158,6 +1165,7 @@
   top: 0;
   width: 100%;
   z-index: -1; }
+
 .wall .top-panel {
   padding: 1.25em 0 0 0;
   display: -webkit-box;
@@ -1187,6 +1195,7 @@
     display: inline-flex;
     color: #2a2a2a;
     margin: 0 0 0 5px; }
+
 .wall .count-panel {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1233,10 +1242,12 @@
   .wall .count-panel .txt-enter-school {
     font-size: 15px;
     color: #878787; }
+
 .wall .div-line {
   margin: 20px 20px 2px 20px;
   height: 1px;
   background-color: #dddddd; }
+
 .wall .mid-panel {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1255,14 +1266,17 @@
   -moz-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column; }
+
 .wall .txt-reward {
   margin-top: 40px;
   font-size: 48px;
   color: #444; }
+
 .wall .txt-reward-desc {
   margin-top: 8px;
   font-size: 15px;
   color: #878787; }
+
 .wall .reward-panel {
   width: 150px;
   display: -webkit-box;
@@ -1327,7 +1341,7 @@
     padding: 5px;
     width: 100%; }
     .wall-footer .bottom-panel .bottom-txt-panel {
-      width: calc( 100% - 90px );
+      width: calc( 100% - 90px);
       display: -webkit-box;
       display: -webkit-flex;
       display: -moz-box;
@@ -2155,9 +2169,11 @@
 
 .task-state .task-dot-ctn {
   padding: 0 42px; }
+
 .task-state .task-desc-ctn {
   padding: 0 42px;
   padding-bottom: 5px; }
+
 .task-state .comment-board {
   padding: 10px; }
   .task-state .comment-board .title {
@@ -2225,6 +2241,7 @@
       font-size: 12px;
       margin: 0;
       color: #878787; }
+
 .task-state .state-desc-panel {
   background-color: #eaeaea;
   display: -webkit-box;
@@ -2247,6 +2264,7 @@
     margin: 10px 10px 15px;
     color: #878787;
     font-size: 12px; }
+
 .task-state .div-text-panel {
   display: -webkit-box;
   display: -webkit-flex;
@@ -2711,10 +2729,13 @@
 
 .edit-sheet .textarea-big {
   height: 150px; }
+
 .edit-sheet .textarea-normal {
   height: 100px; }
+
 .edit-sheet .line {
   height: 40px; }
+
 .edit-sheet .button-commit {
   border-radius: 5px;
   margin: 10px 5%;
@@ -2898,9 +2919,11 @@
 .playground-list .slide-box .slide-item-wrap {
   width: 100%;
   height: 100px; }
+
 .playground-list .slide-box img {
   width: 100%;
   height: 100px; }
+
 .playground-list .group-list .item {
   border: none; }
   .playground-list .group-list .item :after {
@@ -3008,6 +3031,7 @@
 .user-topic .gender-logo {
   width: 8px;
   height: 8px; }
+
 .user-topic .user-logo {
   width: 34px;
   max-height: 34px;
@@ -3060,13 +3084,13 @@
   padding: 5px;
   background-color: #F55E5E;
   color: #FFFFFF; }
+
 .topic-comment .reply-content {
   border: 0px solid;
   border-radius: 11px;
   background-color: #a8e3e5;
   padding: 5px;
   margin-bottom: 10px; }
+
 .topic-comment .item p {
   font-size: 8px; }
-
-/*# sourceMappingURL=app.css.map */

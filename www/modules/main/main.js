@@ -176,6 +176,16 @@
         }
       })
 
+      .state('main.me_user-tasks', {
+        url: '/me/user-tasks',
+        views: {
+          'me': {
+            templateUrl: 'modules/main/details/user-tasks/user-tasks.html',
+            controller: 'mainUserTasksCtrl'
+          }
+        }
+      })
+
       .state('main.task', {
         url: '/task',
         views: {

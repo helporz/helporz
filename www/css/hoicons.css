@@ -11,6 +11,7 @@
   src: url("../fonts/Hoicons.eot?v=1.0.3#iefix") format("embedded-opentype"), url("../fonts/Hoicons.ttf?v=1.0.3") format("truetype"), url("../fonts/Hoicons.woff?v=1.0.3") format("woff"), url("../fonts/Hoicons.woff") format("woff"), url("../fonts/Hoicons.svg?v=1.0.3#Hoicons") format("svg");
   font-weight: normal;
   font-style: normal; }
+
 .ion, .ho-me-on:before,
 .ho-me:before,
 .ho-chat-0:before,
@@ -150,5 +151,3 @@
 
 .ho-gender-male:before {
   content: ""; }
-
-/*# sourceMappingURL=hoicons.css.map */
