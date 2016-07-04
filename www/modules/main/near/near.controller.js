@@ -170,7 +170,7 @@
     }
 
     function flushFailedFn(error) {
-      alert(error);
+      alert('main.near'+error);
     }
 
     function _refreshList() {

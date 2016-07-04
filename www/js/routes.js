@@ -65,7 +65,7 @@
           $urlRouterProvider.otherwise('/wall');
         }
         else{
-          $urlRouterProvider.otherwise('/login');
+          //$urlRouterProvider.otherwise('/main/near');
         }
         //$urlRouterProvider.otherwise('/user/proto');
       }

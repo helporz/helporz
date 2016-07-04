@@ -5,9 +5,9 @@
   function(window) {
     'use strict';
     angular.module('pusher',['ionic']).
-    factory('pushService',['$http','$window','$document',pushServiceFactoryFn]);
+    factory('pushService',['$log','$http','$window','$document',pushServiceFactoryFn]);
 
-    function pushServiceFactoryFn($http,$window,$document) {
+    function pushServiceFactoryFn($log,$http,$window,$document) {
       var jpushServiceFactory={};
       var registrationId = '';
 
@@ -83,7 +83,12 @@
       }
 
       var _getRegistrationID = function() {
-        $window.plugins.jPushPlugin.getRegistrationID(_defaultGetRegistrationCB);
+        try {
+          $window.plugins.jPushPlugin.getRegistrationID(_defaultGetRegistrationCB);
+        }
+        catch(e) {
+          $log.error('getRegistrationID failed!' + JSON.stringify(e));
+        }
       }
 
       var _getCurrentRegistrationID = function() {

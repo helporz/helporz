@@ -5,9 +5,9 @@
   function(){
     'use strict';
     angular.module('com.helporz.jim.services',['ionic']).
-      factory('jimService',['$window','$document','$q',imServiceFactoryFn]);
+      factory('jimService',['$log','$window','$document','$q',imServiceFactoryFn]);
 
-    function imServiceFactoryFn($window,$document,$q) {
+    function imServiceFactoryFn($log,$window,$document,$q) {
       // for browser
       //var _jmessagePlugin = {
       //  login:function() {},
@@ -93,28 +93,34 @@
       var _loginForPromise = function($username,$password) {
         //登录前清空用户名
         var imLoginDefer = $q.defer();
-        $window.plugins.jmessagePlugin.username  = '';
+        try {
+          $window.plugins.jmessagePlugin.username  = '';
 
-        $window.plugins.jmessagePlugin.login($username, $password, function (response) {
-          var ss = JSON.stringify(response);
-          console.log("login callback sucess" + ss);
-          $window.plugins.jmessagePlugin.username = $username;
-          imLoginDefer.resolve();
-        }, function (response) {
-          var ss = JSON.stringify(response);
-          console.log("login callback fail" + ss);
+          $window.plugins.jmessagePlugin.login($username, $password, function (response) {
+            var ss = JSON.stringify(response);
+            console.log("login callback sucess" + ss);
+            $window.plugins.jmessagePlugin.username = $username;
+            imLoginDefer.resolve();
+          }, function (response) {
+            var ss = JSON.stringify(response);
+            console.log("login callback fail" + ss);
 
-          console.log("login fail. errcode:"+ response.errorCode + "  error discription:" +  response.errorDscription);
+            console.log("login fail. errcode:"+ response.errorCode + "  error discription:" +  response.errorDscription);
 
-          //error code 请参考 http://docs.jpush.io/client/im_errorcode/
-          console.log(device.platform);
-          console.log(response.errorCode);
+            //error code 请参考 http://docs.jpush.io/client/im_errorcode/
+            console.log(device.platform);
+            console.log(response.errorCode);
 
-          if(response.errorCode == "801003"){
-            console.log("用户未注册");
-          }
-          imLoginDefer.reject("im登录失败，错误码为" + response.errorCode);
-        });
+            if(response.errorCode == "801003"){
+              console.log("用户未注册");
+            }
+            imLoginDefer.reject("im登录失败，错误码为" + response.errorCode);
+          });
+        }
+        catch(e) {
+          $log.error('loginForPromise failed!' + JSON.stringify(e));
+          imLoginDefer.reject(e);
+        }
         return imLoginDefer.promise;
       };
 

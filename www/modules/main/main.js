@@ -97,7 +97,7 @@
       })
 
       .state('main.topic-group', {
-        url: '/topic-group/{groupId}',
+        url: '/topic-group',
         views: {
           'topic-group': {
             templateUrl: 'modules/main/playground/templates/topic-group.html',
@@ -277,7 +277,8 @@
 
       $log.info('current location:' + $location.path());
       // Is there a page to go back to?
-      if ($location.path().indexOf('/main') == 0) {
+      if ($location.path() === '/main/near' || $location.path() === '/main/me'
+        || $location.path() === '/main/task' || $location.path() === '/main/topic-group') {
         //showConfirm();
         ionic.Platform.exitApp();
       } else if ($ionicHistory.backView()) {
