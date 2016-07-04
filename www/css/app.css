@@ -556,7 +556,7 @@
   transition-property: opacity, transform, box-shadow; }
 
 .tab-item-active-style-1 {
-  color: #FF432F; }
+  color: #FF432F !important; }
 
 .tab-item-inactive-style-1 {
   opacity: 1 !important;
@@ -572,6 +572,12 @@
   margin: 2px 0 0 0;
   height: 29px;
   font-size: 29px; }
+
+.tabs-striped.tabs-stable .tab-item.tab-item-active {
+  border: none; }
+
+.tabs-striped.tabs-stable .tabs {
+  border-top: 1px solid #d6d6d6 !important; }
 
 .ho-bottom-input {
   background-color: #f8f8f8;
