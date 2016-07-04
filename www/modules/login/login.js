@@ -262,9 +262,11 @@
         return _innerDefer.promise;
       }
 
-      userNetService.logout(loginTicket).then(function () {
+      userNetService.logout(loginTicket,'sign').then(function () {
         userLoginInfoService.clear();
         _innerDefer.resolve();
+      },function() {
+        _innerDefer.reject();
       });
 
       return _innerDefer.promise;
@@ -287,6 +289,7 @@
       loginByTicket: _loginByTicket,
       isLogging: _isLogging,
       isShowIntro: _isShowIntro,
+      logout:_logout,
     }
     // 下面是内部方法定义
     function processLoginResponse(response) {

@@ -617,7 +617,7 @@
     var onSingleReceiveMessage = function (data) {
       $log.debug("receive im message");
       if (typeof(data.msg_type) === 'undefined') {
-        $log.error('receive invalid message:' + writeObj(data));
+        $log.error('receive invalid message:' + JSON.stringify(data));
       }
       else {
         $log.info('receive message:' + data.msg_body.text + " username:" + data.target_id + " toUserName:" + data.from_id);

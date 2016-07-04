@@ -7,12 +7,12 @@
 
   angular.module('main.setting')
     .controller('mainSettingCtrl', ['$scope', '$timeout', '$state', '$stateParams', 'taskNetService', 'taskUtils',
-      'mainEditSheetService','SharePageWrapService', 'userLoginInfoService', 'userNetService',
+      'mainEditSheetService','SharePageWrapService', 'loginService',
       '$ionicLoading',
       mainSettingCtrl]);
 
   function mainSettingCtrl($scope, $timeout, $state, $stateParams, taskNetService, taskUtils,
-                           mainEditSheetService,SharePageWrapService, userLoginInfoService, userNetService,
+                           mainEditSheetService,SharePageWrapService, loginService,
                            $ionicLoading) {
     console.log($stateParams);
 
@@ -37,14 +37,16 @@
 
     vm.cb_logout = function() {
       $ionicLoading.show();
-      var loginTicket = userLoginInfoService.getLoginTicket();
-      userNetService.logout(loginTicket, 'noop').then(
+      loginService.logout().then(
         function (data) {
+          $ionicLoading.hide();
+          //$state.go('login');
           $ionicLoading.show({
             duration: 1500,
             templateUrl: 'modules/components/templates/ionic-loading/user-logout-success.html'
           });
           $timeout(function () {
+            $ionicLoading.hide();
             $state.go('login');
           }, 1500);
 
