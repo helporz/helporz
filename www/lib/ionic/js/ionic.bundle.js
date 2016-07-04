@@ -52327,7 +52327,7 @@ IonicModule
   // Android Transitions
   // -----------------------
 
-  provider.transitions.views.android = function(enteringEle, leavingEle, direction, shouldAnimate) {
+  provider.transitions.views.android = function(enteringEle, leavingEle, direction, shouldAnimate, rootTabsEle, leavingViewIsRoot, enteringViewIsRoot) {
     shouldAnimate = shouldAnimate && (direction == 'forward' || direction == 'back');
 
     function setStyles(ele, x) {
@@ -52337,15 +52337,30 @@ IonicModule
       ionic.DomUtil.cachedStyles(ele, css);
     }
 
+    function setTabStyles(ele, y) {
+      var css = {};
+      css[ionic.CSS.TRANSITION_DURATION] = d.shouldAnimate ? '' : 0;
+      css[ionic.CSS.TRANSFORM] = 'translate3d(0, ' + y + '%,0)';
+      ionic.DomUtil.cachedStyles(ele, css);
+    }
+
     var d = {
       run: function(step) {
         if (direction == 'forward') {
           setStyles(enteringEle, (1 - step) * 99); // starting at 98% prevents a flicker
           setStyles(leavingEle, step * -100);
 
+          if(rootTabsEle && step==1 && leavingViewIsRoot){
+            setTabStyles(rootTabsEle, step * 100);
+          }
+
         } else if (direction == 'back') {
           setStyles(enteringEle, (1 - step) * -100);
           setStyles(leavingEle, step * 100);
+
+          if(rootTabsEle && step==1 && enteringViewIsRoot){
+            setTabStyles(rootTabsEle, (1 - step) *  100);
+          }
 
         } else {
           // swap, enter, exit

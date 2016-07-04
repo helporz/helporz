@@ -76,11 +76,21 @@
 
 
 // overwrite android tab appearance
-// tab top black div
+.tabs-striped.tabs-stable .tab-item {
+  margin-top: -2px;
+}
 .tabs-striped.tabs-stable .tab-item.tab-item-active {
+  border: none;
+}
+.tabs-striped.tabs-stable .tab-item.activated {
   border: none;
 }
 // tabbar top border color
 .tabs-striped.tabs-stable .tabs {
   border-top: 1px solid #d6d6d6 !important;
+}
+
+// overwrite android tab badge opacity (maybe 0.5 origin)
+.tab-item .badge {
+  opacity: 1 !important;
 }

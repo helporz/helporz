@@ -131,16 +131,16 @@
         });
       }
 
-      $state.go('main.near');
-      //if( loginService.isShowIntro()) {
-      //  $state.go('intro');
-      //}
-      //else if(loginService.isLogging()){
-      //  loginService.loginByTicket();
-      //}
-      //else {
-      //  $state.go('login');
-      //}
+      //$state.go('main.near');
+      if( loginService.isShowIntro()) {
+        $state.go('intro');
+      }
+      else if(loginService.isLogging()){
+        loginService.loginByTicket();
+      }
+      else {
+        $state.go('login');
+      }
 
       document.addEventListener("deviceready", function () {
         window.sqlitePlugin.openDatabase({name: 'helporz.db', location: 'default'}, function (dbConn) {

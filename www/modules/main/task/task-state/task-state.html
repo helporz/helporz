@@ -1,4 +1,7 @@
 <style type="text/css">
+  ._impress-panel {
+    margin-top: -4px;
+  }
   ._desc-p {
     margin-bottom: 0 !important;
   }
@@ -30,7 +33,7 @@
               <p class="time">{{vm.task.created | DateShow}}</p>
             </div>
             <div class="bottom">
-              <div class="impress-panel" ng-repeat="item in vm.task.ui_tags">
+              <div class="impress-panel _impress-panel" ng-repeat="item in vm.task.ui_tags">
                 <p class="elem text-tag toggle-on {{item.className}}">{{item.text}}</p>
               </div>
             </div>

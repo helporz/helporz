@@ -87,7 +87,6 @@
 
 .item.activated {
   background-color: white; }
-
 .item .item-content.activated {
   background-color: white; }
 
@@ -138,7 +137,7 @@
 .text-tag {
   display: inline-block;
   line-height: 15px;
-  padding: 0 7px 1px !important;
+  padding: 0 7px 0px !important;
   font-size: 11px !important;
   -webkit-border-radius: 8px !important;
   -moz-border-radius: 8px !important;
@@ -165,7 +164,6 @@
       background-color: #FF432F;
       box-shadow: none;
       color: #fff; }
-
 .ho-button.button-gray {
   border-style: solid;
   border-width: 1px; }
@@ -269,7 +267,6 @@
 
 .ho-list .list {
   width: 100%; }
-
 .ho-list .ho-item {
   padding: 0;
   display: -webkit-box;
@@ -531,7 +528,6 @@
   display: -moz-flex;
   display: -ms-flexbox;
   display: flex; }
-
 .button .count {
   margin: 0;
   padding: 1px 6px;
@@ -573,11 +569,20 @@
   height: 29px;
   font-size: 29px; }
 
+.tabs-striped.tabs-stable .tab-item {
+  margin-top: -2px; }
+
 .tabs-striped.tabs-stable .tab-item.tab-item-active {
+  border: none; }
+
+.tabs-striped.tabs-stable .tab-item.activated {
   border: none; }
 
 .tabs-striped.tabs-stable .tabs {
   border-top: 1px solid #d6d6d6 !important; }
+
+.tab-item .badge {
+  opacity: 1 !important; }
 
 .ho-bottom-input {
   background-color: #f8f8f8;
@@ -646,7 +651,6 @@
   height: 28px;
   width: 28px;
   font-size: 30px; }
-
 .loading-tpl-icon-text .tpl-text {
   font-size: 14px;
   color: white;
@@ -984,7 +988,6 @@
 .ho-search-page .input {
   position: absolute;
   top: 0; }
-
 .ho-search-page .search-list {
   position: absolute;
   top: 30px; }
@@ -1147,7 +1150,6 @@
       left: 4px;
       padding: 1px 0 0 0;
       width: 90%; }
-
 .school-search .school-search-item.activated {
   background-color: #e8e7ed; }
 
@@ -1156,7 +1158,6 @@
   top: 0;
   width: 100%;
   z-index: -1; }
-
 .wall .top-panel {
   padding: 1.25em 0 0 0;
   display: -webkit-box;
@@ -1186,7 +1187,6 @@
     display: inline-flex;
     color: #2a2a2a;
     margin: 0 0 0 5px; }
-
 .wall .count-panel {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1233,12 +1233,10 @@
   .wall .count-panel .txt-enter-school {
     font-size: 15px;
     color: #878787; }
-
 .wall .div-line {
   margin: 20px 20px 2px 20px;
   height: 1px;
   background-color: #dddddd; }
-
 .wall .mid-panel {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1257,17 +1255,14 @@
   -moz-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column; }
-
 .wall .txt-reward {
   margin-top: 40px;
   font-size: 48px;
   color: #444; }
-
 .wall .txt-reward-desc {
   margin-top: 8px;
   font-size: 15px;
   color: #878787; }
-
 .wall .reward-panel {
   width: 150px;
   display: -webkit-box;
@@ -1332,7 +1327,7 @@
     padding: 5px;
     width: 100%; }
     .wall-footer .bottom-panel .bottom-txt-panel {
-      width: calc( 100% - 90px);
+      width: calc( 100% - 90px );
       display: -webkit-box;
       display: -webkit-flex;
       display: -moz-box;
@@ -1388,37 +1383,38 @@
     -moz-flex: 1 0 50%;
     -ms-flex: 1 0 50%;
     flex: 1 0 50%; }
-    .topics .content-right .user-panel .avatar {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      -webkit-box-flex: 0;
-      -webkit-flex: 0 0 34px;
-      -moz-box-flex: 0;
-      -moz-flex: 0 0 34px;
-      -ms-flex: 0 0 34px;
-      flex: 0 0 34px; }
-    .topics .content-right .user-panel .user-detail {
-      margin: 2px 0 0 7px;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -moz-box;
-      display: -moz-flex;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-direction: normal;
-      -webkit-box-orient: vertical;
-      -webkit-flex-direction: column;
-      -moz-flex-direction: column;
-      -ms-flex-direction: column;
-      flex-direction: column;
-      -webkit-box-pack: center;
-      -ms-flex-pack: center;
-      -webkit-justify-content: center;
-      -moz-justify-content: center;
-      justify-content: center; }
-      .topics .content-right .user-panel .user-detail .top {
-        line-height: 11px; }
+    .topics .content-right .user-panel {
+      height: 36px; }
+      .topics .content-right .user-panel .avatar {
+        margin-top: 2px;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        -webkit-box-flex: 0;
+        -webkit-flex: 0 0 34px;
+        -moz-box-flex: 0;
+        -moz-flex: 0 0 34px;
+        -ms-flex: 0 0 34px;
+        flex: 0 0 34px; }
+      .topics .content-right .user-panel .user-detail {
+        margin: 2px 0 0 7px;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -moz-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-direction: normal;
+        -webkit-box-orient: vertical;
+        -webkit-flex-direction: column;
+        -moz-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        -moz-justify-content: center;
+        justify-content: center; }
         .topics .content-right .user-panel .user-detail .top > p, .topics .content-right .user-panel .user-detail .top i {
           display: inline-block;
           position: relative; }
@@ -1433,7 +1429,8 @@
           -ms-flex-align: center;
           -webkit-align-items: center;
           -moz-align-items: center;
-          align-items: center; }
+          align-items: center;
+          line-height: 17px; }
           .topics .content-right .user-panel .user-detail .top .line-1 .name {
             margin-bottom: 0;
             font-size: 13px;
@@ -1449,26 +1446,26 @@
           margin: 1px 10px 0;
           color: #878787;
           font-size: 9px; }
-      .topics .content-right .user-panel .user-detail .bottom {
-        margin-top: 5px;
-        line-height: 1;
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -moz-box;
-        display: -moz-flex;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        -moz-align-items: center;
-        align-items: center; }
-        .topics .content-right .user-panel .user-detail .bottom .impress-panel {
-          margin-right: 5px; }
-          .topics .content-right .user-panel .user-detail .bottom .impress-panel .elem {
-            margin-bottom: 0; }
-    .topics .content-right .user-panel ul li.tip {
-      color: #5f9cc5; }
+        .topics .content-right .user-panel .user-detail .bottom {
+          margin-top: 5px;
+          display: -webkit-box;
+          display: -webkit-flex;
+          display: -moz-box;
+          display: -moz-flex;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
+          -webkit-align-items: center;
+          -moz-align-items: center;
+          align-items: center; }
+          .topics .content-right .user-panel .user-detail .bottom .impress-panel {
+            margin-right: 5px;
+            padding-top: 2px; }
+            .topics .content-right .user-panel .user-detail .bottom .impress-panel .elem {
+              margin-bottom: 0; }
+      .topics .content-right .user-panel ul li.tip {
+        color: #5f9cc5; }
     .topics .content-right .summary-panel .summary {
       padding: 2px 0;
       word-break: break-all;
@@ -1539,11 +1536,28 @@
       -moz-justify-content: space-between;
       justify-content: space-between;
       margin-right: 12px; }
-      .topics .content-right .bottom-panel .count {
-        display: inline-block;
-        padding: 0 5px 0 5px;
-        font-size: 11px;
-        color: #878787; }
+      .topics .content-right .bottom-panel .item-panel {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -moz-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        -moz-align-items: center;
+        align-items: center;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        -webkit-justify-content: space-between;
+        -moz-justify-content: space-between;
+        justify-content: space-between; }
+        .topics .content-right .bottom-panel .item-panel .count {
+          display: inline-block;
+          padding: 0 5px 0 5px;
+          font-size: 11px;
+          color: #878787; }
       .topics .content-right .bottom-panel .my-task-txt {
         font-size: 12px;
         color: #878787;
@@ -2141,11 +2155,9 @@
 
 .task-state .task-dot-ctn {
   padding: 0 42px; }
-
 .task-state .task-desc-ctn {
   padding: 0 42px;
   padding-bottom: 5px; }
-
 .task-state .comment-board {
   padding: 10px; }
   .task-state .comment-board .title {
@@ -2213,7 +2225,6 @@
       font-size: 12px;
       margin: 0;
       color: #878787; }
-
 .task-state .state-desc-panel {
   background-color: #eaeaea;
   display: -webkit-box;
@@ -2236,7 +2247,6 @@
     margin: 10px 10px 15px;
     color: #878787;
     font-size: 12px; }
-
 .task-state .div-text-panel {
   display: -webkit-box;
   display: -webkit-flex;
@@ -2370,7 +2380,7 @@
     background-color: #FF432F;
     position: fixed;
     width: 100%;
-    height: 180px;
+    height: 280px;
     z-index: -999; }
   .me .mid {
     padding-top: 15px;
@@ -2701,13 +2711,10 @@
 
 .edit-sheet .textarea-big {
   height: 150px; }
-
 .edit-sheet .textarea-normal {
   height: 100px; }
-
 .edit-sheet .line {
   height: 40px; }
-
 .edit-sheet .button-commit {
   border-radius: 5px;
   margin: 10px 5%;
@@ -2891,11 +2898,9 @@
 .playground-list .slide-box .slide-item-wrap {
   width: 100%;
   height: 100px; }
-
 .playground-list .slide-box img {
   width: 100%;
   height: 100px; }
-
 .playground-list .group-list .item {
   border: none; }
   .playground-list .group-list .item :after {
@@ -3003,7 +3008,6 @@
 .user-topic .gender-logo {
   width: 8px;
   height: 8px; }
-
 .user-topic .user-logo {
   width: 34px;
   max-height: 34px;
@@ -3056,13 +3060,13 @@
   padding: 5px;
   background-color: #F55E5E;
   color: #FFFFFF; }
-
 .topic-comment .reply-content {
   border: 0px solid;
   border-radius: 11px;
   background-color: #a8e3e5;
   padding: 5px;
   margin-bottom: 10px; }
-
 .topic-comment .item p {
   font-size: 8px; }
+
+/*# sourceMappingURL=app.css.map */
