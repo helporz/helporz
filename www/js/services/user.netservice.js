@@ -34,7 +34,7 @@
       return httpBaseService.postForPromise("/user/login_by_ticket", data);
     }
 
-    var _logout = function (ticket, sign, onSuccessFn, onFailedFn) {
+    var _logout = function (ticket, sign) {
       var data = {ticket: ticket, sign: sign};
       return httpBaseService.postForPromise("/user/logout", data);
     };

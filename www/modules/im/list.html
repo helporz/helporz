@@ -1,17 +1,17 @@
-<ion-header-bar align-title="center" class="bar-dark" style="background-color:#ff492f" >
+<ion-header-bar align-title="center" class="bar-dark" style="background-color:#ff492f">
   <div class="h1 title">消息</div>
   <!--<div>-->
-    <!--<label class="item-input-wrapper">-->
-      <!--<i class="icon ion-ios-search-strong placeholder-icon"></i>-->
-      <!--<input type="search" placeholder="搜索" ng-model="searchName" ng-change="search(searchName)">-->
-    <!--</label>-->
+  <!--<label class="item-input-wrapper">-->
+  <!--<i class="icon ion-ios-search-strong placeholder-icon"></i>-->
+  <!--<input type="search" placeholder="搜索" ng-model="searchName" ng-change="search(searchName)">-->
+  <!--</label>-->
   <!--</div>-->
 
   <!--<div class="buttons">-->
-    <!--<button class="button no-animation button-icon icon ion-android-search">-->
-    <!--</button>-->
-    <!--<button class="button no-animation button-icon icon ion-android-add">-->
-    <!--</button>-->
+  <!--<button class="button no-animation button-icon icon ion-android-search">-->
+  <!--</button>-->
+  <!--<button class="button no-animation button-icon icon ion-android-add">-->
+  <!--</button>-->
   <!--</div>-->
 
 
@@ -19,108 +19,118 @@
 
 <style type="text/css">
 
-    .message-list-group-wrapper {
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        -moz-align-items: center;
-        align-items: center;
+  .message-list-group-wrapper {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    align-items: center;
 
-        padding: 4px 8px;
-        background-color: #cbcbcb;
-    }
-    .message-list-group-wrapper  > .no-border {
-        border-style:none;
-    }
+    padding: 4px 8px;
+    background-color: #cbcbcb;
+  }
 
-    .message-list-group-item {
-        /*margin-left: 10px;*/
-        /*margin-right: 10px;*/
-        border-color: #ddd;
-        background-color: #fff;
-        color: #444;
-        position: relative;
-        z-index: 2;
-        display: block;
-        /*margin: -1px;*/
-        padding: 0px 16px;
-        border-width: 1px;
-        border-style: solid;
-        font-size: 16px;
-        -webkit-border-radius: 4px;
-        border-radius: 4px;
-    }
+  .message-list-group-wrapper > .no-border {
+    border-style: none;
+  }
 
-    .message-list-group-item-input {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -moz-box;
-        display: -moz-flex;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        -moz-align-items: center;
-        align-items: center;
-        position: relative;
-        overflow: hidden;
-        padding: 0px 0 0px 16px; }
+  .message-list-group-item {
+    /*margin-left: 10px;*/
+    /*margin-right: 10px;*/
+    border-color: #ddd;
+    background-color: #fff;
+    color: #444;
+    position: relative;
+    z-index: 2;
+    display: block;
+    /*margin: -1px;*/
+    padding: 0px 16px;
+    border-width: 1px;
+    border-style: solid;
+    font-size: 16px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+  }
 
-    .message-list-group-item-input input {
-        -webkit-border-radius: 0;
-        border-radius: 0;
-        -webkit-box-flex: 1;
-        -webkit-flex: 1 220px;
-        -moz-box-flex: 1;
-        -moz-flex: 1 220px;
-        -ms-flex: 1 220px;
-        flex: 1 220px;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        margin: 0;
-        padding-right: 24px;
-        /*background-color: transparent;*/
-        background-color: #fff;
+  .message-list-group-item-input {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 0px 0 0px 16px;
+  }
 
-    }
+  .message-list-group-item-input input {
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 220px;
+    -moz-box-flex: 1;
+    -moz-flex: 1 220px;
+    -ms-flex: 1 220px;
+    flex: 1 220px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+    padding-right: 24px;
+    /*background-color: transparent;*/
+    background-color: #fff;
+
+  }
 
 </style>
 
-<div class="bar bar-subheader message-list-group-wrapper" >
-    <div class="message-list-group-item message-list-group-item-input no-border">
-        <i class="icon ion-ios-search-strong placeholder-icon"></i>
-        <input class="col-80" type="text" placeholder="搜索" ng-model="searchName"/>
-        <button class="button button-small" style="color: #007aff; float:right; margin: 0px 10px">取消</button>
-    </div>
-</div>
+<!--<div class="bar bar-subheader message-list-group-wrapper">-->
+  <!--<div class="message-list-group-item message-list-group-item-input no-border">-->
+    <!--<i class="icon ion-ios-search-strong placeholder-icon"></i>-->
+    <!--<input class="col-80" type="text" placeholder="搜索" ng-model="searchName"/>-->
+    <!--<button class="button button-small" style="color: #007aff; float:right; margin: 0px 10px">取消</button>-->
+  <!--</div>-->
+<!--</div>-->
 
-<ion-view>
+<ion-view view-title="消息">
 
   <!--<ion-content on-swipe-left="onSwipeLeft()">-->
-  <ion-content class="content has-header has-subheader">
-
+  <!--<ion-content class="content has-header has-subheader">-->
+  <ion-content class="content has-header">
 
     <!--<label class="item-input-wrapper" >-->
-      <!--<i class="icon ion-ios-search-strong placeholder-icon"></i>-->
+    <!--<i class="icon ion-ios-search-strong placeholder-icon"></i>-->
 
-      <!--<input class='col-offset-5 col-90' style="border-radius: 4px; padding:5px 0px" type="search" placeholder="搜索" ng-model="searchName" ng-change="search(searchName)">-->
+    <!--<input class='col-offset-5 col-90' style="border-radius: 4px; padding:5px 0px" type="search" placeholder="搜索" ng-model="searchName" ng-change="search(searchName)">-->
     <!--</label>-->
     <!--<div class="buttons">-->
-      <!--<button class="button no-animation button-icon icon ion-android-search">-->
-      <!--</button>-->
-      <!--<button class="button no-animation button-icon icon ion-android-add">-->
-      <!--</button>-->
+    <!--<button class="button no-animation button-icon icon ion-android-search">-->
+    <!--</button>-->
+    <!--<button class="button no-animation button-icon icon ion-android-add">-->
+    <!--</button>-->
     <!--</div>-->
     <ion-list rj-close-back-drop>
-      <ion-item class="item-avatar" ng-class="{'rj-item-top': conversation.isTop}" on-hold="popupConversationOptions(conversation)" rj-hold-active ng-repeat="conversation in imMessageList.imConversations | orderBy:['isTop', 'lastMessage.timeFrome1970']:true" ng-click="conversationDetails(conversation)">
-        <img ng-src="{{conversation.pic}}">
-        <span class="rj-sm-red-icon" ng-show="conversation.showHints"><p ng-bind="conversation.noReadMessages"></p></span>
-        <h2 ng-bind="conversation.name"></h2>
-        <p class="rj-list-p" ng-bind="conversation.lastMessage.content"></p>
-        <span class="rj-push-right" ng-bind="conversation.lastMessage.time"></span>
+      <ion-item class="item-avatar" ng-class="{'rj-item-top': conversation.isTop}"
+                on-hold="vm.popupConversationOptions(conversation)"
+                rj-hold-active
+                ng-repeat="conversation in vm.imConversations | orderBy:['isTop', 'lastMessage.time']:true"
+                ng-click="vm.conversationDetails(conversation)">
+        <img ng-src="{{conversation.cUserAvatar}}">
+        <span class="rj-sm-red-icon" ng-show="conversation.showHints"><p
+          ng-bind="conversation.noReadMessages"></p></span>
+
+        <h2 ng-bind="conversation.cUserNickname"></h2>
+
+        <p class="rj-list-p" ng-bind="conversation.lastMessage"></p>
+        <span class="rj-push-right" ng-bind="conversation.lastMessageTime|DateShow"></span>
       </ion-item>
     </ion-list>
+
   </ion-content>
 </ion-view>

@@ -442,7 +442,12 @@
           _innerDefer.resolve("0");
           return;
         }
-        var record = recordSetItem2Record('userMaxNoticeSerialNo', res.rows.item(0));
+        if( res.rows.length == 0) {
+          _innerDefer.resolve("0");
+          return ;
+        }
+        var record = recordSetItem2Record('userMaxNoticeSerialNo', res.rows.item(res.rows.length - 1));
+        $log.info('getMaxSerialNo: userMaxNoticeSerialNo record count:' + res.rows.length);
         $log.info('userMaxNoticeSerialNo:' + record.serialNo);
         _innerDefer.resolve(record.serialNo);
       }, function (error) {

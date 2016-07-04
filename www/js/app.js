@@ -136,7 +136,11 @@
         $state.go('intro');
       }
       else if(loginService.isLogging()){
-        loginService.loginByTicket();
+        loginService.loginByTicket().then(function() {
+          $state.go('main.near');
+        },function() {
+          $state.go('login');
+        });
       }
       else {
         $state.go('login');

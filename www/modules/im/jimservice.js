@@ -5,9 +5,9 @@
   function(){
     'use strict';
     angular.module('com.helporz.jim.services',['ionic']).
-      factory('jimService',['$window','$document','$q',imServiceFactoryFn]);
+      factory('jimService',['$log','$window','$document','$q',imServiceFactoryFn]);
 
-    function imServiceFactoryFn($window,$document,$q) {
+    function imServiceFactoryFn($log,$window,$document,$q) {
       // for browser
       //var _jmessagePlugin = {
       //  login:function() {},
@@ -93,28 +93,34 @@
       var _loginForPromise = function($username,$password) {
         //登录前清空用户名
         var imLoginDefer = $q.defer();
-        $window.plugins.jmessagePlugin.username  = '';
+        try {
+          $window.plugins.jmessagePlugin.username  = '';
 
-        $window.plugins.jmessagePlugin.login($username, $password, function (response) {
-          var ss = JSON.stringify(response);
-          console.log("login callback sucess" + ss);
-          $window.plugins.jmessagePlugin.username = $username;
-          imLoginDefer.resolve();
-        }, function (response) {
-          var ss = JSON.stringify(response);
-          console.log("login callback fail" + ss);
+          $window.plugins.jmessagePlugin.login($username, $password, function (response) {
+            var ss = JSON.stringify(response);
+            console.log("login callback sucess" + ss);
+            $window.plugins.jmessagePlugin.username = $username;
+            imLoginDefer.resolve();
+          }, function (response) {
+            var ss = JSON.stringify(response);
+            console.log("login callback fail" + ss);
 
-          console.log("login fail. errcode:"+ response.errorCode + "  error discription:" +  response.errorDscription);
+            console.log("login fail. errcode:"+ response.errorCode + "  error discription:" +  response.errorDscription);
 
-          //error code 请参考 http://docs.jpush.io/client/im_errorcode/
-          console.log(device.platform);
-          console.log(response.errorCode);
+            //error code 请参考 http://docs.jpush.io/client/im_errorcode/
+            console.log(device.platform);
+            console.log(response.errorCode);
 
-          if(response.errorCode == "801003"){
-            console.log("用户未注册");
-          }
-          imLoginDefer.reject("im登录失败，错误码为" + response.errorCode);
-        });
+            if(response.errorCode == "801003"){
+              console.log("用户未注册");
+            }
+            imLoginDefer.reject("im登录失败，错误码为" + response.errorCode);
+          });
+        }
+        catch(e) {
+          $log.error('loginForPromise failed!' + JSON.stringify(e));
+          imLoginDefer.reject(e);
+        }
         return imLoginDefer.promise;
       };
 
@@ -151,14 +157,14 @@
         });
       };
 
-      var _sendTextMessage = function(toUsername,messageContentString,onSuccessFn,onFailedFn,cbObj) {
-        console.log("send message to " + toUsername + " :content is " + messageContentString);
-        $window.plugins.jmessagePlugin.sendSingleTextMessage(toUsername, messageContentString, function (response) {
+      var _sendTextMessage = function(userId,cUserId,msgType,messageContent,onSuccessFn,onFailedFn) {
+        console.log("send message to " + cUserId + " :content is " + messageContent);
+        $window.plugins.jmessagePlugin.sendSingleTextMessage(cUserId, messageContent, function (response) {
           var ss = JSON.stringify(response);
           console.log("send message sucess" + ss);
           //alert(ss);
           var msg_body = new Object();
-          msg_body.text = messageContentString;
+          msg_body.text = messageContent;
           var dict = new Object();
           dict.msg_type = 'text';
           dict.from_name = window.plugins.jmessagePlugin.username;
@@ -169,12 +175,12 @@
           //tempMessageDataSource.unshift(dict);
           //refreshConversation();
           <!--insertMessage(dict);-->
-          onSuccessFn(cbObj,response);
+          onSuccessFn(response);
         }, function (response) {
           console.log("send message fail" + response);
           //alert("send message fail" + response);
 
-          onFailedFn(cbObj,response);
+          onFailedFn(response);
         });
       };
 

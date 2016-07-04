@@ -92,7 +92,13 @@
                                   $ionicPopover, $ionicModal, topicService, topicGroupService, filterTopicService,
                                   topicBlacklistService, favouriteTopicService, topicModalService) {
     var vm = $scope.vm = {};
-    vm.groupId = $stateParams.groupId;
+    if( typeof $stateParams.groupId === 'undefined' || $stateParams.groupId == null  ) {
+      vm.groupId = 1;
+    }
+    else {
+      vm.groupId = $stateParams.groupId;
+    }
+
     vm.topicGroup = topicGroupService.getGroupInfo(vm.groupId);
 
     vm.sysTopicList = topicService.getSysTopicList(vm.groupId);

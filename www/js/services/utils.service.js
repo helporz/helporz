@@ -229,8 +229,8 @@
     deviceServiceFactory.getDeviceInfo = _getDeviceInfo;
     return deviceServiceFactory;
   }])
-    .factory('httpBaseService', ['$q', '$http', '$log', 'userLoginInfoService', 'errorCodeService', 'httpErrorCodeService',
-      function ($q, $http, $log, userLoginInfoService, errorCodeService, httpErrorCodeService) {
+    .factory('httpBaseService', ['$q', '$http', '$log', '$state', '$timeout', '$ionicLoading', 'userLoginInfoService', 'errorCodeService', 'httpErrorCodeService',
+      function ($q, $http, $log, $state, $timeout, $ionicLoading, userLoginInfoService, errorCodeService, httpErrorCodeService) {
         var _post = function (url, data, onSuccessFn, onFailedFn, onHttpFailedFn) {
           $http({
             method: 'POST', url: appConfig.API_SVC_URL + url, data: data,
@@ -244,7 +244,20 @@
               onSuccessFn(resp, status, headers, config);
             }
             else {
-              onFailedFn(resp.code, data, status, headers, config);
+              if (resp.code == 501 || resp.code == 505 || resp.code == 510) {
+                $ionicLoading.hide();
+                $ionicLoading.show({
+                  duration: 1500,
+                  templateUrl: 'modules/components/templates/ionic-loading/user-logout-success.html'
+                });
+                $timeout(function () {
+                  $ionicLoading.hide();
+                  $state.go('login');
+                }, 1500);
+              }
+              else {
+                onFailedFn(resp.code, data, status, headers, config);
+              }
             }
           }).error(function (data, status, headers, config) {
             onHttpFailedFn(data, status, headers, config);
@@ -273,7 +286,20 @@
               _postDefer.resolve(resp);
             }
             else {
-              _postDefer.reject(errorCodeService.getErrorCodeDescription(resp.code));
+              if (resp.code == 501 || resp.code == 505 || resp.code == 510) {
+                $ionicLoading.hide();
+                $ionicLoading.show({
+                  duration: 1500,
+                  templateUrl: 'modules/components/templates/ionic-loading/user-logout-success.html'
+                });
+                $timeout(function () {
+                  $ionicLoading.hide();
+                  $state.go('login');
+                }, 1500);
+              }
+              else {
+                _postDefer.reject(errorCodeService.getErrorCodeDescription(resp.code));
+              }
             }
           }).error(function (data, status) {
             _postDefer.reject(httpErrorCodeService.getErrCodeDescription(status));
@@ -293,7 +319,20 @@
               onSuccessFn(resp, status, headers, config);
             }
             else {
-              onFailedFn(resp.code, data, status, headers, config);
+              if (resp.code == 501 || resp.code == 505 || resp.code == 510) {
+                $ionicLoading.hide();
+                $ionicLoading.show({
+                  duration: 1500,
+                  templateUrl: 'modules/components/templates/ionic-loading/user-logout-success.html'
+                });
+                $timeout(function () {
+                  $ionicLoading.hide();
+                  $state.go('login');
+                }, 1500);
+              }
+              else {
+                onFailedFn(resp.code, data, status, headers, config);
+              }
             }
           }).error(function (data, status, headers, config) {
             onHttpFailedFn(data, status, headers, config);
@@ -316,7 +355,20 @@
               _getDefer.resolve(resp.data);
             }
             else {
-              _getDefer.reject(errorCodeService.getErrorCodeDescription(resp.code));
+              if (resp.code == 501 || resp.code == 505 || resp.code == 510) {
+                $ionicLoading.hide();
+                $ionicLoading.show({
+                  duration: 1500,
+                  templateUrl: 'modules/components/templates/ionic-loading/user-logout-success.html'
+                });
+                $timeout(function () {
+                  $ionicLoading.hide();
+                  $state.go('login');
+                }, 1500);
+              }
+              else {
+                _getDefer.reject(errorCodeService.getErrorCodeDescription(resp.code));
+              }
             }
           }).error(function (data, status) {
             _getDefer.reject(httpErrorCodeService.getErrorCodeDescription(status));
@@ -381,7 +433,7 @@
       return date.Format("yyyy-MM-dd hh:mm:ss");
     }
 
-    var currentDate2String = function() {
+    var currentDate2String = function () {
       return date2String(new Date());
     }
     return {
