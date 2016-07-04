@@ -193,6 +193,15 @@
           }
         }
       })
+      .state('main.me_user-tasks_task-detail', {
+        url: '/me/user-tasks/task-detail/:id',
+        views: {
+          'me': {
+            templateUrl: 'modules/main/near/task-detail/task-detail.html',
+            controller: 'mainNearTaskDetailCtrl'
+          }
+        }
+      })
 
       .state('main.task', {
         url: '/task',

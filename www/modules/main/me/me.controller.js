@@ -359,6 +359,7 @@
         id: friend.userId,
         nickname: friend.nickname,
       };
+      mainUserTasksService.tasks = [];
       $state.go('main.me_user-tasks');
     };
 

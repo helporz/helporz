@@ -6,11 +6,20 @@
   'use strict';
 
   angular.module('main.near.taskdetail')
+    .factory('mainNearTaskDetailService', mainNearTaskDetailService)
     .controller('mainNearTaskDetailCtrl', ['$state', '$scope', '$ionicScrollDelegate', '$ionicLoading', '$ionicPopup', '$timeout', '$stateParams', 'taskNetService',
-      'taskUtils', 'userNetService', 'impressUtils', 'timeUtils','SharePageWrapService', mainNearTaskDetailCtrl]);
+      'taskUtils', 'userNetService', 'impressUtils', 'timeUtils','SharePageWrapService', 'mainNearTaskDetailService',
+      mainNearTaskDetailCtrl]);
+
+
+  function mainNearTaskDetailService(){
+    return {
+      task: {}
+    }
+  }
 
   function mainNearTaskDetailCtrl($state, $scope, $ionicScrollDelegate, $ionicLoading, $ionicPopup, $timeout, $stateParams, taskNetService,
-                                  taskUtils, userNetService, impressUtils, timeUtils,SharePageWrapService) {
+                                  taskUtils, userNetService, impressUtils, timeUtils,SharePageWrapService, mainNearTaskDetailService) {
     console.log($stateParams);
 
     var vm = $scope.vm = {};
@@ -20,6 +29,10 @@
       vm.task = taskNetService.getTaskInNearList($stateParams.id);
       if(ho.isValid(vm.task)==false){
         vm.task = taskNetService.getTaskInPostList($stateParams.id);
+      }
+      //如果不在以上列表,那么从service获取
+      if(ho.isValid(vm.task)==false) {
+        vm.task = mainNearTaskDetailService.task;
       }
 
       vm.task.icon = taskUtils.iconByTypeValue(vm.task.taskTypesId);

@@ -8,20 +8,23 @@
   angular.module('main.user-tasks')
     .factory('mainUserTasksService', mainUserTasksService)
     .controller('mainUserTasksCtrl', ['$state', '$log', '$ionicLoading', '$interval', '$timeout', '$scope', 'taskNetService', 'userNetService',
-      'taskUtils', 'timeUtils', 'impressUtils', 'intervalCenter','SharePageWrapService', 'mainUserTasksService', mainUserTasksCtrl]);
+      'taskUtils', 'timeUtils', 'impressUtils', 'intervalCenter', 'SharePageWrapService', 'mainUserTasksService',
+      'mainNearTaskDetailService',
+      mainUserTasksCtrl]);
 
   function mainUserTasksService() {
-    var user = {
-      id: '',
-      nickname: ''
-    };
     return {
-      user: user
+      user: {
+        id: '',
+        nickname: ''
+      },
+      tasks: []
     }
   }
 
   function mainUserTasksCtrl($state, $log, $ionicLoading, $interval, $timeout, $scope, taskNetService, userNetService,
-                        taskUtils, timeUtils, impressUtils, intervalCenter,SharePageWrapService, mainUserTasksService) {
+                             taskUtils, timeUtils, impressUtils, intervalCenter, SharePageWrapService, mainUserTasksService,
+                             mainNearTaskDetailService) {
 
     //fixme:因为点击会穿透,同时触发多个事件,这里先用标记来屏蔽,点击按钮后间隔一段时间才可触发下一次点击回调
     var _isClicking = false;
@@ -56,27 +59,31 @@
     }
 
     $scope.$on("$ionicView.enter", function () {
-      _refreshList();
+      if (mainUserTasksService.tasks.length == 0) {
+        _refreshList();
+      } else {  //从界面返回时,不将tasks置空,那么回来就不用再次从网络获取
+        vm.items = mainUserTasksService.tasks;
+      }
     });
 
-    $scope.$on('$ionicView.leave', function() {
+    $scope.$on('$ionicView.leave', function () {
 
     })
 
-    vm.cb_itemClick = function(index) {
-      if(canClick() == false) {
+    vm.cb_itemClick = function (index) {
+      if (canClick() == false) {
         return
       }
-
-      $state.go('main.task-detail', {id: vm.items[index].id})
+      mainNearTaskDetailService.task = vm.items[index];
+      $state.go('main.me_user-tasks_task-detail', {id: '-1'});
     };
 
     vm.cb_acceptTask = function (index) {
-      if(canClick() == false) {
+      if (canClick() == false) {
         return
       }
 
-      var task = taskNetService.cache.nearTaskList[index];
+      var task = vm.items[index];
 
       $ionicLoading.show();
 
@@ -89,9 +96,10 @@
               duration: 1500,
               templateUrl: 'modules/components/templates/ionic-loading/task-accept-success.html'
             });
-            $timeout(function() {
+            $timeout(function () {
               taskNetService.cache.isNearTaskNeedRefresh = true;
               taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
+              _refreshList();
             }, 1500);
           } else {
             //失败
@@ -100,7 +108,7 @@
               duration: 1500,
               templateUrl: 'modules/components/templates/ionic-loading/task-not-exist.html'
             });
-            $timeout(function() {
+            $timeout(function () {
               taskNetService.cache.isNearTaskNeedRefresh = true;
             }, 1500);
           }
@@ -118,6 +126,7 @@
       $log.info('new task list:' + JSON.stringify(newTaskList));
 
       $scope.vm.items = newTaskList;
+      mainUserTasksService.tasks = newTaskList;
 
 
       // process attr

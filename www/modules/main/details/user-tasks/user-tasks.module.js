@@ -6,6 +6,7 @@
   'use strict';
 
   angular.module('main.user-tasks', [
+    'main.near.taskdetail'
   ])
 
 })()
