@@ -120,7 +120,15 @@
           }
         }
       })
-
+      .state('main.im-detail', {
+        url:'/me/im-detail/{cid}',
+        views: {
+          'me': {
+            templateUrl:'modules/im/detail.html',
+            controller:'imMessageDetailController',
+          }
+        }
+      })
       .state('main.user-info', {
         //url: '/me/{id:[s+]}',
         url: '/me/:id',

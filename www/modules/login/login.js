@@ -6,7 +6,7 @@
   "use strict;"
 
   angular.module('com.helporz.login', ['ngCordova', 'com.helporz.utils.service', 'com.helporz.user.netservice', 'com.helporz.jim.services',
-    'com.helporz.playground','com.helporz.task.netservice','com.helporz.task.noticemessage'])
+    'com.helporz.playground', 'com.helporz.task.netservice', 'com.helporz.task.noticemessage'])
     .factory('loginService', loginServiceFn)
     .controller('loginCtrl', loginCtrl)
     .directive('getsmscode', ['$http', '$log', 'pushService', function ($http, $log, pushService) {
@@ -77,8 +77,8 @@
     }]);
 
 
-  loginCtrl.$inject = ['$scope', '$state', '$log','$ionicLoading', 'loginService','userNetService'];
-  function loginCtrl( $scope, $state, $log, $ionicLoading,loginService,userNetService) {
+  loginCtrl.$inject = ['$scope', '$state', '$log', '$ionicLoading', 'loginService', 'userNetService'];
+  function loginCtrl($scope, $state, $log, $ionicLoading, loginService, userNetService) {
     $scope.phoneno = '';
     $scope.smscode = '';
 
@@ -93,10 +93,10 @@
       });
 
       //var loginTicket;
-      loginService.login(phoneNo,smsCode).then(function () {
+      loginService.login(phoneNo, smsCode).then(function () {
         $ionicLoading.hide();
 
-        if(userNetService.cache.selfInfo.avatar != '') {
+        if (userNetService.cache.selfInfo.avatar != '') {
           $state.go('main.near');
         }
         else {
@@ -107,7 +107,7 @@
         alert(error);
       });
 
-      return ;
+      return;
 
       //$http({
       //  method: 'POST', url: appConfig.API_SVC_URL + "/user/verify_sms", data: {
@@ -179,12 +179,12 @@
 
   }
 
-  loginServiceFn.$inject = ['$ionicHistory','$q','$http','$log',
+  loginServiceFn.$inject = ['$ionicHistory', '$q', '$http', '$log',
     '$ionicLoading', 'deviceService', 'errorCodeService', 'httpErrorCodeService', 'userLoginInfoService', 'userNetService',
-    'jimService', 'debugHelpService', 'PlaygroundStartupService','utilConvertDateToString','taskNetService','NoticeMessageService'];
-  function loginServiceFn($ionicHistory,$q,$http, $log, $ionicLoading, deviceService, errorCodeService, httpErrorCodeService,
+    'jimService', 'debugHelpService', 'PlaygroundStartupService', 'utilConvertDateToString', 'taskNetService', 'NoticeMessageService', 'IMInterfaceService'];
+  function loginServiceFn($ionicHistory, $q, $http, $log, $ionicLoading, deviceService, errorCodeService, httpErrorCodeService,
                           userLoginInfoService, userNetService, jimService, debugHelpService, PlaygroundStartupService,
-                          utilConvertDateToString,taskNetService,NoticeMessageService) {
+                          utilConvertDateToString, taskNetService, NoticeMessageService, IMInterfaceService) {
     var loginTicket;
     var _login = function (phoneNo, smsCode) {
       var deviceInfo = deviceService.getDeviceInfo();
@@ -197,7 +197,7 @@
       //    'Content-Type': 'application/x-www-form-urlencoded'
       //  }
       //})
-      var netPromise = userNetService.login(deviceInfo.type,phoneNo,smsCode);
+      var netPromise = userNetService.login(deviceInfo.type, phoneNo, smsCode);
       return _loginProcessForPromise(netPromise);
       //  userNetService.login(deviceInfo.type,phoneNo,smsCode)
       //  .then(processLoginResponse, processLoginFailedResponse)
@@ -216,13 +216,13 @@
     var _loginByTicket = function () {
       var _innerDefer = $q.defer();
       var loginTicket = userLoginInfoService.getLoginTicket();
-      if( loginTicket == null || loginTicket === '') {
-          _innerDefer.reject();
+      if (loginTicket == null || loginTicket === '') {
+        _innerDefer.reject();
         return _innerDefer.promise;
       }
 
-      var date = utilConvertDateToString.getDateToString(new Date,'yyyy-MM-dd HH:mm:ss');
-      var netPromise = userNetService.loginByTicket(loginTicket,date);
+      var date = utilConvertDateToString.getDateToString(new Date, 'yyyy-MM-dd HH:mm:ss');
+      var netPromise = userNetService.loginByTicket(loginTicket, date);
       return _loginProcessForPromise(netPromise);
 
       //userNetService.loginByTicket(loginTicket,date).then(processLoginResponse, processLoginFailedResponse)
@@ -238,7 +238,7 @@
       //return _innerDefer.promise;
     }
 
-    var _loginProcessForPromise = function(netPromise) {
+    var _loginProcessForPromise = function (netPromise) {
       var _innerDefer = $q.defer();
       netPromise.then(processLoginResponse, processLoginFailedResponse)
         .then(getSelfInfo, processFailed)
@@ -254,15 +254,15 @@
         });
       return _innerDefer.promise;
     }
-    var _logout = function() {
+    var _logout = function () {
       var _innerDefer = $q.defer();
       var loginTicket = userLoginInfoService.getLoginTicket();
-      if( loginTicket == null || loginTicket === '') {
+      if (loginTicket == null || loginTicket === '') {
         _innerDefer.resolve;
         return _innerDefer.promise;
       }
 
-      userNetService.logout(loginTicket).then(function() {
+      userNetService.logout(loginTicket).then(function () {
         userLoginInfoService.clear();
         _innerDefer.resolve();
       });
@@ -270,23 +270,23 @@
       return _innerDefer.promise;
     }
 
-    var _isLogging= function() {
+    var _isLogging = function () {
       var loginTicket = userLoginInfoService.getLoginTicket();
-      if( loginTicket == null || loginTicket === '') {
+      if (loginTicket == null || loginTicket === '') {
         return false;
       }
       return true;
     }
 
-    var _isShowIntro = function() {
+    var _isShowIntro = function () {
       return userLoginInfoService.isShowIntro();
     }
 
     return {
-      login:_login,
-      loginByTicket:_loginByTicket,
-      isLogging:_isLogging,
-      isShowIntro:_isShowIntro,
+      login: _login,
+      loginByTicket: _loginByTicket,
+      isLogging: _isLogging,
+      isShowIntro: _isShowIntro,
     }
     // 下面是内部方法定义
     function processLoginResponse(response) {
@@ -318,15 +318,38 @@
     }
 
     function loginIM(userInfo) {
+      var _innerDefer = $q.defer();
       userLoginInfoService.saveLoginInfo(loginTicket, userInfo);
-      //return jimService.loginForPromise(userInfo.phoneNo + "-" + userInfo.userId, userInfo.imPassword);
+      IMInterfaceService.initService(userInfo.userId)
+        .then(
+        function () {
+          return jimService.loginForPromise(userInfo.imLoginName, userInfo.imPassword);
+        }, function (error) {
+          $log.error("init im interface service failed:" + error);
+          var _loginFailedDefer = $q.defer();
+          _loginFailedDefer.reject(error);
+          return _loginFailedDefer.promise;
+        }
+      )
+        .then(
+        function () {
+          $log.info("登录IM成功");
+          _innerDefer.resolve();
+        }, function (error) {
+          $log.error('登录IM失败 #loginName# #password#:#error#'
+            .replace('#loginName#', userInfo.imLoginName)
+            .replace('#password#', userInfo.imPassword)
+            .replace('#error#', error));
 
-      //taskNetService.getCompletedAcceptTaskList(0,10);
-      //taskNetService.getUncompletedAcceptTaskList();
-      //taskNetService.getCompletedPostTaskList(0,10);
-      //taskNetService.getUncompletedPostTaskList();
-      //taskNetService.getTaskList();
-      return jimService.testloginForPromise(userInfo.phoneNo + "-" + userInfo.userId, userInfo.imPassword);
+          if (g_isDebug) {
+            _innerDefer.resolve();
+          }
+          else {
+            _innerDefer.reject(error);
+          }
+        });
+      return _innerDefer.promise;
+      //return jimService.testloginForPromise(userInfo.imLoginName, userInfo.imPassword);
     }
   }
 })(this);

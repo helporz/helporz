@@ -6,11 +6,11 @@
   'use strict';
 
   angular.module('main.me')
-    .controller('mainMeCtrl', ['$state', '$scope', '$ionicLoading', '$ionicPopup', '$ionicScrollDelegate', '$ionicActionSheet',
+    .controller('mainMeCtrl', ['$log','$state', '$scope', '$ionicLoading', '$ionicPopup', '$ionicScrollDelegate', '$ionicActionSheet',
       '$timeout', '$interval', 'userNetService', 'impressUtils',
       'errorCodeService','SharePageWrapService', mainMeCtrl])
 
-  function mainMeCtrl($state, $scope, $ionicLoading, $ionicPopup, $ionicScrollDelegate, $ionicActionSheet,
+  function mainMeCtrl($log,$state, $scope, $ionicLoading, $ionicPopup, $ionicScrollDelegate, $ionicActionSheet,
                       $timeout, $interval, userNetService, impressUtils,
                       errorCodeService,SharePageWrapService) {
     var vm = $scope.vm = {};
@@ -82,6 +82,7 @@
     }
 
     vm.cb_im = function() {
+      $log.info('跳转到IM列表页');
       $state.go('main.im');
     }
 

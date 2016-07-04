@@ -78,7 +78,7 @@
           var _dbDefer = $q.defer();
           dbconn && dbconn.transaction(function (tx) {
             tx.executeSql(sql, [], function (tx, res) {
-              _dbDefer.resolve(res);
+              _dbDefer.resolve(res.insertId);
               //callback && callback(res);
             }, function (tx,e) {
               console.log("ERROR: " + e.message);
@@ -232,7 +232,11 @@
           var colList = [];
 
           for( key in cols) {
-            colList.push("#key# = '#value#'".replace('#key#',key),replace('#value#',cols[key]));
+            if( key === '$hashKey' || key === '$$hashKey') {
+              //过滤掉angular ng-repeat增加的$hashKey;
+              continue;
+            }
+            colList.push("#key# = '#value#'".replace('#key#',key).replace('#value#',cols[key]));
           }
 
           var sql = "update `#table#` SET #cols# where #where#;".
@@ -248,7 +252,28 @@
           });
           console.log(sql);
           return _dbDefer.promise;
-        }
+        },
+        getMaxValue:function(table,col,where) {
+          var _innerDefer = $q.defer();
+          var sql = "SELECT max(#col#) as maxValue FROM `#table#` #where#;".replace('#table#', table).replace('#col#',col).replace('#where#', where || '');
+          dbconn && dbconn.transaction(function (tx) {
+            tx.executeSql(sql, [], function (tx, res) {
+              //callback && callback(res);
+              if (typeof res == 'undefined' || res === null) {
+                _innerDefer.resolve(0);
+              }
+              else {
+                _innerDefer.resolve(res.rows.item(0).maxValue);
+              }
+
+            }, function (tx,e) {
+              console.log("ERROR: " + e.message);
+              _innerDefer.reject(e);
+            });
+          });
+          console.log(sql);
+          return _innerDefer.promise;
+        },
         //sqlBatch:function(sqlList) {
         //  var _dbDefer = $q.defer();
         //  dbconn && dbconn.transaction(function (tx) {

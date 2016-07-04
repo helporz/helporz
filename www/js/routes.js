@@ -17,7 +17,7 @@
         });
 
         $stateProvider.state('im-message-detail',{
-          url:'/im/detail',
+          url:'/im/detail/{cid}',
           templateUrl:'modules/im/detail.html',
           controller:'imMessageDetailController',
           controllerAs:'imMessageDetail'

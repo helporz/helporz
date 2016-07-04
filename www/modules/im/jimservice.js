@@ -151,14 +151,14 @@
         });
       };
 
-      var _sendTextMessage = function(toUsername,messageContentString,onSuccessFn,onFailedFn,cbObj) {
-        console.log("send message to " + toUsername + " :content is " + messageContentString);
-        $window.plugins.jmessagePlugin.sendSingleTextMessage(toUsername, messageContentString, function (response) {
+      var _sendTextMessage = function(userId,cUserId,msgType,messageContent,onSuccessFn,onFailedFn) {
+        console.log("send message to " + cUserId + " :content is " + messageContent);
+        $window.plugins.jmessagePlugin.sendSingleTextMessage(cUserId, messageContent, function (response) {
           var ss = JSON.stringify(response);
           console.log("send message sucess" + ss);
           //alert(ss);
           var msg_body = new Object();
-          msg_body.text = messageContentString;
+          msg_body.text = messageContent;
           var dict = new Object();
           dict.msg_type = 'text';
           dict.from_name = window.plugins.jmessagePlugin.username;
@@ -169,12 +169,12 @@
           //tempMessageDataSource.unshift(dict);
           //refreshConversation();
           <!--insertMessage(dict);-->
-          onSuccessFn(cbObj,response);
+          onSuccessFn(response);
         }, function (response) {
           console.log("send message fail" + response);
           //alert("send message fail" + response);
 
-          onFailedFn(cbObj,response);
+          onFailedFn(response);
         });
       };
 
