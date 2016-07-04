@@ -31,6 +31,14 @@
     }
   }
 
+  .title-container {
+    @include display-flex();
+    @include align-items(center);
+    @include justify-content(center);
+    font-size:  17px;
+    font-weight: 500;
+  }
+
   .back-img {
     //background-image:  url(../img/main/me/wo-zi-bg@2x.png) no-repeat 0 5px scroll;
     //background-image: url(../img/main/me/wo-zi-bg@2x.png);
@@ -258,30 +266,60 @@
 
         padding: 7px;
       }
-      ion-item .content {
+
+      ion-item {
+        padding: 5px;
+        .avatar {
+          width: 40px;
+          height: 40px;
+          border-radius: 20px;
+          margin: 0 5px 0 10px
+        }
+        .content-long {
+          padding: 0 5px;
+          max-width: calc(100% - 126px);
+          min-width: calc(100% - 126px);
+        }
+        .content-short {
+          padding: 0 5px;
+          max-width: calc(100% - 191px);
+          min-width: calc(100% - 191px);
+        }
+
         .name {
+          text-align: left;
           padding-top: 2px;
           font-size: 15px;
           color: $color-text-primary;
         }
         .desc {
+          text-align: left;
           font-size: 13px;
           color: $color-text-secondary;
         }
       }
 
+      .bt-left {
+        margin: 0 0 0 5px;
+      }
+      .bt-right {
+        margin: 0 2px 0 7px;
+      }
+
       .bt-active {
-        border: 1px solid $button-accept-txtcolor;
-        background: white;
+        border: 1px solid $button-accept-bordercolor;
+        background: $button-accept-bgcolor;
         color: $button-accept-txtcolor;
       }
 
       .bt-inactive {
-        border-width: 0;
-        background: $button-accept-bgcolor;
-        color: $button-accept-txtcolor;
+        //border-width: 0;
+        //background: $button-accept-bgcolor;
+        //color: $button-accept-txtcolor;
       }
     }
+
+
 
   }
 

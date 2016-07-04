@@ -28,7 +28,7 @@
         for(var k in v) {
           v[k]();
         }
-      }, 7000);
+      }, 10000);
 
       return {
         add: add,

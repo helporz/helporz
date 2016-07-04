@@ -36,18 +36,22 @@
     }
 
     vm.ui_taskBadge = 0;
-    vm.ui_taskBadge_old = 0;
+    vm.ui_meBadge = 0;
 
     $scope.$on("$ionicView.enter", function () {
       //刷新tab标签数
       intervalCenter.add(0, 'main', function(){
         var cache = taskNetService.cache;
-        taskNetService.nm_total_changed = false;
-        if(taskNetService.nm_total_changed) {
-					vm.ui_taskBadge = cache.nm_accept.length +
-													cache.nm_post.length +
-													cache.nm_comment.length +
-													cache.nm_follow.length;
+        if(cache.nm_main_changed) {
+          cache.nm_main_changed = false;
+					vm.ui_taskBadge = cache.nm_acceptGoing.length +
+                          cache.nm_acceptFinish.length +
+													cache.nm_postGoing.length +
+                          cache.nm_postFinish.length +
+													cache.nm_comment.length;
+
+          vm.ui_meBadge = cache.nm_follow.length;
+
 					$timeout(function(){
 						$scope.$apply();
 					})
@@ -57,7 +61,8 @@
     });
 
     $scope.$on('$ionicView.leave', function() {
-      intervalCenter.remove(0, 'main');
+      //切换tab时,这里会走到..(我觉得是ionic的bug),只当他为第一个tab时,会$ionicView.enter,切换到非第一个tab,$ionic.leave.
+      //intervalCenter.remove(0, 'main');
     })
   }
 

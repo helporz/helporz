@@ -6,12 +6,12 @@
   'use strict';
 
   angular.module('main.me')
-    .controller('mainMeCtrl', ['$log','$state', '$scope', '$ionicLoading', '$ionicPopup', '$ionicScrollDelegate', '$ionicActionSheet',
-      '$timeout', '$interval', 'userNetService', 'impressUtils',
+    .controller('mainMeCtrl', ['$state', '$scope', '$ionicLoading', '$ionicPopup', '$ionicScrollDelegate', '$ionicActionSheet',
+      '$timeout', '$interval', 'userNetService', 'impressUtils', 'userUtils',
       'errorCodeService','SharePageWrapService', mainMeCtrl])
 
-  function mainMeCtrl($log,$state, $scope, $ionicLoading, $ionicPopup, $ionicScrollDelegate, $ionicActionSheet,
-                      $timeout, $interval, userNetService, impressUtils,
+  function mainMeCtrl($state, $scope, $ionicLoading, $ionicPopup, $ionicScrollDelegate, $ionicActionSheet,
+                      $timeout, $interval, userNetService, impressUtils, userUtils,
                       errorCodeService,SharePageWrapService) {
     var vm = $scope.vm = {};
 
@@ -82,7 +82,6 @@
     }
 
     vm.cb_im = function() {
-      $log.info('跳转到IM列表页');
       $state.go('main.im');
     }
 
@@ -99,36 +98,52 @@
 
       var selfInfo = userNetService.cache.selfInfo;
 
-      //vm.meInfo.accessUserList = selfInfo.accessUserList || [];
-      //vm.meInfo.nickname = selfInfo.nickname;
-      //vm.meInfo.sign = selfInfo.sign;
-      //vm.meInfo.avatar = selfInfo.avator || '';
-      //vm.meInfo.completedTaskCount = selfInfo.completedTaskCount;
-      //vm.meInfo.credit = selfInfo.credit || 0;
-      //vm.meInfo.department = selfInfo.department || '';
-      //vm.meInfo.dormitory = selfInfo.dormitory;
-      //
-      //vm.meInfo.experience = selfInfo.experience || 0;
-      //vm.meInfo.funsCount = selfInfo.funsCount || 0;
-      //
-      //vm.meInfo.gem = selfInfo.gem;
-      //vm.meInfo.gender = selfInfo.gender;
-      //vm.meInfo.helpUserCount = selfInfo.helpUserCount;
-      //vm.meInfo.hometown = selfInfo.hometown;
-      //vm.meInfo.level = selfInfo.level;
-      //
-      //vm.meInfo.userPropInfoList = selfInfo.userPropInfoList;
-
       vm.meInfo.remoteData = selfInfo;
 
-      var impressUI = impressUtils.impressUI();
-      //vm.meInfo.ui_tags = vm.meInfo.remoteData.tags.concat();
-      vm.meInfo.ui_tags = [impressUI[0], impressUI[2], impressUI[3]];
+      //var impressUI = impressUtils.impressUI();
+      ////vm.meInfo.ui_tags = vm.meInfo.remoteData.tags.concat();
+      //vm.meInfo.ui_tags = [impressUI[0], impressUI[2], impressUI[3]];
+
+      vm.meInfo.ui_tags = [];
+      impressUtils.netTagsToUiTags(vm.meInfo.ui_tags, selfInfo.tags);
+
 
       $timeout(function () {
         $scope.$apply();
       });
+
+
+      //// test:
+      //vm._repeatList = userNetService.cache.selfInfo.attentionList;
+      //for(var i = 0; i < 100; ++i ){
+      //  vm._repeatList.push(userNetService.cache.selfInfo.attentionList)
+      //}
+
+      //vm.self.followList = [];
+      //for(var i = 0; i < 3; i++){
+      //
+      //  vm.self.followList.push({
+      //    avatar: '',
+      //    nickname: 'fjjjjjjeeee',
+      //    sign: 'fjeifj',
+      //    recentTaskIdArray: [1,2]
+      //  });
+      //}
+
+      // pre-calc
+      var friends = userNetService.cache.selfInfo.attentionList;
+      for(var i in friends){
+        userUtils.uiProcessFollow(friends[i]);
+      }
+
+      friends = userNetService.cache.selfInfo.funsList;
+      for(var i in friends) {
+        userUtils.uiProcessFollowed(friends[i]);
+      }
+
     });
+
+
 
     vm.meInfo.accessUserAvatar = function (index) {
       if (ho.isValid(vm.meInfo.remoteData)) {
@@ -159,7 +174,7 @@
         vm.self.repeatList = [];
       }
       else {
-        vm.self.repeatList = vm.self.friendList;
+        //vm.self.repeatList = vm.self.friendList;
       }
 
       console.log('xxx'+ho.trace(vm.self.repeatList));
@@ -186,37 +201,37 @@
     self.smallCards = 10;
     self.bigCards = 20;
 
-    // visitors
-    self.visitors = [
-      {
-        url: 'http://t3.gstatic.cn/shopping?q=tbn:ANd9GcSCrdZNZUIlGriVTE3ZWMU_W5voV8527Q6PL8RGkMjtCFO1knnY6oIS1soNKN4&usqp=CAI'
-      },
-      {
-        url: 'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=545887065,3542527475&fm=58'
-      },
-      {
-        url: 'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=1902539898,1226346465&fm=58'
-      },
-      {
-        url: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=4123988153,51280834&fm=58'
-      },
-      {
-        url: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=4127652755,2340829936&fm=58'
-      },
-      //{
-      //  url: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g'
-      //},
-      //{
-      //  url: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g'
-      //}
-    ]
-    self.visitorImgWithIndex = function (index) {
-      if (angular.isDefined(self.visitors[index])) {
-        return self.visitors[index].url;
-      } else {
-        return '';
-      }
-    }
+    //// visitors
+    //self.visitors = [
+    //  {
+    //    url: 'http://t3.gstatic.cn/shopping?q=tbn:ANd9GcSCrdZNZUIlGriVTE3ZWMU_W5voV8527Q6PL8RGkMjtCFO1knnY6oIS1soNKN4&usqp=CAI'
+    //  },
+    //  {
+    //    url: 'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=545887065,3542527475&fm=58'
+    //  },
+    //  {
+    //    url: 'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=1902539898,1226346465&fm=58'
+    //  },
+    //  {
+    //    url: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=4123988153,51280834&fm=58'
+    //  },
+    //  {
+    //    url: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=4127652755,2340829936&fm=58'
+    //  },
+    //  //{
+    //  //  url: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g'
+    //  //},
+    //  //{
+    //  //  url: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g'
+    //  //}
+    //]
+    //self.visitorImgWithIndex = function (index) {
+    //  if (angular.isDefined(self.visitors[index])) {
+    //    return self.visitors[index].url;
+    //  } else {
+    //    return '';
+    //  }
+    //}
 
     self.cb_visitorImg = function (index) {
       console.log('click on image [' + index + ']');
@@ -248,6 +263,153 @@
 
     //////////////////////////////////////////////////
     // friend
+    self.tabFollow = 0;
+
+    self.ui_showFriendList = true;
+    self.cb_tabFollow = function(index) {
+      //if(index == 0) {
+      //  //vm.self.repeatList = userNetService.cache.selfInfo.attentionList;
+      //  //vm.self.repeatList = [];
+      //  vm.self.repeatList = userNetService.cache.selfInfo.attentionList;
+      //  self.ui_showFriendList = false;
+      //  $timeout(function() {
+      //    self.ui_showFriendList = true;
+      //    //vm.self.repeatList = userNetService.cache.selfInfo.attentionList;
+      //  },200);
+      //}else { //index==1
+      //  //vm.self.repeatList = userNetService.cache.selfInfo.funsList;
+      //  vm.self.repeatList = userNetService.cache.selfInfo.funsList;
+      //  self.ui_showFriendList = false;
+      //  $timeout(function() {
+      //    self.ui_showFriendList = true;
+      //  },200);
+
+
+      if(index == 0) {
+        vm.self.repeatList = (userNetService.cache.selfInfo.attentionList)
+          //.concat(userNetService.cache.selfInfo.attentionList);
+        //vm.self.repeatList = vm.self.repeatList.concat(userNetService.cache.selfInfo.attentionList)
+
+        //var xxx = []
+        //for(var i = 0; i < 3; i++){
+        //  xxx = xxx.concat(userNetService.cache.selfInfo.attentionList);
+        //}
+        //for(var i = 0; i < 300; i++){
+        //  vm.self.repeatList.push({
+        //    avatar: '',
+        //    nickname: 'fjjjjjjeeee',
+        //    sign: 'fjeifj'
+        //  });
+        //  //vm.self.repeatList.push(userNetService.cache.selfInfo.attentionList[i]);
+        //}
+        //vm.self.repeatList = xxx;
+        //vm.self.repeatList = vm._repeatList;
+
+        //vm.self.repeatList = vm.self.followList;
+
+      }else { //index==1
+        vm.self.repeatList = userNetService.cache.selfInfo.funsList;
+        //vm.self.funsList = userNetService.cache.selfInfo.funsList;
+      }
+
+      self.tabFollow = index;
+
+      //$timeout(function () {
+      //  $scope.$apply();
+      //});
+    };
+
+    // friend callbacks
+    self.cb_follow = function(index) {
+      var friend = vm.self.repeatList[index];
+
+      $ionicLoading.show();
+      userNetService.attention(friend.userId).then(
+        function (data) {
+          $ionicLoading.hide();
+          $ionicLoading.show({
+            duration: 1500,
+            templateUrl: 'modules/components/templates/ionic-loading/user-follow-success.html'
+          });
+
+          friend = data.data
+          vm.self.repeatList[index] = friend;
+          //friend.isMutualAttention = true;
+
+          var follow = ho.clone(friend);
+          userUtils.uiProcessFollow(follow);
+          userNetService.cache.selfInfo.attentionList.splice(0, 0, follow);
+
+          userUtils.uiProcessFollowed(friend);
+
+          //$timeout(function () {
+          //  $scope.$apply();
+          //});
+
+        }, function (data) {
+          $ionicLoading.hide();
+          ho.alertObject(data);
+        }).finally(function () {
+        });
+    };
+
+    self.cb_postList = function(index) {
+
+    };
+
+    self.cb_cancelFocus = function($index) {
+      $ionicActionSheet.show({
+        titleText: "真的要取消关注么",
+        buttons: [
+          {text: "<b>是</b>"},
+          {text: "<b>否</b>"}
+        ],
+        buttonClicked: function (index) {
+          if(index == 0) {
+            var friend = vm.self.repeatList[$index];
+
+            $ionicLoading.show();
+            userNetService.unattention(friend.userId).then(
+              function (data) {
+                $ionicLoading.hide();
+                $ionicLoading.show({
+                  duration: 1500,
+                  templateUrl: 'modules/components/templates/ionic-loading/com-cancel-success.html'
+                });
+
+                // 如果互关注,取消funs里面的互关注状态
+                if(friend.isMutualAttention) {
+                  var funsList = userNetService.cache.selfInfo.funsList;
+                  for(var i in funsList) {
+                    if(funsList[i].userId == friend.userId) {
+                      funsList[i].isMutualAttention = false;
+                      userUtils.uiProcessFollowed(funsList[i]);
+                      break;
+                    }
+                  }
+                }
+
+                userNetService.cache.selfInfo.attentionList.splice($index, 1);
+
+              }, function (data) {
+                $ionicLoading.hide();
+                ho.alertObject(data);
+              }).finally(function () {
+              });
+          }
+
+          return true;
+        },
+        cancelText: "取消",
+        cancel: function () {
+          // add cancel code..
+        },
+        destructiveButtonClicked: function () {
+        }
+      })
+    };
+
+
     self.friendList = [
       {
         name: '小刚',

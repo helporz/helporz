@@ -35,10 +35,13 @@
       acceptTaskFinishList: [],
 
       // notice
-      nm_post: [],
-      nm_accept: [],
+      nm_postGoing: [],
+      nm_postFinish: [],
+      nm_acceptGoing: [],
+      nm_acceptFinish: [],
       nm_comment: [],
       nm_follow: [],
+      nm_main_changed: false,
       nm_task_changed: false
     };
 
@@ -438,29 +441,49 @@
       NoticeMessageService.getAllNoticeMessage().then(function (noticeMessageList) {
 
         // clear notice message cache
-        var post = cache.nm_post = [];
-        var accept = cache.nm_accept = [];
+        var postGoing = cache.nm_postGoing = [];
+        var postFinish = cache.nm_postFinish = [];
+        var acceptGoing = cache.nm_acceptGoing = [];
+        var acceptFinish = cache.nm_acceptFinish = [];
         var comment = cache.nm_comment = [];
         var follow = cache.nm_follow = [];
+
+        cache.nm_main_changed = true;
         cache.nm_task_changed = true;
 
         // analyze fetched message
+        //
+        /*{
+          POSTER_UNCOMPLETED_TASK_MESSAGE_TYPE: 1,
+          ACCEPTER_UNCOMPLETED_TASK_MESSAGE_TYPE: 2,
+          COMMENT_TASK_MESSAGE_TYPE: 3,
+          FRIEND_TASK_MESSAGE_TYPE: 4,
+          POSTER_COMPLETED_TASK_MESSAGE_TYPE: 5,
+          ACCEPTER_COMPLETED_TASK_MESSAGE_TYPE: 6,
+        }*/
+
+        var NMT = NoticeMessageService.getNoticeMessageTypes();
+
         if (noticeMessageList != null && noticeMessageList.length > 0) {
           var unreadMessageList = noticeMessageList;
           for (var msgIndex = 0; msgIndex < unreadMessageList.length; ++msgIndex) {
-            $log.info('noticemsg[#index#] serialNo[#serialNo#]'
-              .replace('#index#', msgIndex)
-              .replace('#serialNo#', unreadMessageList[msgIndex].serialNo));
+            //$log.info('noticemsg[#index#] serialNo[#serialNo#]'
+            //  .replace('#index#', msgIndex)
+            //  .replace('#serialNo#', unreadMessageList[msgIndex].serialNo));
 
             var msg = unreadMessageList[msgIndex];
-            if(msg.type == 1) {
-              post.push(msg);
-            }else if(msg.type == 2) {
-              accept.push(msg);
-            }else if(msg.type == 3) {
+            if(msg.type == NMT.POSTER_UNCOMPLETED_TASK_MESSAGE_TYPE) {
+              postGoing.push(msg);
+            }else if(msg.type == NMT.ACCEPTER_UNCOMPLETED_TASK_MESSAGE_TYPE) {
+              acceptGoing.push(msg);
+            }else if(msg.type == NMT.COMMENT_TASK_MESSAGE_TYPE) {
               comment.push(msg);
-            }else if(msg.type == 4) {
+            }else if(msg.type == NMT.FRIEND_TASK_MESSAGE_TYPE) {
               follow.push(msg);
+            }else if(msg.type == NMT.POSTER_COMPLETED_TASK_MESSAGE_TYPE) {
+              postFinish.push(msg);
+            }else if(msg.type == NMT.ACCEPTER_COMPLETED_TASK_MESSAGE_TYPE) {
+              acceptFinish.push(msg);
             }
           }
 
@@ -469,6 +492,16 @@
       }, function (error) {
         $log.error(error);
       });
+    };
+
+    var _setCommentReadFlag = function(taskId) {
+      for(var i in cache.nm_comment) {
+        if(cache.nm_comment[i].correlationId == taskId) {
+          NoticeMessageService.setReadFlagBySerialNo(cache.nm_comment[i].serialNo);
+          cache.nm_comment.splice(i, 1);
+          break;
+        }
+      }
     };
 
     var _observeNoticeMessage = function() {
@@ -515,7 +548,8 @@
 
       // notice message
       fetchNoticeMessage: _fetchNoticeMessage,
-      observeNoticeMessage: _observeNoticeMessage
+      observeNoticeMessage: _observeNoticeMessage,
+      setCommentReadFlag: _setCommentReadFlag
     };
   }
 })();

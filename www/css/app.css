@@ -79,6 +79,12 @@
 .font-size-34 {
   font-size: 34px; }
 
+.width-60 {
+  width: 60px !important; }
+
+.width-70 {
+  width: 70px !important; }
+
 .item.activated {
   background-color: white; }
 
@@ -176,7 +182,7 @@
   padding: 2px 8px;
   height: 24px;
   border-radius: 5px;
-  font-size: 10px;
+  font-size: 11px;
   line-height: 18px; }
   .ho-button-small.min-width-60 {
     min-width: 60px;
@@ -257,6 +263,9 @@
     border-bottom-width: 7px !important; }
   .bottom-bordered.bottom-bordered-big {
     border-bottom-width: 10px !important; }
+
+.move-away {
+  transform: translate3d(-9999px, -9999px, 0px) !important; }
 
 .ho-list .list {
   width: 100%; }
@@ -404,7 +413,7 @@
       -moz-flex: 0 0 auto;
       -ms-flex: 0 0 auto;
       flex: 0 0 auto;
-      margin: 0 11px 0 10px; }
+      margin: 0 5px 0 5px; }
   .ho-list .ho-item.ho-item-icon {
     display: -webkit-box;
     display: -webkit-flex;
@@ -916,6 +925,7 @@
       border-width: 1px;
       height: 26px;
       font-size: 12px;
+      font-weight: bold;
       padding: 0 7px;
       display: -webkit-box;
       display: -webkit-flex;
@@ -950,12 +960,12 @@
           color: #FF432F;
           border-color: #FF432F; }
       .ho-tabset.ho-tabset-block-border > ho-tab.ho-tab-gray {
-        background-color: #eee;
-        color: #878787;
+        background-color: white;
+        color: #aaa;
         border-color: #e8e7ed; }
         .ho-tabset.ho-tabset-block-border > ho-tab.ho-tab-gray.tab-item-active {
-          background-color: white;
-          color: #5a5a5a;
+          background-color: #eee;
+          color: #6a6a6a;
           border-color: #e8e7ed; }
       .ho-tabset.ho-tabset-block-border > ho-tab.col-2 {
         -webkit-box-flex: 0;
@@ -2331,6 +2341,25 @@
     .me .nav .name {
       margin-bottom: 0;
       font-size: 17px; }
+  .me .title-container {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    justify-content: center;
+    font-size: 17px;
+    font-weight: 500; }
   .me .back-img {
     background-color: #FF432F;
     position: fixed;
@@ -2590,19 +2619,36 @@
     -moz-justify-content: center;
     justify-content: center;
     padding: 7px; }
-  .me .ho-list.friend ion-item .content .name {
-    padding-top: 2px;
-    font-size: 15px;
-    color: #2a2a2a; }
-  .me .ho-list.friend ion-item .content .desc {
-    font-size: 13px;
-    color: #878787; }
+  .me .ho-list.friend ion-item {
+    padding: 5px; }
+    .me .ho-list.friend ion-item .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 20px;
+      margin: 0 5px 0 10px; }
+    .me .ho-list.friend ion-item .content-long {
+      padding: 0 5px;
+      max-width: calc(100% - 126px);
+      min-width: calc(100% - 126px); }
+    .me .ho-list.friend ion-item .content-short {
+      padding: 0 5px;
+      max-width: calc(100% - 191px);
+      min-width: calc(100% - 191px); }
+    .me .ho-list.friend ion-item .name {
+      text-align: left;
+      padding-top: 2px;
+      font-size: 15px;
+      color: #2a2a2a; }
+    .me .ho-list.friend ion-item .desc {
+      text-align: left;
+      font-size: 13px;
+      color: #878787; }
+  .me .ho-list.friend .bt-left {
+    margin: 0 0 0 5px; }
+  .me .ho-list.friend .bt-right {
+    margin: 0 2px 0 7px; }
   .me .ho-list.friend .bt-active {
-    border: 1px solid #f78058;
-    background: white;
-    color: #f78058; }
-  .me .ho-list.friend .bt-inactive {
-    border-width: 0;
+    border: 1px solid #ffd0ce;
     background: #ffeceb;
     color: #f78058; }
   .me .belongings .me-card {
