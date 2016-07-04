@@ -263,10 +263,16 @@
       }
 
       userNetService.logout(loginTicket,'sign').then(function () {
+        jimService.logout();
         userLoginInfoService.clear();
         _innerDefer.resolve();
+        $ionicHistory.clearHistory();
       },function() {
-        _innerDefer.reject();
+        //即使调用服务器接口失败也要清除本地用户登陆数据
+        jimService.logout();
+        userLoginInfoService.clear();
+        _innerDefer.resolve();
+        $ionicHistory.clearHistory();
       });
 
       return _innerDefer.promise;
