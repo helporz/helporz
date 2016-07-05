@@ -33,6 +33,7 @@ $tabs-default-border: $item-default-border;
 .popup-body {
   padding: 0px !important;
   overflow: hidden !important;
+  border-radius:10px;
 }
 
 $popup-width: 85%;
@@ -282,5 +283,9 @@ $popup-width: 85%;
   font-size: 300%;
   background-color: rgba(0, 0, 0, .5);
 
+}
+
+.popup-container.active .popup {
+  border-radius: 10px;
 }
 
