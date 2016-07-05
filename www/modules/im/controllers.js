@@ -13,10 +13,27 @@
   angular.module('com.helporz.im.controllers', ['com.helporz.im.services'])
     .controller('imMessageListController', imMessageListControllerFn)
     .controller('imMessageDetailController', ['$log', '$q', '$scope', '$stateParams',
-      '$ionicScrollDelegate', '$timeout', 'imMessageService', 'jimService', 'imMessageStorageService',
+      '$ionicScrollDelegate', '$timeout','$ionicPopup', 'imMessageService', 'jimService', 'imMessageStorageService',
       'userNetService', 'imConversationService', 'UtilsService',
-      function ($log, $q, $scope, $stateParams, $ionicScrollDelegate, $timeout, imMessageService, jimService,
+      function ($log, $q, $scope, $stateParams, $ionicScrollDelegate, $timeout, $ionicPopup ,imMessageService, jimService,
                 imMessageStorageService, userNetService, imConversationService, UtilsService) {
+
+        //var popupScope = $scope.$new();
+        //
+        //popupScope.cancel = function() {
+        //  confirmPopup.close();
+        //};
+        //
+        //popupScope.ok = function() {
+        //  confirmPopup.close();
+        //};
+        //
+        //var confirmPopup = $ionicPopup.show({
+        //  templateUrl: 'modules/im/resend-confirm-popup.html',
+        //  title: null,
+        //  subTitle: null,
+        //  scope: popupScope,
+        //});
 
         var viewScroll = $ionicScrollDelegate.$getByHandle('messageDetailsScroll');
 
@@ -83,14 +100,22 @@
                   uMessage.isFromMe = true;
                   uMessage.id = index * 2;
                   uMessage.message = 'test';
-                  uMessage.sendState = 1;
+                  //uMessage.sendState = 1;
                   uMessage.time = UtilsService.currentDate2String();
+                  if( index%2== 0) {
+                    uMessage.sendState = -1;
+                  }
+                  else {
+                    uMessage.sendState = 0;
+                  }
+
                   cMessage.userId = $scope.user.userId;
                   cMessage.cUserId = $scope.cUser.userId;
                   cMessage.isFromMe = false;
                   cMessage.id = index * 2 + 1;
                   cMessage.message = 'test';
                   cMessage.time = UtilsService.currentDate2String();
+                  cMessage.sendState = -1;
 
                   $scope.messageDetails.push(uMessage);
                   $scope.messageDetails.push(cMessage);
@@ -188,16 +213,19 @@
           messageDetail.isFromMe = true;
           messageDetail.type = 'text';
           messageDetail.message = $scope.sendContent;
+          messageDetail.sentState = 0;
 
           $scope.sendContent = '';
           imMessageStorageService.addMessage(messageDetail).then(function (msgId) {
             messageDetail.id = msgId;
             $scope.messageDetails.push(messageDetail);
             imMessageService.sendMessage($scope.cUser, messageDetail).then(function () {
+              $log.info("发烧消息成功:"+ messageDetail.message);
               imMessageStorageService.updateMessageState(messageDetail, 1);
               messageDetail.sendState = 1;
               updateMessageDetailList(messageDetail);
             }, function (error) {
+              $log.info("发烧消息失败:"+ messageDetail.message);
               imMessageStorageService.updateMessageState(messageDetail, -1);
               messageDetail.sendState = -1;
               updateMessageDetailList(messageDetail);
@@ -209,19 +237,22 @@
         };
 
         $scope.reSendPrompt = function (message) {
-          var confirmPopup = $ionicPopup.confirm({
-            title: '<strong>重发该消息?</strong>',
-            template: null,
-            okText: '重发',
-            cancelText: '取消'
-          });
+          var popupScope = $scope.$new();
 
-          confirmPopup.then(function (res) {
-            if (res) {
-              $scope.reSend(message);
-            } else {
-              //Don't close
-            }
+          popupScope.cancel = function() {
+            confirmPopup.close();
+          };
+
+          popupScope.ok = function() {
+            $scope.reSend(message);
+            confirmPopup.close();
+          }
+
+          var confirmPopup = $ionicPopup.show({
+            templateUrl: 'modules/im/resend-confirm-popup.html',
+            title: null,
+            subTitle: null,
+            scope: popupScope,
           });
         }
 

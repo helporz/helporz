@@ -39,7 +39,9 @@
           console.log(typeof(device));
           console.log('test for browser');
           var _jmessagePlugin = {
-            login:function() {},
+            login:function(username,password,onSuccess,onFailed) {
+              onSuccess("im login success");
+            },
             logout:function() {},
             getSingleHistoryMessage:function() {},
             sendSingleTextMessage:function() {},

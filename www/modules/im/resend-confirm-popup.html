@@ -1,0 +1,31 @@
+<style>
+
+  .resend-confirm-popup .select-button {
+    color:blue;
+    text-align: center;
+    font-size: 15px;
+    border-top: 1px solid #ddd;
+  }
+
+  .resend-confirm-popup .right-border {
+    border-right: 1px solid #ddd;
+  }
+
+  .resend-confirm-popup .header {
+    font-size: 18px;
+    font-weight: bold;
+    color:#000;
+    text-align: center;
+  }
+
+</style>
+<div class="resend-confirm-popup no-border">
+
+  <div class="row">
+    <p class="col header">重发该消息?</p>
+  </div>
+  <div class="row">
+    <div class="col col-50 select-button right-border" ng-click="cancel()">取消</div>
+    <div class="col col-50 select-button" ng-click="ok()">重发</div>
+  </div>
+</div>

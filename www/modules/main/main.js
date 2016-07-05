@@ -263,7 +263,7 @@
       }
       var exitConfirmPopup = $ionicPopup.show(
         {
-          templateUrl: 'modules//exit-confirm-popup.html',
+          templateUrl: 'modules/exit-confirm-popup.html',
           title: null,
           subTitle: null,
           scope: popupScope
