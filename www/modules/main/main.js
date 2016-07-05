@@ -184,6 +184,25 @@
         }
       })
 
+      .state('main.me_user-tasks', {
+        url: '/me/user-tasks',
+        views: {
+          'me': {
+            templateUrl: 'modules/main/details/user-tasks/user-tasks.html',
+            controller: 'mainUserTasksCtrl'
+          }
+        }
+      })
+      .state('main.me_user-tasks_task-detail', {
+        url: '/me/user-tasks/task-detail/:id',
+        views: {
+          'me': {
+            templateUrl: 'modules/main/near/task-detail/task-detail.html',
+            controller: 'mainNearTaskDetailCtrl'
+          }
+        }
+      })
+
       .state('main.task', {
         url: '/task',
         views: {

@@ -21,7 +21,7 @@
         for(var k in v) {
           v[k]();
         }
-      }, 200);
+      }, 300);
 
       setInterval(function() {
         var v = intervals[1];

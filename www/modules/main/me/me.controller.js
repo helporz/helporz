@@ -8,11 +8,11 @@
   angular.module('main.me')
     .controller('mainMeCtrl', ['$state', '$scope', '$ionicLoading', '$ionicPopup', '$ionicScrollDelegate', '$ionicActionSheet',
       '$timeout', '$interval', 'userNetService', 'impressUtils', 'userUtils',
-      'errorCodeService','SharePageWrapService', mainMeCtrl])
+      'errorCodeService','SharePageWrapService', 'mainUserTasksService', mainMeCtrl])
 
   function mainMeCtrl($state, $scope, $ionicLoading, $ionicPopup, $ionicScrollDelegate, $ionicActionSheet,
                       $timeout, $interval, userNetService, impressUtils, userUtils,
-                      errorCodeService,SharePageWrapService) {
+                      errorCodeService,SharePageWrapService, mainUserTasksService) {
     var vm = $scope.vm = {};
 
     vm.cb_edit = function () {
@@ -353,8 +353,14 @@
         });
     };
 
-    self.cb_postList = function(index) {
-
+    self.cb_postList = function($index) {
+      var friend = vm.self.repeatList[$index];
+      mainUserTasksService.user = {
+        id: friend.userId,
+        nickname: friend.nickname,
+      };
+      mainUserTasksService.tasks = [];
+      $state.go('main.me_user-tasks');
     };
 
     self.cb_cancelFocus = function($index) {

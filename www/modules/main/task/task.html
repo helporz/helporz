@@ -36,7 +36,7 @@
   <ho-tab-set ng-show='vm.tabSelectedIndex == 0' widget-id="task-post" first-on='last'
               class="ho-tabset ho-tabset-block"
               style="position:absolute;
-                    top:64px;
+                    top:{{vm.tabsetSpace}};
                     border-bottom:1px solid #dddddd">
     <ho-tab class="col-2 ho-tab-white-bg" on-select="vm.cb_taskPostGoing()"
             style="font-size:12px;padding-top:5px;height:38px;">
@@ -53,7 +53,7 @@
   <ho-tab-set ng-show='vm.tabSelectedIndex == 1' widget-id="task-accept" first-on='last'
               class="ho-tabset ho-tabset-block"
               style="position:absolute;
-                    top:64px;">
+                    top:{{vm.tabsetSpace}}">
     <ho-tab class="col-2 ho-tab-white-bg" on-select="vm.cb_taskAcceptGoing()"
             style="font-size:12px;padding-top:5px;height:38px;">
       进行中
@@ -68,7 +68,7 @@
 
   <ion-content delegate-handle="taskScroll" style="
                                                 position:absolute;
-                                                top:104px">
+                                                top:{{vm.contentSpace}}">
 
     <ion-refresher pulling-text="下拉刷新..." on-refresh="vm.doRefresh()">
     </ion-refresher>

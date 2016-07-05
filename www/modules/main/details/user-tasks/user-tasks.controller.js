@@ -1,18 +1,30 @@
 /**
- * Created by Midstream on 16/3/29.
+ * Created by Midstream on 16/7/4.
  */
 
 (function () {
   'use strict';
 
-  angular.module('main.near')
-    .controller('mainNearCtrl', ['$state', '$log', '$ionicLoading', '$interval', '$timeout', '$scope', 'taskNetService', 'userNetService',
-      'taskUtils', 'timeUtils', 'impressUtils', 'intervalCenter','SharePageWrapService', mainNearCtrl]);
+  angular.module('main.user-tasks')
+    .factory('mainUserTasksService', mainUserTasksService)
+    .controller('mainUserTasksCtrl', ['$state', '$log', '$ionicLoading', '$interval', '$timeout', '$scope', 'taskNetService', 'userNetService',
+      'taskUtils', 'timeUtils', 'impressUtils', 'intervalCenter', 'SharePageWrapService', 'mainUserTasksService',
+      'mainNearTaskDetailService',
+      mainUserTasksCtrl]);
 
+  function mainUserTasksService() {
+    return {
+      user: {
+        id: '',
+        nickname: ''
+      },
+      tasks: []
+    }
+  }
 
-
-  function mainNearCtrl($state, $log, $ionicLoading, $interval, $timeout, $scope, taskNetService, userNetService,
-                        taskUtils, timeUtils, impressUtils, intervalCenter,SharePageWrapService) {
+  function mainUserTasksCtrl($state, $log, $ionicLoading, $interval, $timeout, $scope, taskNetService, userNetService,
+                             taskUtils, timeUtils, impressUtils, intervalCenter, SharePageWrapService, mainUserTasksService,
+                             mainNearTaskDetailService) {
 
     //fixme:因为点击会穿透,同时触发多个事件,这里先用标记来屏蔽,点击按钮后间隔一段时间才可触发下一次点击回调
     var _isClicking = false;
@@ -29,75 +41,54 @@
     }
 
     var vm = $scope.vm = {};
+    vm.nickname = mainUserTasksService.user.nickname;
+    vm.items = [];
 
     vm.sharePageService = SharePageWrapService;
-    //vm.doRefresh = function () {
-    //  taskNetService.queryNewTaskList().then(flushSuccessFn, flushFailedFn).finally(function () {
-    //    $scope.$broadcast('scroll.refreshComplete');
-    //  });
-    //};
+    vm.doRefresh = function () {
+      taskNetService.queryNewTaskList().then(flushSuccessFn, flushFailedFn).finally(function () {
+        $scope.$broadcast('scroll.refreshComplete');
+      });
+    };
 
-    var intervalFunc = function(){
-      if (taskNetService.cache.isNearTaskNeedRefresh) {
-        taskNetService.cache.isNearTaskNeedRefresh = false;
-        _refreshList();
-      }
+    function _refreshList() {
+      $ionicLoading.show();
+      taskNetService.getWaitingTaskList(mainUserTasksService.user.id).then(flushSuccessFn, flushFailedFn).finally(function () {
+        $ionicLoading.hide();
+      });
     }
 
     $scope.$on("$ionicView.enter", function () {
-
-      if (ho.isValid(userNetService.cache.selfInfo)) {
-        vm.orgName = userNetService.cache.selfInfo.orgList[0].name;
+      if (mainUserTasksService.tasks.length == 0) {
+        _refreshList();
+      } else {  //从界面返回时,不将tasks置空,那么回来就不用再次从网络获取
+        vm.items = mainUserTasksService.tasks;
       }
-
-      //$timeout(function(){
-      //  $scope.$apply();
-      //  });
-
-      intervalCenter.add(0, 'near', intervalFunc);
-
     });
 
-    $scope.$on('$ionicView.leave', function() {
-      //$interval.cancel(vm.pollInterval);
-      intervalCenter.remove(0, 'near', intervalFunc);
+    $scope.$on('$ionicView.leave', function () {
+
     })
 
-    vm.cb_itemClick = function(index) {
-      if(canClick() == false) {
+    vm.cb_itemClick = function (index) {
+      if (canClick() == false) {
         return
       }
-
-      $state.go('main.task-detail', {id: vm.items[index].id})
+      mainNearTaskDetailService.task = vm.items[index];
+      $state.go('main.me_user-tasks_task-detail', {id: '-1'});
     };
 
     vm.cb_acceptTask = function (index) {
-      if(canClick() == false) {
+      if (canClick() == false) {
         return
       }
 
-      var task = taskNetService.cache.nearTaskList[index];
-
-      //if(userNetService.cache.selfInfo == null){
-      //  alert('未登录');
-      //  return;
-      //}
-      //
-      //if(userNetService.cache.selfInfo.userId == task.poster.userId) {
-      //  $ionicLoading.show({
-      //    duration: 1500,
-      //    templateUrl: 'modules/components/templates/ionic-loading/task-cannot-accept-self-post.html'
-      //  });
-      //  return;
-      //}
+      var task = vm.items[index];
 
       $ionicLoading.show();
 
       taskNetService.acceptTask(task.id).then(
         function (data) {
-          //taskNetService.queryNewTaskList().then(flushSuccessFn, flushFailedFn).finally(function () {
-          //  $ionicLoading.hide();
-          //})
 
           if (data.code == 200) {
             //成功
@@ -105,9 +96,10 @@
               duration: 1500,
               templateUrl: 'modules/components/templates/ionic-loading/task-accept-success.html'
             });
-            $timeout(function() {
+            $timeout(function () {
               taskNetService.cache.isNearTaskNeedRefresh = true;
               taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
+              _refreshList();
             }, 1500);
           } else {
             //失败
@@ -116,7 +108,7 @@
               duration: 1500,
               templateUrl: 'modules/components/templates/ionic-loading/task-not-exist.html'
             });
-            $timeout(function() {
+            $timeout(function () {
               taskNetService.cache.isNearTaskNeedRefresh = true;
             }, 1500);
           }
@@ -133,8 +125,8 @@
     function flushSuccessFn(newTaskList) {
       $log.info('new task list:' + JSON.stringify(newTaskList));
 
-      taskNetService.cache.nearTaskList = newTaskList;
       $scope.vm.items = newTaskList;
+      mainUserTasksService.tasks = newTaskList;
 
 
       // process attr
@@ -153,15 +145,8 @@
 
         item.ui_tags = [];
         impressUtils.netTagsToUiTags(item.ui_tags, item.poster.tags);
-
-        //temp
-        //item.ui_tags = [impressUI[0], impressUI[2], impressUI[3]];
       }
 
-      ////避免 $digest / $apply digest in progress
-      //if (!$scope.$$phase) {
-      //  $scope.$apply();
-      //}
       $timeout(function () {
         $scope.$apply();
       })
@@ -169,14 +154,7 @@
     }
 
     function flushFailedFn(error) {
-      alert('main.near'+error);
-    }
-
-    function _refreshList() {
-      $ionicLoading.show();
-      taskNetService.queryNewTaskList().then(flushSuccessFn, flushFailedFn).finally(function () {
-        $ionicLoading.hide();
-      });
+      alert(error);
     }
 
 

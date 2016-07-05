@@ -53,7 +53,7 @@
 }
 
 .tab-item-active-style-1 {
-  color: $color-theme;
+  color: $color-theme !important;
 }
 
 .tab-item-inactive-style-1 {
@@ -72,4 +72,25 @@
   margin: 2px 0 0 0;
   height: 29px;
   font-size: 29px;
+}
+
+
+// overwrite android tab appearance
+.tabs-striped.tabs-stable .tab-item {
+  margin-top: -2px;
+}
+.tabs-striped.tabs-stable .tab-item.tab-item-active {
+  border: none;
+}
+.tabs-striped.tabs-stable .tab-item.activated {
+  border: none;
+}
+// tabbar top border color
+.tabs-striped.tabs-stable .tabs {
+  border-top: 1px solid #d6d6d6 !important;
+}
+
+// overwrite android tab badge opacity (maybe 0.5 origin)
+.tab-item .badge {
+  opacity: 1 !important;
 }

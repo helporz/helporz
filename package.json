@@ -3,7 +3,7 @@
   "version": "1.1.1",
   "description": "helporz: An Ionic project",
   "scripts": {
-    "start": "cd www && python -m SimpleHTTPServer 8000"
+    "start": "node_modules/weinre/weinre --httpPort 9099 --boundHost -all-"
   },
   "dependencies": {
     "gulp": "^3.5.6",
