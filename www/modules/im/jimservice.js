@@ -93,6 +93,11 @@
       var _loginForPromise = function($username,$password) {
         //登录前清空用户名
         var imLoginDefer = $q.defer();
+        if( typeof($window.plugins.jmessagePlugin.login) === 'undefined') {
+          imLoginDefer.reject();
+          return imLoginDefer.promise;
+        }
+
         try {
           $window.plugins.jmessagePlugin.username  = '';
 
