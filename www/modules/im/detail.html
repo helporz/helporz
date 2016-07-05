@@ -29,7 +29,7 @@
 
         <p class="rj-message-right" ng-bind="item.message"></p>
         <ion-spinner icon="ios-small" style="float:right; margin: 5px 5px;" ng-if="item.sendState==0"></ion-spinner>
-        <p class="icon ion-alert" style="float:right; margin: 5px 5px; color:red" ng-if="item.sendState==-1"/>
+        <p class="icon ion-android-alert" style="float:right; margin: 5px 5px; color:red" ng-if="item.sendState==-1" ng-click="reSendPrompt(item)"/>
       </div>
     </div>
   </ion-content>

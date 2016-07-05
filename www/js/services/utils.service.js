@@ -190,7 +190,7 @@
       isShowIntro: _isShowIntro,
       updateShowIntroInfo: _updateShowIntroInfo,
     };
-  }]).factory('deviceService', ['$log', function ($log) {
+  }]).factory('deviceService', ['$log', 'pushService', function ($log, pushService) {
     var deviceServiceFactory = {};
     var _getDeviceInfo = function () {
       var deviceInfo = {
@@ -218,6 +218,15 @@
         }
         else {
           deviceInfo.type = 100;
+        }
+
+        var hid = pushService.getCurrentRegistrationID();
+        if (hid != null && hid !== '') {
+          deviceInfo.hid = hid;
+          $log.info("device hid:" + hid);
+        }
+        else {
+          $log.error("can't get hid");
         }
       }
       else {
@@ -436,9 +445,15 @@
     var currentDate2String = function () {
       return date2String(new Date());
     }
+
+    var getLocalTime = function (nS) {
+      return date2String(new Date(parseInt(nS)));
+    }
+
     return {
       date2String: date2String,
       currentDate2String: currentDate2String,
+      getLocalTime:getLocalTime,
     }
   }
 
@@ -596,13 +611,13 @@
   function DebugHelpServiceFactoryFn($log) {
     var obj2String = function (o, maxDeepCount, currentDeepIndex) {
       var r = [];
-
-      if (currentDeepIndex >= maxDeepCount) {
-        return o.toString();
-      }
       if (o == null) {
         return '';
       }
+      if (currentDeepIndex >= maxDeepCount) {
+        return o.toString();
+      }
+
       if (typeof o == "string") {
         return "\"" + o.replace(/([\'\"\\])/g, "\\$1").replace(/(\n)/g, "\\n").replace(/(\r)/g, "\\r").replace(/(\t)/g, "\\t") + "\"";
       }

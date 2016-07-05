@@ -197,7 +197,7 @@
       //    'Content-Type': 'application/x-www-form-urlencoded'
       //  }
       //})
-      var netPromise = userNetService.login(deviceInfo.type, phoneNo, smsCode);
+      var netPromise = userNetService.login(deviceInfo.type, phoneNo, smsCode,JSON.stringify(deviceInfo));
       return _loginProcessForPromise(netPromise);
       //  userNetService.login(deviceInfo.type,phoneNo,smsCode)
       //  .then(processLoginResponse, processLoginFailedResponse)
@@ -221,8 +221,9 @@
         return _innerDefer.promise;
       }
 
+      var deviceInfo = deviceService.getDeviceInfo();
       var date = utilConvertDateToString.getDateToString(new Date, 'yyyy-MM-dd HH:mm:ss');
-      var netPromise = userNetService.loginByTicket(loginTicket, date);
+      var netPromise = userNetService.loginByTicket(loginTicket, date,JSON.stringify(deviceInfo));
       return _loginProcessForPromise(netPromise);
 
       //userNetService.loginByTicket(loginTicket,date).then(processLoginResponse, processLoginFailedResponse)
@@ -262,12 +263,12 @@
         return _innerDefer.promise;
       }
 
-      userNetService.logout(loginTicket,'sign').then(function () {
+      userNetService.logout(loginTicket, 'sign').then(function () {
         jimService.logout();
         userLoginInfoService.clear();
         _innerDefer.resolve();
         $ionicHistory.clearHistory();
-      },function() {
+      }, function () {
         //即使调用服务器接口失败也要清除本地用户登陆数据
         jimService.logout();
         userLoginInfoService.clear();
@@ -295,7 +296,7 @@
       loginByTicket: _loginByTicket,
       isLogging: _isLogging,
       isShowIntro: _isShowIntro,
-      logout:_logout,
+      logout: _logout,
     }
     // 下面是内部方法定义
     function processLoginResponse(response) {

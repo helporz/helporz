@@ -593,8 +593,15 @@
     };
   }
 
-  imMessageServiceFactoryFn.$inject = ['$log', '$q', 'jimService', 'imMessageStorageService', 'imConversationService', 'userNetService'];
-  function imMessageServiceFactoryFn($log, $q, jimService, imMessageStorageService, imConversationService, userNetService) {
+  imMessageServiceFactoryFn.$inject = ['$log',
+    '$q',
+    'jimService',
+    'imMessageStorageService',
+    'imConversationService',
+    'userNetService',
+    'UtilsService',
+    'debugHelpService',];
+  function imMessageServiceFactoryFn($log, $q, jimService, imMessageStorageService, imConversationService, userNetService, UtilsService,debugHelpService) {
     var msgObservers = {};
     var conversationObservers = {};
 
@@ -606,21 +613,23 @@
       conversationObservers[name] = observer;
     }
 
-    var unregisterMsgObserver = function(name) {
+    var unregisterMsgObserver = function (name) {
       msgObservers[name] = null;
     }
 
-    var unregisterConversationObserver = function(name) {
+    var unregisterConversationObserver = function (name) {
       conversationObservers[name] = null;
     }
 
     var onSingleReceiveMessage = function (data) {
       $log.debug("receive im message");
+
       if (typeof(data.msg_type) === 'undefined') {
-        $log.error('receive invalid message:' + JSON.stringify(data));
+        $log.error('receive invalid message:' + debugHelpService.writeObj(data));
       }
       else {
-        $log.info('receive message:' + data.msg_body.text + " username:" + data.target_id + " toUserName:" + data.from_id);
+        //$log.info("receive messge:" + debugHelpService.writeObj(data));
+        $log.info('receive message:' + data.msg_body.text + " username:" + data.target_id + " toUserName:" + data.from_id + " time:" + data.create_time);
 
         var cUserId = data.from_id.split('_')[1];
         var messageDetail = {
@@ -628,7 +637,7 @@
           cUserId: cUserId,
           type: 'text',
           message: data.msg_body.text,
-          time: data.create_time,
+          time: UtilsService.getLocalTime(data.create_time),
           isFromMe: false,
           sendState: 1
         };
@@ -636,7 +645,7 @@
         imMessageStorageService.addMessage(messageDetail).then(function (insertId) {
           messageDetail.id = insertId;
           for (var msgOb in msgObservers) {
-            if( msgObservers[msgOb] != null ) {
+            if (msgObservers[msgOb] != null) {
               msgObservers[msgOb].onReceiveMessage(messageDetail);
             }
           }
@@ -694,10 +703,10 @@
 
     jimService.updateMessageNotifyCB(config);
 
-    var sendMessage = function (cUser,message) {
+    var sendMessage = function (cUser, message) {
       var _innerDefer = $q.defer();
       var cbObj = null;
-      jimService.sendTextMessage(message.userId,cUser.loginName + '_' + message.cUserId, message.type, message.message, function (response) {
+      jimService.sendTextMessage(message.userId, cUser.loginName + '_' + message.cUserId, message.type, message.message, function (response) {
         _innerDefer.resolve();
       }, function (response) {
         _innerDefer.reject(response);
@@ -710,10 +719,10 @@
       //getHistoryMessageList: _getHistoryMessageList,
       //addMessage: _addMessage,
       //deleteMessageList: _deleteMessageList,
-      registerMsgObserver:registerMsgObserver,
-      unregisterMsgObserver:unregisterMsgObserver,
-      registerConversationObserver:registerConversationObserver,
-      unregisterConversationObserver:unregisterConversationObserver,
+      registerMsgObserver: registerMsgObserver,
+      unregisterMsgObserver: unregisterMsgObserver,
+      registerConversationObserver: registerConversationObserver,
+      unregisterConversationObserver: unregisterConversationObserver,
       sendMessage: sendMessage,
       //deleteMessage: imMessageStorageService.deleteMessage,
       //updateMessage: imMessageStorageService.updateMessage

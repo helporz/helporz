@@ -131,19 +131,25 @@
         });
       }
 
-      if( loginService.isShowIntro()) {
-        $state.go('intro');
-      }
-      else if(loginService.isLogging()){
-        loginService.loginByTicket().then(function() {
-          $state.go('main.near');
-        },function() {
+      jimService.init();
+      pushService.init().then(function () {
+        if (loginService.isShowIntro()) {
+          $state.go('intro');
+        }
+        else if (loginService.isLogging()) {
+          loginService.loginByTicket().then(function () {
+            $state.go('main.near');
+          }, function () {
+            $state.go('login');
+          });
+        }
+        else {
           $state.go('login');
-        });
-      }
-      else {
+        }
+
+      }, function () {
         $state.go('login');
-      }
+      });
 
       document.addEventListener("deviceready", function () {
         window.sqlitePlugin.openDatabase({name: 'helporz.db', location: 'default'}, function (dbConn) {
@@ -162,9 +168,6 @@
         });
 
 
-        jimService.init();
-        pushService.init();
-
         //pushService.getRegistrationID();
 
         if (device.platform != "Android") {
@@ -179,7 +182,7 @@
       taskNetService.observeNoticeMessage();
 
       // test:
-      intervalCenter.add(1, 'app.noticeMessage', function(){
+      intervalCenter.add(1, 'app.noticeMessage', function () {
         taskNetService.fetchNoticeMessage();
       });
 

@@ -278,7 +278,7 @@
       $log.info('current location:' + $location.path());
       // Is there a page to go back to?
       if ($location.path() === '/main/near' || $location.path() === '/main/me'
-        || $location.path() === '/main/task' || $location.path() === '/main/topic-group') {
+        || $location.path() === '/main/task' || $location.path() === '/main/topic-group' || $location.path() === '/login') {
         //showConfirm();
         ionic.Platform.exitApp();
       } else if ($ionicHistory.backView()) {

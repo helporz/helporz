@@ -11,240 +11,7 @@
   ]);
 
   angular.module('com.helporz.im.controllers', ['com.helporz.im.services'])
-    .controller('imMessageListController', function ($log, $scope,
-                                                     $state,
-                                                     $ionicLoading,
-                                                     $timeout,
-                                                     $ionicPopup,
-                                                     jimService,
-                                                     imConversationService, imMessageStorageService,imMessageService,userNetService) {
-      var vm = $scope.vm = {};
-      vm.loading = function () {
-        $ionicLoading.show({
-          template: "正在加载数据"
-        });
-      };
-
-      vm.hideLoading = function () {
-        $ionicLoading.hide();
-      }
-
-      $scope.user = userNetService.cache.selfInfo;
-      //function getParamType(param) {
-      //  var _t;
-      //  return ((_t = typeof (param)) == "object" ? Object.prototype.toString.call(param).slice(8, -1) : _t).toLowerCase();
-      //}
-
-      //add for test by binfeng 2016-3-31
-      //imConversationService.clearConversation4Local();
-
-      //vm.imConversations = imConversationService.getLocalConversation();
-      //console.log('imConversations type:' + getParamType(vm.imConversations));
-      //console.log('array type:' + getParamType(new Array));
-
-      //if (vm.imConversations == null || vm.imConversations.length == 0) {
-      //  var dadaConversation = {
-      //    isTop: false,
-      //    pic: '',
-      //    showHints: true,
-      //    noReadMessages: 5,
-      //    lastMessage: {
-      //      timeFrome1970: '2016-3-31',
-      //      time: '2016-3-31',
-      //      content: 'test'
-      //    },
-      //    name: 'dada'
-      //  };
-      //  if (vm.imConversations == null) {
-      //    vm.imConversations = new Array();
-      //  }
-      //  ;
-      //
-      //  console.log(JSON.stringify(vm.imConversations));
-      //  for (var index = 0; index < 50; ++index) {
-      //    var dadaConversation = {
-      //      isTop: false,
-      //      pic: '',
-      //      showHints: true,
-      //      noReadMessages: 5,
-      //      lastMessage: {
-      //        timeFrome1970: '2016-3-31',
-      //        time: '2016-3-31',
-      //        content: 'test'
-      //      },
-      //      name: 'dada'
-      //    };
-      //    vm.imConversations.push(dadaConversation);
-      //  }
-      //}
-
-      // end add for test
-
-      //add for test by binfeng 2016-3-31
-      //$timeout(function() {
-      //  var date = new Date();
-      //
-      //  var conversation = {
-      //    isTop:false,
-      //    pic:'',
-      //    showHints:true,
-      //    noReadMessages:5,
-      //    lastMessage:{
-      //      timeFrome1970:'2016-3-31',
-      //      time:'2016-3-31',
-      //      content:'test'
-      //    },
-      //    name:'测试'+ date.getTime()
-      //  };
-      //
-      //  if( $scope.imMessageList.imConversations == null ) {
-      //    $scope.imMessageList.imConversations = new Array();
-      //  }
-      //  $scope.imMessageList.imConversations.push(conversation);
-      //  //$scope.imMessageList.hideLoading();
-      //},1000);
-
-      //end add for test
-
-      // console.log($scope.messages);
-      //$scope.onSwipeLeft = function() {
-      //  $state.go("tab.friends");
-      //};
-
-      console.log('im message list controller');
-      //this.updateConversationList = function () {
-      //  imConversationService.updateConversationFromImServer(function (newConversationList) {
-      //      $scope.imMessageList.imConversations = newConversationList;
-      //      //for( var nc in newConversation)
-      //      //$scope.imMessageList.imConversations.push(nc);
-      //    },
-      //    function (failedInfo) {
-      //      alert("更新会话信息失败");
-      //    });
-      //};
-
-      vm.popupConversationOptions = function (message) {
-        vm.popup.index = vm.imConversations.indexOf(message);
-        vm.popup.optionsPopup = $ionicPopup.show({
-          templateUrl: "modules/im/popup.html",
-          scope: $scope,
-        });
-        vm.popup.isPopup = true;
-      };
-
-      vm.markConversation = function () {
-        var index = vm.popup.index;
-        var conversation = vm.imConversations[index];
-        if (conversation.showHints) {
-          conversation.showHints = false;
-          conversation.noReadMessages = 0;
-        } else {
-          conversation.showHints = true;
-          conversation.noReadMessages = 1;
-        }
-
-        vm.imConversations[index] = conversation;
-        vm.popup.optionsPopup.close();
-        vm.popup.isPopup = false;
-
-        imConversationService.updateConversation(conversation);
-      };
-
-      vm.deleteConversation = function () {
-        var index = vm.popup.index;
-        var conversation = vm.imConversations[index];
-        vm.imConversations.splice(index, 1);
-        vm.popup.optionsPopup.close();
-        vm.popup.isPopup = false;
-        imConversationService.deleteConversation(conversation).then(function() {
-          $log.info('完成删除会话：userId(#userId#) cUserId(#cUserId#)'.replace('#userId#',conversation.userId).replace('#cUserId#',conversation.cUserId));
-          return imMessageStorageService.deleteMessageList(conversation.userId,conversation.cUserId);
-        }).then(function(){
-          $log.info('我那层删除会话中的所有消息：userId(#userId#) cUserId(#cUserId#)'
-           .replace('#userId#',conversation.userId).replace('#cUserId#',conversation.cUserId));
-        });
-      };
-
-      vm.topConversation = function () {
-        var index = vm.popup.index;
-        var conversation = vm.imConversations[index];
-        if (conversation.isTop) {
-          conversation.isTop = 0;
-        } else {
-          conversation.isTop = new Date().getTime();
-        }
-        vm.popup.optionsPopup.close();
-        vm.popup.isPopup = false;
-        imConversationService.updateConversation(conversation);
-      };
-
-      vm.conversationDetails = function (conversation) {
-        $state.go("main.im-detail", {
-          "cid": conversation.cUserId,
-        });
-      };
-
-      $scope.$on("$ionicView.beforeEnter", function () {
-        vm.imConversations = imConversationService.getConversationList();
-        if (g_isDebug && (vm.imConversations == null || vm.imConversations.length == 0 )) {
-          vm.imConversations = new Array();
-          var conversation = {
-            "id": 6,
-            "userId": "62",
-            "isTop": 0,
-            "showHints": 0,
-            "noReadMessages": 0,
-            "cUserId": "61",
-            "cUserNickname": null,
-            "cUserAvatar": "null",
-            "created": "2016-07-01 20:32:20",
-            "lastMessage": "yfgcfhgguijgij",
-            "lastMessageTime": "2016-07-02 15:32:41"
-          };
-          vm.imConversations.push(conversation);
-
-          conversation = {
-            "id": 7,
-            "userId": "62",
-            "isTop": 0,
-            "showHints": 0,
-            "noReadMessages": 0,
-            "cUserId": "61",
-            "cUserNickname": null,
-            "cUserAvatar": "null",
-            "created": "2016-07-01 20:32:20",
-            "lastMessage": "yfgcfhgguijgij",
-            "lastMessageTime": "2016-07-02 15:32:41"
-          };
-          vm.imConversations.push(conversation);
-        }
-
-        $log.info('conversation list:' + JSON.stringify(vm.imConversations));
-        vm.popup = {
-          isPopup: false,
-          index: 0
-        };
-      });
-
-      var conversationObserver =  {
-        onAddConversation :function(conversation) {
-          if( conversation.userId == $scope.user.userId) {
-            vm.imConversations.push(conversation);
-            if (!$scope.$$phase) {
-              $scope.$apply();
-            }
-          }
-        }
-      }
-
-
-      imMessageService.registerConversationObserver('imMessageListController',conversationObserver);
-
-      $scope.$on('$ionicView.beforeLeave',function() {
-        imMessageService.unregisterConversationObserver('imMessageListController');
-      })
-
-    })
+    .controller('imMessageListController', imMessageListControllerFn)
     .controller('imMessageDetailController', ['$log', '$q', '$scope', '$stateParams',
       '$ionicScrollDelegate', '$timeout', 'imMessageService', 'jimService', 'imMessageStorageService',
       'userNetService', 'imConversationService', 'UtilsService',
@@ -358,11 +125,11 @@
           else if ($scope.cUser == null && $scope.conversation != null) {
             $scope.cUser = {};
             $scope.cUser.userId = $scope.conversation.cUserId;
-            $scope.cUser.nickname =  $scope.conversation.cUserNickname;
-            $scope.cUser.avatar =  $scope.conversation.cUserAvatar;
+            $scope.cUser.nickname = $scope.conversation.cUserNickname;
+            $scope.cUser.avatar = $scope.conversation.cUserAvatar;
           }
-          else if( $scope.cUser == null && $scope.conversation == null ){
-            if( g_isDebug) {
+          else if ($scope.cUser == null && $scope.conversation == null) {
+            if (g_isDebug) {
               alert('im 模块无法获取联系人用户信息');
             }
           }
@@ -400,6 +167,18 @@
           }
         }
 
+        function deleteMessageFromDetailList(msg) {
+          for (var index = $scope.messageDetails.length - 1; index >= 0; --index) {
+            var m = $scope.messageDetails[index];
+            $log.info('message:' + msg.message + ' time:' + msg.time);
+            $log.info('m content:' + m.msg + ' time:' + m.time);
+            if (m.id === msg.id) {
+              $scope.messageDetails.splice(index, 1);
+              break;
+            }
+          }
+        }
+
         $scope.sendMessage = function (event) {
           $log.info('send message:' + $scope.sendContent);
           var messageDetail = imMessageStorageService.newMessage();
@@ -409,22 +188,12 @@
           messageDetail.isFromMe = true;
           messageDetail.type = 'text';
           messageDetail.message = $scope.sendContent;
-          //{
-          //  userId:$scope.user.username,
-          //  cUserId:$scope.toUser.username,
-          //  type:'text',
-          //  //pic:'img/ionic.png',
-          //  message:$scope.sendContent,
-          //  time: new Date().toLocaleString(),
-          //  isFromMe:true,
-          //  sendState:0
-          //};
 
           $scope.sendContent = '';
           imMessageStorageService.addMessage(messageDetail).then(function (msgId) {
             messageDetail.id = msgId;
             $scope.messageDetails.push(messageDetail);
-            imMessageService.sendMessage($scope.cUser,messageDetail).then(function () {
+            imMessageService.sendMessage($scope.cUser, messageDetail).then(function () {
               imMessageStorageService.updateMessageState(messageDetail, 1);
               messageDetail.sendState = 1;
               updateMessageDetailList(messageDetail);
@@ -437,49 +206,53 @@
             $log.error(error);
           });
 
-          //imMessageService.sendMessage(messageDetail.username, messageDetail.toUsername, 'text', $scope.sendContent, function (msgDtl, response) {
-          //  msgDtl.sendState = 1;
-          //  alert("send message success");
-          //  imMessageService.updateMessage(msgDtl.username, msgDtl.toUsername, msgDtl);
-          //  //$scope.messageDetails = imMessageService.getLocalMessageList(msgDtl.username,msgDtl.toUsername);
-          //  for (var index = 0; index < $scope.messageDetails.length; ++index) {
-          //    var m = $scope.messageDetails[index];
-          //    console.log('message content:' + msgDtl.content + ' time:' + msgDtl.time);
-          //    console.log('m content:' + m.content + ' time:' + m.time);
-          //    if (m.content === msgDtl.content && m.time === msgDtl.time) {
-          //      //m.sendState = msgDtl.sendState;
-          //      console.log('更新scope messageDetail');
-          //
-          //      $scope.$apply(function () {
-          //        $scope.messageDetails.splice(index, 1, msgDtl);
-          //        viewScroll.scrollBottom();
-          //      });
-          //    }
-          //  }
-          //}, function (msgDtl, response) {
-          //  //alert('send message failed');
-          //  msgDtl.sendState = -1;
-          //  imMessageService.updateMessage(msgDtl.username, msgDtl.toUsername, msgDtl);
-          //  $scope.messageDetails = imMessageService.getLocalMessageList(msgDtl.username, msgDtl.toUsername);
-          //  for (var index = 0; index < $scope.messageDetails.length; ++index) {
-          //    var m = $scope.messageDetails[index];
-          //    console.log('message content:' + msgDtl.content + ' time:' + msgDtl.time);
-          //    console.log('m content:' + m.content + ' time:' + m.time);
-          //    if (m.content === msgDtl.content && m.time === msgDtl.time) {
-          //      //m.sendState = msgDtl.sendState;
-          //      console.log('更新scope messageDetail');
-          //
-          //      $scope.$apply(function () {
-          //        $scope.messageDetails.splice(index, 1, msgDtl);
-          //        viewScroll.scrollBottom();
-          //      });
-          //    }
-          //  }
-          //}, messageDetail);
-          //imMessageService.addMessage(messageDetail.username,messageDetail.toUsername,messageDetail);
-
-
         };
+
+        $scope.reSendPrompt = function (message) {
+          var confirmPopup = $ionicPopup.confirm({
+            title: '<strong>重发该消息?</strong>',
+            template: null,
+            okText: '重发',
+            cancelText: '取消'
+          });
+
+          confirmPopup.then(function (res) {
+            if (res) {
+              $scope.reSend(message);
+            } else {
+              //Don't close
+            }
+          });
+        }
+
+        $scope.reSend = function (message) {
+          deleteMessageFromDetailList(message);
+          imMessageStorageService.deleteMessage(message);
+          var messageDetail = imMessageStorageService.newMessage();
+          messageDetail.userId = $scope.user.userId;
+          messageDetail.cUserId = $scope.cUser.userId;
+          messageDetail.time = UtilsService.currentDate2String();
+          messageDetail.isFromMe = true;
+          messageDetail.type = 'text';
+          messageDetail.message = message.message;
+
+          //$scope.sendContent = '';
+          imMessageStorageService.addMessage(messageDetail).then(function (msgId) {
+            messageDetail.id = msgId;
+            $scope.messageDetails.push(messageDetail);
+            imMessageService.sendMessage($scope.cUser, messageDetail).then(function () {
+              imMessageStorageService.updateMessageState(messageDetail, 1);
+              messageDetail.sendState = 1;
+              updateMessageDetailList(messageDetail);
+            }, function (error) {
+              imMessageStorageService.updateMessageState(messageDetail, -1);
+              messageDetail.sendState = -1;
+              updateMessageDetailList(messageDetail);
+            });
+          }, function (error) {
+            $log.error(error);
+          });
+        }
 
         window.addEventListener("native.keyboardshow", function (e) {
           if (!$scope.$$phase) {
@@ -498,47 +271,9 @@
           }
         });
 
-        //var onSingleReceiveMessage = function (data) {
-        //  console.log("receive im message");
-        //  if (typeof(data.msg_type) === 'undefined') {
-        //    console.log('receive invalid message:' + writeObj(data));
-        //  }
-        //  else {
-        //    console.log('receive message:' + data.msg_body.text + " username:" + data.target_id + " toUserName:" + data.from_id);
-        //
-        //    var messageDetail = {
-        //      userId: jimService.getUsername(), //由于data.target_id 与 data.from_id相等，因此用当前登录的用户名
-        //      cUserId: data.from_id,
-        //      type: 'text',
-        //      message: data.msg_body.text,
-        //      time: data.create_time,
-        //      isFromMe: false,
-        //      sendState: 1
-        //    };
-        //
-        //    $scope.$apply(function () {
-        //      imMessageStorageService.addMessage(messageDetail).then(function (insertId) {
-        //        messageDetail.id = insertId;
-        //        $scope.messageDetails.push(messageDetail);
-        //        viewScroll.scrollBottom();
-        //      }, function (error) {
-        //        $log.error(error);
-        //      });
-        //
-        //    });
-        //  }
-        //};
-
-
-        //var config = {
-        //  onSingleReceiveMessage: onSingleReceiveMessage
-        //};
-        //
-        //jimService.updateMessageNotifyCB(config);
-
         var messageObserver = {
-          onReceiveMessage : function(message) {
-            if( message.userId == $scope.user.userId && message.cUserId == $scope.cUser.userId) {
+          onReceiveMessage: function (message) {
+            if (message.userId == $scope.user.userId && message.cUserId == $scope.cUser.userId) {
               $scope.messageDetails.push(message);
               if (!$scope.$$phase) {
                 $scope.$apply();
@@ -548,7 +283,7 @@
           }
         };
 
-        imMessageService.registerMsgObserver('imMessageDetailController',messageObserver);
+        imMessageService.registerMsgObserver('imMessageDetailController', messageObserver);
       }
     ]);
 
@@ -623,6 +358,165 @@
         }
       }
     }])
+
+
+  imMessageListControllerFn.$inject = [
+    '$log',
+    '$scope',
+    '$state',
+    '$ionicLoading',
+    '$timeout',
+    '$ionicPopup',
+    'jimService',
+    'imConversationService',
+    'imMessageStorageService',
+    'imMessageService',
+    'userNetService'
+  ];
+  function imMessageListControllerFn($log, $scope,
+                                     $state,
+                                     $ionicLoading,
+                                     $timeout,
+                                     $ionicPopup,
+                                     jimService,
+                                     imConversationService, imMessageStorageService, imMessageService, userNetService) {
+    var vm = $scope.vm = {};
+    vm.loading = function () {
+      $ionicLoading.show({
+        template: "正在加载数据"
+      });
+    };
+
+    vm.hideLoading = function () {
+      $ionicLoading.hide();
+    }
+
+    $scope.user = userNetService.cache.selfInfo;
+
+    console.log('im message list controller');
+
+    vm.popupConversationOptions = function (message) {
+      vm.popup.index = vm.imConversations.indexOf(message);
+      vm.popup.optionsPopup = $ionicPopup.show({
+        templateUrl: "modules/im/popup.html",
+        scope: $scope,
+      });
+      vm.popup.isPopup = true;
+    };
+
+    vm.markConversation = function () {
+      var index = vm.popup.index;
+      var conversation = vm.imConversations[index];
+      if (conversation.showHints) {
+        conversation.showHints = false;
+        conversation.noReadMessages = 0;
+      } else {
+        conversation.showHints = true;
+        conversation.noReadMessages = 1;
+      }
+
+      vm.imConversations[index] = conversation;
+      vm.popup.optionsPopup.close();
+      vm.popup.isPopup = false;
+
+      imConversationService.updateConversation(conversation);
+    };
+
+    vm.deleteConversation = function () {
+      var index = vm.popup.index;
+      var conversation = vm.imConversations[index];
+      vm.imConversations.splice(index, 1);
+      vm.popup.optionsPopup.close();
+      vm.popup.isPopup = false;
+      imConversationService.deleteConversation(conversation).then(function () {
+        $log.info('完成删除会话：userId(#userId#) cUserId(#cUserId#)'.replace('#userId#', conversation.userId).replace('#cUserId#', conversation.cUserId));
+        return imMessageStorageService.deleteMessageList(conversation.userId, conversation.cUserId);
+      }).then(function () {
+        $log.info('我那层删除会话中的所有消息：userId(#userId#) cUserId(#cUserId#)'
+          .replace('#userId#', conversation.userId).replace('#cUserId#', conversation.cUserId));
+      });
+    };
+
+    vm.topConversation = function () {
+      var index = vm.popup.index;
+      var conversation = vm.imConversations[index];
+      if (conversation.isTop) {
+        conversation.isTop = 0;
+      } else {
+        conversation.isTop = new Date().getTime();
+      }
+      vm.popup.optionsPopup.close();
+      vm.popup.isPopup = false;
+      imConversationService.updateConversation(conversation);
+    };
+
+    vm.conversationDetails = function (conversation) {
+      $state.go("main.im-detail", {
+        "cid": conversation.cUserId,
+      });
+    };
+
+    $scope.$on("$ionicView.beforeEnter", function () {
+      vm.imConversations = imConversationService.getConversationList();
+      if (g_isDebug && (vm.imConversations == null || vm.imConversations.length == 0 )) {
+        vm.imConversations = new Array();
+        var conversation = {
+          "id": 6,
+          "userId": "62",
+          "isTop": 0,
+          "showHints": 0,
+          "noReadMessages": 0,
+          "cUserId": "61",
+          "cUserNickname": null,
+          "cUserAvatar": "null",
+          "created": "2016-07-01 20:32:20",
+          "lastMessage": "yfgcfhgguijgij",
+          "lastMessageTime": "2016-07-02 15:32:41"
+        };
+        vm.imConversations.push(conversation);
+
+        conversation = {
+          "id": 7,
+          "userId": "62",
+          "isTop": 0,
+          "showHints": 0,
+          "noReadMessages": 0,
+          "cUserId": "61",
+          "cUserNickname": null,
+          "cUserAvatar": "null",
+          "created": "2016-07-01 20:32:20",
+          "lastMessage": "yfgcfhgguijgij",
+          "lastMessageTime": "2016-07-02 15:32:41"
+        };
+        vm.imConversations.push(conversation);
+      }
+
+      $log.info('conversation list:' + JSON.stringify(vm.imConversations));
+      vm.popup = {
+        isPopup: false,
+        index: 0
+      };
+    });
+
+    var conversationObserver = {
+      onAddConversation: function (conversation) {
+        if (conversation.userId == $scope.user.userId) {
+          vm.imConversations.push(conversation);
+          if (!$scope.$$phase) {
+            $scope.$apply();
+          }
+        }
+      }
+    }
+
+
+    imMessageService.registerConversationObserver('imMessageListController', conversationObserver);
+
+    $scope.$on('$ionicView.beforeLeave', function () {
+      imMessageService.unregisterConversationObserver('imMessageListController');
+    })
+
+  }
 })();
 
 

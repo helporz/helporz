@@ -20,17 +20,20 @@
       userInfo: {}
     };
 
-    var _login = function (deviceType, phoneNo, smsCode) {
+    var _login = function (deviceType, phoneNo, smsCode, terminalInfo) {
       var data = {
         type: deviceType,
         userinfo: phoneNo,
-        smscode: smsCode
+        smscode: smsCode,
+        terminalInfo: terminalInfo,
       }
+      $log.info('login:' + JSON.stringify(data));
       return httpBaseService.postForPromise("/user/verify_sms", data);
     }
 
-    var _loginByTicket = function (ticket, sign) {
-      var data = {ticket: ticket, sign: sign};
+    var _loginByTicket = function (ticket, sign, terminalInfo) {
+      var data = {ticket: ticket, sign: sign, terminalInfo: terminalInfo,};
+      $log.info('loginByTicket:' + JSON.stringify(data));
       return httpBaseService.postForPromise("/user/login_by_ticket", data);
     }
 
@@ -159,13 +162,13 @@
       return httpBaseService.postForPromise('/user/self/update_sign', param);
     }
 
-    var attention = function (userId,remark) {
-      if( typeof remark === 'undefined' || remark == null || remark === '') {
-       remark = '未填写'
+    var attention = function (userId, remark) {
+      if (typeof remark === 'undefined' || remark == null || remark === '') {
+        remark = '未填写'
       }
 
       var param = {
-        remark:remark,
+        remark: remark,
       }
       return httpBaseService.postForPromise('/user/attention/{userId}'.replace('{userId}', userId), param);
     }
@@ -174,10 +177,10 @@
       return httpBaseService.postForPromise('/user/unattention/{userId}'.replace('{userId}', userId), null);
     }
 
-    var getAttentionList = function (pageIndex,pageSize) {
+    var getAttentionList = function (pageIndex, pageSize) {
       var param = {
-        pageIndex:pageIndex,
-        pageSize:pageSize,
+        pageIndex: pageIndex,
+        pageSize: pageSize,
       }
       return httpBaseService.getForPromise('/user/attention', param);
     }
@@ -186,26 +189,26 @@
       return httpBaseService.getForPromise('/user/attention/{userId}'.replace('{userId}', userId), null);
     }
 
-    var getFunsList = function (pageIndex,pageSize) {
+    var getFunsList = function (pageIndex, pageSize) {
       var param = {
-        pageIndex:pageIndex,
-        pageSize:pageSize,
+        pageIndex: pageIndex,
+        pageSize: pageSize,
       }
       return httpBaseService.getForPromise('/user/funs', param);
     }
 
-    var getFriendList = function (pageIndex,pageSize) {
+    var getFriendList = function (pageIndex, pageSize) {
       var param = {
-        pageIndex:pageIndex,
-        pageSize:pageSize,
+        pageIndex: pageIndex,
+        pageSize: pageSize,
       }
       return httpBaseService.getForPromise('/user/friends', param);
     }
 
-    var getVisitorList = function (pageIndex,pageSize) {
+    var getVisitorList = function (pageIndex, pageSize) {
       var param = {
-        pageIndex:pageIndex,
-        pageSize:pageSize,
+        pageIndex: pageIndex,
+        pageSize: pageSize,
       }
       return httpBaseService.getForPromise('/user/visitor', param);
     }
