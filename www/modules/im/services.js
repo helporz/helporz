@@ -625,7 +625,7 @@
       $log.debug("receive im message");
 
       if (typeof(data.msg_type) === 'undefined') {
-        $log.error('receive invalid message:' + debugHelpService.writeObj(data));
+        //$log.error('receive invalid message:' + debugHelpService.writeObj(data));
       }
       else {
         //$log.info("receive messge:" + debugHelpService.writeObj(data));
@@ -706,6 +706,7 @@
     var sendMessage = function (cUser, message) {
       var _innerDefer = $q.defer();
       var cbObj = null;
+      $log.info("sendMessage: cUserId(#cUserId#) message(#message#)".replace('#cUserId#',cUser.userId).replace('#message#',message.message));
       jimService.sendTextMessage(message.userId, cUser.loginName + '_' + message.cUserId, message.type, message.message, function (response) {
         _innerDefer.resolve();
       }, function (response) {

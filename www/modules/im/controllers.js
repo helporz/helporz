@@ -216,6 +216,7 @@
           messageDetail.sentState = 0;
 
           $scope.sendContent = '';
+          $log.info('sendMessage:addMessage to db:' + JSON.stringify(messageDetail));
           imMessageStorageService.addMessage(messageDetail).then(function (msgId) {
             messageDetail.id = msgId;
             $scope.messageDetails.push(messageDetail);

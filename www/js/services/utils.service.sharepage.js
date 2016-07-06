@@ -18,7 +18,7 @@
             message: {
               title: res.title,
               description: res.description,
-              thumb: 'www/img/com/app-logo-120@2x.png',
+              thumb: 'www/img/com/sharepage-icon.png',
               media: {
                 type: Wechat.Type.WEBPAGE,
                 webpageUrl: res.link

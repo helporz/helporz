@@ -27,7 +27,7 @@
     };
 
     var onOpenNotification = function (event) {
-      console.log(" index onOpenNotification");
+      console.log(" index onOpenNotification:" + JSON.stringify(event));
 
       try {
         //var alertContent;
@@ -45,7 +45,7 @@
     }
 
     var onReceiveNotification = function (event) {
-      $log.info(" index onReceiveNotification");
+      $log.info(" index onReceiveNotification:" + JSON.stringify(event));
       try {
         //var alertContent;
         //if (device.platform == "Android") {
@@ -66,7 +66,7 @@
 
     var onReceivePushMessage = function (event) {
       try {
-        $log.info('on receive push message');
+        $log.info('on receive push message:' + JSON.stringify(event));
         //var message;
         //if (device.platform == "Android") {
         //  message = event.message;
