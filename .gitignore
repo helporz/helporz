@@ -12,7 +12,8 @@ platforms/ios/helporz/*
 !/platforms/ios/helporz/Classes/
 
 
-plugins/
+plugins/*
+!plugins/cordova-plugin-jmessage
 #resources/android
 #resources/ios
 
