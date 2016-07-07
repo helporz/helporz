@@ -31,11 +31,11 @@
     var vm = $scope.vm = {};
 
     vm.sharePageService = SharePageWrapService;
-    //vm.doRefresh = function () {
-    //  taskNetService.queryNewTaskList().then(flushSuccessFn, flushFailedFn).finally(function () {
-    //    $scope.$broadcast('scroll.refreshComplete');
-    //  });
-    //};
+    vm.doRefresh = function () {
+      taskNetService.queryNewTaskList().then(flushSuccessFn, flushFailedFn).finally(function () {
+        $scope.$broadcast('scroll.refreshComplete');
+      });
+    };
 
     var intervalFunc = function(){
       if (taskNetService.cache.isNearTaskNeedRefresh) {

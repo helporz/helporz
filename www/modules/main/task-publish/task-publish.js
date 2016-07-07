@@ -75,8 +75,8 @@
     }
   }
 
-  taskPublishListControllerFn.$inject = ['$scope', '$log', '$ionicModal', 'taskPublishModalService', 'taskUtils', 'taskDesc'];
-  function taskPublishListControllerFn($scope, $log, $ionicModal, taskPublishModalService, taskUtils, taskDesc) {
+  taskPublishListControllerFn.$inject = ['$scope', '$log', '$ionicModal', 'taskPublishModalService', 'taskUtils', 'taskDesc', '$timeout'];
+  function taskPublishListControllerFn($scope, $log, $ionicModal, taskPublishModalService, taskUtils, taskDesc, $timeout) {
 
 
     $ionicModal.fromTemplateUrl('modules/main/task-publish/task-publish.html', {
@@ -96,19 +96,19 @@
 
 
     this.publishShaodai = function () {
-      publishTask($scope, 0, taskPublishModalService, taskUtils, taskDesc);
+      publishTask($scope, 0, taskPublishModalService, taskUtils, taskDesc, $timeout);
     };
 
     this.publishQingbao = function () {
-      publishTask($scope, 1, taskPublishModalService, taskUtils, taskDesc);
+      publishTask($scope, 1, taskPublishModalService, taskUtils, taskDesc, $timeout);
     };
 
     this.publishJiebao = function () {
-      publishTask($scope, 2, taskPublishModalService, taskUtils, taskDesc);
+      publishTask($scope, 2, taskPublishModalService, taskUtils, taskDesc, $timeout);
     }
   }
 
-  function publishTask($scope, taskIndex, taskPublishModalService, taskUtils, taskDesc) {
+  function publishTask($scope, taskIndex, taskPublishModalService, taskUtils, taskDesc, $timeout) {
     var listModal = taskPublishModalService.getListModal();
 
     $scope.taskTypeIndex = taskIndex;
@@ -124,11 +124,18 @@
       $scope.taskLogo = "./img/task/publish/jiebao-logo.png";
     }
 
-    $scope.selectedSubTask = $scope.subTaskArray[0];
+    //$scope.selectedSubTask = $scope.subTaskArray[0];
+    //$scope.selectedSubTask = null;
 
     var publishModal = taskPublishModalService.getTaskPublishModal();
-    listModal.hide();
-    publishModal.show();
+    $timeout(function() {
+      listModal.hide();
+    },1000);
+    //$timeout(function(){
+    //  $scope.selectedSubTask = null;
+    //  $scope.$apply()
+      publishModal.show();
+    //})
   }
 
   function cleanTaskControllerStatus(ctlObj) {
@@ -172,6 +179,8 @@
       var publishModal = taskPublishModalService.getTaskPublishModal();
       publishModal.hide();
       cleanTaskControllerStatus(_ctlSelf);
+
+      $scope.selectedSubTask = null;
     }
 
     this.deadline = null;//new Date();
@@ -294,7 +303,7 @@
       }
 
       if (_ctlSelf.pubLocation == null || _ctlSelf.pubLocation === '') {
-        alert("请见面地址");
+        alert("请输入见面地址");
         return;
       }
 

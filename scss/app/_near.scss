@@ -37,7 +37,7 @@
         @include flex(0, 0, 34px);
       }
       .user-detail {
-        margin: 2px 0 0 7px;
+        margin: 2px 3px 0 10px;
         @include display-flex();
         @include flex-direction(column);
         @include justify-content(center);
@@ -59,7 +59,9 @@
               color: $color-text-primary;
             }
             .gender-icon {
-              margin-left: 8px;
+              margin-left: 3px;
+              padding-top:1px;
+              font-size: 13px;
             }
           }
 
@@ -76,15 +78,16 @@
           }
         }
         .bottom {
-          margin-top: 5px;
-          //line-height: 1;
+          margin-top: 2px;
+          line-height: 0;
 
           @include display-flex();
           @include align-items(center);
 
           .impress-panel {
             margin-right: 5px;
-            padding-top: 2px;
+            //padding-top: 2px;
+            line-height: 0;
 
             .elem {
               margin-bottom: 0;

@@ -5,14 +5,20 @@ $node-green: #80bd01;
 $node-black: #444;
 
 //$color-theme: #F74848;
+$color-theme-weak: #f78058;
 $color-theme: #FF432F;
 $color-theme-dark: #de230f;
+
+//$color-tip:
+
+$color-tip-blue: #3c84c7;
+$color-tip-blue-bg: #d4f3f8;
 
 $color-success: #30b845;
 
 //page bg color
-$color-page-bg: #e8e7ed;
-$color-page-bg-weak: #f7f7f7;
+$color-page-bg: #efeff4;
+$color-page-bg-weak: #f9f9f9;
 
 //div line
 $color-div-line: #eaeaea;  //淡线颜色
@@ -23,7 +29,10 @@ $color-text-secondary: #878787;     // 文字次级
 $color-text-thirdly: #dddddd;       // 文字提示等
 
 //button colors
-$button-gray-color: #bbbbbb;
+$button-outline-gray-color: #bbbbbb;
+
+$button-gray-color: #ddd;
+$button-gray-deep-color: #ccc;
 
 // icon colors
 $deadline-icon-color: #0a9dc7;  //截止时间图标颜色

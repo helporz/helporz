@@ -53,6 +53,9 @@
 .color-text-thirdly {
   color: $color-text-thirdly !important;
 }
+.color-text-thirdly-bg {
+  background-color: $color-text-thirdly !important;
+}
 
 //////////////////////////////////////////////////
 // 性别颜色
@@ -144,7 +147,7 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
     @include ho-button-outline-color($color-theme);
   }
   &.button-gray {
-    @include ho-button-outline-color($button-gray-color);
+    @include ho-button-outline-color($button-outline-gray-color);
   }
 }
 
@@ -186,13 +189,16 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
   border-radius: 7px;
   border-style: none;
   font-size: 15px;
+  font-weight: 500;
   //@include display-flex();
   //@include align-items(center);
   //@include justify-content(center);
   &.button-theme {
     @include ho-button-color($color-theme, $color-theme-dark, white, white);
   }
-
+  &.button-weak-gray {
+    @include ho-button-color($button-gray-color, $button-gray-deep-color, $color-text-secondary, $color-text-secondary);
+  }
 }
 
 //////////////////////////////////////////////////
@@ -308,6 +314,10 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
       border-bottom-color: $color-div-line;
       min-height: 35px;
       height: 35px;
+
+      &.has-bg-color {
+        background-color: $color-page-bg-weak;
+      }
 
       .side-icon {
         padding-left: 10px;

@@ -105,6 +105,60 @@
           }
         }
       })
+      .state('main.topic-group_topic-detail', {
+        url: '/topic-group/topic-detail/{topicId}',
+        views: {
+          'topic-group': {
+            templateUrl: 'modules/main/playground/templates/topic-detail.html',
+            controller: 'topicDetailController'
+          }
+        }
+      })
+      .state('main.topic-group_own-topic-list', {
+        url: '/topic-group/own-topic-list',
+        views: {
+          'topic-group': {
+            templateUrl: 'modules/main/playground/templates/own-topic-list.html',
+            controller: 'ownTopicListController'
+          }
+        }
+      })
+      .state('main.topic-group_collection-topic-list', {
+        url: '/topic-group/collection-topic-list',
+        views: {
+          'topic-group': {
+            templateUrl: 'modules/main/playground/templates/collection-topic-list.html',
+            controller: 'collectionTopicListController'
+          }
+        }
+      })
+      .state('main.topic-group_my-comment-list', {
+        url: '/topic-group/my-comment-list',
+        views: {
+          'topic-group': {
+            templateUrl: 'modules/main/playground/templates/my-comment-list.html',
+            controller: 'myCommentListController'
+          }
+        }
+      })
+      .state('main.topic-group_my-message-list', {
+        url: '/topic-group/my-message-list',
+        views: {
+          'topic-group': {
+            templateUrl: 'modules/main/playground/templates/my-message-list.html',
+            controller: 'myMessageListController'
+          }
+        }
+      })
+      .state('main.topic-group_comment-session', {
+        url: '/topic-group/comment-session/{sessionId}',
+        views: {
+          'topic-group': {
+            templateUrl: 'modules/main/playground/templates/comment-session.html',
+            controller: 'commentSessionController'
+          }
+        }
+      })
 
       .state('main.me', {
         url: '/me',
