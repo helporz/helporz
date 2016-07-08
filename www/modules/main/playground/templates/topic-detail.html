@@ -28,7 +28,7 @@
       <div class="row">
 
         <div class="avatar">
-          <img class="user-logo" ng-src="{{vm.topic.poster.avatar}}">
+          <img class="user-logo" ng-src="{{vm.topic.poster.avatar}}" ng-click="vm.cb_gotoUser(vm.topic.poster.userId)">
         </div>
 
         <div class="user-info-panel">
@@ -165,7 +165,7 @@
                 <div class="topic-comment-panel-left">
                   <div class="row">
                     <div class="avatar">
-                      <img class="user-logo" ng-src="{{item.commenter.avatar}}">
+                      <img class="user-logo" ng-src="{{item.commenter.avatar}}" ng-click="vm.cb_gotoUser(item.commenter.userId)">
                     </div>
                     <div class="user-info-panel">
                       <div class="line-1">

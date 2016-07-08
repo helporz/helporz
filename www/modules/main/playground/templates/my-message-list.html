@@ -60,7 +60,7 @@
               <div class="topic-comment-panel-left full">
                 <div class="row">
                   <div class="avatar">
-                    <img class="user-logo" ng-src="{{item.commenter.avatar}}">
+                    <img class="user-logo" ng-src="{{item.commenter.avatar}}" ng-click="vm.cb_gotoUser(item.commenter.userId)">
                   </div>
                   <div class="user-info-panel">
                     <div class="line-1">

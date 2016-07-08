@@ -12,7 +12,8 @@
     .directive('getsmscode', ['$http', '$log', 'pushService', function ($http, $log, pushService) {
       return {
         restrict: 'E',
-        template: '<button class="button button-small col-30" style="background-color:#FB9494; color: #ffffff;">发送验证码</button>',
+        replace: true,
+        template: '<button class="button button-small" >发送验证码</button>',
 
         link: function (scope, element, attrs) {
           console.log(element);

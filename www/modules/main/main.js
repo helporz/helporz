@@ -95,6 +95,15 @@
           }
         }
       })
+      .state('main.near_user-info', {
+        url: '/near/user-info/:id',
+        views: {
+          'near': {
+            templateUrl: 'modules/main/details/user-info/user-info.html',
+            controller: 'mainUserInfoCtrl'
+          }
+        }
+      })
 
       .state('main.topic-group', {
         url: '/topic-group',
@@ -102,6 +111,15 @@
           'topic-group': {
             templateUrl: 'modules/main/playground/templates/topic-group.html',
             controller: 'topicGroupController'
+          }
+        }
+      })
+      .state('main.topic-group_user-info', {
+        url: '/topic-group/user-info/:id',
+        views: {
+          'topic-group': {
+            templateUrl: 'modules/main/details/user-info/user-info.html',
+            controller: 'mainUserInfoCtrl'
           }
         }
       })
@@ -188,7 +206,7 @@
           }
         }
       })
-      .state('main.user-info', {
+      .state('main.me_user-info', {
         //url: '/me/{id:[s+]}',
         url: '/me/:id',
         views: {
@@ -263,6 +281,15 @@
           'task': {
             templateUrl: 'modules/main/task/task.html',
             controller: 'mainTaskCtrl'
+          }
+        }
+      })
+      .state('main.task_user-info', {
+        url: '/task/user-info/:id',
+        views: {
+          'task': {
+            templateUrl: 'modules/main/details/user-info/user-info.html',
+            controller: 'mainUserInfoCtrl'
           }
         }
       })

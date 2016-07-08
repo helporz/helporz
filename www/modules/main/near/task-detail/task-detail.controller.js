@@ -8,7 +8,8 @@
   angular.module('main.near.taskdetail')
     .factory('mainNearTaskDetailService', mainNearTaskDetailService)
     .controller('mainNearTaskDetailCtrl', ['$state', '$scope', '$ionicScrollDelegate', '$ionicLoading', '$ionicPopup', '$timeout', '$stateParams', 'taskNetService',
-      'taskUtils', 'userNetService', 'impressUtils', 'timeUtils','SharePageWrapService', 'mainNearTaskDetailService',
+      'taskUtils', 'userNetService', 'impressUtils', 'timeUtils','SharePageWrapService',
+      'mainNearTaskDetailService','userUtils','$ionicTabsDelegate',
       mainNearTaskDetailCtrl]);
 
 
@@ -19,7 +20,8 @@
   }
 
   function mainNearTaskDetailCtrl($state, $scope, $ionicScrollDelegate, $ionicLoading, $ionicPopup, $timeout, $stateParams, taskNetService,
-                                  taskUtils, userNetService, impressUtils, timeUtils,SharePageWrapService, mainNearTaskDetailService) {
+                                  taskUtils, userNetService, impressUtils, timeUtils,SharePageWrapService,
+                                  mainNearTaskDetailService,userUtils,$ionicTabsDelegate) {
     console.log($stateParams);
 
     var vm = $scope.vm = {};
@@ -88,6 +90,19 @@
     //    return list.length;
     //  }
     //};
+    vm.cb_gotoUser = function(userId) {
+      var index = $ionicTabsDelegate.$getByHandle('rootTabs').selectedIndex();
+      var tabName;
+      if(index==0) {
+        tabName = 'near';
+      }else if(index ==4) {
+        tabName = 'me';
+      }else{
+        ho.alert('gotoUser tab invalid, tabIndex=' + index);
+      }
+
+      userUtils.gotoUser(userId, tabName);
+    }
 
     vm.cb_acceptTask = function(){
       if(userNetService.cache.selfInfo == null){

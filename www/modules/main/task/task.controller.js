@@ -8,6 +8,7 @@
   angular.module('main.task')
     .controller('mainTaskCtrl', ['$log', '$state', '$ionicLoading', '$ionicPopup', 'widgetDelegate', '$ionicScrollDelegate',
       '$scope', 'taskNetService', 'taskUtils', '$timeout', 'intervalCenter', 'NoticeMessageDB', 'NoticeMessageService',
+      'userUtils',
       mainTaskCtrl]);
 
 
@@ -22,7 +23,8 @@
 
 
   function mainTaskCtrl($log, $state, $ionicLoading, $ionicPopup, widgetDelegate, $ionicScrollDelegate,
-                        $scope, taskNetService, taskUtils, $timeout, intervalCenter, NoticeMessageDB, NoticeMessageService) {
+                        $scope, taskNetService, taskUtils, $timeout, intervalCenter, NoticeMessageDB, NoticeMessageService,
+                        userUtils) {
     var vm = $scope.vm = {};
 
     vm.tabsetSpace = ionic.Platform.isAndroid()? '44px': '64px';
@@ -217,6 +219,7 @@
         for (var i in taskList) {
           taskList[i].ui_identifier = taskList[i].accepter != null ? "联系援助人" : "";
           taskList[i].ui_nickname = taskList[i].accepter != null ? taskList[i].accepter.nickname : "神秘大侠";
+          taskList[i].ui_userId = taskList[i].accepter != null ? taskList[i].accepter.userId : '';
           taskList[i].ui_avatar = taskList[i].accepter != null ? taskList[i].accepter.avatar : "";
           taskList[i].ui_taskIcon = taskUtils.iconByTypeValue(taskList[i].taskTypesId);
           taskList[i].ui_taskTypeName = taskUtils.nameByTypeValue(taskList[i].taskTypesId);
@@ -229,6 +232,7 @@
         for (var i in taskList) {
           taskList[i].ui_identifier = "联系求助人";
           taskList[i].ui_nickname = taskList[i].poster.nickname;
+          taskList[i].ui_userId = taskList[i].poster != null ? taskList[i].poster.userId : '';
           taskList[i].ui_avatar = taskList[i].poster.avatar;
           taskList[i].ui_taskIcon = taskUtils.iconByTypeValue(taskList[i].taskTypesId);
           taskList[i].ui_taskTypeName = taskUtils.nameByTypeValue(taskList[i].taskTypesId);
@@ -452,6 +456,12 @@
     };
 
     //////////////////////////////////////////////////
+    vm.cb_gotoUser = function(userId) {
+      if (canClick()) {
+        userUtils.gotoUser(userId, 'task');
+      }
+    };
+
     vm.cb_taskState = function (index) {
       if (canClick()) {
         gotoTaskState(vm.repeatList[index].id);

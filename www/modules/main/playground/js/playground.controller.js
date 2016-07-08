@@ -87,10 +87,10 @@
 
   topicGroupControllerFn.$inject = ['$scope', '$stateParams', '$state', '$log', '$timeout', '$ionicActionSheet',
     '$ionicPopover', '$ionicModal', 'topicService', 'topicGroupService', 'filterTopicService', 'topicBlacklistService',
-    'favouriteTopicService', 'topicModalService', 'impressUtils'];
+    'favouriteTopicService', 'topicModalService', 'impressUtils', 'userUtils'];
   function topicGroupControllerFn($scope, $stateParams, $state, $log, $timeout, $ionicActionSheet,
                                   $ionicPopover, $ionicModal, topicService, topicGroupService, filterTopicService,
-                                  topicBlacklistService, favouriteTopicService, topicModalService, impressUtils) {
+                                  topicBlacklistService, favouriteTopicService, topicModalService, impressUtils, userUtils) {
     var vm = $scope.vm = {};
     if (typeof $stateParams.groupId === 'undefined' || $stateParams.groupId == null) {
       vm.groupId = 1;
@@ -443,6 +443,10 @@
     //    }
     //  }
     //}];
+
+    vm.cb_gotoUser = function(userId){
+      userUtils.gotoUser(userId, 'topic-group');
+    }
   }
 
 
@@ -764,10 +768,10 @@
 
   topicDetailControllerFn.$inject = ['$scope', '$stateParams', '$state', '$log', '$timeout', '$ionicActionSheet', '$q',
     'topicService', 'PlaygroundNetService', 'collectionTopicService', 'topicBlacklistService', 'favouriteTopicService',
-    'impressUtils'];
+    'impressUtils', 'userUtils', 'operationUtils'];
   function topicDetailControllerFn($scope, $stateParams, $state, $log, $timeout, $ionicActionSheet, $q,
                                    topicService, PlaygroundNetService, collectionTopicService, topicBlacklistService, favouriteTopicService,
-                                   impressUtils) {
+                                   impressUtils, userUtils, operationUtils) {
     var vm = $scope.vm = {};
 
     vm.topicService = topicService;
@@ -784,6 +788,13 @@
     $scope.$on("$ionicView.afterEnter", function () {
       vm.doRefresh();
     });
+
+    vm.cb_gotoUser = function(userId) {
+      if(operationUtils.canClick()==false){
+        return;
+      }
+      userUtils.gotoUser(userId, 'topic-group');
+    }
 
     vm.refreshCommentList = function () {
       var _innerDefer = $q.defer();
@@ -933,6 +944,9 @@
       });
     }
     vm.operateComment = function (comment, event) {
+      if(operationUtils.canClick()==false){
+        return;
+      }
       $ionicActionSheet.show({
         titleText: '选择',
         buttons: [
@@ -1031,9 +1045,9 @@
   }
 
   ownTopicListControllerFn.$inject = ['$scope', '$state', '$log', '$timeout', '$ionicActionSheet', '$q',
-    'topicService', 'PlaygroundNetService'];
+    'topicService', 'PlaygroundNetService', 'userUtils'];
   function ownTopicListControllerFn($scope, $state, $log, $timeout, $ionicActionSheet, $q,
-                                    topicService, PlaygroundNetService) {
+                                    topicService, PlaygroundNetService, userUtils) {
     var vm = $scope.vm = {};
     vm.pageSize = 20;
     vm.canLoadMoreData = false;
@@ -1041,6 +1055,10 @@
       vm.topicList = null;
       vm.loadMoreTopicList();
     });
+
+    vm.cb_gotoUser = function(userId) {
+      userUtils.gotoUser(userId, 'topic-group');
+    }
 
     vm.loadMoreTopicList = function () {
       var pageNum = (vm.topicList != null) ? Math.ceil(vm.topicList.length / vm.pageSize) + 1 : 1;
@@ -1079,9 +1097,9 @@
   }
 
   collectionTopicListControllerFn.$inject = ['$scope', '$state', '$log', '$timeout', '$ionicActionSheet', '$q',
-    'topicService', 'PlaygroundNetService'];
+    'topicService', 'PlaygroundNetService', 'userUtils'];
   function collectionTopicListControllerFn($scope, $state, $log, $timeout, $ionicActionSheet, $q,
-                                           topicService, PlaygroundNetService) {
+                                           topicService, PlaygroundNetService, userUtils) {
     var vm = $scope.vm = {};
     vm.pageSize = 20;
     vm.canLoadMoreData = false;
@@ -1089,6 +1107,10 @@
       vm.topicList = null;
       vm.loadMoreTopicList();
     });
+
+    vm.cb_gotoUser = function(userId) {
+      userUtils.gotoUser(userId, 'topic-group');
+    }
 
     vm.loadMoreTopicList = function () {
       var pageNum = (vm.topicList != null) ? Math.ceil(vm.topicList.length / vm.pageSize) + 1 : 1;
@@ -1127,9 +1149,9 @@
   }
 
   myCommentListControllerFn.$inject = ['$scope', '$state', '$log', '$timeout', '$ionicActionSheet', '$q',
-    'topicService', 'PlaygroundNetService'];
+    'topicService', 'PlaygroundNetService', 'userUtils'];
   function myCommentListControllerFn($scope, $state, $log, $timeout, $ionicActionSheet, $q,
-                                     topicService, PlaygroundNetService) {
+                                     topicService, PlaygroundNetService, userUtils) {
     var vm = $scope.vm = {};
     vm.pageSize = 20;
     vm.canLoadMoreData = false;
@@ -1137,6 +1159,10 @@
       vm.topicCommentList = null;
       vm.loadMoreCommentList();
     });
+
+    vm.cb_gotoUser = function(userId) {
+      userUtils.gotoUser(userId, 'topic-group');
+    }
 
     vm.loadMoreCommentList = function () {
       var pageNum = (vm.topicCommentList != null) ? Math.ceil(vm.topicCommentList.length / vm.pageSize) + 1 : 1;
@@ -1175,10 +1201,10 @@
   }
 
   myMessageListControllerFn.$inject = ['$scope', '$state', '$log', '$timeout', '$ionicActionSheet', '$q',
-    'topicService', 'PlaygroundNetService'];
+    'topicService', 'PlaygroundNetService', 'userUtils'];
 
   function myMessageListControllerFn($scope, $state, $log, $timeout, $ionicActionSheet, $q,
-                                     topicService, PlaygroundNetService) {
+                                     topicService, PlaygroundNetService, userUtils) {
     var vm = $scope.vm = {};
     vm.pageSize = 20;
     vm.canLoadMoreData = false;
@@ -1186,6 +1212,10 @@
       vm.topicCommentList = null;
       vm.loadMoreCommentList();
     });
+
+    vm.cb_gotoUser = function(userId) {
+      userUtils.gotoUser(userId, 'topic-group');
+    }
 
     vm.loadMoreCommentList = function () {
       var pageNum = (vm.topicCommentList != null) ? Math.ceil(vm.topicCommentList.length / vm.pageSize) + 1 : 1;

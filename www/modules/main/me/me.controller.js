@@ -8,11 +8,11 @@
   angular.module('main.me')
     .controller('mainMeCtrl', ['$state', '$scope', '$ionicLoading', '$ionicPopup', '$ionicScrollDelegate', '$ionicActionSheet',
       '$timeout', '$interval', 'userNetService', 'impressUtils', 'userUtils',
-      'errorCodeService','SharePageWrapService', 'mainUserTasksService', mainMeCtrl])
+      'errorCodeService', 'SharePageWrapService', 'mainUserTasksService', mainMeCtrl])
 
   function mainMeCtrl($state, $scope, $ionicLoading, $ionicPopup, $ionicScrollDelegate, $ionicActionSheet,
                       $timeout, $interval, userNetService, impressUtils, userUtils,
-                      errorCodeService,SharePageWrapService, mainUserTasksService) {
+                      errorCodeService, SharePageWrapService, mainUserTasksService) {
     var vm = $scope.vm = {};
 
     vm.cb_edit = function () {
@@ -81,7 +81,7 @@
       //}
     }
 
-    vm.cb_im = function() {
+    vm.cb_im = function () {
       $state.go('main.im');
     }
 
@@ -91,7 +91,7 @@
     vm.meInfo.cb_avatar = function () {
       console.log('me avatar');
       //var arr = 'user-123'.split('-');
-      //$state.go('main.user-info', {id: 'user-123'});
+      //$state.go('main.me_user-info', {id: 'user-123'});
     }
 
     $scope.$on("$ionicView.beforeEnter", function () {
@@ -132,17 +132,16 @@
 
       // pre-calc
       var friends = userNetService.cache.selfInfo.attentionList;
-      for(var i in friends){
+      for (var i in friends) {
         userUtils.uiProcessFollow(friends[i]);
       }
 
       friends = userNetService.cache.selfInfo.funsList;
-      for(var i in friends) {
+      for (var i in friends) {
         userUtils.uiProcessFollowed(friends[i]);
       }
 
     });
-
 
 
     vm.meInfo.accessUserAvatar = function (index) {
@@ -177,7 +176,7 @@
         //vm.self.repeatList = vm.self.friendList;
       }
 
-      console.log('xxx'+ho.trace(vm.self.repeatList));
+      console.log('xxx' + ho.trace(vm.self.repeatList));
 
       vm.activeTab = index == 0 ? 0 : 1;
     };
@@ -238,26 +237,29 @@
 
       var user = vm.meInfo.remoteData.accessUserList[index];
 
-      if (userNetService.cache.userInfo[user.userId]) {
-        $state.go('main.user-info', {id: user.userId});
-      }
-      else {
-        $ionicLoading.show();
-        userNetService.getUserInfo(user.userId,
-          function (data) {
-            console.log(data);
-            $state.go('main.user-info', {id: user.userId});
-          },
-          function (data, status) {
-            $ionicPopup.alert({
-              title: '错误提示',
-              template: data.data.message
-            }).then(function (res) {
-              console.error(data);
-            })
-          });
-        $ionicLoading.hide();
-      }
+      //if (userNetService.cache.userInfo[user.userId]) {
+      //  $state.go('main.me_user-info', {id: user.userId});
+      //}
+      //else {
+      //  $ionicLoading.show();
+      //  userNetService.getUserInfo(user.userId,
+      //    function (data) {
+      //      console.log(data);
+      //      $state.go('main.me_user-info', {id: user.userId});
+      //      $ionicLoading.hide();
+      //    },
+      //    function (data, status) {
+      //      $ionicPopup.alert({
+      //        title: '错误提示',
+      //        template: data.data.message
+      //      }).then(function (res) {
+      //        console.error(data);
+      //      })
+      //      $ionicLoading.hide();
+      //    });
+      //
+      //}
+      userUtils.gotoUser(user.userId, 'me');
 
     }
 
@@ -266,7 +268,12 @@
     self.tabFollow = 0;
 
     self.ui_showFriendList = true;
-    self.cb_tabFollow = function(index) {
+
+    self.cb_gotoUser = function(userId) {
+      userUtils.gotoUser(userId, 'me');
+    }
+
+    self.cb_tabFollow = function (index) {
       //if(index == 0) {
       //  //vm.self.repeatList = userNetService.cache.selfInfo.attentionList;
       //  //vm.self.repeatList = [];
@@ -285,9 +292,9 @@
       //  },200);
 
 
-      if(index == 0) {
+      if (index == 0) {
         vm.self.repeatList = (userNetService.cache.selfInfo.attentionList)
-          //.concat(userNetService.cache.selfInfo.attentionList);
+        //.concat(userNetService.cache.selfInfo.attentionList);
         //vm.self.repeatList = vm.self.repeatList.concat(userNetService.cache.selfInfo.attentionList)
 
         //var xxx = []
@@ -307,7 +314,7 @@
 
         //vm.self.repeatList = vm.self.followList;
 
-      }else { //index==1
+      } else { //index==1
         vm.self.repeatList = userNetService.cache.selfInfo.funsList;
         //vm.self.funsList = userNetService.cache.selfInfo.funsList;
       }
@@ -320,7 +327,7 @@
     };
 
     // friend callbacks
-    self.cb_follow = function(index) {
+    self.cb_follow = function (index) {
       var friend = vm.self.repeatList[index];
 
       $ionicLoading.show();
@@ -353,7 +360,7 @@
         });
     };
 
-    self.cb_postList = function($index) {
+    self.cb_postList = function ($index) {
       var friend = vm.self.repeatList[$index];
       mainUserTasksService.user = {
         id: friend.userId,
@@ -363,7 +370,7 @@
       $state.go('main.me_user-tasks');
     };
 
-    self.cb_cancelFocus = function($index) {
+    self.cb_cancelFocus = function ($index) {
       $ionicActionSheet.show({
         titleText: "真的要取消关注么",
         buttons: [
@@ -371,7 +378,7 @@
           {text: "<b>否</b>"}
         ],
         buttonClicked: function (index) {
-          if(index == 0) {
+          if (index == 0) {
             var friend = vm.self.repeatList[$index];
 
             $ionicLoading.show();
@@ -384,10 +391,10 @@
                 });
 
                 // 如果互关注,取消funs里面的互关注状态
-                if(friend.isMutualAttention) {
+                if (friend.isMutualAttention) {
                   var funsList = userNetService.cache.selfInfo.funsList;
-                  for(var i in funsList) {
-                    if(funsList[i].userId == friend.userId) {
+                  for (var i in funsList) {
+                    if (funsList[i].userId == friend.userId) {
                       funsList[i].isMutualAttention = false;
                       userUtils.uiProcessFollowed(funsList[i]);
                       break;

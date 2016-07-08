@@ -43,7 +43,7 @@
         <div class="row">
 
           <div class="avatar">
-            <img class="user-logo" ng-src="{{topic.poster.avatar}}">
+            <img class="user-logo" ng-src="{{topic.poster.avatar}}" ng-click="vm.cb_gotoUser(topic.poster.userId)">
           </div>
 
           <div class="user-info-panel">

@@ -24,7 +24,7 @@
   }
 
   .content-right {
-    padding: 10px 0 7px 10px;
+    padding: 10px 0 5px 10px;
     @include flex(1 0 50%);
 
     .user-panel {
@@ -162,7 +162,7 @@
       @include display-flex();
       @include align-items(center);
       @include justify-content(space-between);
-      margin-right: 12px;
+      margin-right: 5px;
 
       .item-panel {
         @include display-flex();
@@ -183,13 +183,19 @@
         margin-bottom: 0;
       }
       .button-accept {
-        width: 62px;
-        height: 24px;
+        width: 70px;
+        //height: 24px;
         border-radius: 5px;
-        border-width: 1px;
-        border-style: solid;
-        font-size: 11px;
-        line-height: 1;
+        //border-width: 1px;
+        //border-style: solid;
+        font-size: 12px;
+        font-weight: bold;
+        line-height: 22px;
+        padding: 2px 12px;
+
+        color: white;
+        background-color: $color-theme-dark;
+        border: none;
       }
 
       .elem2 {
@@ -206,7 +212,7 @@
     .div-line-2 {
       //position: absolute;
       //top: 60px;
-      margin: 10px 0 7px 0;
+      margin: 10px 0 5px 0;
       height: 1px;
       background-color: $color-div-line;
     }

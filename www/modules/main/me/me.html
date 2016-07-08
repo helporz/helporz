@@ -237,7 +237,7 @@
                   item-width="100%">
           <img class="avatar" ng-src="{{item.avatar}}"
                src="img/com/avatar-default.png"
-               live-image>
+               live-image on-click="vm.self.cb_gotoUser(item.userId)">
 
           <div class="content-long"
                ng-class="{'content-short':vm.self.tabFollow==0 && item.recentTaskIdArray.length>0,
