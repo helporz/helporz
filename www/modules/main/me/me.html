@@ -242,7 +242,20 @@
           <div class="content-long"
                ng-class="{'content-short':vm.self.tabFollow==0 && item.recentTaskIdArray.length>0,
                           'content-long': vm.self.tabFollow==1 || (vm.self.tabFollow==0&&item.recentTaskIdArray.length==0)}">
-            <p class="name">{{item.nickname}}</p>
+            <div class="line-1">
+              <p class="name">
+                {{item.nickname}}
+              </p>
+
+              <div class="gender" style="padding-left: 0;padding-right:0;">
+								<span class="gender-icon  font-size-13"
+                      ng-class="{true:'ho-gender-female color-woman',false:'ho-gender-male color-man '}[item.gender == 1]">
+								</span>
+              </div>
+            </div>
+            <!--<p class="name">-->
+              <!--{{item.nickname}}-->
+            <!--</p>-->
 
             <p class="desc">{{item.sign}}</p>
           </div>
@@ -262,13 +275,14 @@
             求助中
           </button>
 
-          <button class="width-60 bt-right ho-button button-theme button-gray button-outline ho-button-small bt-inactive"
-								ng-disabled="vm.self.tabFollow==1"
-								ng-if="item.ui_showHasFollow"
-								ng-click="vm.self.cb_cancelFocus($index)">
-								<!--<i class="icon ion-ios-checkmark-empty"></i>-->
-								<!--&nbsp已关注-->
-								{{item.isMutualAttention?'已互关注':'已关注'}}
+          <button
+            class="width-60 bt-right ho-button button-theme button-gray button-outline ho-button-small bt-inactive"
+            ng-disabled="vm.self.tabFollow==1"
+            ng-if="item.ui_showHasFollow"
+            ng-click="vm.self.cb_cancelFocus($index)">
+            <!--<i class="icon ion-ios-checkmark-empty"></i>-->
+            <!--&nbsp已关注-->
+            {{item.isMutualAttention?'已互关注':'已关注'}}
           </button>
           <!-- -->
         </ion-item>

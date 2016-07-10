@@ -317,6 +317,7 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
 
       &.has-bg-color {
         background-color: $color-page-bg-weak;
+        border: none;
       }
 
       .side-icon {

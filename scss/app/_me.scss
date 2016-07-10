@@ -35,7 +35,7 @@
     @include display-flex();
     @include align-items(center);
     @include justify-content(center);
-    font-size:  17px;
+    font-size: 17px;
     font-weight: 500;
   }
 
@@ -286,12 +286,23 @@
           min-width: calc(100% - 191px);
         }
 
-        .name {
-          text-align: left;
-          padding-top: 2px;
-          font-size: 15px;
-          color: $color-text-primary;
+        .line-1 {
+          @include display-flex();
+          @include align-items(center);
+
+          .name {
+            text-align: left;
+            padding-top: 2px;
+            font-size: 15px;
+            color: $color-text-primary;
+          }
+          .gender {
+            margin-left: 3px;
+            padding-top: 1px;
+            font-size: 13px;
+          }
         }
+
         .desc {
           text-align: left;
           font-size: 13px;
@@ -318,8 +329,6 @@
         //color: $button-accept-txtcolor;
       }
     }
-
-
 
   }
 

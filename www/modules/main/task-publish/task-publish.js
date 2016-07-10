@@ -128,9 +128,9 @@
     //$scope.selectedSubTask = null;
 
     var publishModal = taskPublishModalService.getTaskPublishModal();
-    $timeout(function() {
+    //$timeout(function() {
       listModal.hide();
-    },1000);
+    //},1000);
     //$timeout(function(){
     //  $scope.selectedSubTask = null;
     //  $scope.$apply()
@@ -163,9 +163,9 @@
   }
 
 
-  taskPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', '$ionicPopup', '$ionicLoading', '$timeout', '$cordovaDatePicker',
+  taskPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', '$ionicPopup', '$ionicPopover', '$ionicLoading', '$timeout', '$cordovaDatePicker',
     'taskPublishModalService', 'taskNetService', 'taskUtils', 'taskDesc'];
-  function taskPublishControllerFn($scope, $log, $ionicModal, $ionicPopup, $ionicLoading, $timeout, $cordovaDatePicker,
+  function taskPublishControllerFn($scope, $log, $ionicModal, $ionicPopup, $ionicPopover, $ionicLoading, $timeout, $cordovaDatePicker,
                                    taskPublishModalService, taskNetService, taskUtils, taskDesc) {
     var _ctlSelf = this;
 
@@ -266,7 +266,47 @@
     }
 
 
+
+
     this.publish = function () {
+
+      function _popPublishSuccessPage() {
+        var _pov;
+        function _share(index) {
+          alert("123");
+        }
+        function _close() {
+          var po = _pov.$el[0].querySelector('#task-publish-success-popup');
+          po.style.opacity = '0';
+          //$timeout(function(){
+          _pov.hide();
+          //},300);
+
+          _ctlSelf.closeModal();
+          // 加入标志量,以供其他页面update
+          taskNetService.cache.isPostTaskGoingNeedRefresh = true;
+          taskNetService.cache.isNearTaskNeedRefresh = true;
+        }
+
+        var popupScope = $scope.$new();
+        popupScope.share = _share;
+        popupScope.close = _close;
+        $ionicPopover.fromTemplateUrl('modules/main/task-publish/publish-success-popup.html', {
+          title: null,
+          subTitle: null,
+          scope: popupScope
+        }).then(function (pov) {
+          //ho.alertObject(pov);
+          _pov = pov;
+          _pov.show();
+
+          var po = _pov.$el[0].querySelector('#task-publish-success-popup');
+          $timeout(function(){
+            po.style.opacity = '1';
+          })
+        });
+      }
+
       var errMsg = '';
       ////////////////////////////////////////////////
       //为了方便浏览器调试增加如下代码
@@ -286,26 +326,51 @@
       //  _ctlSelf.deadline = new Date(_ctlSelf.deadlineShow);
       //}
       ////////////////////////////////////////////////
-
-      if (_ctlSelf.selectedRewardType == 0 || _ctlSelf.selectedSubRewardType == 0) {
-        alert("请选择感谢方式");
+      if(ho.isValid($scope.selectedSubTask)==false || ho.isValid($scope.selectedSubTask.type)==false){
+        $ionicLoading.show({
+          duration: 1500,
+          template: '请选择求助类别'
+        });
         return;
       }
 
-      if (_ctlSelf.summary === '') {
-        alert("请输入求助类型");
+      if (ho.isValid(_ctlSelf.summary)==false || _ctlSelf.summary === '') {
+        //alert("请输入求助类型");
+        $ionicLoading.show({
+          duration: 1500,
+          template: '请输入求助内容'
+        });
         return;
       }
 
-      if (_ctlSelf.deadline == null) {
-        alert("请选择截止时间");
+      if (ho.isValid(_ctlSelf.pubLocation)==false || _ctlSelf.pubLocation ==='') {
+        //alert("请输入见面地址");
+        $ionicLoading.show({
+          duration: 1500,
+          template: '请输入见面地址'
+        });
         return;
       }
 
-      if (_ctlSelf.pubLocation == null || _ctlSelf.pubLocation === '') {
-        alert("请输入见面地址");
+      if (ho.isValid(_ctlSelf.deadline)==false) {
+        //alert("请选择截止时间");
+        $ionicLoading.show({
+          duration: 1500,
+          template: '请选择截止时间'
+        });
         return;
       }
+
+      if (ho.isValid(_ctlSelf.selectedRewardType)==false || ho.isValid(_ctlSelf.selectedSubRewardType)==false) {
+        //alert("请选择感谢方式");
+        $ionicLoading.show({
+          duration: 1500,
+          template: '请选择感谢方式'
+        })
+        return;
+      }
+
+      $ionicLoading.show();
 
       taskNetService.postTask($scope.selectedSubTask.type,
         _ctlSelf.summary,
@@ -316,17 +381,20 @@
         _ctlSelf.selectedRewardType,
         _ctlSelf.selectedSubRewardType, 1, 0).then(function () {
 
-          $ionicLoading.show({
-            duration: 1500,
-            templateUrl: 'modules/components/templates/ionic-loading/task-post-success.html'
-          })
-          $timeout(function() {
-            _ctlSelf.closeModal();
+          //$ionicLoading.show({
+          //  duration: 1500,
+          //  templateUrl: 'modules/components/templates/ionic-loading/task-post-success.html'
+          //})
+          //$timeout(function() {
+          //  _ctlSelf.closeModal();
+          //
+          //  // 加入标志量,以供其他页面update
+          //  taskNetService.cache.isPostTaskGoingNeedRefresh = true;
+          //  taskNetService.cache.isNearTaskNeedRefresh = true;
+          //}, 1500)
 
-            // 加入标志量,以供其他页面update
-            taskNetService.cache.isPostTaskGoingNeedRefresh = true;
-            taskNetService.cache.isNearTaskNeedRefresh = true;
-          }, 1500)
+          $ionicLoading.hide();
+          _popPublishSuccessPage();
 
           //alert("发布任务成功");
         }, function (error) {

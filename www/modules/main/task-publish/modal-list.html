@@ -6,6 +6,19 @@
       width: 100%;
     }
 
+    .task-title-panel {
+      height: 100px;
+      text-align: center;
+      display: table-row;
+      vertical-align: middle;
+    }
+    .task-title-panel .task-title {
+      font-size: 22px;
+      position: relative;
+      bottom: -100px;
+      color: #333;
+    }
+
     .task-select {
       width: 100%;
       display: table-cell;
@@ -53,6 +66,9 @@
   <ion-content class="no-header" overflow-scroll="true" style="overflow: hidden;"
                ng-controller="taskPublishListController as ctl">
     <div class="task-select-wrap">
+      <div class="task-title-panel">
+        <p class="task-title">召唤大侠</p>
+      </div>
       <div class="task-select">
         <div class="row">
           <div class="col col-33 task">
