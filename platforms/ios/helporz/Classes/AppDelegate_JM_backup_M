@@ -30,10 +30,30 @@
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
-{
+- (BOOL)application:(UIApplication*)application  didFinishLaunchingWithOptions:(NSDictionary*)launchOptions{ 
+ 	//------------------------------JMessage start----------------------------------- 
+    
+//JMessage remove code mark; 
+    
+//JMessage remove code mark; 
+    //------------------------------JMessage end-----------------------------------
     self.viewController = [[MainViewController alloc] init];
     return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+//JMessage remove code mark; 
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+//JMessage remove code mark; 
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+//JMessage remove code mark; 
+}
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+//JMessage remove code mark; 
+}
 @end

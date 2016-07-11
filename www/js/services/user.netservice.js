@@ -52,7 +52,7 @@
       }, function (code, data, status, headers, config) {
         onFailedFn(code);
       }, function (data, status, headers, config) {
-
+        onFailedFn(status);
       });
 
     };
@@ -63,7 +63,7 @@
       }, function (code, data, status, headers, config) {
         onFailedFn(code);
       }, function (data, status, headers, config) {
-
+        onFailedFn(status);
       });
     }
 
@@ -88,9 +88,24 @@
       }, function (code, data, status, headers, config) {
         onFailedFn(code);
       }, function (data, status, headers, config) {
+        onFailedFn(status);
       });
     };
 
+    var getUserInfoByNickname = function (nickname) {
+      var _innerDefer = $q.defer();
+      var param = {
+        nickname: nickname,
+      }
+      httpBaseService.getForPromise('/user/get_user_info_by_nickname', param).then(function (res) {
+        console.log('get user info by nickname success:' + JSON.stringify(res));
+        _cache.userInfo[res.userId] = res;
+        _innerDefer.resolve(res);
+      }, function (error) {
+        _innerDefer.reject(error);
+      });
+      return _innerDefer.promise;
+    }
     // 1为男，2为女
     var updateGender = function (gender) {
       var param = {
@@ -231,6 +246,7 @@
       checkUpdatePackage: _checkUpdatePackage,
       getSelfInfo: _getSelfInfo,
       getUserInfo: _getUserInfo,
+      getUserInfoByNickname: getUserInfoByNickname,
       getSelfInfoForPromise: _getSelfInfoForPromise,
       updateGender: updateGender,
       updateOrg: updateOrg,

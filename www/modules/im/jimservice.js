@@ -166,7 +166,7 @@
 
       var _sendTextMessage = function(userId,cUserId,msgType,messageContent,onSuccessFn,onFailedFn) {
         console.log("send message to " + cUserId + " :content is " + messageContent);
-        $window.plugins.jmessagePlugin.sendSingleTextMessage(cUserId, messageContent, function (response) {
+        $window.plugins.jmessagePlugin.sendSingleTextMessage(cUserId, messageContent,appConfig.JPUSH_APPKEY, function (response) {
           var ss = JSON.stringify(response);
           console.log("send message sucess" + ss);
           //alert(ss);
@@ -219,11 +219,36 @@
       var _updateMessageNotifyCB = function(config) {
         $document.on("jmessage.conversationChange", config.onConversatinoChange);
         $document.on("jmessage.singleReceiveMessage", config.onSingleReceiveMessage);
+        $document.on("jmessage.onReceiveMessage", config.onSingleReceiveMessage);
+        $document.on('jmessage.onOpenMessage',config.onOpenMessage);
       }
+
       //var _getUserInfo = function(onSuccessFn,onFailedFn) {
       //  console.log('get user information');
       //  $window.plugins.jmessagePlugin.getUserInfo(onSuccessFn,onFailedFn);
       //};
+
+      jimServiceFactory.enterConversation = function(cUserId) {
+        var _innerDefer = $q.defer();
+        $window.JMessage.enterSingleConversation(cUserId,appConfig.JPUSH_APPKEY,function() {
+            _innerDefer.resolve();
+        },function(error) {
+          $log.error("enterConversation failed cUserId(#cUserId#) error(#error#)".replace('#cUserId#',cUserId).replace('#error#',error));
+            _innerDefer.reject();
+        });
+        return _innerDefer.promise;
+      }
+
+      jimServiceFactory.exitConversation = function(cUserId) {
+        var _innerDefer = $q.defer();
+        $window.JMessage.exitConversation(function() {
+            _innerDefer.resolve();
+        },function(){
+          $log.error("exitConversation failed cUserId(#cUserId#) error(#error#)".replace('#cUserId#',cUserId).replace('#error#',error));
+          _innerDefer.reject();
+        });
+        return _innerDefer.promise;
+      }
 
       jimServiceFactory.init = _init;
       jimServiceFactory.login = _login;

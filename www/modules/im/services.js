@@ -234,7 +234,7 @@
         for (var index = 0; index < cList.length; ++index) {
           conversationCache[cList[index].id] = cList[index];
         }
-
+        $log.debug('current conversation cache :' + JSON.stringify(conversationCache));
         _innerDefer.resolve();
       }, function (error) {
         $log.error(error);
@@ -406,6 +406,7 @@
         noReadMessages: 0,
         'cUserId': '0',
         cUserNickname: null,
+        cUserLoginName: null,
         cUserAvatar: null,
         created: null,
         lastMessage: '',
@@ -446,7 +447,7 @@
       var tableSqlList = ['CREATE TABLE IF NOT EXISTS imMessage(id  INTEGER PRIMARY KEY AUTOINCREMENT,userId text,cUserId text,type text,message text,time text,isFromMe integer,' +
       'sendState integer,ext text)',
         'CREATE TABLE IF NOT EXISTS imConversation(id  INTEGER PRIMARY KEY AUTOINCREMENT,userId text,isTop integer, showHints integer,noReadMessages integer,cUserId text,' +
-        'cUserNickName text,cUserAvatar text, created text,lastMessage text,lastMessageTime text)'];
+        'cUserNickname text, cUserLoginName text,cUserAvatar text, created text,lastMessage text,lastMessageTime text)'];
 
       $log.info('im message execute sql list:' + tableSqlList[0]);
       $log.info('im message execute sql list:' + tableSqlList[1]);
@@ -595,13 +596,14 @@
 
   imMessageServiceFactoryFn.$inject = ['$log',
     '$q',
+    '$state',
     'jimService',
     'imMessageStorageService',
     'imConversationService',
     'userNetService',
     'UtilsService',
     'debugHelpService',];
-  function imMessageServiceFactoryFn($log, $q, jimService, imMessageStorageService, imConversationService, userNetService, UtilsService,debugHelpService) {
+  function imMessageServiceFactoryFn($log, $q, $state, jimService, imMessageStorageService, imConversationService, userNetService, UtilsService, debugHelpService) {
     var msgObservers = {};
     var conversationObservers = {};
 
@@ -624,23 +626,43 @@
     var onSingleReceiveMessage = function (data) {
       $log.debug("receive im message");
 
-      if (typeof(data.msg_type) === 'undefined') {
+      if (typeof(data.msg_type) === 'undefined' && typeof(data.contentType) === 'undefined') {
         //$log.error('receive invalid message:' + debugHelpService.writeObj(data));
       }
       else {
         //$log.info("receive messge:" + debugHelpService.writeObj(data));
-        $log.info('receive message:' + data.msg_body.text + " username:" + data.target_id + " toUserName:" + data.from_id + " time:" + data.create_time);
-
-        var cUserId = data.from_id.split('_')[1];
         var messageDetail = {
           userId: userNetService.cache.selfInfo.userId, //由于data.target_id 与 data.from_id相等，因此用当前登录的用户名
-          cUserId: cUserId,
           type: 'text',
-          message: data.msg_body.text,
-          time: UtilsService.getLocalTime(data.create_time),
           isFromMe: false,
           sendState: 1
         };
+
+        var cUserLoginName = null;
+        if (device.platform == "Android") {
+          messageDetail.cUserId = data.fromID.split('_')[1];
+          cUserLoginName = data.fromID.split('_')[0];
+          messageDetail.message = data.content.text;
+          messageDetail.time = UtilsService.getLocalTime(data.createTimeInSeconds * 1000);
+        } else {
+          messageDetail.cUserId = data.from_id.split('_')[1];
+          cUserLoginName = data.from_id.split('_')[0];
+          messageDetail.message = data.msg_body.text;
+          messageDetail.time = UtilsService.getLocalTime(data.create_time * 1000);
+        }
+
+        $log.info('receive message:' + JSON.stringify(messageDetail));
+        //
+        //var cUserId = data.from_id.split('_')[1];
+        //var messageDetail = {
+        //  userId: userNetService.cache.selfInfo.userId, //由于data.target_id 与 data.from_id相等，因此用当前登录的用户名
+        //  cUserId: cUserId,
+        //  type: 'text',
+        //  message: data.msg_body.text,
+        //  time: UtilsService.getLocalTime(data.create_time *1000),
+        //  isFromMe: false,
+        //  sendState: 1
+        //};
 
         imMessageStorageService.addMessage(messageDetail).then(function (insertId) {
           messageDetail.id = insertId;
@@ -655,13 +677,16 @@
 
         var conversation = imConversationService.getConversation(messageDetail.userId, messageDetail.cUserId);
         if (conversation == null) {
+          $log.debug("not find conversation:userId " + messageDetail.userId + " cUserId " + messageDetail.cUserId);
           conversation = imMessageStorageService.newConversation();
           conversation.userId = messageDetail.userId;
           conversation.cUserId = messageDetail.cUserId;
 
           var cUserInfo = userNetService.cache.userInfo[messageDetail.cUserId];
           if (cUserInfo != null) {
+            $log.debug("find cUserInfo:" + JSON.stringify(cUserInfo));
             conversation.cUserNickname = cUserInfo.nickname;
+            conversation.cUserLoginName = cUserInfo.loginName;
             conversation.cUserAvatar = cUserInfo.avatar;
             conversation.lastMessage = messageDetail.message;
             conversation.lastMessageTime = messageDetail.time;
@@ -671,11 +696,16 @@
               for (var cOb in conversationObservers) {
                 conversationObservers[cOb].onAddConversation(conversation);
               }
+            }, function (error) {
+              $log.error('add conversation failed:' + error);
             });
           }
           else {
+            $log.debug('not find cUserInfo');
             userNetService.getUserInfo(messageDetail.cUserId, function (userInfo) {
+              $log.debug("getUserInfo from Server:" + JSON.stringify(userInfo));
               conversation.cUserNickname = userInfo.nickname;
+              conversation.cUserLoginName = userInfo.loginName;
               conversation.cUserAvatar = userInfo.avatar;
               conversation.lastMessage = messageDetail.message;
               conversation.lastMessageTime = messageDetail.time;
@@ -686,6 +716,8 @@
                 for (var cOb in conversationObservers) {
                   conversationObservers[cOb].onAddConversation(conversation);
                 }
+              }, function (error) {
+                $log.error('add Conversation failed:' + error);
               });
             }, function (error) {
               $log.error('getUserInfo failed:userId(#userId#) error(#error#)'
@@ -694,11 +726,101 @@
           }
 
         }
+        else {
+          $log.info("conversation:" + JSON.stringify(conversation));
+        }
       }
     };
 
+    var onOpenMessage = function (data) {
+      var msg = window.JMessage.openedMessage;
+      $log.info('on open message:' + JSON.stringify(msg));
+
+      //$log.info('on open message:' + JSON.stringify(data));
+      var messageDetail = {
+        userId: userNetService.cache.selfInfo.userId, //由于data.target_id 与 data.from_id相等，因此用当前登录的用户名
+        type: 'text',
+        isFromMe: false,
+        sendState: 1
+      };
+
+      var cUserLoginName = null;
+      if (device.platform == "Android") {
+        messageDetail.cUserId = data.fromID.split('_')[1];
+        cUserLoginName = data.fromID.split('_')[0];
+        messageDetail.message = data.content.text;
+        messageDetail.time = UtilsService.getLocalTime(data.createTimeInSeconds * 1000);
+      } else {
+        messageDetail.cUserId = data.from_id.split('_')[1];
+        cUserLoginName = data.from_id.split('_')[0];
+        messageDetail.message = data.msg_body.text;
+        messageDetail.time = UtilsService.getLocalTime(data.create_time * 1000);
+      }
+
+      $log.info('receive message:' + JSON.stringify(messageDetail));
+
+      var conversation = imConversationService.getConversation(messageDetail.userId, messageDetail.cUserId);
+      if (conversation == null) {
+        $log.debug("not find conversation:userId " + messageDetail.userId + " cUserId " + messageDetail.cUserId);
+        conversation = imMessageStorageService.newConversation();
+        conversation.userId = messageDetail.userId;
+        conversation.cUserId = messageDetail.cUserId;
+
+        var cUserInfo = userNetService.cache.userInfo[messageDetail.cUserId];
+        if (cUserInfo != null) {
+          $log.debug("find cUserInfo:" + JSON.stringify(cUserInfo));
+          conversation.cUserNickname = cUserInfo.nickname;
+          conversation.cUserLoginName = cUserInfo.loginName;
+          conversation.cUserAvatar = cUserInfo.avatar;
+          conversation.lastMessage = messageDetail.message;
+          conversation.lastMessageTime = messageDetail.time;
+          conversation.noReadMessages = 1;
+          imConversationService.addConversation(conversation).then(function (insertId) {
+            conversation.id = insertId;
+            for (var cOb in conversationObservers) {
+              conversationObservers[cOb].onAddConversation(conversation);
+            }
+            $state.go('main.im-detail', {'cid': messageDetail.cUserId});
+          }, function (error) {
+            $log.error('add conversation failed:' + error);
+          });
+        }
+        else {
+          $log.debug('not find cUserInfo');
+          userNetService.getUserInfo(messageDetail.cUserId, function (userInfo) {
+            $log.debug("getUserInfo from Server:" + JSON.stringify(userInfo));
+            conversation.cUserNickname = userInfo.nickname;
+            conversation.cUserLoginName = userInfo.loginName;
+            conversation.cUserAvatar = userInfo.avatar;
+            conversation.lastMessage = messageDetail.message;
+            conversation.lastMessageTime = messageDetail.time;
+            conversation.noReadMessages = 1;
+
+            imConversationService.addConversation(conversation).then(function (insertId) {
+              conversation.id = insertId;
+              for (var cOb in conversationObservers) {
+                conversationObservers[cOb].onAddConversation(conversation);
+              }
+              $state.go('main.im-detail', {'cid': messageDetail.cUserId});
+            }, function (error) {
+              $log.error('add Conversation failed:' + error);
+            });
+          }, function (error) {
+            $log.error('getUserInfo failed:userId(#userId#) error(#error#)'
+              .replace('#userId#', messageDetail.cUserId).replace('#error#', error));
+          })
+        }
+
+      }
+      else {
+        $log.info("conversation:" + JSON.stringify(conversation));
+        $state.go('main.im-detail', {'cid': messageDetail.cUserId});
+      }
+    }
+
     var config = {
-      onSingleReceiveMessage: onSingleReceiveMessage
+      onSingleReceiveMessage: onSingleReceiveMessage,
+      onOpenMessage: onOpenMessage,
     };
 
     jimService.updateMessageNotifyCB(config);
@@ -706,27 +828,50 @@
     var sendMessage = function (cUser, message) {
       var _innerDefer = $q.defer();
       var cbObj = null;
-      $log.info("sendMessage: cUserId(#cUserId#) message(#message#)".replace('#cUserId#',cUser.userId).replace('#message#',message.message));
+      $log.info("sendMessage: cUserId(#cUserId#) message(#message#)".replace('#cUserId#', cUser.userId).replace('#message#', message.message));
       jimService.sendTextMessage(message.userId, cUser.loginName + '_' + message.cUserId, message.type, message.message, function (response) {
         _innerDefer.resolve();
       }, function (response) {
+        $log.error('sendMessage failed:' + JSON.stringify(response));
         _innerDefer.reject(response);
       });
       return _innerDefer.promise;
     }
 
+    var enterConversation = function (cUser) {
+      return jimService.enterConversation(cUser.loginName + '_' + cUser.userId);
+    }
+
+    var exitConversation = function (cUser) {
+      return jimService.exitConversation(cUser.loginName + '_' + cUser.userId);
+    }
+
+    var onOpenNotification = function (event) {
+      var alert = event.aps.alert;
+      $log.debug('enter onOpenNotification:' + alert);
+      console.log('enter onOpenNotification:' + alert);
+      if (alert != null) {
+        var cUserNickname = alert.split(':')[0];
+        console.log('onOpenNotification:' + cUserNickname);
+        userNetService.getUserInfoByNickname(cUserNickname).then(function(userInfo) {
+          console.log('onOpenNotification get user info by nickname success');
+          console.log('get user info by nickname(#nickname#):'.replace('#nickname#',cUserNickname) + JSON.stringify(userInfo));
+          $state.go('main.im-detail', {'cid': userInfo.userId});
+        },function(error) {
+          $log.error('onOpenNotification failed:' + error);
+        });
+      }
+    }
+
     return {
-      //getLocalMessageList: _getLocalMessageList,
-      //getHistoryMessageList: _getHistoryMessageList,
-      //addMessage: _addMessage,
-      //deleteMessageList: _deleteMessageList,
       registerMsgObserver: registerMsgObserver,
       unregisterMsgObserver: unregisterMsgObserver,
       registerConversationObserver: registerConversationObserver,
       unregisterConversationObserver: unregisterConversationObserver,
       sendMessage: sendMessage,
-      //deleteMessage: imMessageStorageService.deleteMessage,
-      //updateMessage: imMessageStorageService.updateMessage
+      enterConversation: enterConversation,
+      exitConversation: exitConversation,
+      onOpenNotification: onOpenNotification,
     };
   }
 

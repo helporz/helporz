@@ -12,9 +12,9 @@
     .factory('NoticeMessageServiceTest', NoticeMessageServiceTestFn);
 
 
-  NoticeMessageServiceFn.$inject = ['$log', '$q', 'NoticeMessageDB', 'NoticeMessageNetService', 'pushService', 'debugHelpService'];
+  NoticeMessageServiceFn.$inject = ['$log', '$q', 'NoticeMessageDB', 'NoticeMessageNetService', 'pushService', 'imMessageService','debugHelpService'];
 
-  function NoticeMessageServiceFn($log, $q, NoticeMessageDB, NoticeMessageNetService, pushService, debugHelpService) {
+  function NoticeMessageServiceFn($log, $q, NoticeMessageDB, NoticeMessageNetService, pushService, imMessageService,debugHelpService) {
     var _observerList = new Array();
     var _currentUserId = null;
     var NOTICE_TYPE = {
@@ -27,7 +27,7 @@
     };
 
     var onOpenNotification = function (event) {
-      console.log(" index onOpenNotification:" + JSON.stringify(event));
+      console.log(" index onOpenNotification");
 
       try {
         //var alertContent;
@@ -37,7 +37,13 @@
         //  alertContent = event.aps.alert;
         //}
         //alert("open Notificaiton:" + alertContent);
-        _onReceiveNoticeMessageList(getMessageFromNotificationEvent(event));
+        if( typeof event._j_type !== 'undefined' && event._j_type === "jmessage") {
+          imMessageService.onOpenNotification(event);
+        }
+        else {
+          _onReceiveNoticeMessageList(getMessageFromNotificationEvent(event));
+        }
+
       }
       catch (exception) {
         console.log("JPushPlugin:onOpenNotification" + exception);
