@@ -13,7 +13,7 @@ platforms/ios/helporz/*
 
 
 plugins/*
-!plugins/cordova-plugin-jmessage
+#!plugins/cordova-plugin-jmessage
 #resources/android
 #resources/ios
 

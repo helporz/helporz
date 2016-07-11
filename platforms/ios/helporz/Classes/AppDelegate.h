@@ -29,11 +29,14 @@
 #import <Cordova/CDVAppDelegate.h>
 
 #import "JMessagePlugin.h"
-#import "JMessageHelper.h"
 
-
+//JMessage remove code mark
+#import "JMessageHelper.h" //JMessage add 
 @interface AppDelegate : CDVAppDelegate {}
 
 
+
+//JMessage remove code mark; //JMessage add 
+ 
 @property (nonatomic, strong)  JMessageHelper * jmessage; //JMessage add 
- @end
+@end

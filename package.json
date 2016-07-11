@@ -29,7 +29,6 @@
     "cordova-plugin-camera",
     "cordova-plugin-image-picker",
     "cordova-plugin-wechat",
-    "cordova-plugin-jmessage",
     "ionic-plugin-keyboard"
   ],
   "cordovaPlatforms": [

@@ -70,6 +70,7 @@
         };
 
         $scope.$on("$ionicView.beforeLeave", function () {
+          imMessageService.exitConversation($scope.cUser);
           if ($scope.messageDetails != null && $scope.messageDetails.length > 0) {
             var lastMessage = $scope.messageDetails[$scope.messageDetails.length - 1];
             $scope.conversation.lastMessage = lastMessage.message;
@@ -81,6 +82,7 @@
         });
 
         $scope.$on("$ionicView.afterEnter", function () {
+
           $scope.messageDetails = new Array();
           imMessageStorageService.getMaxIdForMessage().then(function (maxMessageId) {
             imMessageStorageService.getMessageList($scope.user.userId, $scope.cUser.userId, maxMessageId, 20).then(function (msgList) {
@@ -143,6 +145,7 @@
             conversation.userId = $scope.user.userId;
             conversation.cUserId = $scope.cUser.userId;
             conversation.cUserNickname = $scope.cUser.nickname;
+            conversation.cUerLoginName = $scope.cUser.loginName;
             conversation.cUserAvatar = $scope.cUser.avatar;
             imConversationService.addConversation(conversation);
             $scope.conversation = conversation;
@@ -151,6 +154,7 @@
             $scope.cUser = {};
             $scope.cUser.userId = $scope.conversation.cUserId;
             $scope.cUser.nickname = $scope.conversation.cUserNickname;
+            $scope.cUser.loginName = $scope.conversation.cUserLoginName;
             $scope.cUser.avatar = $scope.conversation.cUserAvatar;
           }
           else if ($scope.cUser == null && $scope.conversation == null) {
@@ -160,6 +164,7 @@
           }
 
           $log.info('cUser info:' + JSON.stringify($scope.cUser));
+          imMessageService.enterConversation($scope.cUser);
 
           viewScroll.scrollBottom();
         });
@@ -305,12 +310,15 @@
 
         var messageObserver = {
           onReceiveMessage: function (message) {
+            $log.debug('messageObserver receive message:' + JSON.stringify(message));
             if (message.userId == $scope.user.userId && message.cUserId == $scope.cUser.userId) {
+              $log.debug('push message to message detail list');
               $scope.messageDetails.push(message);
-              if (!$scope.$$phase) {
-                $scope.$apply();
-              }
-              viewScroll.scrollBottom();
+
+              $scope.$apply(function() {
+                viewScroll.scrollBottom();
+              });
+
             }
           }
         };
