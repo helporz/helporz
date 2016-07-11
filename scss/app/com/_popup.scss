@@ -1,0 +1,48 @@
+.ho-popup {
+  background-color: white;
+  font-size: 15px;
+
+  .line-1 {
+    line-height: 26px;
+    min-height: 41px;
+    padding: 7px 5px;
+    border-bottom: 1px solid $color-div-line;
+    text-align: center;
+
+    p {
+      padding: 0;
+      margin: 0;
+      font-size: 13px;
+      color: $color-text-primary;
+    }
+  }
+
+  .line-2 {
+    @include display-flex();
+
+    .bt-full {
+      width: 100%;
+    }
+
+    .bt-2-1 {
+      width: 50%;
+      border-right: 1px solid $color-div-line;
+    }
+
+    .bt-2-2 {
+      width: 50%;
+      font-weight: bold;
+    }
+
+    button {
+      line-height: 32px;
+      color: $color-tip-blue;
+      background-color: white;
+      border: none;
+
+      &.activated {
+        background-color: $color-page-bg;
+      }
+    }
+  }
+}

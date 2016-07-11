@@ -1,0 +1,35 @@
+<div class="ho-popup">
+  <!--<div class="select-subtype-header no-border">-->
+    <!--<H1 style="font-size: 20px; color: #878787">{{typeName}}</H1>-->
+    <!--<p>请选择需要帮助的种类</p>-->
+  <!--</div>-->
+
+  <!--<ion-item ng-repeat="subType in subTypeList" class="no-border ">-->
+    <!--<div class="task-item" ng-click="selectedSubType(subType.index)">-->
+      <!--<img class="task-icon" ng-src="{{subType.icon}}">-->
+      <!--<p class="task-txt"> {{subType.name}}-->
+      <!--</p>-->
+    <!--</div>-->
+
+
+    <!--&lt;!&ndash;<button class="button button-small button-full pop-button" ng-click="selectedSubType(subType.index)"> {{subType.name}}</button>&ndash;&gt;-->
+  <!--</ion-item>-->
+
+  <!--<ion-item class="no-border">-->
+    <!--<button class="cancel-bt cancel" ng-click="cancel()">取消</button>-->
+  <!--</ion-item>-->
+
+
+  <div class="line-1">
+    <p>好消息,有新版本了,请更新后使用^@^fjeijfiejfiejiefj</p>
+  </div>
+
+  <div class="line-2" ng-if="ui_2bts">
+    <button class="bt-2-1" ng-click="cb_cancel()">稍后再说</button>
+    <button class="bt-2-2" ng-click="cb_update()">更新</button>
+  </div>
+
+  <div class="line-2" ng-if="!ui_2bts">
+    <button class="bt-full" ng-click="cb_update()">更新</button>
+  </div>
+</div>
