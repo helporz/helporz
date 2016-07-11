@@ -438,6 +438,7 @@
     }
 
     var getWaitingTaskList = function(userId) {
+      $log.debug('get waiting task list:' + userId);
       var param = {
         userId:userId,
       }

@@ -8,13 +8,13 @@
   angular.module('main.me')
     .controller('mainMeCtrl', ['$state', '$scope', '$ionicLoading', '$ionicPopup', '$ionicScrollDelegate', '$ionicActionSheet',
       '$timeout', '$interval', 'userNetService', 'impressUtils', 'userUtils',
-      'errorCodeService', 'SharePageWrapService', 'mainUserTasksService', mainMeCtrl])
+      'errorCodeService', 'SharePageWrapService', 'mainUserTasksService','IMInterfaceService', mainMeCtrl])
 
   function mainMeCtrl($state, $scope, $ionicLoading, $ionicPopup, $ionicScrollDelegate, $ionicActionSheet,
                       $timeout, $interval, userNetService, impressUtils, userUtils,
-                      errorCodeService, SharePageWrapService, mainUserTasksService) {
+                      errorCodeService, SharePageWrapService, mainUserTasksService,IMInterfaceService) {
     var vm = $scope.vm = {};
-
+    vm.IMInterfaceService = IMInterfaceService;
     vm.cb_edit = function () {
       $state.go('main.edit');
     }

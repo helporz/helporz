@@ -24,9 +24,9 @@
   </ion-nav-title>
 
   <ion-nav-buttons side="right">
-    <button class="button button-icon icon ho-chat-2">
-      <div class="badge-count">
-        <p class="count">8</p>
+    <button class="button button-icon icon ho-chat-2" ng-click="vm.state.go('main.task_im')">
+      <div class="badge-count" ng-if="vm.IMInterfaceService.unReadMessageCount > 0">
+        <p class="count">{{vm.IMInterfaceService.unReadMessageCount}}</p>
       </div>
     </button>
   </ion-nav-buttons>

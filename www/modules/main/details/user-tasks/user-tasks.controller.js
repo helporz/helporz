@@ -7,7 +7,7 @@
 
   angular.module('main.user-tasks')
     .factory('mainUserTasksService', mainUserTasksService)
-    .controller('mainUserTasksCtrl', ['$state', '$log', '$ionicLoading', '$interval', '$timeout', '$scope', 'taskNetService', 'userNetService',
+    .controller('mainUserTasksCtrl', ['$state', '$log', '$ionicLoading', '$interval', '$timeout', '$scope','$stateParams', 'taskNetService', 'userNetService',
       'taskUtils', 'timeUtils', 'impressUtils', 'intervalCenter', 'SharePageWrapService', 'mainUserTasksService',
       'mainNearTaskDetailService', 'operationUtils', 'userUtils','$ionicTabsDelegate',
       mainUserTasksCtrl]);
@@ -22,23 +22,29 @@
     }
   }
 
-  function mainUserTasksCtrl($state, $log, $ionicLoading, $interval, $timeout, $scope, taskNetService, userNetService,
+  function mainUserTasksCtrl($state, $log, $ionicLoading, $interval, $timeout, $scope, $stateParams,taskNetService, userNetService,
                              taskUtils, timeUtils, impressUtils, intervalCenter, SharePageWrapService, mainUserTasksService,
                              mainNearTaskDetailService, operationUtils, userUtils, $ionicTabsDelegate) {
 
     var vm = $scope.vm = {};
+    $log.debug('mainUserTaskCtrl:' + JSON.stringify($stateParams));
+    mainUserTasksService.user.id = $stateParams.userId;
+    mainUserTasksService.user.nickname = $stateParams.nickname;
+
     vm.nickname = mainUserTasksService.user.nickname;
     vm.items = [];
 
     vm.sharePageService = SharePageWrapService;
     vm.doRefresh = function () {
-      taskNetService.queryNewTaskList().then(flushSuccessFn, flushFailedFn).finally(function () {
+      $log.debug("mainUserTasksService:" + JSON.stringify(mainUserTasksService));
+      taskNetService.getWaitingTaskList(mainUserTasksService.user.id).then(flushSuccessFn, flushFailedFn).finally(function () {
         $scope.$broadcast('scroll.refreshComplete');
       });
     };
 
     function _refreshList() {
       $ionicLoading.show();
+      $log.debug("mainUserTasksService:" + JSON.stringify(mainUserTasksService));
       taskNetService.getWaitingTaskList(mainUserTasksService.user.id).then(flushSuccessFn, flushFailedFn).finally(function () {
         $ionicLoading.hide();
       });
@@ -77,7 +83,8 @@
         return
       }
       mainNearTaskDetailService.task = vm.items[index];
-      $state.go('main.me_user-tasks_task-detail', {id: '-1'});
+      //$state.go('main.me_user-tasks_task-detail', {id: '-1'});
+      userUtils.gotoTaskDetail('-1');
     };
 
     vm.cb_acceptTask = function (index) {

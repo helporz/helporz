@@ -1,16 +1,30 @@
 <ion-header-bar align-title="center" class="bar-dark" style="background-color:#ff492f">
-  <div class="buttons">
-    <button class="button button-icon icon ion-arrow-left-c" ui-sref="im-list">
-    </button>
-  </div>
-  <!-- <div class="h1 title" ng-bind="message.name">微信</div> -->
-  <div class="h1 title col-center" ng-bind="conversation.cUserNickname"></div>
-  <div class="buttons">
-    <button class="button button-icon icon ion-person"></button>
-  </div>
+  <!--<div class="buttons">-->
+    <!--<button class="button button-icon icon ion-arrow-left-c" ui-sref="im-list">-->
+    <!--</button>-->
+  <!--</div>-->
+  <!--&lt;!&ndash; <div class="h1 title" ng-bind="message.name">微信</div> &ndash;&gt;-->
+  <!--<div class="h1 title col-center" ng-bind="conversation.cUserNickname"></div>-->
+  <!--<div class="buttons">-->
+    <!--<button class="button button-icon icon ion-person"></button>-->
+  <!--</div>-->
+
 </ion-header-bar>
 
 <ion-view view-title="{{conversation.cUserNickname}}">
+  <ion-nav-title class="title title-center header-item">
+    <!--<div style="height: 100%">-->
+      {{conversation.cUserNickname}}
+    <!--</div>-->
+  </ion-nav-title>
+
+  <ion-nav-buttons side="right">
+    <!--<button class="button icon ion-ios-plus" ng-click="vm.showPopover($event)">-->
+
+    <!--</button>-->
+    <button class="button button-border" ng-click="userUtils.gotoUserTasks(cUser.userId,cUser.nickname)">ta的求助</button>
+  </ion-nav-buttons>
+
   <ion-content class="rj-stable-content has-footer" delegate-handle="messageDetailsScroll" id="message-detail-content">
     <ion-refresher pulling-text="..." on-refresh="doRefresh()" pulling-icon=""></ion-refresher>
     <div ng-repeat="item in messageDetails">

@@ -87,10 +87,11 @@
 
   topicGroupControllerFn.$inject = ['$scope', '$stateParams', '$state', '$log', '$timeout', '$ionicActionSheet',
     '$ionicPopover', '$ionicModal', 'topicService', 'topicGroupService', 'filterTopicService', 'topicBlacklistService',
-    'favouriteTopicService', 'topicModalService', 'impressUtils', 'userUtils'];
+    'favouriteTopicService', 'topicModalService', 'impressUtils', 'userUtils','IMInterfaceService'];
   function topicGroupControllerFn($scope, $stateParams, $state, $log, $timeout, $ionicActionSheet,
                                   $ionicPopover, $ionicModal, topicService, topicGroupService, filterTopicService,
-                                  topicBlacklistService, favouriteTopicService, topicModalService, impressUtils, userUtils) {
+                                  topicBlacklistService, favouriteTopicService, topicModalService, impressUtils, userUtils,
+                                  IMInterfaceService) {
     var vm = $scope.vm = {};
     if (typeof $stateParams.groupId === 'undefined' || $stateParams.groupId == null) {
       vm.groupId = 1;
@@ -98,7 +99,8 @@
     else {
       vm.groupId = $stateParams.groupId;
     }
-
+    vm.state = $state;
+    vm.IMInterfaceService = IMInterfaceService;
     vm.topicGroup = topicGroupService.getGroupInfo(vm.groupId);
 
     vm.sysTopicList = topicService.getSysTopicList(vm.groupId);
@@ -308,7 +310,7 @@
           vm.userTopicList = topicList;
           vm.isCanLoadMore = true;
 
-          for(var i in vm.userTopicList) {
+          for (var i in vm.userTopicList) {
             var item = vm.userTopicList[i];
             item.ui_tags = [];
             impressUtils.netTagsToUiTags(item.ui_tags, item.poster.tags);
@@ -444,7 +446,7 @@
     //  }
     //}];
 
-    vm.cb_gotoUser = function(userId){
+    vm.cb_gotoUser = function (userId) {
       userUtils.gotoUser(userId, 'topic-group');
     }
   }
@@ -789,8 +791,8 @@
       vm.doRefresh();
     });
 
-    vm.cb_gotoUser = function(userId) {
-      if(operationUtils.canClick()==false){
+    vm.cb_gotoUser = function (userId) {
+      if (operationUtils.canClick() == false) {
         return;
       }
       userUtils.gotoUser(userId, 'topic-group');
@@ -877,7 +879,7 @@
           //}
         }
 
-        $timeout(function(){
+        $timeout(function () {
           $scope.$apply();
         })
 
@@ -944,7 +946,7 @@
       });
     }
     vm.operateComment = function (comment, event) {
-      if(operationUtils.canClick()==false){
+      if (operationUtils.canClick() == false) {
         return;
       }
       $ionicActionSheet.show({
@@ -1056,7 +1058,7 @@
       vm.loadMoreTopicList();
     });
 
-    vm.cb_gotoUser = function(userId) {
+    vm.cb_gotoUser = function (userId) {
       userUtils.gotoUser(userId, 'topic-group');
     }
 
@@ -1108,7 +1110,7 @@
       vm.loadMoreTopicList();
     });
 
-    vm.cb_gotoUser = function(userId) {
+    vm.cb_gotoUser = function (userId) {
       userUtils.gotoUser(userId, 'topic-group');
     }
 
@@ -1160,7 +1162,7 @@
       vm.loadMoreCommentList();
     });
 
-    vm.cb_gotoUser = function(userId) {
+    vm.cb_gotoUser = function (userId) {
       userUtils.gotoUser(userId, 'topic-group');
     }
 
@@ -1213,7 +1215,7 @@
       vm.loadMoreCommentList();
     });
 
-    vm.cb_gotoUser = function(userId) {
+    vm.cb_gotoUser = function (userId) {
       userUtils.gotoUser(userId, 'topic-group');
     }
 

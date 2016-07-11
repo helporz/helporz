@@ -161,7 +161,11 @@
 
     <!--</button>-->
     <button class="button button-icon icon ion-ios-keypad" ng-click="vm.showPopover($event)"></button>
-    <button class="button button-icon icon ho-chat-2" ng-click=""></button>
+    <button class="button button-icon icon ho-chat-2" ng-click="vm.state.go('main.topic-group_im')">
+      <div class="badge-count" ng-if="vm.IMInterfaceService.unReadMessageCount > 0">
+        <p class="count">{{vm.IMInterfaceService.unReadMessageCount}}</p>
+      </div>
+    </button>
   </ion-nav-buttons>
 
 
