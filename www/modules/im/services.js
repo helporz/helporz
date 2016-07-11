@@ -603,9 +603,10 @@
     'userNetService',
     'UtilsService',
     'userUtils',
+    'IMInterfaceService',
     'debugHelpService',];
   function imMessageServiceFactoryFn($log, $q, $state, jimService, imMessageStorageService, imConversationService,
-                                     userNetService, UtilsService,userUtils, debugHelpService) {
+                                     userNetService, UtilsService,userUtils,IMInterfaceService, debugHelpService) {
     var msgObservers = {};
     var conversationObservers = {};
 
@@ -730,6 +731,8 @@
         }
         else {
           $log.info("conversation:" + JSON.stringify(conversation));
+          conversation.noReadMessages ++;
+          imConversationService.updateConversation(conversation);
         }
       }
     };

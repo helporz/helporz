@@ -76,6 +76,7 @@
             var lastMessage = $scope.messageDetails[$scope.messageDetails.length - 1];
             $scope.conversation.lastMessage = lastMessage.message;
             $scope.conversation.lastMessageTime = lastMessage.time;
+            $scope.conversation.noReadMessages = 0;
             imConversationService.updateConversation($scope.conversation);
           }
 

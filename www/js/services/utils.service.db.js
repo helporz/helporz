@@ -17,9 +17,9 @@
 
       var _executeSqlList = function(sqlList) {
         var _innerDefer = $q.defer();
-        for(var idx = 0; idx < sqlList.length; ++idx) {
-          $log.info('executeSqlList:' + sqlList[idx]);
-        }
+        //for(var idx = 0; idx < sqlList.length; ++idx) {
+        //  $log.info('executeSqlList:' + sqlList[idx]);
+        //}
 
         dbconn.sqlBatch(sqlList,function(){
           _innerDefer.resolve();
@@ -174,7 +174,7 @@
               _dbDefer.reject(e);
             });
           });
-          console.log(sql);
+          //console.log(sql);
           return _dbDefer.promise;
         },
         dropRecords: function (table, where) {

@@ -132,7 +132,7 @@
     //inner function
 
     function flushSuccessFn(newTaskList) {
-      $log.info('new task list:' + JSON.stringify(newTaskList));
+      //$log.info('new task list:' + JSON.stringify(newTaskList));
 
       $scope.vm.items = newTaskList;
       mainUserTasksService.tasks = newTaskList;
