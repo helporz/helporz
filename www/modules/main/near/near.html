@@ -21,13 +21,13 @@
           </div>
           <div class="content-right">
             <div class="row user-panel nopadding">
-              <img class="avatar" ng-src={{item.poster.avatar}}>
+              <img class="avatar" ng-src={{item.poster.avatar}} ng-click="vm.cb_gotoUser(item.poster.userId)">
 
               <div class="user-detail">
                 <div class="top">
                   <div class="line-1">
                     <p class="name">{{item.poster.nickname}}</p>
-                    <i class="gender-icon ho-gender-female color-woman font-size-12"></i>
+                    <i class="gender-icon ho-gender-female color-woman"></i>
                   </div>
 
                   <!--<p class="time">{{item.ui_createTime}}</p>-->

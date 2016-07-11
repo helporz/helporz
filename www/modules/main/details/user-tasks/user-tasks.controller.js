@@ -9,7 +9,7 @@
     .factory('mainUserTasksService', mainUserTasksService)
     .controller('mainUserTasksCtrl', ['$state', '$log', '$ionicLoading', '$interval', '$timeout', '$scope', 'taskNetService', 'userNetService',
       'taskUtils', 'timeUtils', 'impressUtils', 'intervalCenter', 'SharePageWrapService', 'mainUserTasksService',
-      'mainNearTaskDetailService',
+      'mainNearTaskDetailService', 'operationUtils', 'userUtils','$ionicTabsDelegate',
       mainUserTasksCtrl]);
 
   function mainUserTasksService() {
@@ -24,21 +24,7 @@
 
   function mainUserTasksCtrl($state, $log, $ionicLoading, $interval, $timeout, $scope, taskNetService, userNetService,
                              taskUtils, timeUtils, impressUtils, intervalCenter, SharePageWrapService, mainUserTasksService,
-                             mainNearTaskDetailService) {
-
-    //fixme:因为点击会穿透,同时触发多个事件,这里先用标记来屏蔽,点击按钮后间隔一段时间才可触发下一次点击回调
-    var _isClicking = false;
-    var canClick = function () {
-      if (_isClicking == false) {
-        $timeout(function () {
-          _isClicking = false;
-        }, 300);
-        _isClicking = true;
-        return true;
-      } else {
-        return false;
-      }
-    }
+                             mainNearTaskDetailService, operationUtils, userUtils, $ionicTabsDelegate) {
 
     var vm = $scope.vm = {};
     vm.nickname = mainUserTasksService.user.nickname;
@@ -70,8 +56,24 @@
 
     })
 
+    vm.cb_gotoUser = function(userId) {
+      if(operationUtils.canClick()==false){
+        return;
+      }
+      var index = $ionicTabsDelegate.$getByHandle('rootTabs').selectedIndex();
+      var tabName;
+      if(index==0) {
+        tabName = 'near';
+      }else if(index ==4) {
+        tabName = 'me';
+      }else{
+        ho.alert('gotoUser tab invalid, tabIndex=' + index);
+      }
+      userUtils.gotoUser(userId, tabName);
+    }
+
     vm.cb_itemClick = function (index) {
-      if (canClick() == false) {
+      if (operationUtils.canClick() == false) {
         return
       }
       mainNearTaskDetailService.task = vm.items[index];
@@ -79,7 +81,7 @@
     };
 
     vm.cb_acceptTask = function (index) {
-      if (canClick() == false) {
+      if (operationUtils.canClick() == false) {
         return
       }
 

@@ -52265,6 +52265,10 @@ IonicModule
           // swap, enter, exit
           setStyles(enteringEle, 1, 0, -1);
           setStyles(leavingEle, 0, 0, -1);
+
+          if(rootTabsEle && step==1 && enteringViewIsRoot) {
+            setTabStyles(rootTabsEle, (1 - 0.1 * (1 - step)), (1 - step) *  100, -1);
+          }
         }
       },
       shouldAnimate: shouldAnimate && (direction == 'forward' || direction == 'back')
@@ -52366,6 +52370,10 @@ IonicModule
           // swap, enter, exit
           setStyles(enteringEle, 0);
           setStyles(leavingEle, 0);
+
+          if(rootTabsEle && step==1 && enteringViewIsRoot){
+            setTabStyles(rootTabsEle, (1 - step) *  100);
+          }
         }
       },
       shouldAnimate: shouldAnimate

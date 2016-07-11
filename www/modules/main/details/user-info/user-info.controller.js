@@ -7,10 +7,17 @@
 
   angular.module('main.userInfo')
     .controller('mainUserInfoCtrl', ['$scope', '$timeout', '$state', '$stateParams', '$ionicLoading', 'taskNetService', 'userNetService', 'taskUtils',
-      '$ionicHistory', '$ionicActionSheet', 'impressUtils', mainUserInfoCtrl]);
+      '$ionicHistory', '$ionicActionSheet', 'impressUtils', 'userUtils', 'mainUserInfoService', mainUserInfoCtrl])
+    .factory('mainUserInfoService', mainUserInfoService);
+
+  function mainUserInfoService() {
+    return {
+      tabPath: ''
+    }
+  }
 
   function mainUserInfoCtrl($scope, $timeout, $state, $stateParams, $ionicLoading, taskNetService, userNetService,
-                            taskUtils, $ionicHistory, $ionicActionSheet, impressUtils) {
+                            taskUtils, $ionicHistory, $ionicActionSheet, impressUtils, userUtils, mainUserInfoService) {
     console.log($stateParams);
 
     var vm = $scope.vm = {};
@@ -58,27 +65,31 @@
 
       var user = vm.userInfo.remoteData.accessUserList[index];
 
-      if (userNetService.cache.userInfo[user.userId]) {
-        $state.go('main.user-info', {id: user.userId});
-      }
-      else {
-        $ionicLoading.show();
-        userNetService.getUserInfo(user.userId,
-          function (data) {
-            console.log(data);
-            $state.go('main.user-info', {id: user.userId});
-          },
-          function (data, status) {
-            $ionicPopup.alert({
-              title: '错误提示',
-              template: data.data.message
-            }).then(function (res) {
-              console.error(data);
-            })
-          });
-        $ionicLoading.hide();
-      }
+      //var fullState = 'main' + mainUserInfoService.tabPath + '_user-info';
+      //
+      //if (userNetService.cache.userInfo[user.userId]) {
+      //  $state.go(fullState, {id: user.userId});
+      //}
+      //else {
+      //  $ionicLoading.show();
+      //  userNetService.getUserInfo(user.userId,
+      //    function (data) {
+      //      console.log(data);
+      //      $state.go(fullState, {id: user.userId});
+      //      $ionicLoading.hide();
+      //    },
+      //    function (data, status) {
+      //      $ionicPopup.alert({
+      //        title: '错误提示',
+      //        template: data.data.message
+      //      }).then(function (res) {
+      //        console.error(data);
+      //      })
+      //      $ionicLoading.hide();
+      //    });
+      //}
 
+      userUtils.gotoUser(user.userId, mainUserInfoService.tabPath);
     }
 
     vm.userInfo.cb_follow = function() {

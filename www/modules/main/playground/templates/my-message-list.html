@@ -9,57 +9,101 @@
      我的消息
     </div>
   </ion-nav-title>
-  <ion-content class="has-header rj-stable-content" id="message-detail-content">
+  <ion-content class="topic-detail has-header rj-stable-content" id="message-detail-content">
 
     <div class="topic-comment topic-group-wrapper" >
-      <!--<div class="row">-->
-        <!--<span>评论{{vm.topic.commentCount}}条</span>-->
-      <!--</div>-->
 
-      <!--<div class="row" ng-if="vm.topic.commentCount == 0">-->
-        <!--<p>还没有评论，你来试试？</p>-->
-      <!--</div>-->
       <div class="topic-comment-list">
         <ion-list class="user-topic">
           <ion-item ng-repeat="item in vm.topicCommentList">
-            <div class="row">
+            <!--<div class="row">-->
 
-              <div class="col col-20  col-top">
-                <img class="user-logo" ng-src="{{item.commenter.avatar}}">
-              </div>
+              <!--<div class="col col-20  col-top">-->
+                <!--<img class="user-logo" ng-src="{{item.commenter.avatar}}">-->
+              <!--</div>-->
 
-              <div class="col col-center col-66">
+              <!--<div class="col col-center col-66">-->
+                <!--<div class="row">-->
+                  <!--<p class="title-header">-->
+                    <!--<span>{{item.commenter.nickname}}</span> <img class="gender-logo"-->
+                                                                  <!--ng-src="img/user/gender-{{item.commenter.gender}}.png">-->
+                  <!--</p>-->
+                <!--</div>-->
+                <!--<div class="row">-->
+                  <!--<p class="title-desc">-->
+                    <!--{{item.created|DateShow}} 来自 {{item.commenter.orgList[0].name}}-->
+                  <!--</p>-->
+                <!--</div>-->
+
+                <!--<div class="row content-wrap">-->
+                  <!--<p ng-bind-html="item.content" class="auto-wrap"></p>-->
+                <!--</div>-->
+
+                <!--<div class="row reply-content" ng-if="item.replyOtherComment != null ">-->
+                  <!--<p class="auto-wrap"><span class="auto-wrap"> 回复@{{item.replyOtherComment.commenter.nickname}}的评论:</span>-->
+                    <!--<span ng-bind-html="item.replyOtherComment.content" class="auto-wrap"></span>-->
+                  <!--</p>-->
+                  <!--<a ng-href="#/main/topic-group/comment-session/{{item.commentSessionId}}">查看会话</a>-->
+                <!--</div>-->
+                <!--<div ng-click="vm.go2TopicDetail(item.topic)">查看话题</div>-->
+              <!--</div>-->
+
+              <!--<div class="col col-center">-->
+                <!--<div class="icon ion-chatbox-working" ng-click="vm.setReplyCommentFocus(item,$event)"></div>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<div class="row">-->
+              <!--<div class="col split nopadding"></div>-->
+            <!--</div>-->
+
+            <div class="topic-comment-panel">
+              <div class="topic-comment-panel-left full">
                 <div class="row">
-                  <p class="title-header">
-                    <span>{{item.commenter.nickname}}</span> <img class="gender-logo"
-                                                                  ng-src="img/user/gender-{{item.commenter.gender}}.png">
-                  </p>
-                </div>
-                <div class="row">
-                  <p class="title-desc">
-                    {{item.created|DateShow}} 来自 {{item.commenter.orgList[0].name}}
-                  </p>
+                  <div class="avatar">
+                    <img class="user-logo" ng-src="{{item.commenter.avatar}}" ng-click="vm.cb_gotoUser(item.commenter.userId)">
+                  </div>
+                  <div class="user-info-panel">
+                    <div class="line-1">
+                      <span class="name">{{item.commenter.nickname}}</span>
+
+                      <div class="gender" style="padding-left: 0;padding-right:0;">
+											<span class="gender-icon  font-size-13"
+                            ng-class="{true:'ho-gender-female color-woman',false:'ho-gender-male color-man '}[item.poster.gender == 1]">
+											</span>
+                      </div>
+
+
+                    </div>
+
+                    <div class="row">
+                      <p class="title-desc">
+                        {{item.created|DateShow}} 来自 {{item.commenter.orgList[0].name}}
+                      </p>
+                    </div>
+
+
+                  </div>
                 </div>
 
-                <div class="row content-wrap">
-                  <p ng-bind-html="item.content" class="auto-wrap"></p>
+                <div class="comment-content-panel">
+                  <p ng-bind-html="item.content" class="content-txt auto-wrap"></p>
+
+                  <div class="reply-content" ng-if="item.replyOtherComment != null ">
+                    <p class=" auto-wrap"> 回复@{{item.replyOtherComment.commenter.nickname}}的评论:
+                      {{item.replyOtherComment.content}}
+                    </p>
+
+                    <a class="go-comment-session" ng-href="#/main/topic-group/comment-session/{{item.commentSessionId}}">查看会话</a>
+                  </div>
+
+                  <div class="go-topic-detail" ng-class="{'has-reply':item.replyOtherComment != null}" ng-click="vm.go2TopicDetail(item.topic)">查看话题</div>
+
                 </div>
 
-                <div class="row reply-content" ng-if="item.replyOtherComment != null ">
-                  <p class="auto-wrap"><span class="auto-wrap"> 回复@{{item.replyOtherComment.commenter.nickname}}的评论:</span>
-                    <span ng-bind-html="item.replyOtherComment.content" class="auto-wrap"></span>
-                  </p>
-                  <a ng-href="#/playground/topic/comment-session/{{item.commentSessionId}}">查看会话</a>
-                </div>
-                <div ng-click="vm.go2TopicDetail(item.topic)">查看话题</div>
               </div>
-
-              <div class="col col-center">
-                <div class="icon ion-chatbox-working" ng-click="vm.setReplyCommentFocus(item,$event)"></div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col split nopadding"></div>
+              <!--<div class="topic-comment-panel-right">-->
+              <!--<div class="reply-bt icon ho-chat-0" ng-click="vm.setReplyCommentFocus(item,$event)"></div>-->
+              <!--</div>-->
             </div>
 
           </ion-item>

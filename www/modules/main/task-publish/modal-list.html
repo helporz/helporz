@@ -6,6 +6,19 @@
       width: 100%;
     }
 
+    .task-title-panel {
+      height: 100px;
+      text-align: center;
+      display: table-row;
+      vertical-align: middle;
+    }
+    .task-title-panel .task-title {
+      font-size: 22px;
+      position: relative;
+      bottom: -100px;
+      color: #333;
+    }
+
     .task-select {
       width: 100%;
       display: table-cell;
@@ -16,7 +29,7 @@
       text-align: center
     }
 
-    .task-select .task > img, p {
+    .task-select .task > img {
       text-align: center
     }
 
@@ -27,6 +40,7 @@
     .task-the-next {
       width: 100%;
       letter-spacing: 8px;
+      text-align: center;
     }
 
     .task-the-next > img {
@@ -52,6 +66,9 @@
   <ion-content class="no-header" overflow-scroll="true" style="overflow: hidden;"
                ng-controller="taskPublishListController as ctl">
     <div class="task-select-wrap">
+      <div class="task-title-panel">
+        <p class="task-title">召唤大侠</p>
+      </div>
       <div class="task-select">
         <div class="row">
           <div class="col col-33 task">

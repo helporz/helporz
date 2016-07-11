@@ -7,6 +7,7 @@
 
   angular.module('main.near', [
     'main.near.taskdetail',
+    'main.userInfo',
     'com.helporz.task.netservice',
     'app.task.utils.service',
     'components.misc.clamp'

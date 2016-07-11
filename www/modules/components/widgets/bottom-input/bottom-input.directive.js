@@ -19,7 +19,8 @@
         scope: {
           input: '=',
           placeholder: '@',
-          send: '&'
+          send: '&',
+          isFocusMe: '@'
         },
 
         link: function (scope, element, attr) {

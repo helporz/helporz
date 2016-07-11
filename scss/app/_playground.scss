@@ -87,13 +87,17 @@
 }
 
 .topic-group {
-  background-color: #e4e4e4;//#D2E0E6;
+  background-color: $color-page-bg;
   margin: 0px;
 
   .item {
     padding: 0px;
-    margin: 0px 0px 5px 0px;
+    margin: 0;
     border: none;
+  }
+
+  .topic-item {
+    margin-bottom: 7px;
   }
 
   .list {
@@ -103,10 +107,6 @@
 
   .row {
     padding: 0px;
-  }
-
-  .content-wrap {
-    padding: 5px 5px;
   }
 
   .add-topic {
@@ -126,16 +126,18 @@
   }
 
   .button-list-wrap {
-    margin-top: 10px;
+    margin-top: 5px;
     padding: 0px;
-    border: 1px solid #e4e5e7;
+    border-top: 1px solid $color-div-line;
+    border-bottom: 1px solid $color-div-line;
     background-color: #e4e5e7;
   }
 
   .title-header {
     font-size: 0.8em;
     color: black;
-    overflow:hidden; text-overflow:ellipsis;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .title-desc {
@@ -160,15 +162,21 @@
 
   .button-wrap {
     padding: 0px;
+    button {
+      color: $color-text-secondary;
+    }
 
     :nth-last-child(n+1) {
-      border-left: 1px solid #e4e5e7;
+      border-left: 1px solid $color-div-line;
     }
   }
 
 }
 
 .user-topic {
+  font-size: 13px;
+  color: $color-text-secondary;
+
   .gender-logo {
     width: 8px;
     height: 8px;
@@ -183,7 +191,7 @@
 }
 
 .topic-publish-wrap {
-  background-color: #ffffff;//#D2E0E6;
+  background-color: #ffffff; //#D2E0E6;
   margin: 0px;
 
   .bgc {
@@ -193,7 +201,7 @@
 
 .topic-group-wrapper {
   background-color: #FFFFFF;
-  margin-bottom: 10px;
+  margin-bottom: 7px;
 }
 
 .split {
@@ -213,25 +221,25 @@
 }
 
 .topic-tag-wrap {
-  word-wrap:break-word;
-  padding-top:10px;
+  word-wrap: break-word;
+  padding-top: 5px;
   .topic-tag {
-    float:left;
+    //float: left;
     height: 20px;
     min-width: 65px;
     border: 1px solid $color-theme;
     border-radius: 11px;
     font-size: 12px;
-    line-height:20px;
-    //padding: 3px 5px;
+    line-height: 20px;
+    padding: 3px 5px;
     text-align: center;
-    margin:0px 5px;
-    word-wrap:break-word;
+    //margin: 0px 5px;
+    word-wrap: break-word;
 
   }
 
   .tag-selected {
-    background-color:gold;
+    background-color: gold;
   }
 
   .no-border {
@@ -239,26 +247,220 @@
   }
 }
 
+.topic-detail {
+  .avatar {
+    margin: 10px 7px 0 12px;
+  }
+  .user-info-panel {
+    font-size: 13px;
+    .line-1 {
+      @include display-flex();
+      @include align-items(center);
+      margin: 8px 5px 4px 5px;
+      .name {
+        line-height: 15px;
+        color: $color-text-secondary;
+      }
+      .gender {
+        margin-left: 3px;
+        padding-top: 1px;
+        font-size: 13px;
+      }
+      .topic-impress-panel {
+        margin-left: 8px;
+        @include display-flex();
+        @include align-items(center);
+        line-height: 0;
+
+        .impress-panel {
+          margin-right: 5px;
+
+          .elem {
+            margin-bottom: 0;
+          }
+        }
+      }
+      .more {
+        position: absolute;
+        line-height: 25px;
+        right: 15px;
+        color: $color-text-thirdly;
+      }
+    }
+    .title-desc {
+      font-size: 9px;
+      line-height: 1.2em;
+      margin-left: 5px;
+      color: $color-text-secondary;
+    }
+  }
+
+  .div-line {
+    margin-left: 58px;
+    margin-top: 8px;
+    //margin-bottom
+    line-height: 0;
+    border-bottom: 1px solid $color-div-line;
+  }
+
+  .content-tag-wrap {
+    padding: 7px 10px 0px 58px;
+    .content-tag {
+      font-size: 12px;
+      line-height: 13px;
+      color: $color-theme-weak;
+    }
+  }
+
+  .content-wrap {
+    //padding: 8px 12px 5px 12px;;
+    padding: 6px 10px 5px 58px;
+    p {
+      color: $color-text-primary;
+      margin: 0;
+      text-overflow: clip;
+    }
+  }
+
+  .content-img-wrap {
+    padding: 0px 10px 0px 58px;
+  }
+
+  .content-panel {
+    padding: 5px 10px 5px 10px;
+  }
+}
 
 .topic-comment {
   .header {
-    padding: 5px;
-    background-color: $user-tag-color-0;
-    color:#FFFFFF;
+    padding: 5px 5px 5px 10px;
+    background-color: $color-page-bg-weak;
+
+    .header-icon {
+      color: $color-theme;
+    }
+    .header-txt {
+      color: $color-text-primary;
+    }
   }
 
-  .reply-content {
-    border: 0px solid;
-    border-radius: 11px;
-    background-color: $user-tag-bgcolor-1;
-    padding: 5px;
-    margin-bottom: 10px;
+  .topic-comment-panel {
+    @include display-flex();
+    border-bottom: 1px solid $color-div-line;
 
+    .topic-comment-panel-left {
+      width: calc(100% - 60px);
+      &.full {
+        width: calc(100% - 10px);
+      }
+    }
+    .topic-comment-panel-right {
+      width: 60px;
+      @include display-flex();
+      @include align-items(center);
+      @include justify-content(center);
+    }
+  }
+
+  .comment-content-panel {
+    padding: 5px 0 10px 58px;
+
+    .content-txt {
+      font-size: 14px;
+      color: $color-text-primary;
+      text-overflow: clip;
+    }
+
+    .reply-content {
+      //border: none;
+      border-radius: 5px;
+      background-color: $color-page-bg;
+      padding: 6px 10px;
+      line-height: 1.0em;
+      //width: 100%;
+      position: relative;
+      margin-top: 3px;
+      margin-bottom: 19px;
+
+      p {
+        font-size: 12px;
+        margin: 0;
+      }
+
+      .go-comment-session {
+        text-decoration:none;
+        font-size: 12px;
+        color: $color-tip-blue;
+        position: absolute;
+        right: 0;
+        bottom: -21px;
+      }
+    }
+
+    .go-topic-detail {
+      text-decoration:none;
+      font-size: 12px;
+      line-height: 16px;
+      color: $color-tip-blue;
+      //position: absolute;
+      //right: 0;
+      //bottom: -21px;
+      margin-bottom: -3px;
+
+      &.has-reply {
+        position: absolute;
+        bottom: 13px;
+      }
+    }
 
   }
+  .reply-bt {
+    color: $color-tip-blue;
+  }
+
 
   .item p {
     font-size: 8px;
   }
 }
 
+.topic-group-popover {
+  padding: 2px 0;
+  width: 140px;
+  height: 241px;
+
+  .topic-group-popover-item {
+    line-height: 43px;
+    //padding: 5px 0;
+    @include display-flex();
+    @include align-items(center);
+    @include justify-content(center);
+
+    > i {
+      font-size: 22px;
+      width: 22px;
+      text-align: center;
+      margin-left: -5px;
+    };
+    > p {
+      color: $color-text-secondary;
+      margin: 0 0 0 12px;
+    };
+
+    &.item-1 {
+      color: limegreen;
+    }
+    &.item-2 {
+      color: lightskyblue;
+    }
+    &.item-3 {
+      color: dodgerblue;
+    }
+    &.item-4 {
+      color: gold;
+    }
+    &.item-5 {
+      color: crimson;
+    }
+  }
+}

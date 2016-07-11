@@ -72,7 +72,7 @@
                 quality: 100,                                            //相片质量0-100
                 destinationType: Camera.DestinationType.FILE_URI,        //返回类型：DATA_URL= 0，返回作为 base64 編碼字串。 FILE_URI=1，返回影像档的 URI。NATIVE_URI=2，返回图像本机URI (例如，資產庫)
                 sourceType: Camera.PictureSourceType.CAMERA,             //从哪里选择图片：PHOTOLIBRARY=0，相机拍照=1，SAVEDPHOTOALBUM=2。0和1其实都是本地图库
-                allowEdit: false,                                        //在选择之前允许修改截图
+                allowEdit: true,                                        //在选择之前允许修改截图
                 encodingType: Camera.EncodingType.JPEG,                   //保存的图片格式： JPEG = 0, PNG = 1
                 targetWidth: 200,                                        //照片宽度
                 targetHeight: 200,                                       //照片高度
@@ -162,34 +162,38 @@
       },
 
       cb_org: function () {
-        mainEditSheetService.title = '修改组织';
-        mainEditSheetService.isInputOrTextarea = true;
-        mainEditSheetService.placeholder = '你是哪个大学的';
-        mainEditSheetService.className = '';
-        mainEditSheetService.cb = function (txt) {
-          $ionicLoading.show();
-          userNetService.updateOrg(txt).then(
-            function (data) {
-              $ionicLoading.show({
-                duration: 1500,
-                templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
-              });
-              userNetService.cache.selfInfo.orgList[0].name = txt;
-              $timeout(function () {
-                $ionicHistory.goBack(-1);
-              }, 1500);
-
-            }, function (data) {
-              $ionicPopup.alert({
-                title: '错误提示',
-                template: data
-              }).then(function (res) {
-                console.error(data);
-              })
-            }).finally(function () {
-            });
-        }
-        $state.go('main.edit-sheet');
+        //mainEditSheetService.title = '修改组织';
+        //mainEditSheetService.isInputOrTextarea = true;
+        //mainEditSheetService.placeholder = '你是哪个大学的';
+        //mainEditSheetService.className = '';
+        //mainEditSheetService.cb = function (txt) {
+        //  $ionicLoading.show();
+        //  userNetService.updateOrg(txt).then(
+        //    function (data) {
+        //      $ionicLoading.show({
+        //        duration: 1500,
+        //        templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+        //      });
+        //      userNetService.cache.selfInfo.orgList[0].name = txt;
+        //      $timeout(function () {
+        //        $ionicHistory.goBack(-1);
+        //      }, 1500);
+        //
+        //    }, function (data) {
+        //      $ionicPopup.alert({
+        //        title: '错误提示',
+        //        template: data
+        //      }).then(function (res) {
+        //        console.error(data);
+        //      })
+        //    }).finally(function () {
+        //    });
+        //}
+        //$state.go('main.edit-sheet');
+        $ionicLoading.show({
+          duration: 3000,
+          templateUrl: 'modules/components/templates/ionic-loading/user-edit-org.html'
+        });
       },
       cb_department: function () {
         mainEditSheetService.title = '修改院系';

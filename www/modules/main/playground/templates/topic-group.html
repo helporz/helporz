@@ -160,8 +160,8 @@
     <!--<button class="button icon ion-ios-plus" ng-click="vm.showPopover($event)">-->
 
     <!--</button>-->
-    <button class="button icon ion-ios-keypad-outline" ng-click="vm.showPopover($event)"></button>
-    <button class="button icon ho-chat-2" ng-click=""></button>
+    <button class="button button-icon icon ion-ios-keypad" ng-click="vm.showPopover($event)"></button>
+    <button class="button button-icon icon ho-chat-2" ng-click=""></button>
   </ion-nav-buttons>
 
 
@@ -247,78 +247,78 @@
       </ion-item>
     </ion-list>
 
-    <ion-list class="user-topic">
-      <ion-item ng-repeat="item in vm.userTopicList | filter:{isShow:true}:true">
+    <ion-list class="user-topic topic-detail">
+      <ion-item class="topic-item" ng-repeat="item in vm.userTopicList | filter:{isShow:true}:true">
         <div class="row">
 
-          <div class="col col-15  col-center" style="text-align: center">
-            <img class="user-logo" ng-src="{{item.poster.avatar}}">
+          <div class="avatar">
+            <img class="user-logo" ng-src="{{item.poster.avatar}}" ng-click="vm.cb_gotoUser(item.poster.userId)">
           </div>
 
-          <div class="col  col-center" style="border-bottom:1px solid #e4e5e7">
-            <div class="row">
-              <div class="title-header col col-20 col-center" style="overflow:hidden; text-overflow:ellipsis;">
-                <span class="font-size-12">{{item.poster.nickname}}</span>
+          <div class="user-info-panel">
+            <div class="line-1">
+              <span class="name">{{item.poster.nickname}}</span>
 
-              </div>
-
-              <div class="col col-5 col-center" style="padding-left: 0;padding-right:0;">
-                <span class="gender-icon  font-size-12"
+              <div class="gender" style="padding-left: 0;padding-right:0;">
+                <span class="gender-icon  font-size-13"
                       ng-class="{true:'ho-gender-female color-woman',false:'ho-gender-male color-man '}[item.poster.gender == 1]">
                 </span>
 
               </div>
-              <div class="col col-center">
-                <span class="font-size-12 elem text-tag user-tag-color-{{ut.id -1 }}"
-                      ng-repeat="ut in item.poster.tags">
-                  {{ut.tagName}}
-                </span>
+              <div class="topic-impress-panel">
+                <!--<span class="font-size-12 elem text-tag user-tag-color-{{ut.id -1 }}"-->
+                <!--ng-repeat="ut in item.ui_tags">-->
+                <!--{{ut.tagName}}-->
+                <!--</span>-->
+
+                <div class="impress-panel" ng-repeat="item in item.ui_tags">
+                  <p class="elem text-tag toggle-on {{item.className}}">{{item.text}}</p>
+                </div>
               </div>
-              <div class="col col-5 icon ion-chevron-down col-top"
-                   style="text-align:center; color:#f1f1f1;padding-left: 0;padding-right:0;"
-                   ng-click="vm.moreOpt(item)"></div>
+              <div class="more icon ion-chevron-down"
+                   style=""
+                   ng-click="vm.moreOpt(item)">
+              </div>
             </div>
-            <div class="row">
-
-              <div class="title-desc" style="text-align: right;padding-left:5px">
-                {{item.created|DateShow}} 来自 {{item.poster.orgList[0].name}}
-              </div>
-
+            <div class="title-desc" style="">
+              {{item.created|DateShow}} 来自 {{item.poster.orgList[0].name}}
             </div>
 
           </div>
         </div>
-        <div class="row content-wrap topic-tag-wrap" ng-if="item.tagInfoList != null && item.tagInfoList.length > 0">
-          <div class="topic-tag no-border font-size-12" ng-repeat="tag in item.tagInfoList"> #{{tag.name}}#</div>
+
+        <div class="div-line"></div>
+
+        <div class="row content-tag-wrap" ng-if="item.tagInfoList != null && item.tagInfoList.length > 0">
+          <div class="content-tag" ng-repeat="tag in item.tagInfoList"> #{{tag.name}}#</div>
         </div>
 
-        <div class="content-wrap">
-
-          <p ng-bind-html="item.content" class="auto-wrap font-size-12" style="padding-left: 5px"></p>
+        <div class="content-wrap" ng-if="item.content.length>0">
+          <p ng-bind-html="item.content" class="auto-wrap font-size-14" style=""></p>
 
         </div>
 
-        <div class="row content-wrap" ng-if="item.imgList != null && item.imgList.length == 1 ">
+        <div class="row content-img-wrap" ng-if="item.imgList != null && item.imgList.length == 1 ">
           <img class="big-pic blank-right blank-bottom blank-top"
                ng-src="{{item.imgList[0]}}" ng-click="vm.showImgs(item.imgList)">
         </div>
 
-        <div class="row content-wrap" ng-if="item.imgList != null && item.imgList.length == 2 ">
-          <img class=" mid-pic blank-right blank-bottom blank-top" ng-repeat="imgSrc in item.imgList"
+        <div class="row content-img-wrap" ng-if="item.imgList != null && item.imgList.length == 2 ">
+          <img class=" mid-pic blank-right blank-bottom" ng-repeat="imgSrc in item.imgList"
                ng-src="{{imgSrc}}" ng-click="vm.showImgs(item.imgList)">
         </div>
 
-        <div class="row content-wrap" ng-if="item.imgList != null && item.imgList.length == 3 ">
-          <img class=" mini-pic blank-right blank-bottom blank-top" ng-repeat="imgSrc in item.imgList"
+        <div class="row content-img-wrap" ng-if="item.imgList != null && item.imgList.length == 3 ">
+          <img class=" mini-pic blank-right blank-bottom" ng-repeat="imgSrc in item.imgList"
                ng-src="{{imgSrc}}" ng-click="vm.showImgs(item.imgList)">
         </div>
 
-        <div class="row content-wrap" ng-if="item.imgList != null && item.imgList.length == 4 ">
+        <div class="row content-img-wrap" ng-if="item.imgList != null && item.imgList.length == 4 ">
           <div class="col">
             <div class="row ">
-              <img class="mini-pic  blank-right blank-bottom blank-top"
+              <img class="mini-pic  blank-right blank-bottom"
                    ng-src="{{item.imgList[0]}}" ng-click="vm.showImgs(item.imgList)">
-              <img class="mini-pic  blank-right blank-bottom blank-top"
+              <img class="mini-pic  blank-right blank-bottom"
                    ng-src="{{item.imgList[1]}}" ng-click="vm.showImgs(item.imgList)">
             </div>
             <div class="row ">

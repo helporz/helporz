@@ -48,15 +48,22 @@
 <ion-list class="select-subtype no-border">
 
   <div class="select-subtype-header no-border">
-    <H1>{{typeName}}</H1>
+    <H1 style="font-size: 20px; color: #878787">{{typeName}}</H1>
     <p>请选择需要帮助的种类</p>
   </div>
 
-  <ion-item ng-repeat="subType in subTypeList" class="no-border">
-    <button class="button button-small button-full pop-button" ng-click="selectedSubType(subType.index)"> {{subType.name}}</button>
+  <ion-item ng-repeat="subType in subTypeList" class="no-border ">
+    <div class="task-item" ng-click="selectedSubType(subType.index)">
+      <img class="task-icon" ng-src="{{subType.icon}}">
+      <p class="task-txt"> {{subType.name}}
+      </p>
+    </div>
+
+
+    <!--<button class="button button-small button-full pop-button" ng-click="selectedSubType(subType.index)"> {{subType.name}}</button>-->
   </ion-item>
 
   <ion-item class="no-border">
-    <button class="button button-small button-full cancel" ng-click="cancel()">取消</button>
+    <button class="cancel-bt cancel" ng-click="cancel()">取消</button>
   </ion-item>
 </ion-list>

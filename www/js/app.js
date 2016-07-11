@@ -20,6 +20,8 @@
     'interval.service',
     'app.time.utils.service',
     'app.user.utils.service',
+    'app.ui.utils.service',
+    'impress.utils.service',
     'starter.controllers',
     'starter.services',
     'com.helporz.login',

@@ -85,7 +85,10 @@
           <div class="left">
             <!--<img class="avatar" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g">-->
             <img class="avatar color-text-thirdly"
-                 ng-src={{item.ui_avatar!==''?item.ui_avatar:'img/com/avatar-who.png'}} src="img/com/avatar-who.png">
+                 ng-src={{item.ui_avatar!==''?item.ui_avatar:'img/com/avatar-who.png'}} src="img/com/avatar-who.png"
+                 ng-click="vm.cb_gotoUser(item.ui_userId)"
+              >
+
 
             <p class="name">{{item.ui_nickname}}</p>
 

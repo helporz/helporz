@@ -40,3 +40,26 @@
     font-weight:bold;
   }
 }
+
+
+// action sheet android
+.platform-android {
+  .action-sheet {
+    .action-sheet-title {
+      text-align: center;
+    }
+    .button {
+      text-align: center;
+      border-top: 1px solid $color-div-line;
+    }
+  }
+  .action-sheet-has-icons {
+    .button {
+      padding-left: 0;  //old: 56px;
+    }
+  }
+}
+.action-sheet-has-icons .icon {
+  position: relative;   //old: absolute
+  left: 0;      // old: 16px;
+}

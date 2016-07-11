@@ -6,10 +6,10 @@
     </div>
   </ion-nav-title>
 
-  <ion-nav-buttons side="left">
-    <button class="button button-icon icon ion-arrow-left-c" ui-sref="main.topic-group({groupId:vm.topic.groupId})">
-    </button>
-  </ion-nav-buttons>
+  <!--<ion-nav-buttons side="left">-->
+  <!--<button class="button button-icon icon ion-arrow-left-c" ui-sref="main.topic-group({groupId:vm.topic.groupId})">-->
+  <!--</button>-->
+  <!--</ion-nav-buttons>-->
 
   <ion-nav-buttons side="right">
     <button class="button icon ion-ios-star-outline"
@@ -20,51 +20,63 @@
     <button class="button icon ion-ios-more" ng-click="vm.operateTopic($event)">
     </button>
   </ion-nav-buttons>
-  <ion-content class="has-header topic-group">
+  <ion-content class="topic-detail has-header user-topic">
+    <!--<ion-content class="has-header topic-group">-->
     <ion-refresher pulling-text="刷新中" on-refresh="vm.doRefresh()"></ion-refresher>
 
-    <div class="user-topic topic-group-wrapper" ng-click="vm.clearReplyComment()">
+    <div class="topic-group-wrapper" ng-click="vm.clearReplyComment()">
       <div class="row">
 
-        <div class="col col-15  col-center" style="text-align: center">
-          <img class="user-logo" ng-src="{{vm.topic.poster.avatar}}">
+        <div class="avatar">
+          <img class="user-logo" ng-src="{{vm.topic.poster.avatar}}" ng-click="vm.cb_gotoUser(vm.topic.poster.userId)">
         </div>
 
-        <div class="col  col-center" style="border-bottom:1px solid #e4e5e7">
-          <div class="row">
-            <div class="title-header col col-20 col-center" style="overflow:hidden; text-overflow:ellipsis;">
-              <span class="font-size-12" style="white-space:nowrap;">{{vm.topic.poster.nickname}}</span>
-            </div>
+        <div class="user-info-panel">
+          <div class="line-1">
+            <span class="name" style="white-space:nowrap;">{{vm.topic.poster.nickname}}</span>
 
-            <div class="col col-5 col-center" style="padding-left: 0;padding-right:0;">
-                <span class="gender-icon  font-size-12"
+            <div class="gender" style="padding-left: 0;padding-right:0;">
+                <span class="gender-icon  font-size-13"
                       ng-class="{false:'ho-gender-female color-woman',true:'ho-gender-male color-man '}[vm.topic.poster.gender == 1]">
                 </span>
             </div>
-            <div class="col col-center">
-                <span class="font-size-12 elem text-tag user-tag-color-{{ut.id -1 }}"
-                      ng-repeat="ut in vm.topic.poster.tags">
-                  {{ut.tagName}}
-                </span>
+            <div class="topic-impress-panel">
+              <div class="impress-panel" ng-repeat="item in vm.topic.poster.ui_tags">
+                <p class="elem text-tag toggle-on {{item.className}}">{{item.text}}</p>
+                <!--<span class="font-size-12 elem text-tag user-tag-color-{{ut.id -1 }}"-->
+                <!--ng-repeat="ut in vm.topic.poster.tags">-->
+                <!--{{ut.tagName}}-->
+                <!--</span>-->
+              </div>
             </div>
 
+
+            <!--<div class="row">-->
+
+            <!--<div class="title-desc" style="text-align: right;padding-left:5px">-->
+            <!--{{vm.topic.created|DateShow}} 来自 {{vm.topic.poster.orgList[0].name}}-->
+            <!--</div>-->
+
+            <!--</div>-->
+
           </div>
-          <div class="row">
 
-            <div class="title-desc" style="text-align: right;padding-left:5px">
-              {{vm.topic.created|DateShow}} 来自 {{vm.topic.poster.orgList[0].name}}
-            </div>
-
+          <div class="title-desc" style="">
+            {{vm.topic.created|DateShow}} 来自 {{vm.topic.poster.orgList[0].name}}
           </div>
-
         </div>
+
       </div>
 
-      <div class="row content-wrap topic-tag-wrap" ng-if="vm.topic.tagInfoList != null && vm.topic.tagInfoList.length > 0">
-        <div class="topic-tag no-border font-size-12" ng-repeat="tag in vm.topic.tagInfoList"> #{{tag.name}}#</div>
+      <div class="div-line"></div>
+
+      <div class="row content-tag-wrap"
+           ng-if="vm.topic.tagInfoList != null && vm.topic.tagInfoList.length > 0">
+        <div class="content-tag" ng-repeat="tag in vm.topic.tagInfoList"> #{{tag.name}}#</div>
       </div>
+
       <div class="content-wrap">
-        <p ng-bind-html="vm.topic.content" class="auto-wrap font-size-12" style="padding-left: 5px"></p>
+        <p ng-bind-html="vm.topic.content" class="auto-wrap font-size-14"></p>
 
       </div>
 
@@ -121,7 +133,8 @@
 
         </div>
         <div class="col col-25 button-wrap">
-          <button class="button button-small icon ion-ios-redo-outline" ng-click="vm.topicService.shareTopic(vm.topic)">
+          <button class="button button-small icon ion-ios-redo-outline"
+                  ng-click="vm.topicService.shareTopic(vm.topic)">
             {{vm.topic.shareCount}}
           </button>
         </div>
@@ -130,9 +143,9 @@
     </div>
 
     <!-- 话题评论列表-->
-    <div class=" topic-comment topic-group-wrapper">
-      <div class="row font-size-8 header">
-        <span class="icon ho-chat-0"/> <span>评论</span> <span>{{vm.topic.commentCount}}</span> <span>条</span>
+    <div class="topic-comment topic-group-wrapper">
+      <div class="row font-size-13 header">
+        <span class="header-icon icon ho-chat-0"/> <span class="header-txt">评论</span> <span class="header-txt">{{vm.topic.commentCount}}</span> <span class="header-txt">条</span>
       </div>
 
       <div class="" ng-if="vm.topic.commentCount == 0">
@@ -146,51 +159,63 @@
 
         <div class="topic-comment-list">
           <ion-list class="user-topic">
-            <ion-item ng-repeat="item in vm.topicCommentList">
-              <div class="row" ng-click="vm.operateComment(item,$event)">
+            <ion-item ng-repeat="item in vm.topicCommentList" ng-click="vm.operateComment(item,$event)">
 
-                <div class="col col-20  col-top">
-                  <img class="user-logo" ng-src="{{item.commenter.avatar}}">
-                </div>
-
-                <div class="col col-center col-66">
+              <div class="topic-comment-panel">
+                <div class="topic-comment-panel-left">
                   <div class="row">
-                    <p class="title-header">
-                      <span>{{item.commenter.nickname}}</span>
-                    <span class="gender-icon  font-size-12"
-                          ng-class="{false:'ho-gender-female color-woman',true:'ho-gender-male color-man '}[item.commenter.gender == 1]">
-                </span>
-                    </p>
-                  </div>
-                  <div class="row">
-                    <p class="title-desc font-size-8">
-                      {{item.created|DateShow}} 来自 {{item.commenter.orgList[0].name}}
-                    </p>
-                  </div>
+                    <div class="avatar">
+                      <img class="user-logo" ng-src="{{item.commenter.avatar}}" ng-click="vm.cb_gotoUser(item.commenter.userId)">
+                    </div>
+                    <div class="user-info-panel">
+                      <div class="line-1">
+                        <span class="name">{{item.commenter.nickname}}</span>
 
-                  <div class="row content-wrap font-size-12">
-                    <p ng-bind-html="item.content" class="auto-wrap"></p>
-                  </div>
+                        <div class="gender" style="padding-left: 0;padding-right:0;">
+											<span class="gender-icon  font-size-13"
+                            ng-class="{true:'ho-gender-female color-woman',false:'ho-gender-male color-man '}[item.commenter.gender == 1]">
+											</span>
+                        </div>
 
-                  <div ng-if="item.replyOtherComment != null ">
-                    <p class="reply-content auto-wrap"> 回复@{{item.replyOtherComment.commenter.nickname}}的评论:
-                      {{item.replyOtherComment.content}}
-                    </p>
+                        <!--<p class="title-header">-->
+                        <!--<span>{{item.commenter.nickname}}</span>-->
+                        <!--<span class="gender-icon  font-size-12"-->
+                        <!--ng-class="{false:'ho-gender-female color-woman',true:'ho-gender-male color-man '}[item.commenter.gender == 1]">-->
+                        <!--</span>-->
+                        <!--</p>-->
+                        <!--</div>-->
 
-                    <div class="row font-size-12 col-offset-75">
-                      <a ng-href="#/playground/topic/comment-session/{{item.commentSessionId}}">查看会话</a>
+                      </div>
+
+                      <div class="row">
+                        <p class="title-desc">
+                          {{item.created|DateShow}} 来自 {{item.commenter.orgList[0].name}}
+                        </p>
+                      </div>
+
+
                     </div>
                   </div>
 
-                </div>
+                  <div class="comment-content-panel">
+                    <p ng-bind-html="item.content" class="content-txt auto-wrap"></p>
 
-                <div class="col col-center">
-                  <div class="icon ho-chat-0" ng-click="vm.setReplyCommentFocus(item,$event)"></div>
+                    <div class="reply-content" ng-if="item.replyOtherComment != null ">
+                      <p class=" auto-wrap"> 回复@{{item.replyOtherComment.commenter.nickname}}的评论:
+                        {{item.replyOtherComment.content}}
+                      </p>
+
+                      <a class="go-comment-session" ng-href="#/main/topic-group/comment-session/{{item.commentSessionId}}">查看会话</a>
+                    </div>
+
+                  </div>
+
+                </div>
+                <div class="topic-comment-panel-right">
+                  <div class="reply-bt icon ho-chat-0" ng-click="vm.setReplyCommentFocus(item,$event)"></div>
                 </div>
               </div>
-              <div class="row">
-                <div class="col split nopadding"></div>
-              </div>
+
 
             </ion-item>
           </ion-list>
@@ -201,23 +226,29 @@
                          distance="1%"></ion-infinite-scroll>
   </ion-content>
 
-  <ion-footer-bar align-title="left" class="bar-light" resize-foot-bar>
-    <div class="col-10">
-      <div class="icon ion-happy-outline"></div>
-    </div>
+  <ho-bottom-input input="vm.sendContent"
+                   placeholder="{{(vm.replyCommentItem == null)?'请输入评论':'回复@'+vm.replyCommentItem.commenter.nickname}}"
+                   send="vm.sendComment(event)"
+                   is-focus-me="{{vm.isComment}}" ></ho-bottom-input>
 
-    <label class="item item-input rj-footer-input col-75">
-      <textarea msd-elastic ng-model="vm.sendContent"
-                placeholder="{{(vm.replyCommentItem == null)?'输入评论':'回复@'+vm.replyCommentItem.commenter.nickname}}"
-                focus-me="{{vm.isComment}}"></textarea>
-    </label>
+  <!--<ion-footer-bar align-title="left" class="bar-light" resize-foot-bar>-->
+    <!--<div class="col-10">-->
+      <!--<div class="icon ion-happy-outline"></div>-->
+    <!--</div>-->
 
-    <div class="rj-footer-btn-wrap">
+    <!--<label class="item item-input rj-footer-input col-75">-->
+      <!--<textarea msd-elastic ng-model="vm.sendContent"-->
+                <!--placeholder="{{(vm.replyCommentItem == null)?'输入评论':'回复@'+vm.replyCommentItem.commenter.nickname}}"-->
+                <!--focus-me="{{vm.isComment}}"></textarea>-->
+    <!--</label>-->
 
-      <div class="rj-send-button">
-        <p ng-click="vm.sendComment(event)">发送</p>
-      </div>
-    </div>
+    <!--<div class="rj-footer-btn-wrap">-->
 
-  </ion-footer-bar>
+      <!--<div class="rj-send-button">-->
+        <!--<p ng-click="vm.sendComment(event)">发送</p>-->
+      <!--</div>-->
+    <!--</div>-->
+
+
+  <!--</ion-footer-bar>-->
 </ion-view>

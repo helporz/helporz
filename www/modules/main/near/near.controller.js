@@ -7,12 +7,12 @@
 
   angular.module('main.near')
     .controller('mainNearCtrl', ['$state', '$log', '$ionicLoading', '$interval', '$timeout', '$scope', 'taskNetService', 'userNetService',
-      'taskUtils', 'timeUtils', 'impressUtils', 'intervalCenter','SharePageWrapService', mainNearCtrl]);
+      'taskUtils', 'timeUtils', 'impressUtils', 'intervalCenter','SharePageWrapService', 'userUtils', mainNearCtrl]);
 
 
 
   function mainNearCtrl($state, $log, $ionicLoading, $interval, $timeout, $scope, taskNetService, userNetService,
-                        taskUtils, timeUtils, impressUtils, intervalCenter,SharePageWrapService) {
+                        taskUtils, timeUtils, impressUtils, intervalCenter,SharePageWrapService, userUtils) {
 
     //fixme:因为点击会穿透,同时触发多个事件,这里先用标记来屏蔽,点击按钮后间隔一段时间才可触发下一次点击回调
     var _isClicking = false;
@@ -31,11 +31,11 @@
     var vm = $scope.vm = {};
 
     vm.sharePageService = SharePageWrapService;
-    //vm.doRefresh = function () {
-    //  taskNetService.queryNewTaskList().then(flushSuccessFn, flushFailedFn).finally(function () {
-    //    $scope.$broadcast('scroll.refreshComplete');
-    //  });
-    //};
+    vm.doRefresh = function () {
+      taskNetService.queryNewTaskList().then(flushSuccessFn, flushFailedFn).finally(function () {
+        $scope.$broadcast('scroll.refreshComplete');
+      });
+    };
 
     var intervalFunc = function(){
       if (taskNetService.cache.isNearTaskNeedRefresh) {
@@ -70,6 +70,13 @@
 
       $state.go('main.task-detail', {id: vm.items[index].id})
     };
+
+    vm.cb_gotoUser = function(userId) {
+      if(canClick()==false) {
+        return;
+      }
+      userUtils.gotoUser(userId, 'near');
+    }
 
     vm.cb_acceptTask = function (index) {
       if(canClick() == false) {

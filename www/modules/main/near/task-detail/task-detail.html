@@ -1,7 +1,7 @@
 <style type="text/css">
-  ._impress-panel {
-    margin-top: -4px;
-  }
+  /*._impress-panel {*/
+    /*margin-top: -4px;*/
+  /*}*/
   ._desc-p {
     margin-bottom: 0 !important;
   }
@@ -21,13 +21,13 @@
       </div>
       <div class="content-right">
         <div class="row user-panel nopadding">
-          <img class="avatar" ng-src={{vm.task.poster.avator}}>
+          <img class="avatar" ng-src={{vm.task.poster.avatar}} ng-click="vm.cb_gotoUser(vm.task.poster.userId)">
 
           <div class="user-detail">
             <div class="top">
               <div class="line-1">
                 <p class="name">{{vm.task.poster.nickname}}</p>
-                <i class="gender-icon ho-gender-female color-woman font-size-12"></i>
+                <i class="gender-icon ho-gender-female color-woman"></i>
               </div>
 
               <p class="time">{{vm.task.created | DateShow}}</p>
@@ -83,10 +83,10 @@
     </div>
 
     <ion-list class="ho-list self">
-      <ion-item class="ho-item ho-item-header-icon-title">
+      <ion-item class="ho-item ho-item-header-icon-title has-bg-color">
         <i class="side-icon icon ho-chat-0 color-theme"></i>
 
-        <p class="title">留言{{vm.task.commentList.length}}条</p>
+        <p class="title">留言{{vm.task.commentCount}}条</p>
       </ion-item>
     </ion-list>
 
