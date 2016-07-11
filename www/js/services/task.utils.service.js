@@ -262,13 +262,13 @@
             taskItem.ui_tagText2 = isPosterOrAccepter==true?"对方放弃援助":"放弃援助";
             taskItem.ui_tagText3 = "已搞定";
             if(isPosterOrAccepter == true) {
-              taskItem.ui_stateDesc = "事随有憾,心怀感恩";
+              taskItem.ui_stateDesc = "事虽有憾,心怀感恩";
               taskItem.ui_showOptPassive = false;
               taskItem.ui_showOptPassive2 = false;
               taskItem.ui_showOptActive = true;
               taskItem.ui_textOptActive = "留言评价"
             }else{
-              taskItem.ui_stateDesc = "勿辜负一份期待";
+              taskItem.ui_stateDesc = "勿辜负每一份期待";
               taskItem.ui_showOptPassive = false;
               taskItem.ui_showOptPassive2 = false;
               taskItem.ui_showOptActive = true;

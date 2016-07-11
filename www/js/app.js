@@ -24,6 +24,9 @@
     'impress.utils.service',
     'starter.controllers',
     'starter.services',
+
+    'app.features.service',
+
     'com.helporz.login',
     'com.helporz.intro',
     'com.helporz.utils.service',
@@ -80,7 +83,8 @@
     'userNetService',
     'taskNetService',
     'loginService',
-    'intervalCenter'
+    'intervalCenter',
+    'checkUpdateFeature',
   ];
 
   function init($ionicPlatform,
@@ -103,7 +107,9 @@
                 userNetService,
                 taskNetService,
                 loginService,
-                intervalCenter) {
+                intervalCenter,
+                checkUpdateFeature
+                 ) {
     $log.info('app.run.init');
 
     $ionicPlatform.ready(function () {
@@ -152,6 +158,9 @@
       }, function () {
         $state.go('login');
       });
+
+
+      checkUpdateFeature.check();
 
       document.addEventListener("deviceready", function () {
         window.sqlitePlugin.openDatabase({name: 'helporz.db', location: 'default'}, function (dbConn) {

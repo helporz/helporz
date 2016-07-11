@@ -30,7 +30,8 @@
     "cordova-plugin-image-picker",
     "cordova-plugin-wechat",
     "cordova-plugin-jmessage",
-    "ionic-plugin-keyboard"
+    "ionic-plugin-keyboard",
+    "cordova-plugin-inappbrowser"
   ],
   "cordovaPlatforms": [
     "ios",

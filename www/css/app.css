@@ -698,6 +698,43 @@
   .loading-tpl-icon-text .tpl-text.tpl-text-width-140 {
     width: 140px; }
 
+.ho-popup {
+  background-color: white;
+  font-size: 15px; }
+  .ho-popup .line-1 {
+    line-height: 26px;
+    min-height: 41px;
+    padding: 7px 5px;
+    border-bottom: 1px solid #eaeaea;
+    text-align: center; }
+    .ho-popup .line-1 p {
+      padding: 0;
+      margin: 0;
+      font-size: 13px;
+      color: #2a2a2a; }
+  .ho-popup .line-2 {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex; }
+    .ho-popup .line-2 .bt-full {
+      width: 100%; }
+    .ho-popup .line-2 .bt-2-1 {
+      width: 50%;
+      border-right: 1px solid #eaeaea; }
+    .ho-popup .line-2 .bt-2-2 {
+      width: 50%;
+      font-weight: bold; }
+    .ho-popup .line-2 button {
+      line-height: 32px;
+      color: #3c84c7;
+      background-color: white;
+      border: none; }
+      .ho-popup .line-2 button.activated {
+        background-color: #efeff4; }
+
 .five-stars {
   display: -webkit-box;
   display: -webkit-flex;
@@ -2047,7 +2084,7 @@
         line-height: 22px;
         padding: 2px 12px;
         color: white;
-        background-color: #de230f;
+        background-color: #FF432F;
         border: none; }
       .topics .content-right .bottom-panel .elem2 {
         color: #878787; }

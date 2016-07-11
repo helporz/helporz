@@ -48,7 +48,7 @@
         terminalInfo: terminalInfo
       };
       httpBaseService.post("/user/check_update_package", data, function (resp, status, headers, config) {
-        onSuccessFn(resp.downloadUrl, resp.version, isMustUpdate);
+        onSuccessFn(resp.data.downloadUrl, resp.data.version, resp.data.isMustUpdate);
       }, function (code, data, status, headers, config) {
         onFailedFn(code);
       }, function (data, status, headers, config) {
