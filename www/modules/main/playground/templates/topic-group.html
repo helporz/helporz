@@ -198,8 +198,20 @@
     <!--<p ng-bind-html="vm.topicGroup.publicNotice"></p>-->
     <!--</div>-->
     <!--</div>-->
-    <div style="padding:0;margin: 0;height: auto;width: auto">
-      <img src="img/playground/topic_group_head.png" style="width: 100%;display:block;">
+    <div style="padding:0;margin: 0;height: auto;width: auto" ng-if="vm.adList == null ||vm.adList.length == 0">
+      <a ng-href="#/main/near">
+        <img src="img/playground/topic_group_head.png" style="width: 100%;display:block;" ng-href="#/main/topic-group">
+      </a>
+    </div>
+
+    <div style="padding:0;margin: 0;height: auto;width: auto" ng-if="vm.adList != null && vm.adList.length > 0">
+      <ion-slide-box does-continue="true" show-pager="true" auto-play="true" slide-interval="2000">
+        <ion-slide ng-repeat="ad in vm.adList">
+          <div class="slide-item-wrap" ng-click="vm.gotoAD(ad)">
+            <img ng-src="{{ad.img}}" style="width: 100%;display:block;">
+          </div>
+        </ion-slide>
+      </ion-slide-box>
     </div>
 
     <ion-list class="sys-topic">

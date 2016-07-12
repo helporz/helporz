@@ -85,13 +85,13 @@
 
   }
 
-  topicGroupControllerFn.$inject = ['$scope', '$stateParams', '$state', '$log', '$timeout', '$ionicActionSheet',
-    '$ionicPopover', '$ionicModal', 'topicService', 'topicGroupService', 'filterTopicService', 'topicBlacklistService',
-    'favouriteTopicService', 'topicModalService', 'impressUtils', 'userUtils','IMInterfaceService'];
-  function topicGroupControllerFn($scope, $stateParams, $state, $log, $timeout, $ionicActionSheet,
-                                  $ionicPopover, $ionicModal, topicService, topicGroupService, filterTopicService,
+  topicGroupControllerFn.$inject = ['$q','$scope', '$stateParams', '$state', '$log', '$timeout', '$ionicActionSheet',
+    '$ionicPopover', '$ionicModal','$ionicLoading', 'topicService', 'topicGroupService', 'filterTopicService', 'topicBlacklistService',
+    'favouriteTopicService', 'topicModalService', 'impressUtils', 'userUtils','IMInterfaceService','PlaygroundNetService'];
+  function topicGroupControllerFn($q,$scope, $stateParams, $state, $log, $timeout, $ionicActionSheet,
+                                  $ionicPopover, $ionicModal,$ionicLoading, topicService, topicGroupService, filterTopicService,
                                   topicBlacklistService, favouriteTopicService, topicModalService, impressUtils, userUtils,
-                                  IMInterfaceService) {
+                                  IMInterfaceService,PlaygroundNetService) {
     var vm = $scope.vm = {};
     if (typeof $stateParams.groupId === 'undefined' || $stateParams.groupId == null) {
       vm.groupId = 1;
@@ -106,6 +106,19 @@
     vm.sysTopicList = topicService.getSysTopicList(vm.groupId);
     vm.userTopicList = topicService.getTopicList(vm.groupId);
     vm.isCanLoadMore = true;
+
+    vm.adList = topicService.getADList();
+
+    vm.gotoAD = function(ad) {
+      PlaygroundNetService.getTopicDetailInfo(ad.actionUrl, 0, 0, 10).then(function (res) {
+        topicService.setCurrentDetailTopic(res.topic);
+        topicService.setCurrentDetailTopicCommentList(res.commentList);
+        $state.go('main.topic-group_topic-detail', {'topicId': ad.actionUrl});
+      },function(error) {
+
+      });
+
+    }
 
     //$scope.$on('$stateChangeSuccess', function () {
     //  vm.loadMore();
@@ -131,6 +144,18 @@
     $scope.$on('popover.removed', function () {
       // Execute action
       vm.popover.remove();
+    });
+
+    $scope.$on('$ionicView.beforeEnter',function() {
+      if( vm.userTopicList == null || vm.userTopicList.length == 0 ) {
+        $ionicLoading.show();
+        vm.doRefresh().then(function() {
+          $ionicLoading.hide();
+        },function() {
+          $ionicLoading.hide();
+        });
+      }
+
     });
 
     var popoverScope = $scope.$new();
@@ -162,6 +187,15 @@
       //$state.go('topic-add', {'groupId': vm.groupId});
       vm.hidePopover();
       var publishScope = $scope.$new();
+
+      publishScope.onRefresh = function() {
+        $ionicLoading.show();
+        vm.doRefresh().then(function() {
+          $ionicLoading.hide();
+        },function() {
+          $ionicLoading.hide();
+        });
+      }
       publishScope.groupId = vm.groupId;
       $ionicModal.fromTemplateUrl('modules/main/playground/templates/topic-publish.html', {
         scope: publishScope,
@@ -210,7 +244,7 @@
     vm.showImgs = function (imgList) {
       var modalScope = $scope.$new();
       var imgItemList = new Array();
-      for (var index = 0; index < imgList; ++index) {
+      for (var index = 0; index < imgList.length; ++index) {
         var item = {imgSrc: imgList[index]};
         imgItemList.push(item);
       }
@@ -303,6 +337,7 @@
     }
 
     vm.doRefresh = function () {
+      var _innerDefer = $q.defer();
       topicService.refreshSysTopic(vm.groupId).then(function (sysTopicList) {
         vm.sysTopicList = sysTopicList;
         topicService.refreshTopic(vm.groupId).then(function (topicList) {
@@ -315,13 +350,17 @@
             item.ui_tags = [];
             impressUtils.netTagsToUiTags(item.ui_tags, item.poster.tags);
           }
+          _innerDefer.resolve();
         }, function (err) {
           $scope.$broadcast('scroll.refreshComplete');
+          _innerDefer.reject();
         });
       }, function (err) {
         $scope.$broadcast('scroll.refreshComplete');
+        _innerDefer.reject();
       });
-      $scope.$broadcast('scroll.refreshComplete');
+      //$scope.$broadcast('scroll.refreshComplete');
+      return _innerDefer.promise;
     }
 
     vm.filterTopic = function (topic) {
@@ -452,10 +491,10 @@
   }
 
 
-  topicPublishControllerFn.$inject = ['$scope', '$stateParams', '$state', '$log', '$ionicPopup', '$ionicActionSheet',
+  topicPublishControllerFn.$inject = ['$timeout','$scope', '$stateParams', '$state', '$log', '$ionicPopup', '$ionicActionSheet',
     '$cordovaCamera', '$cordovaImagePicker', '$ionicModal', '$q', 'topicModalService', 'PlaygroundNetService', 'uploadService',
     'userLoginInfoService', 'topicService'];
-  function topicPublishControllerFn($scope, $stateParams, $state, $log, $ionicPopup, $ionicActionSheet,
+  function topicPublishControllerFn($timeout,$scope, $stateParams, $state, $log, $ionicPopup, $ionicActionSheet,
                                     $cordovaCamera, $cordovaImagePicker, $ionicModal, $q, topicModalService,
                                     PlaygroundNetService, uploadService, userLoginInfoService, topicService) {
     var self = this;
@@ -758,6 +797,9 @@
         $q.all(pArray).then(function () {
           alert('发布话题成功');
           self.closeModal();
+          $timeout(function() {
+            $scope.onRefresh();
+          });
         }, function () {
           alert('发布话题失败，上传图片失败');
         });
@@ -768,27 +810,44 @@
 
   }
 
-  topicDetailControllerFn.$inject = ['$scope', '$stateParams', '$state', '$log', '$timeout', '$ionicActionSheet', '$q',
+  topicDetailControllerFn.$inject = ['$ionicModal','$scope', '$stateParams', '$state', '$log', '$timeout', '$ionicActionSheet', '$q','$ionicLoading',
     'topicService', 'PlaygroundNetService', 'collectionTopicService', 'topicBlacklistService', 'favouriteTopicService',
     'impressUtils', 'userUtils', 'operationUtils'];
-  function topicDetailControllerFn($scope, $stateParams, $state, $log, $timeout, $ionicActionSheet, $q,
+  function topicDetailControllerFn($ionicModal,$scope, $stateParams, $state, $log, $timeout, $ionicActionSheet, $q,$ionicLoading,
                                    topicService, PlaygroundNetService, collectionTopicService, topicBlacklistService, favouriteTopicService,
                                    impressUtils, userUtils, operationUtils) {
     var vm = $scope.vm = {};
 
     vm.topicService = topicService;
+    vm.topicId = $stateParams.topicId;
 
+    $ionicLoading.show();
     vm.topic = topicService.getCurrentDetailTopic();
+    if( vm.topic == null ) {
+      vm.topic = {id:vm.topicId,poster:{}};
+    }
+
+    topicService.setCurrentDetailTopic(null);
 
     vm.topic.ui_tags = [];
     impressUtils.netTagsToUiTags(vm.topic.ui_tags, vm.topic.poster.tags);
 
-    vm.topicId = $stateParams.topicId;
-    vm.topicCommentList = [];
+    vm.topicCommentList = topicService.getCurrentDetailTopicCommentList();
+    topicService.setCurrentDetailTopicCommentList(null);
+
     vm.collectionTopicService = collectionTopicService;
 
-    $scope.$on("$ionicView.afterEnter", function () {
-      vm.doRefresh();
+    $scope.$on("$ionicView.beforeEnter", function () {
+      if( vm.topicCommentList != null && vm.topicCommentList.length == 0) {
+        vm.doRefresh().then(function() {
+          $ionicLoading.hide();
+        },function() {
+          $ionicLoading.hide();
+        });
+      }
+      else {
+        $ionicLoading.hide();
+      }
     });
 
     vm.cb_gotoUser = function (userId) {
@@ -800,13 +859,30 @@
 
     vm.refreshCommentList = function () {
       var _innerDefer = $q.defer();
-      PlaygroundNetService.getTopicCommentList(vm.topicId, 0, 0, 10).then(function (res) {
+      PlaygroundNetService.getTopicCommentList(vm.topicId, 0, 1, 10).then(function (res) {
         vm.topicCommentList = res;
         _innerDefer.resolve(res);
       }, function (err) {
         _innerDefer.reject(err);
       })
       return _innerDefer.promise;
+    }
+
+    vm.showImgs = function (imgList) {
+      var modalScope = $scope.$new();
+      var imgItemList = new Array();
+      for (var index = 0; index < imgList.length; ++index) {
+        var item = {imgSrc: imgList[index]};
+        imgItemList.push(item);
+      }
+      modalScope.imgList = imgItemList;
+      $ionicModal.fromTemplateUrl('modules/main/playground/templates/show-imgs.html', {
+        scope: modalScope,
+        animation: "slide-in-up"
+      }).then(function (modal) {
+        modalScope.modal = modal;
+        modal.show();
+      });
     }
 
     vm.setCommentFocus = function (event) {
@@ -839,27 +915,42 @@
       else {
         replyUserId = vm.topic.poster.userId;
       }
-      PlaygroundNetService.addTopicComment(vm.topic.id, vm.sendContent, commentSessionId, replyOtherCommentId, replyUserId).then(function (res) {
-        vm.refreshCommentList();
-        vm.sendContent = null;
-      }, function (error) {
 
+      $ionicLoading.show();
+      PlaygroundNetService.addTopicComment(vm.topic.id, vm.sendContent, commentSessionId, replyOtherCommentId, replyUserId).then(function (res) {
+        vm.doRefresh().then(function() {
+          $timeout(function () {
+            $scope.$apply();
+            $ionicLoading.hide();
+          })
+
+        },function() {
+          $ionicLoading.hide();
+        });
+        vm.sendContent = null;
+
+      }, function (error) {
+        $ionicLoading.hide();
       });
     }
 
     vm.doRefresh = function () {
-      PlaygroundNetService.getTopicDetailInfo(vm.topic.id, 0, 0, 10).then(function (res) {
+      var _innerDefer = $q.defer();
+      PlaygroundNetService.getTopicDetailInfo(vm.topic.id, 0, 1, 10).then(function (res) {
         vm.topic = res.topic;
         vm.topicCommentList = res.commentList;
         $timeout(function () {
           $scope.$apply();
           $scope.$broadcast('scroll.refreshComplete');
+          _innerDefer.resolve();
         })
         //$scope.$apply();
         //$scope.$broadcast('scroll.refreshComplete');
       }, function (error) {
         $scope.$broadcast('scroll.refreshComplete');
+        _innerDefer.reject();
       });
+      return _innerDefer.promise;
     }
 
     vm.loadMore = function () {

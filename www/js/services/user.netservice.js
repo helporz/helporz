@@ -197,7 +197,34 @@
         pageIndex: pageIndex,
         pageSize: pageSize,
       }
-      return httpBaseService.getForPromise('/user/attention', param);
+      var _innerDefer = $q.defer();
+      httpBaseService.getForPromise('/user/attention', param).then(function(attentionList) {
+        var retList = new Array();
+        if( attentionList != null && attentionList.length > 0 ) {
+          _innerDefer.resolve();
+          var index = 0;
+
+          //先将最近发帖的关注用户插入列表
+          for(index = 0; index < attentionList.length; ++ index) {
+            if( attentionList[index].recentTaskIdArray != null && attentionList[index].recentTaskIdArray.length > 0 ) {
+              retList.push(attentionList[index]);
+              attentionList[index] = null;
+            }
+          }
+
+          for( index = 0; index < attentionList.length; ++ index) {
+            if( attentionList[index] != null ) {
+              retList.push(attentionList[index]);
+            }
+          }
+        }
+        _innerDefer.resolve(retList);
+
+      },function(error) {
+        _innerDefer.reject(error);
+      });
+
+      return _innerDefer.promise;
     }
 
     var isAttention = function (userId) {
