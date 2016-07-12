@@ -253,16 +253,16 @@
               onSuccessFn(resp, status, headers, config);
             }
             else {
-              if (resp.code == 501 || resp.code == 505 || resp.code == 510) {
+              if (resp.code == 501 || resp.code == 510) {
                 $ionicLoading.hide();
                 $ionicLoading.show({
                   duration: 1500,
-                  templateUrl: 'modules/components/templates/ionic-loading/user-logout-success.html'
+                  templateUrl: 'modules/components/templates/ionic-loading/user-relogin-hit.html'
                 });
                 $timeout(function () {
                   $ionicLoading.hide();
                   $state.go('login');
-                }, 1500);
+                }, 3000);
               }
               else {
                 onFailedFn(resp.code, data, status, headers, config);
@@ -295,16 +295,16 @@
               _postDefer.resolve(resp);
             }
             else {
-              if (resp.code == 501 || resp.code == 505 || resp.code == 510) {
+              if (resp.code == 501 || resp.code == 510) {
                 $ionicLoading.hide();
                 $ionicLoading.show({
                   duration: 1500,
-                  templateUrl: 'modules/components/templates/ionic-loading/user-logout-success.html'
+                  templateUrl: 'modules/components/templates/ionic-loading/user-relogin-hit.html'
                 });
                 $timeout(function () {
                   $ionicLoading.hide();
                   $state.go('login');
-                }, 1500);
+                }, 3000);
               }
               else {
                 _postDefer.reject(errorCodeService.getErrorCodeDescription(resp.code));
@@ -328,16 +328,16 @@
               onSuccessFn(resp, status, headers, config);
             }
             else {
-              if (resp.code == 501 || resp.code == 505 || resp.code == 510) {
+              if (resp.code == 501 || resp.code == 510) {
                 $ionicLoading.hide();
                 $ionicLoading.show({
                   duration: 1500,
-                  templateUrl: 'modules/components/templates/ionic-loading/user-logout-success.html'
+                  templateUrl: 'modules/components/templates/ionic-loading/user-relogin-hit.html'
                 });
                 $timeout(function () {
                   $ionicLoading.hide();
                   $state.go('login');
-                }, 1500);
+                }, 3000);
               }
               else {
                 onFailedFn(resp.code, data, status, headers, config);
@@ -364,16 +364,16 @@
               _getDefer.resolve(resp.data);
             }
             else {
-              if (resp.code == 501 || resp.code == 505 || resp.code == 510) {
+              if (resp.code == 501 || resp.code == 510) {
                 $ionicLoading.hide();
                 $ionicLoading.show({
                   duration: 1500,
-                  templateUrl: 'modules/components/templates/ionic-loading/user-logout-success.html'
+                  templateUrl: 'modules/components/templates/ionic-loading/user-relogin-hit.html'
                 });
                 $timeout(function () {
                   $ionicLoading.hide();
                   $state.go('login');
-                }, 1500);
+                }, 3000);
               }
               else {
                 _getDefer.reject(errorCodeService.getErrorCodeDescription(resp.code));
@@ -453,7 +453,7 @@
     return {
       date2String: date2String,
       currentDate2String: currentDate2String,
-      getLocalTime:getLocalTime,
+      getLocalTime: getLocalTime,
     }
   }
 
