@@ -95,7 +95,7 @@
 
         var impressUI = this.impressUI();
         for(var idx in netTags) {
-          uiTags.push(impressUI[netTags[idx].tagId]);
+          uiTags.push(impressUI[netTags[idx].id-1]);
         }
       };
 

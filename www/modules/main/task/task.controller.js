@@ -6,7 +6,7 @@
   'use strict';
 
   angular.module('main.task')
-    .controller('mainTaskCtrl', ['$log', '$state', '$ionicLoading', '$ionicPopup', 'widgetDelegate', '$ionicScrollDelegate',
+    .controller('mainTaskCtrl', ['$log', '$state', '$ionicLoading', '$ionicActionSheet', '$ionicPopup', 'widgetDelegate', '$ionicScrollDelegate',
       '$scope', 'taskNetService', 'taskUtils', '$timeout', 'intervalCenter', 'NoticeMessageDB', 'NoticeMessageService',
       'userUtils',
       mainTaskCtrl]);
@@ -22,7 +22,7 @@
   var POLL_MAX_TIME = 5000;
 
 
-  function mainTaskCtrl($log, $state, $ionicLoading, $ionicPopup, widgetDelegate, $ionicScrollDelegate,
+  function mainTaskCtrl($log, $state, $ionicLoading, $ionicActionSheet, $ionicPopup, widgetDelegate, $ionicScrollDelegate,
                         $scope, taskNetService, taskUtils, $timeout, intervalCenter, NoticeMessageDB, NoticeMessageService,
                         userUtils) {
     var vm = $scope.vm = {};
@@ -483,6 +483,40 @@
       }
     };
 
+    vm.cb_contact = function ($index) {
+      $ionicActionSheet.show({
+        titleText: "联系Ta",
+        buttons: [
+          {text: "<b>发消息</b>"},
+          {text: "<b>打电话</b>"}
+        ],
+        buttonClicked: function (index) {
+          var task = vm.repeatList[$index];
+          var user;
+          if(vm.tabSelectedIndex==0){
+            user = task.poster;
+          }else if(vm.tabSelectedIndex==1){
+            user = task.accepter;
+          }else{
+            ho.alert('tabindex invalid');
+          }
+
+          if (index == 0) {
+          }else if(index==1){
+
+          }
+
+          return true;
+        },
+        cancelText: "取消",
+        cancel: function () {
+          // add cancel code..
+        },
+        destructiveButtonClicked: function () {
+        }
+      })
+    };
+
     vm.opt_passive = function (index) {
       if (canClick() == false) {
         return;
@@ -634,7 +668,7 @@
         if (task.status == 0) { //wait
           $state.go('main.task_task-detail', {id: task.id})
           //todo: 取消comment红点
-          NoticeMessageDB.setCommentReadFlag(task.id);
+          taskNetService.setCommentReadFlag(task.id);
           taskNetService.cache.nm_main_changed = true;
           taskNetService.cache.nm_task_changed = true;
         }

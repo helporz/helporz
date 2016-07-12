@@ -139,6 +139,11 @@
         });
       }
 
+      //in app browser
+      if (window.cordova && window.cordova.plugins && window.cordova.plugins.InAppBrowser) {
+        window.open = window.cordova.plugins.InAppBrowser.open;
+      }
+
       jimService.init();
       pushService.init().then(function () {
         if (loginService.isShowIntro()) {
@@ -147,6 +152,15 @@
         else if (loginService.isLogging()) {
           loginService.loginByTicket().then(function () {
             $state.go('main.near');
+
+            //ho.alert('fetch after login');
+            //notice message
+            taskNetService.observeNoticeMessage();
+            // test:
+            //intervalCenter.add(1, 'app.noticeMessage', function () {
+            taskNetService.fetchNoticeMessage();
+            //});
+
           }, function () {
             $state.go('login');
           });
@@ -159,7 +173,7 @@
         $state.go('login');
       });
 
-
+      //检查更新
       checkUpdateFeature.check();
 
       document.addEventListener("deviceready", function () {
@@ -189,13 +203,6 @@
         }
       }, false);
 
-      //notice message
-      taskNetService.observeNoticeMessage();
-
-      // test:
-      intervalCenter.add(1, 'app.noticeMessage', function () {
-        taskNetService.fetchNoticeMessage();
-      });
 
     });
 

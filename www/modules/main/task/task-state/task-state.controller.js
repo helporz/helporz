@@ -6,11 +6,11 @@
   'use strict';
 
   angular.module('main.task.taskState')
-    .controller('mainTaskTaskStateCtrl', ['$scope', '$timeout', '$stateParams', 'taskNetService', 'taskUtils',
-      'impressUtils', 'userNetService', mainTaskTaskStateCtrl]);
+    .controller('mainTaskTaskStateCtrl', ['$scope', '$timeout', '$stateParams', '$ionicTabsDelegate','taskNetService', 'taskUtils',
+      'impressUtils', 'userNetService','userUtils',  mainTaskTaskStateCtrl]);
 
-  function mainTaskTaskStateCtrl($scope, $timeout, $stateParams, taskNetService, taskUtils,
-                                 impressUtils, userNetService) {
+  function mainTaskTaskStateCtrl($scope, $timeout, $stateParams, $ionicTabsDelegate, taskNetService, taskUtils,
+                                 impressUtils, userNetService, userUtils) {
     console.log($stateParams);
 
     var vm = $scope.vm = {};
@@ -145,6 +145,23 @@
         0
       );
     });
+
+    vm.cb_gotoUser = function(userId) {
+      var index = $ionicTabsDelegate.$getByHandle('rootTabs').selectedIndex();
+      var tabName;
+      if(index==0) {
+        tabName = 'near';
+      }else if(index ==4) {
+        tabName = 'me';
+      }else if(index==3){
+        tabName = 'task';
+      }
+      else{
+        ho.alert('gotoUser tab invalid, tabIndex=' + index);
+      }
+
+      userUtils.gotoUser(userId, tabName);
+    }
 
   }
 })()

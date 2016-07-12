@@ -18,9 +18,9 @@
       isNearTaskNeedRefresh: true,
       nearTaskList: [],
 
-      isPostTaskNeedRefresh: true,
+      //isPostTaskNeedRefresh: true,
       postTaskList: [],
-      isAcceptTaskNeedRefresh: true,
+      //isAcceptTaskNeedRefresh: true,
       acceptTaskList: [],
 
 
@@ -42,7 +42,8 @@
       nm_comment: [],
       nm_follow: [],
       nm_main_changed: false,
-      nm_task_changed: false
+      nm_task_changed: false,
+      nm_follow_changed: false
     };
 
     var _postTask = function (type, summary, pubLocation, startTime, deadLine, posterLong,
@@ -446,7 +447,16 @@
 
     // notice message
     var _fetchNoticeMessage = function() {
+      //ho.alert('_fetchMessage');
       NoticeMessageService.getAllNoticeMessage().then(function (noticeMessageList) {
+
+        //old
+        var postGoing_oldCount = cache.nm_postGoing.length;
+        var postFinish_oldCount = cache.nm_postFinish.length;
+        var acceptGoing_oldCount = cache.nm_acceptGoing.length;
+        var acceptFinish_oldFinish = cache.nm_acceptFinish.length;
+        var comment_oldCount = cache.nm_comment.length;
+        var follow_oldCount = cache.nm_follow.length;
 
         // clear notice message cache
         var postGoing = cache.nm_postGoing = [];
@@ -456,8 +466,7 @@
         var comment = cache.nm_comment = [];
         var follow = cache.nm_follow = [];
 
-        cache.nm_main_changed = true;
-        cache.nm_task_changed = true;
+
 
         // analyze fetched message
         //
@@ -493,6 +502,27 @@
             }else if(msg.type == NMT.ACCEPTER_COMPLETED_TASK_MESSAGE_TYPE) {
               acceptFinish.push(msg);
             }
+          }
+
+          //未读消息如果有增加,则刷新对应页面
+          if(postGoing.length > postGoing_oldCount || comment.length > comment_oldCount){
+            cache.isPostTaskGoingNeedRefresh = true;
+          }
+          if(postFinish.length > postFinish_oldCount) {
+            cache.isPostTaskFinishNeedRefresh = true;
+          }
+          if(acceptGoing.length > acceptGoing_oldCount) {
+            cache.isAcceptTaskGoingNeedRefresh = true;
+          }
+          if(acceptFinish.length > acceptFinish_oldFinish) {
+            cache.isAcceptTaskFinishNeedRefresh = true;
+          }
+
+          cache.nm_main_changed = true;
+          cache.nm_task_changed = true;
+
+          if(follow.length > follow_oldCount) {
+            cache.nm_follow_changed = true;
           }
 
           //NoticeMessageService.setReadFlagForLessAndEqualSerialNo(1,noticeMessageList[0].serialNo);

@@ -78,8 +78,8 @@
     }]);
 
 
-  loginCtrl.$inject = ['$scope', '$state', '$log', '$ionicLoading', 'loginService', 'userNetService'];
-  function loginCtrl($scope, $state, $log, $ionicLoading, loginService, userNetService) {
+  loginCtrl.$inject = ['$scope', '$state', '$log', '$ionicLoading', 'loginService', 'userNetService','taskNetService'];
+  function loginCtrl($scope, $state, $log, $ionicLoading, loginService, userNetService, taskNetService) {
     $scope.phoneno = '';
     $scope.smscode = '';
 
@@ -99,6 +99,9 @@
 
         if (userNetService.cache.selfInfo.avatar != '') {
           $state.go('main.near');
+
+          taskNetService.observeNoticeMessage();
+          taskNetService.fetchNoticeMessage();
         }
         else {
           $state.go('info');

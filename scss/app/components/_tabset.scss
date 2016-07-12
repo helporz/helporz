@@ -144,7 +144,7 @@ $tab-font-size: 12px;
       border-style: solid;
       border-width: 1px;
 
-      height: $tab-round-radius*2;
+      height: $tab-round-radius*2+2;
       font-size: $tab-font-size;
       font-weight: bold;
       padding: 0 7px;
@@ -162,7 +162,9 @@ $tab-font-size: 12px;
       }
 
       &.ho-tab-gray {
-        @include ho-tab-color(#aaa, white, $color-page-bg, #6a6a6a, #eee, $color-page-bg);
+        //@include ho-tab-color(#aaa, white, $color-page-bg, #6a6a6a, #eee, $color-page-bg);
+        @include ho-tab-color(#aaa, white, #ddd, #6a6a6a, #eee, #999);
+        //@include ho-tab-color(#999, white, #999, white, #999, #999);
         // red theme
         //@include ho-tab-color($color-theme, white, $color-theme, white, $color-theme, $color-theme);
       }

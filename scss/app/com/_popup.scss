@@ -4,12 +4,13 @@
 
   .line-1 {
     line-height: 26px;
-    min-height: 41px;
-    padding: 7px 5px;
+    min-height: 46px;
+    padding: 9px 5px;
     border-bottom: 1px solid $color-div-line;
     text-align: center;
 
     p {
+      font-weight: bold;
       padding: 0;
       margin: 0;
       font-size: 13px;
@@ -35,10 +36,12 @@
     }
 
     button {
-      line-height: 32px;
-      color: $color-tip-blue;
+      //line-height: 32px;
+      height: 44px;
+      color: $color-system-tip;
       background-color: white;
       border: none;
+      font-size: 15px;
 
       &.activated {
         background-color: $color-page-bg;
