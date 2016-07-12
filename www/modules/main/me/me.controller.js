@@ -8,19 +8,21 @@
   angular.module('main.me')
     .controller('mainMeCtrl', ['$state', '$scope', '$ionicLoading', '$ionicPopup', '$ionicScrollDelegate', '$ionicActionSheet',
       '$timeout', '$interval', 'userNetService', 'impressUtils', 'userUtils',
-      'errorCodeService', 'SharePageWrapService', 'mainUserTasksService', 'taskNetService', 'intervalCenter',
-      'NoticeMessageDB', 'NoticeMessageService', mainMeCtrl])
+      'errorCodeService', 'SharePageWrapService', 'mainUserTasksService','taskNetService', 'intervalCenter',
+      'IMInterfaceService', 'NoticeMessageDB', 'NoticeMessageService', mainMeCtrl])
 
   function mainMeCtrl($state, $scope, $ionicLoading, $ionicPopup, $ionicScrollDelegate, $ionicActionSheet,
                       $timeout, $interval, userNetService, impressUtils, userUtils,
                       errorCodeService, SharePageWrapService, mainUserTasksService, taskNetService, intervalCenter,
-                      NoticeMessageDB, NoticeMessageService) {
+                      IMInterfaceService,NoticeMessageDB, NoticeMessageService) {
     var vm = $scope.vm = {};
 
     vm.followBadge = 0;
 
-    var NMT = NoticeMessageService.getNoticeMessageTypes();
+    vm.IMInterfaceService = IMInterfaceService;
 
+
+    var NMT = NoticeMessageService.getNoticeMessageTypes();
     var intervalFunc = function () {
       //检测未读消息产生的badge
       var taskCache = taskNetService.cache;

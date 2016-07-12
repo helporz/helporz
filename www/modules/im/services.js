@@ -1,7 +1,7 @@
 ;
 (function () {
   'use strict';
-  angular.module('com.helporz.im.services', ['com.helporz.jim.services', 'com.helporz.utils.service'])
+  angular.module('com.helporz.im.services', ['com.helporz.jim.services', 'com.helporz.utils.service','app.user.utils.service'])
     .factory('imConversationService', imConversationServiceFactoryFn)
     .factory('imMessageStorageService', imMessageStorageServiceFactoryFn)
     .factory('imMessageService', imMessageServiceFactoryFn)
@@ -299,7 +299,7 @@
       return null;
     }
 
-    var onReadMessageCount = function () {
+    var unReadMessageCount = function () {
       var messageCount = 0;
       for (var cId in conversationCache) {
         messageCount += cId.noReadMessages;
@@ -315,7 +315,7 @@
       updateConversation: updateConversation,
       deleteConversation: deleteConversation,
       getConversation: getConversation,
-      onReadMessageCount: onReadMessageCount,
+      unReadMessageCount: unReadMessageCount,
     }
     //var _getLocalConversation = function () {
     //  return localStorageService.get('conversation-list', null);
@@ -602,8 +602,11 @@
     'imConversationService',
     'userNetService',
     'UtilsService',
+    'userUtils',
+    'IMInterfaceService',
     'debugHelpService',];
-  function imMessageServiceFactoryFn($log, $q, $state, jimService, imMessageStorageService, imConversationService, userNetService, UtilsService, debugHelpService) {
+  function imMessageServiceFactoryFn($log, $q, $state, jimService, imMessageStorageService, imConversationService,
+                                     userNetService, UtilsService,userUtils,IMInterfaceService, debugHelpService) {
     var msgObservers = {};
     var conversationObservers = {};
 
@@ -728,6 +731,8 @@
         }
         else {
           $log.info("conversation:" + JSON.stringify(conversation));
+          conversation.noReadMessages ++;
+          imConversationService.updateConversation(conversation);
         }
       }
     };
@@ -780,7 +785,8 @@
             for (var cOb in conversationObservers) {
               conversationObservers[cOb].onAddConversation(conversation);
             }
-            $state.go('main.im-detail', {'cid': messageDetail.cUserId});
+            //$state.go('main.im-detail', {'cid': messageDetail.cUserId});
+            userUtils.gotoIM(messageDetail.cUserId);
           }, function (error) {
             $log.error('add conversation failed:' + error);
           });
@@ -801,7 +807,8 @@
               for (var cOb in conversationObservers) {
                 conversationObservers[cOb].onAddConversation(conversation);
               }
-              $state.go('main.im-detail', {'cid': messageDetail.cUserId});
+              //$state.go('main.im-detail', {'cid': messageDetail.cUserId});
+              userUtils.gotoIM(messageDetail.cUserId);
             }, function (error) {
               $log.error('add Conversation failed:' + error);
             });
@@ -814,7 +821,8 @@
       }
       else {
         $log.info("conversation:" + JSON.stringify(conversation));
-        $state.go('main.im-detail', {'cid': messageDetail.cUserId});
+        userUtils.gotoIM(messageDetail.cUserId);
+        //$state.go('main.im-detail', {'cid': messageDetail.cUserId});
       }
     }
 
@@ -878,6 +886,8 @@
   IMInterfaceServiceFn.$inject = ['$log', '$q', 'imConversationService', 'imMessageStorageService'];
   function IMInterfaceServiceFn($log, $q, imConversationService, imMessageStorageService) {
     var _innerDefer = $q.defer();
+    var unReadMessageCount = 0;
+
     var initService = function (currentUserId) {
       imMessageStorageService.initDB(currentUserId)
         .then(
@@ -891,6 +901,7 @@
         .then(
         function () {
           $log.info('init im module success');
+          refreshUnReadMessageCount();
           _innerDefer.resolve();
         }, function (error) {
           $log.error('init imConversationService failed:' + error);
@@ -899,9 +910,11 @@
       return _innerDefer.promise;
     }
 
-    var onReadMessageCount = function () {
-      return imConversationService.onReadMessageCount();
+
+    var refreshUnReadMessageCount = function () {
+      unReadMessageCount  = imConversationService.unReadMessageCount();
     }
+
 
     var test = function () {
 
@@ -962,7 +975,7 @@
 
     return {
       initService: initService,
-      onReadMessageCount: onReadMessageCount,
+      unReadMessageCount: unReadMessageCount,
     };
   }
 })

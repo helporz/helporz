@@ -12,13 +12,16 @@
 
     //////////////////////////////////////////////////
     // taskUtils
-    .factory('userUtils', ['userNetService', '$state', '$ionicLoading', '$ionicPopup','mainUserInfoService',
-      function (userNetService, $state, $ionicLoading, $ionicPopup, mainUserInfoService) {
+    .factory('userUtils', ['userNetService', '$state', '$ionicLoading', '$ionicPopup', '$location','$log','mainUserInfoService',
+      function (userNetService, $state, $ionicLoading, $ionicPopup, $location,$log, mainUserInfoService) {
 
         return {
           uiProcessFollow: uiProcessFollow,
           uiProcessFollowed: uiProcessFollowed,
-          gotoUser: gotoUser
+          gotoUser: gotoUser,
+          gotoIM:gotoIM,
+          gotoUserTasks:gotoUserTasks,
+          gotoTaskDetail:gotoTaskDetail,
         };
 
         function uiProcessFollow(friend) {
@@ -61,6 +64,91 @@
                 });
                 $ionicLoading.hide();
               });
+          }
+        }
+
+        function gotoIM(userId) {
+          if(ho.isValid(userId) == false || userId == ''){
+            return;
+          }
+
+          var pathList = $location.path().split('/');
+
+          if( pathList.length > 0 ) {
+            var mainIndex = 0;
+            for( ;mainIndex < pathList.length; ++ mainIndex ) {
+              if( pathList[mainIndex] === 'main') {
+                break;
+              }
+            }
+            if( mainIndex < pathList.length ) {
+              var fullState = 'main.' + pathList[mainIndex + 1] + '_im-detail';
+              $state.go(fullState, {cid: userId});
+            }
+            else {
+              $state.go('main.me');
+            }
+
+          }
+          else {
+            $state.go('main.me');
+          }
+        }
+
+        function gotoUserTasks(userId,nickname) {
+          $log.debug('go user tasks:' + userId + " " + nickname);
+          if(ho.isValid(userId) == false || userId == ''){
+            return;
+          }
+
+          var pathList = $location.path().split('/');
+
+          if( pathList.length > 0 ) {
+            var mainIndex = 0;
+            for( ;mainIndex < pathList.length; ++ mainIndex ) {
+              if( pathList[mainIndex] === 'main') {
+                break;
+              }
+            }
+            if( mainIndex < pathList.length ) {
+              var fullState = 'main.' + pathList[mainIndex + 1] + '_user-tasks';
+              $state.go(fullState, {userId: userId,nickname:nickname});
+            }
+            else {
+              $state.go('main.me');
+            }
+
+          }
+          else {
+            $state.go('main.me');
+          }
+        }
+
+        function gotoTaskDetail(taskId) {
+          if(ho.isValid(taskId) == false || taskId == ''){
+            return;
+          }
+
+          var pathList = $location.path().split('/');
+
+          if( pathList.length > 0 ) {
+            var mainIndex = 0;
+            for( ;mainIndex < pathList.length; ++ mainIndex ) {
+              if( pathList[mainIndex] === 'main') {
+                break;
+              }
+            }
+            if( mainIndex < pathList.length ) {
+              var fullState = 'main.' + pathList[mainIndex + 1] + '_user-tasks_task-detail';
+              $state.go(fullState, {id: taskId});
+            }
+            else {
+              $state.go('main.me');
+            }
+
+          }
+          else {
+            $state.go('main.me');
           }
         }
       }]);

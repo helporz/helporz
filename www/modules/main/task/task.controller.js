@@ -8,7 +8,7 @@
   angular.module('main.task')
     .controller('mainTaskCtrl', ['$log', '$state', '$ionicLoading', '$ionicActionSheet', '$ionicPopup', 'widgetDelegate', '$ionicScrollDelegate',
       '$scope', 'taskNetService', 'taskUtils', '$timeout', 'intervalCenter', 'NoticeMessageDB', 'NoticeMessageService',
-      'userUtils',
+      'userUtils','IMInterfaceService',
       mainTaskCtrl]);
 
 
@@ -24,12 +24,13 @@
 
   function mainTaskCtrl($log, $state, $ionicLoading, $ionicActionSheet, $ionicPopup, widgetDelegate, $ionicScrollDelegate,
                         $scope, taskNetService, taskUtils, $timeout, intervalCenter, NoticeMessageDB, NoticeMessageService,
-                        userUtils) {
+                        userUtils,IMInterfaceService) {
     var vm = $scope.vm = {};
 
     vm.tabsetSpace = ionic.Platform.isAndroid()? '44px': '64px';
     vm.contentSpace = ionic.Platform.isAndroid()? '84px': '104px';
-
+    vm.state = $state;
+    vm.IMInterfaceService = IMInterfaceService;
     //fixme:因为点击会穿透,同时触发多个事件,这里先用标记来屏蔽,点击按钮后间隔一段时间才可触发下一次点击回调
     vm._isClicking = false;
     var canClick = function () {

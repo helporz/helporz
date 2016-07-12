@@ -196,6 +196,11 @@
     var _getTopicTagList = function () {
       return httpBaseService.getForPromise('/playground/topic/tags', null);
     }
+
+    var getAdList = function() {
+      return httpBaseService.getForPromise('/playground/adList',null);
+    }
+
     return {
       getTopicGroupList: _getTopicGroupList,
       getTopicListByGroup: _getTopicListByGroup,
@@ -218,6 +223,7 @@
       cancelCollectionTopic: _cancelCollectionTopic,
       //addShareCount: _addShareCount,
       getTopicTagList: _getTopicTagList,
+      getAdList:getAdList,
     };
   };
 
@@ -591,8 +597,10 @@
     var _topicCacheTable = new $$HashMap([], true);
     var _sysTopicCacheTable = new $$HashMap([], true);
     var _topicTagList = null;
+    var _topicADList = null;
     var _init = function () {
       _getTopicTagList();
+      getADList();
     }
 
     var preprocessTopic = function (topic) {
@@ -706,10 +714,33 @@
       return _topicTagList;
     }
 
+    var getADList = function() {
+      if( _topicADList == null || _topicADList.length == 0 ) {
+        PlaygroundNetService.getAdList().then(function(adList) {
+          _topicADList = adList;
+        },function(error) {
+          $log.error('getAddList failed:' + error);
+        });
+      }
+
+      return _topicADList;
+    }
+
+    var _currentDetailTopicCommentList = []
+    var setCurrentDetailTopicCommentList = function(commentList) {
+        _currentDetailTopicCommentList = commentList;
+    }
+
+    var getCurrentDetailTopicCommentList = function() {
+        return _currentDetailTopicCommentList;
+    }
+
     return {
       initService: _init,
       setCurrentDetailTopic: _setCurrentDetailTopic,
       getCurrentDetailTopic: _getCurrentDetailTopic,
+      setCurrentDetailTopicCommentList:setCurrentDetailTopicCommentList,
+      getCurrentDetailTopicCommentList:getCurrentDetailTopicCommentList,
       refreshSysTopic: _refreshSysTopic,
       refreshTopic: _refreshTopic,
       moreTopic: _moreTopic,
@@ -717,6 +748,7 @@
       getTopicList: _getTopicList,
       shareTopic: _shareTopic,
       getTopicTagList: _getTopicTagList,
+      getADList:getADList,
     };
   }
 

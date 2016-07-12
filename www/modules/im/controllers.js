@@ -13,10 +13,10 @@
   angular.module('com.helporz.im.controllers', ['com.helporz.im.services'])
     .controller('imMessageListController', imMessageListControllerFn)
     .controller('imMessageDetailController', ['$log', '$q', '$scope', '$stateParams',
-      '$ionicScrollDelegate', '$timeout','$ionicPopup', 'imMessageService', 'jimService', 'imMessageStorageService',
-      'userNetService', 'imConversationService', 'UtilsService',
-      function ($log, $q, $scope, $stateParams, $ionicScrollDelegate, $timeout, $ionicPopup ,imMessageService, jimService,
-                imMessageStorageService, userNetService, imConversationService, UtilsService) {
+      '$ionicScrollDelegate', '$timeout', '$ionicPopup', 'imMessageService', 'jimService', 'imMessageStorageService',
+      'userNetService', 'imConversationService', 'UtilsService', 'userUtils',
+      function ($log, $q, $scope, $stateParams, $ionicScrollDelegate, $timeout, $ionicPopup, imMessageService, jimService,
+                imMessageStorageService, userNetService, imConversationService, UtilsService, userUtils) {
 
         //var popupScope = $scope.$new();
         //
@@ -37,6 +37,7 @@
 
         var viewScroll = $ionicScrollDelegate.$getByHandle('messageDetailsScroll');
 
+        $scope.userUtils = userUtils;
 
         // console.log("enter");
         $scope.doRefresh = function () {
@@ -75,6 +76,7 @@
             var lastMessage = $scope.messageDetails[$scope.messageDetails.length - 1];
             $scope.conversation.lastMessage = lastMessage.message;
             $scope.conversation.lastMessageTime = lastMessage.time;
+            $scope.conversation.noReadMessages = 0;
             imConversationService.updateConversation($scope.conversation);
           }
 
@@ -83,54 +85,57 @@
 
         $scope.$on("$ionicView.afterEnter", function () {
 
-          $scope.messageDetails = new Array();
-          imMessageStorageService.getMaxIdForMessage().then(function (maxMessageId) {
-            imMessageStorageService.getMessageList($scope.user.userId, $scope.cUser.userId, maxMessageId, 20).then(function (msgList) {
-              $log.error('getMessageList success,message length:' + msgList.length);
-              $scope.messageDetails = [];
-              for (var index = 0; index < msgList.length; ++index) {
-                $scope.messageDetails.unshift(msgList[index]);
-              }
-
-              // for test
-              if (g_isDebug && ($scope.messageDetails == null || $scope.messageDetails.length == 0)) {
-                for (var index = 0; index < 10; ++index) {
-                  var uMessage = imMessageStorageService.newMessage();
-                  var cMessage = imMessageStorageService.newMessage();
-                  uMessage.userId = $scope.user.userId;
-                  uMessage.cUserId = $scope.cUser.userId;
-                  uMessage.isFromMe = true;
-                  uMessage.id = index * 2;
-                  uMessage.message = 'test';
-                  //uMessage.sendState = 1;
-                  uMessage.time = UtilsService.currentDate2String();
-                  if( index%2== 0) {
-                    uMessage.sendState = -1;
-                  }
-                  else {
-                    uMessage.sendState = 0;
-                  }
-
-                  cMessage.userId = $scope.user.userId;
-                  cMessage.cUserId = $scope.cUser.userId;
-                  cMessage.isFromMe = false;
-                  cMessage.id = index * 2 + 1;
-                  cMessage.message = 'test';
-                  cMessage.time = UtilsService.currentDate2String();
-                  cMessage.sendState = -1;
-
-                  $scope.messageDetails.push(uMessage);
-                  $scope.messageDetails.push(cMessage);
+          if (typeof $scope.messageDetails === 'undefined' || $scope.messageDetails == null || $scope.messageDetails.length == 0) {
+            $scope.messageDetails = new Array();
+            imMessageStorageService.getMaxIdForMessage().then(function (maxMessageId) {
+              imMessageStorageService.getMessageList($scope.user.userId, $scope.cUser.userId, maxMessageId, 20).then(function (msgList) {
+                $log.error('getMessageList success,message length:' + msgList.length);
+                $scope.messageDetails = [];
+                for (var index = 0; index < msgList.length; ++index) {
+                  $scope.messageDetails.unshift(msgList[index]);
                 }
-              }
-              //end for test
 
+                // for test
+                if (g_isDebug && ($scope.messageDetails == null || $scope.messageDetails.length == 0)) {
+                  for (var index = 0; index < 10; ++index) {
+                    var uMessage = imMessageStorageService.newMessage();
+                    var cMessage = imMessageStorageService.newMessage();
+                    uMessage.userId = $scope.user.userId;
+                    uMessage.cUserId = $scope.cUser.userId;
+                    uMessage.isFromMe = true;
+                    uMessage.id = index * 2;
+                    uMessage.message = 'test';
+                    //uMessage.sendState = 1;
+                    uMessage.time = UtilsService.currentDate2String();
+                    if (index % 2 == 0) {
+                      uMessage.sendState = -1;
+                    }
+                    else {
+                      uMessage.sendState = 0;
+                    }
+
+                    cMessage.userId = $scope.user.userId;
+                    cMessage.cUserId = $scope.cUser.userId;
+                    cMessage.isFromMe = false;
+                    cMessage.id = index * 2 + 1;
+                    cMessage.message = 'test';
+                    cMessage.time = UtilsService.currentDate2String();
+                    cMessage.sendState = -1;
+
+                    $scope.messageDetails.push(uMessage);
+                    $scope.messageDetails.push(cMessage);
+                  }
+                }
+                //end for test
+
+              }, function (error) {
+                $log.error(JSON.stringify(error));
+              });
             }, function (error) {
-              $log.error(JSON.stringify(error));
-            });
-          }, function (error) {
-            $log.error(error);
-          })
+              $log.error(error);
+            })
+          }
+
         });
 
         $scope.$on("$ionicView.beforeEnter", function () {
@@ -226,12 +231,12 @@
             messageDetail.id = msgId;
             $scope.messageDetails.push(messageDetail);
             imMessageService.sendMessage($scope.cUser, messageDetail).then(function () {
-              $log.info("发烧消息成功:"+ messageDetail.message);
+              $log.info("发烧消息成功:" + messageDetail.message);
               imMessageStorageService.updateMessageState(messageDetail, 1);
               messageDetail.sendState = 1;
               updateMessageDetailList(messageDetail);
             }, function (error) {
-              $log.info("发烧消息失败:"+ messageDetail.message);
+              $log.info("发烧消息失败:" + messageDetail.message);
               imMessageStorageService.updateMessageState(messageDetail, -1);
               messageDetail.sendState = -1;
               updateMessageDetailList(messageDetail);
@@ -245,11 +250,11 @@
         $scope.reSendPrompt = function (message) {
           var popupScope = $scope.$new();
 
-          popupScope.cancel = function() {
+          popupScope.cancel = function () {
             confirmPopup.close();
           };
 
-          popupScope.ok = function() {
+          popupScope.ok = function () {
             $scope.reSend(message);
             confirmPopup.close();
           }
@@ -315,7 +320,7 @@
               $log.debug('push message to message detail list');
               $scope.messageDetails.push(message);
 
-              $scope.$apply(function() {
+              $scope.$apply(function () {
                 viewScroll.scrollBottom();
               });
 
@@ -411,7 +416,8 @@
     'imConversationService',
     'imMessageStorageService',
     'imMessageService',
-    'userNetService'
+    'userNetService',
+    'userUtils',
   ];
   function imMessageListControllerFn($log, $scope,
                                      $state,
@@ -419,7 +425,8 @@
                                      $timeout,
                                      $ionicPopup,
                                      jimService,
-                                     imConversationService, imMessageStorageService, imMessageService, userNetService) {
+                                     imConversationService,
+                                     imMessageStorageService, imMessageService, userNetService, userUtils) {
     var vm = $scope.vm = {};
     vm.loading = function () {
       $ionicLoading.show({
@@ -491,9 +498,10 @@
     };
 
     vm.conversationDetails = function (conversation) {
-      $state.go("main.im-detail", {
-        "cid": conversation.cUserId,
-      });
+      userUtils.gotoIM(conversation.cUserId);
+      //$state.go("main.im-detail", {
+      //  "cid": conversation.cUserId,
+      //});
     };
 
     $scope.$on("$ionicView.beforeEnter", function () {

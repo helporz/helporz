@@ -697,6 +697,8 @@
     width: 120px; }
   .loading-tpl-icon-text .tpl-text.tpl-text-width-140 {
     width: 140px; }
+  .loading-tpl-icon-text .tpl-text.tpl-text-width-180 {
+    width: 180px; }
 
 .ho-popup {
   background-color: white;
@@ -1418,6 +1420,15 @@
 
 .popup-container.active .popup {
   border-radius: 10px; }
+
+.button-border {
+  border: 1px solid white !important;
+  width: 70px;
+  height: 26px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 22px; }
 
 .login-group-wrapper {
   -webkit-box-align: center;

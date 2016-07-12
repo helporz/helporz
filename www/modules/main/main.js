@@ -197,10 +197,73 @@
           }
         }
       })
+      .state('main.near_im', {
+        url: '/near/im',
+        views: {
+          'near': {
+            templateUrl: 'modules/im/list.html',
+            controller: 'imMessageListController',
+          }
+        }
+      })
+      .state('main.task_im', {
+        url: '/task/im',
+        views: {
+          'task': {
+            templateUrl: 'modules/im/list.html',
+            controller: 'imMessageListController',
+          }
+        }
+      })
+      .state('main.topic-group_im', {
+        url: '/topic-group/im',
+        views: {
+          'topic-group': {
+            templateUrl: 'modules/im/list.html',
+            controller: 'imMessageListController',
+          }
+        }
+      })
       .state('main.im-detail', {
         url:'/me/im-detail/{cid}',
         views: {
           'me': {
+            templateUrl:'modules/im/detail.html',
+            controller:'imMessageDetailController',
+          }
+        }
+      })
+      .state('main.me_im-detail', {
+        url:'/me/im-detail/{cid}',
+        views: {
+          'me': {
+            templateUrl:'modules/im/detail.html',
+            controller:'imMessageDetailController',
+          }
+        }
+      })
+      .state('main.near_im-detail', {
+        url:'/near/im-detail/{cid}',
+        views: {
+          'near': {
+            templateUrl:'modules/im/detail.html',
+            controller:'imMessageDetailController',
+          }
+        }
+      })
+      .state('main.topic-group_im-detail', {
+        url:'/topic-group/im-detail/{cid}',
+        views: {
+          'topic-group': {
+            templateUrl:'modules/im/detail.html',
+            controller:'imMessageDetailController',
+          }
+        }
+      })
+      .state('main.task_im-detail', {
+        url:'/task/im-detail/{cid}',
+        views: {
+          'task': {
             templateUrl:'modules/im/detail.html',
             controller:'imMessageDetailController',
           }
@@ -257,9 +320,36 @@
       })
 
       .state('main.me_user-tasks', {
-        url: '/me/user-tasks',
+        url: '/me/user-tasks/{userId}/{nickname}',
         views: {
           'me': {
+            templateUrl: 'modules/main/details/user-tasks/user-tasks.html',
+            controller: 'mainUserTasksCtrl'
+          }
+        }
+      })
+      .state('main.near_user-tasks', {
+        url: '/near/user-tasks/{userId}/{nickname}',
+        views: {
+          'near': {
+            templateUrl: 'modules/main/details/user-tasks/user-tasks.html',
+            controller: 'mainUserTasksCtrl'
+          }
+        }
+      })
+      .state('main.topic-group_user-tasks', {
+        url: '/topic-group/user-tasks/{userId}/{nickname}',
+        views: {
+          'topic-group': {
+            templateUrl: 'modules/main/details/user-tasks/user-tasks.html',
+            controller: 'mainUserTasksCtrl'
+          }
+        }
+      })
+      .state('main.task_user-tasks', {
+        url: '/task/user-tasks/{userId}/{nickname}',
+        views: {
+          'task': {
             templateUrl: 'modules/main/details/user-tasks/user-tasks.html',
             controller: 'mainUserTasksCtrl'
           }
@@ -274,7 +364,33 @@
           }
         }
       })
-
+      .state('main.near_user-tasks_task-detail', {
+        url: '/near/user-tasks/task-detail/:id',
+        views: {
+          'near': {
+            templateUrl: 'modules/main/near/task-detail/task-detail.html',
+            controller: 'mainNearTaskDetailCtrl'
+          }
+        }
+      })
+      .state('main.topic-group_user-tasks_task-detail', {
+        url: '/topic-group/user-tasks/task-detail/:id',
+        views: {
+          'topic-group': {
+            templateUrl: 'modules/main/near/task-detail/task-detail.html',
+            controller: 'mainNearTaskDetailCtrl'
+          }
+        }
+      })
+      .state('main.task_user-tasks_task-detail', {
+        url: '/task/user-tasks/task-detail/:id',
+        views: {
+          'task': {
+            templateUrl: 'modules/main/near/task-detail/task-detail.html',
+            controller: 'mainNearTaskDetailCtrl'
+          }
+        }
+      })
       .state('main.task', {
         url: '/task',
         views: {
@@ -315,7 +431,7 @@
       })
 
       .state('main.task_task-detail', {
-        url: '/task/task-state/:id',
+        url: '/task/task-detail/:id',
         views: {
           'task': {
             templateUrl: 'modules/main/near/task-detail/task-detail.html',

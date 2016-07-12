@@ -499,8 +499,8 @@
       var sqlArray = new Array();
       sqlArray.push(maxSerialUpdateSql);
       sqlArray.push(saveNoticeMessageListSql);
-      $log.debug('maxSerialUpdateSql:' + maxSerialUpdateSql);
-      $log.debug('saveNoticeMessageListSql:' + saveNoticeMessageListSql);
+      //$log.debug('maxSerialUpdateSql:' + maxSerialUpdateSql);
+      //$log.debug('saveNoticeMessageListSql:' + saveNoticeMessageListSql);
 
       dbService.executeSqlList(sqlArray).then(function () {
         _innerDefer.resolve();
