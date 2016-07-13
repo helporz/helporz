@@ -735,6 +735,36 @@
         return _currentDetailTopicCommentList;
     }
 
+    var getCollectionTopicListByUser = function(pageNum,pageSize) {
+      var _innerDefer = $q.defer();
+      PlaygroundNetService.getCollectionTopicListByUser(pageNum,pageSize).then(function(data) {
+        var topicList = new Array();
+        for (var index = 0; index < data.length; ++index) {
+          topicList.push(preprocessTopic(data[index]));
+        }
+        _innerDefer.resolve(topicList);
+
+      },function(error) {
+        _innerDefer.reject(error);
+      });
+      return _innerDefer.promise;
+    }
+
+    var getOwnTopicListByUser = function(pageNum,pageSize) {
+      var _innerDefer = $q.defer();
+      PlaygroundNetService.getOwnTopicListByUser(0,pageNum,pageSize).then(function(data) {
+        var topicList = new Array();
+        for (var index = 0; index < data.length; ++index) {
+          topicList.push(preprocessTopic(data[index]));
+        }
+        _innerDefer.resolve(topicList);
+
+      },function(error) {
+        _innerDefer.reject(error);
+      });
+      return _innerDefer.promise;
+    }
+
     return {
       initService: _init,
       setCurrentDetailTopic: _setCurrentDetailTopic,
@@ -749,6 +779,8 @@
       shareTopic: _shareTopic,
       getTopicTagList: _getTopicTagList,
       getADList:getADList,
+      getCollectionTopicListByUser:getCollectionTopicListByUser,
+      getOwnTopicListByUser:getOwnTopicListByUser,
     };
   }
 

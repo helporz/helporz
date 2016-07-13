@@ -11,7 +11,7 @@
   </ion-nav-title>
   <ion-content class="has-header rj-stable-content" id="message-detail-content">
     <ion-list class="user-topic topic-detail">
-      <ion-item ng-repeat="topic in vm.topicList" class="topic-item">
+      <ion-item ng-repeat="topic in vm.topicList" class="topic-item" ng-click="vm.go2TopicDetail(topic)">
         <!--<div class="row">-->
 
           <!--<div class="col col-20  col-center">-->
@@ -71,10 +71,11 @@
 
         <div class="div-line"></div>
 
-        <div class="row content-tag-wrap"
-             ng-if="topic.tagInfoList != null && topic.tagInfoList.length > 0">
-          <div class="content-tag" ng-repeat="tag in topic.tagInfoList"> #{{tag.name}}#</div>
-        </div>
+        <!--<div class="row content-tag-wrap"-->
+             <!--ng-if="topic.tagInfoList != null && topic.tagInfoList.length > 0">-->
+          <!--<div class="content-tag" ng-repeat="tag in topic.tagInfoList"> #{{tag.name}}#</div>-->
+        <!--</div>-->
+        <p class="content-tag" ng-if="topic.tagInfoList != null && topic.tagInfoList.length > 0">{{topic.tagInfoList | TagConnector}}</p>
 
         <div class="content-wrap">
           <p ng-bind-html="topic.content" class="auto-wrap font-size-14"></p>
@@ -83,42 +84,51 @@
 
         <div class="row content-wrap" ng-if="topic.imgList != null && topic.imgList.length == 1 ">
           <img class="big-pic blank-right blank-bottom blank-top"
-               ng-src="{{topic.imgList[0]}}" ng-click="vm.showImgs(topic.imgList)">
+               ng-src="{{topic.imgList[0]}}" ng-click="vm.showImgs(topic.imgList,$event)">
         </div>
 
         <div class="row content-wrap" ng-if="topic.imgList != null && topic.imgList.length == 2 ">
           <img class=" mid-pic blank-right blank-bottom blank-top" ng-repeat="imgSrc in topic.imgList"
-               ng-src="{{imgSrc}}" ng-click="vm.showImgs(topic.imgList)">
+               ng-src="{{imgSrc}}" ng-click="vm.showImgs(topic.imgList,$event)">
         </div>
 
         <div class="row content-wrap" ng-if="topic.imgList != null && topic.imgList.length == 3 ">
           <img class=" mini-pic blank-right blank-bottom blank-top" ng-repeat="imgSrc in topic.imgList"
-               ng-src="{{imgSrc}}" ng-click="vm.showImgs(topic.imgList)">
+               ng-src="{{imgSrc}}" ng-click="vm.showImgs(topic.imgList,$event)">
         </div>
 
         <div class="row content-wrap" ng-if="topic.imgList != null && topic.imgList.length == 4 ">
           <div class="col">
             <div class="row ">
               <img class="mini-pic  blank-right blank-bottom blank-top"
-                   ng-src="{{topic.imgList[0]}}" ng-click="vm.showImgs(topic.imgList)">
+                   ng-src="{{topic.imgList[0]}}" ng-click="vm.showImgs(topic.imgList,$event)">
               <img class="mini-pic  blank-right blank-bottom blank-top"
-                   ng-src="{{topic.imgList[1]}}" ng-click="vm.showImgs(topic.imgList)">
+                   ng-src="{{topic.imgList[1]}}" ng-click="vm.showImgs(topic.imgList,$event)">
             </div>
             <div class="row ">
               <img class="mini-pic  blank-right blank-bottom blank-top"
-                   ng-src="{{topic.imgList[2]}}" ng-click="vm.showImgs(topic.imgList)">
+                   ng-src="{{topic.imgList[2]}}" ng-click="vm.showImgs(topic.imgList,$event)">
               <img class="mini-pic  blank-right blank-bottom blank-top"
-                   ng-src="{{topic.imgList[3]}}" ng-click="vm.showImgs(topic.imgList)">
+                   ng-src="{{topic.imgList[3]}}" ng-click="vm.showImgs(topic.imgList,$event)">
             </div>
           </div>
         </div>
 
 
         <div class="row button-list-wrap">
-          <div class="col col-32 button-wrap">
+          <div class="col col-33 button-wrap">
+            <button class="button button-small icon ho-chat-0"
+                    ng-click="vm.go2TopicDetail(topic)">
+              {{topic.commentCount}}
+            </button>
+            <!--<button class="button button-small icon ion-ios-chatboxes-outline"-->
+            <!--ng-if="item.commentCount == 0 "></button>-->
+          </div>
+
+          <div class="col col-33 button-wrap">
             <button class="button button-small icon "
                     ng-class="{true:'ion-ios-heart',false:'ion-ios-heart-outline '}[topic.isFavourite == true]"
-                    ng-click="vm.favouriteToggle(topic)" style="">
+                    ng-click="vm.favouriteToggle(topic,$event)" style="">
               {{topic.favouriteCount}}
             </button>
 
@@ -127,18 +137,11 @@
             <!--{{item.favouriteCount}}-->
             <!--</button>-->
           </div>
-          <div class="col col-32 button-wrap">
-            <button class="button button-small icon ion-ios-redo-outline" ng-click="vm.shareTopic(topic)">分享
+          <div class="col col-33 button-wrap">
+            <button class="button button-small icon ho-share" ng-click="vm.shareTopic(topic,$event)">分享
             </button>
           </div>
-          <div class="col col-32 button-wrap">
-            <button class="button button-small icon ion-ios-chatboxes-outline"
-                    ng-click="vm.go2TopicDetail(topic)">
-              {{topic.commentCount}}
-            </button>
-            <!--<button class="button button-small icon ion-ios-chatboxes-outline"-->
-            <!--ng-if="item.commentCount == 0 "></button>-->
-          </div>
+
 
         </div>
       </ion-item>
