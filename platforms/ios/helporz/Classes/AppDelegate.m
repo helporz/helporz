@@ -30,10 +30,16 @@
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication*)application   didFinishLaunchingWithOptions:(NSDictionary*)launchOptions{ 
+- (BOOL)application:(UIApplication*)application    didFinishLaunchingWithOptions:(NSDictionary*)launchOptions{ 
  	//------------------------------JMessage start----------------------------------- 
     _jmessage = [JMessageHelper new]; 
     [_jmessage initJMessage:launchOptions]; 
+    //------------------------------JMessage end----------------------------------- 
+ 	//------------------------------JMessage start----------------------------------- 
+    
+//JMessage remove code mark; 
+    
+//JMessage remove code mark; 
     //------------------------------JMessage end----------------------------------- 
  	//------------------------------JMessage start----------------------------------- 
     
@@ -50,20 +56,27 @@
     [JPUSHService registerDeviceToken:deviceToken]; 
 
 //JMessage remove code mark; 
+
+//JMessage remove code mark; 
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo { 
     [JPUSHService handleRemoteNotification:userInfo]; 
 
 //JMessage remove code mark; 
+
+//JMessage remove code mark; 
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler { 
     [_jmessage didReceiveRemoteNotification:userInfo];
+//JMessage remove code mark;
 //JMessage remove code mark; 
 }
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification { 
     [JPUSHService showLocalNotificationAtFront:notification identifierKey:nil]; 
+
+//JMessage remove code mark; 
 
 //JMessage remove code mark; 
 }

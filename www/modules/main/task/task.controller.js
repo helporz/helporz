@@ -8,7 +8,7 @@
   angular.module('main.task')
     .controller('mainTaskCtrl', ['$log', '$state', '$ionicLoading', '$ionicActionSheet', '$ionicPopup', 'widgetDelegate', '$ionicScrollDelegate',
       '$scope', 'taskNetService', 'taskUtils', '$timeout', 'intervalCenter', 'NoticeMessageDB', 'NoticeMessageService',
-      'userUtils','IMInterfaceService',
+      'userUtils','IMInterfaceService','$window',
       mainTaskCtrl]);
 
 
@@ -24,7 +24,7 @@
 
   function mainTaskCtrl($log, $state, $ionicLoading, $ionicActionSheet, $ionicPopup, widgetDelegate, $ionicScrollDelegate,
                         $scope, taskNetService, taskUtils, $timeout, intervalCenter, NoticeMessageDB, NoticeMessageService,
-                        userUtils,IMInterfaceService) {
+                        userUtils,IMInterfaceService,$window) {
     var vm = $scope.vm = {};
 
     vm.tabsetSpace = ionic.Platform.isAndroid()? '44px': '64px';
@@ -485,6 +485,9 @@
     };
 
     vm.cb_contact = function ($index) {
+      if(canClick()==false){
+        return;
+      }
       $ionicActionSheet.show({
         titleText: "联系Ta",
         buttons: [
@@ -503,8 +506,9 @@
           }
 
           if (index == 0) {
+            userUtils.gotoIM(user.userId);
           }else if(index==1){
-
+            $window.location.href='tel:'+ user.phoneNo;
           }
 
           return true;
