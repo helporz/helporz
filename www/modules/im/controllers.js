@@ -95,38 +95,38 @@
                   $scope.messageDetails.unshift(msgList[index]);
                 }
 
-                // for test
-                if (g_isDebug && ($scope.messageDetails == null || $scope.messageDetails.length == 0)) {
-                  for (var index = 0; index < 10; ++index) {
-                    var uMessage = imMessageStorageService.newMessage();
-                    var cMessage = imMessageStorageService.newMessage();
-                    uMessage.userId = $scope.user.userId;
-                    uMessage.cUserId = $scope.cUser.userId;
-                    uMessage.isFromMe = true;
-                    uMessage.id = index * 2;
-                    uMessage.message = 'test';
-                    //uMessage.sendState = 1;
-                    uMessage.time = UtilsService.currentDate2String();
-                    if (index % 2 == 0) {
-                      uMessage.sendState = -1;
-                    }
-                    else {
-                      uMessage.sendState = 0;
-                    }
-
-                    cMessage.userId = $scope.user.userId;
-                    cMessage.cUserId = $scope.cUser.userId;
-                    cMessage.isFromMe = false;
-                    cMessage.id = index * 2 + 1;
-                    cMessage.message = 'test';
-                    cMessage.time = UtilsService.currentDate2String();
-                    cMessage.sendState = -1;
-
-                    $scope.messageDetails.push(uMessage);
-                    $scope.messageDetails.push(cMessage);
-                  }
-                }
-                //end for test
+                //// for test
+                //if (g_isDebug && ($scope.messageDetails == null || $scope.messageDetails.length == 0)) {
+                //  for (var index = 0; index < 10; ++index) {
+                //    var uMessage = imMessageStorageService.newMessage();
+                //    var cMessage = imMessageStorageService.newMessage();
+                //    uMessage.userId = $scope.user.userId;
+                //    uMessage.cUserId = $scope.cUser.userId;
+                //    uMessage.isFromMe = true;
+                //    uMessage.id = index * 2;
+                //    uMessage.message = 'test';
+                //    //uMessage.sendState = 1;
+                //    uMessage.time = UtilsService.currentDate2String();
+                //    if (index % 2 == 0) {
+                //      uMessage.sendState = -1;
+                //    }
+                //    else {
+                //      uMessage.sendState = 0;
+                //    }
+                //
+                //    cMessage.userId = $scope.user.userId;
+                //    cMessage.cUserId = $scope.cUser.userId;
+                //    cMessage.isFromMe = false;
+                //    cMessage.id = index * 2 + 1;
+                //    cMessage.message = 'test';
+                //    cMessage.time = UtilsService.currentDate2String();
+                //    cMessage.sendState = -1;
+                //
+                //    $scope.messageDetails.push(uMessage);
+                //    $scope.messageDetails.push(cMessage);
+                //  }
+                //}
+                ////end for test
 
               }, function (error) {
                 $log.error(JSON.stringify(error));
@@ -506,38 +506,38 @@
 
     $scope.$on("$ionicView.beforeEnter", function () {
       vm.imConversations = imConversationService.getConversationList();
-      if (g_isDebug && (vm.imConversations == null || vm.imConversations.length == 0 )) {
-        vm.imConversations = new Array();
-        var conversation = {
-          "id": 6,
-          "userId": "62",
-          "isTop": 0,
-          "showHints": 0,
-          "noReadMessages": 0,
-          "cUserId": "61",
-          "cUserNickname": null,
-          "cUserAvatar": "null",
-          "created": "2016-07-01 20:32:20",
-          "lastMessage": "yfgcfhgguijgij",
-          "lastMessageTime": "2016-07-02 15:32:41"
-        };
-        vm.imConversations.push(conversation);
-
-        conversation = {
-          "id": 7,
-          "userId": "62",
-          "isTop": 0,
-          "showHints": 0,
-          "noReadMessages": 0,
-          "cUserId": "61",
-          "cUserNickname": null,
-          "cUserAvatar": "null",
-          "created": "2016-07-01 20:32:20",
-          "lastMessage": "yfgcfhgguijgij",
-          "lastMessageTime": "2016-07-02 15:32:41"
-        };
-        vm.imConversations.push(conversation);
-      }
+      //if (g_isDebug && (vm.imConversations == null || vm.imConversations.length == 0 )) {
+      //  vm.imConversations = new Array();
+      //  var conversation = {
+      //    "id": 6,
+      //    "userId": "62",
+      //    "isTop": 0,
+      //    "showHints": 0,
+      //    "noReadMessages": 0,
+      //    "cUserId": "61",
+      //    "cUserNickname": null,
+      //    "cUserAvatar": "null",
+      //    "created": "2016-07-01 20:32:20",
+      //    "lastMessage": "yfgcfhgguijgij",
+      //    "lastMessageTime": "2016-07-02 15:32:41"
+      //  };
+      //  vm.imConversations.push(conversation);
+      //
+      //  conversation = {
+      //    "id": 7,
+      //    "userId": "62",
+      //    "isTop": 0,
+      //    "showHints": 0,
+      //    "noReadMessages": 0,
+      //    "cUserId": "61",
+      //    "cUserNickname": null,
+      //    "cUserAvatar": "null",
+      //    "created": "2016-07-01 20:32:20",
+      //    "lastMessage": "yfgcfhgguijgij",
+      //    "lastMessageTime": "2016-07-02 15:32:41"
+      //  };
+      //  vm.imConversations.push(conversation);
+      //}
 
       $log.info('conversation list:' + JSON.stringify(vm.imConversations));
       vm.popup = {

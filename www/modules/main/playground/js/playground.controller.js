@@ -87,13 +87,13 @@
 
   }
 
-  topicGroupControllerFn.$inject = ['$q','$scope', '$stateParams', '$state', '$log', '$timeout', '$ionicActionSheet',
-    '$ionicPopover', '$ionicModal','$ionicLoading', 'topicService', 'topicGroupService', 'filterTopicService', 'topicBlacklistService',
-    'favouriteTopicService', 'topicModalService', 'impressUtils', 'userUtils','IMInterfaceService','PlaygroundNetService'];
-  function topicGroupControllerFn($q,$scope, $stateParams, $state, $log, $timeout, $ionicActionSheet,
-                                  $ionicPopover, $ionicModal,$ionicLoading, topicService, topicGroupService, filterTopicService,
+  topicGroupControllerFn.$inject = ['$q', '$scope', '$stateParams', '$state', '$log', '$timeout', '$ionicActionSheet',
+    '$ionicPopover', '$ionicModal', '$ionicLoading', 'topicService', 'topicGroupService', 'filterTopicService', 'topicBlacklistService',
+    'favouriteTopicService', 'topicModalService', 'impressUtils', 'userUtils', 'IMInterfaceService', 'PlaygroundNetService'];
+  function topicGroupControllerFn($q, $scope, $stateParams, $state, $log, $timeout, $ionicActionSheet,
+                                  $ionicPopover, $ionicModal, $ionicLoading, topicService, topicGroupService, filterTopicService,
                                   topicBlacklistService, favouriteTopicService, topicModalService, impressUtils, userUtils,
-                                  IMInterfaceService,PlaygroundNetService) {
+                                  IMInterfaceService, PlaygroundNetService) {
     var vm = $scope.vm = {};
     if (typeof $stateParams.groupId === 'undefined' || $stateParams.groupId == null) {
       vm.groupId = 1;
@@ -111,12 +111,12 @@
 
     vm.adList = topicService.getADList();
 
-    vm.gotoAD = function(ad) {
+    vm.gotoAD = function (ad) {
       PlaygroundNetService.getTopicDetailInfo(ad.actionUrl, 0, 0, 10).then(function (res) {
         topicService.setCurrentDetailTopic(res.topic);
         topicService.setCurrentDetailTopicCommentList(res.commentList);
         $state.go('main.topic-group_topic-detail', {'topicId': ad.actionUrl});
-      },function(error) {
+      }, function (error) {
 
       });
 
@@ -148,12 +148,12 @@
       vm.popover.remove();
     });
 
-    $scope.$on('$ionicView.beforeEnter',function() {
-      if( vm.userTopicList == null || vm.userTopicList.length == 0 ) {
+    $scope.$on('$ionicView.beforeEnter', function () {
+      if (vm.userTopicList == null || vm.userTopicList.length == 0) {
         $ionicLoading.show();
-        vm.doRefresh().then(function() {
+        vm.doRefresh().then(function () {
           $ionicLoading.hide();
-        },function() {
+        }, function () {
           $ionicLoading.hide();
         });
       }
@@ -190,11 +190,11 @@
       vm.hidePopover();
       var publishScope = $scope.$new();
 
-      publishScope.onRefresh = function() {
+      publishScope.onRefresh = function () {
         $ionicLoading.show();
-        vm.doRefresh().then(function() {
+        vm.doRefresh().then(function () {
           $ionicLoading.hide();
-        },function() {
+        }, function () {
           $ionicLoading.hide();
         });
       }
@@ -243,7 +243,11 @@
     //  return true;
     //}
 
-    vm.showImgs = function (imgList) {
+    vm.showImgs = function (imgList, event) {
+      if (event != null) {
+        event.stopPropagation();
+      }
+
       var modalScope = $scope.$new();
       var imgItemList = new Array();
       for (var index = 0; index < imgList.length; ++index) {
@@ -260,11 +264,18 @@
       });
     }
 
-    vm.shareTopic = function (topic) {
+    vm.shareTopic = function (topic, event) {
+      if (event != null) {
+        event.stopPropagation();
+      }
       topicService.shareTopic(topic);
     }
 
-    vm.favouriteToggle = function (topic) {
+    vm.favouriteToggle = function (topic, event) {
+      if (event != null) {
+        event.stopPropagation();
+      }
+
       if (topic.isFavourite == false) {
         favouriteTopicService.addFavouriteTopic(topic.id, topic.groupId, topic.created).then(function (topicId) {
           topic.isFavourite = true;
@@ -368,6 +379,7 @@
     vm.filterTopic = function (topic) {
       filterTopicService.addFilterTopic(topic.id, topic.groupId, topic.created).then(function (topicId) {
         topic.isShow = false;
+
       }, function (exception) {
         $log.error(exception);
       });
@@ -383,7 +395,11 @@
       });
     }
 
-    vm.moreOpt = function (topic) {
+    vm.moreOpt = function (topic, event) {
+      if (event != null) {
+        event.stopPropagation();
+      }
+
       $ionicActionSheet.show({
         titleText: '选择',
         buttons: [
@@ -487,16 +503,19 @@
     //  }
     //}];
 
-    vm.cb_gotoUser = function (userId) {
+    vm.cb_gotoUser = function (userId, event) {
+      if (event != null) {
+        event.stopPropagation();
+      }
       userUtils.gotoUser(userId, 'topic-group');
     }
   }
 
 
-  topicPublishControllerFn.$inject = ['$timeout','$scope', '$stateParams', '$state', '$log', '$ionicPopup', '$ionicActionSheet',
+  topicPublishControllerFn.$inject = ['$timeout', '$scope', '$stateParams', '$state', '$log', '$ionicPopup', '$ionicActionSheet',
     '$cordovaCamera', '$cordovaImagePicker', '$ionicModal', '$q', 'topicModalService', 'PlaygroundNetService', 'uploadService',
     'userLoginInfoService', 'topicService'];
-  function topicPublishControllerFn($timeout,$scope, $stateParams, $state, $log, $ionicPopup, $ionicActionSheet,
+  function topicPublishControllerFn($timeout, $scope, $stateParams, $state, $log, $ionicPopup, $ionicActionSheet,
                                     $cordovaCamera, $cordovaImagePicker, $ionicModal, $q, topicModalService,
                                     PlaygroundNetService, uploadService, userLoginInfoService, topicService) {
     var self = this;
@@ -799,7 +818,7 @@
         $q.all(pArray).then(function () {
           alert('发布话题成功');
           self.closeModal();
-          $timeout(function() {
+          $timeout(function () {
             $scope.onRefresh();
           });
         }, function () {
@@ -812,10 +831,10 @@
 
   }
 
-  topicDetailControllerFn.$inject = ['$ionicModal','$scope', '$stateParams', '$state', '$log', '$timeout', '$ionicActionSheet', '$q','$ionicLoading',
+  topicDetailControllerFn.$inject = ['$ionicModal', '$scope', '$stateParams', '$state', '$log', '$timeout', '$ionicActionSheet', '$q', '$ionicLoading',
     'topicService', 'PlaygroundNetService', 'collectionTopicService', 'topicBlacklistService', 'favouriteTopicService',
     'impressUtils', 'userUtils', 'operationUtils'];
-  function topicDetailControllerFn($ionicModal,$scope, $stateParams, $state, $log, $timeout, $ionicActionSheet, $q,$ionicLoading,
+  function topicDetailControllerFn($ionicModal, $scope, $stateParams, $state, $log, $timeout, $ionicActionSheet, $q, $ionicLoading,
                                    topicService, PlaygroundNetService, collectionTopicService, topicBlacklistService, favouriteTopicService,
                                    impressUtils, userUtils, operationUtils) {
     var vm = $scope.vm = {};
@@ -825,8 +844,8 @@
 
     $ionicLoading.show();
     vm.topic = topicService.getCurrentDetailTopic();
-    if( vm.topic == null ) {
-      vm.topic = {id:vm.topicId,poster:{}};
+    if (vm.topic == null) {
+      vm.topic = {id: vm.topicId, poster: {}};
     }
 
     topicService.setCurrentDetailTopic(null);
@@ -840,10 +859,10 @@
     vm.collectionTopicService = collectionTopicService;
 
     $scope.$on("$ionicView.beforeEnter", function () {
-      if( vm.topicCommentList != null && vm.topicCommentList.length == 0) {
-        vm.doRefresh().then(function() {
+      if (vm.topicCommentList != null && vm.topicCommentList.length == 0) {
+        vm.doRefresh().then(function () {
           $ionicLoading.hide();
-        },function() {
+        }, function () {
           $ionicLoading.hide();
         });
       }
@@ -920,13 +939,13 @@
 
       $ionicLoading.show();
       PlaygroundNetService.addTopicComment(vm.topic.id, vm.sendContent, commentSessionId, replyOtherCommentId, replyUserId).then(function (res) {
-        vm.doRefresh().then(function() {
+        vm.doRefresh().then(function () {
           $timeout(function () {
             $scope.$apply();
             $ionicLoading.hide();
           })
 
-        },function() {
+        }, function () {
           $ionicLoading.hide();
         });
         vm.sendContent = null;
@@ -1140,25 +1159,28 @@
   }
 
   ownTopicListControllerFn.$inject = ['$scope', '$state', '$log', '$timeout', '$ionicActionSheet', '$q',
-    'topicService', 'PlaygroundNetService', 'userUtils'];
+    'topicService', 'PlaygroundNetService', 'userUtils', 'favouriteTopicService'];
   function ownTopicListControllerFn($scope, $state, $log, $timeout, $ionicActionSheet, $q,
-                                    topicService, PlaygroundNetService, userUtils) {
+                                    topicService, PlaygroundNetService, userUtils, favouriteTopicService) {
     var vm = $scope.vm = {};
     vm.pageSize = 20;
     vm.canLoadMoreData = false;
-    $scope.$on("$ionicView.afterEnter", function () {
+    $scope.$on("$ionicView.beforeEnter", function () {
       vm.topicList = null;
       vm.loadMoreTopicList();
     });
 
-    vm.cb_gotoUser = function (userId) {
+    vm.cb_gotoUser = function (userId, event) {
+      if (event != null) {
+        event.stopPropagation();
+      }
       userUtils.gotoUser(userId, 'topic-group');
     }
 
     vm.loadMoreTopicList = function () {
       var pageNum = (vm.topicList != null) ? Math.ceil(vm.topicList.length / vm.pageSize) + 1 : 1;
 
-      PlaygroundNetService.getOwnTopicListByUser(0, pageNum, vm.pageSize).then(function (res) {
+      topicService.getOwnTopicListByUser(0, pageNum, vm.pageSize).then(function (res) {
         if (vm.topicList == null) {
           vm.topicList = res;
         }
@@ -1189,28 +1211,86 @@
       topicService.setCurrentDetailTopic(topic);
       $state.go('main.topic-group_topic-detail', {'topicId': topic.id});
     }
+
+    vm.showImgs = function (imgList, event) {
+      if (event != null) {
+        event.stopPropagation();
+      }
+
+      var modalScope = $scope.$new();
+      var imgItemList = new Array();
+      for (var index = 0; index < imgList.length; ++index) {
+        var item = {imgSrc: imgList[index]};
+        imgItemList.push(item);
+      }
+      modalScope.imgList = imgItemList;
+      $ionicModal.fromTemplateUrl('modules/main/playground/templates/show-imgs.html', {
+        scope: modalScope,
+        animation: "slide-in-up"
+      }).then(function (modal) {
+        modalScope.modal = modal;
+        modal.show();
+      });
+    }
+
+    vm.shareTopic = function (topic, event) {
+      if (event != null) {
+        event.stopPropagation();
+      }
+      topicService.shareTopic(topic);
+    }
+
+    vm.favouriteToggle = function (topic, event) {
+      if (event != null) {
+        event.stopPropagation();
+      }
+
+      if (topic.isFavourite == false) {
+        favouriteTopicService.addFavouriteTopic(topic.id, topic.groupId, topic.created).then(function (topicId) {
+          topic.isFavourite = true;
+          ++topic.favouriteCount;
+        }, function (exception) {
+          $log.error(exception);
+        })
+      }
+      else {
+        favouriteTopicService.deleteFavouriteTopic(topic.id, topic.groupId, topic.created).then(function (topicId) {
+          topic.isFavourite = false;
+          --topic.favouriteCount;
+        }, function (exception) {
+          $log.error(exception);
+        })
+      }
+    }
+
   }
 
-  collectionTopicListControllerFn.$inject = ['$scope', '$state', '$log', '$timeout', '$ionicActionSheet', '$q',
-    'topicService', 'PlaygroundNetService', 'userUtils'];
-  function collectionTopicListControllerFn($scope, $state, $log, $timeout, $ionicActionSheet, $q,
-                                           topicService, PlaygroundNetService, userUtils) {
+  collectionTopicListControllerFn.$inject = ['$ionicModal', '$scope', '$state', '$log', '$timeout', '$ionicActionSheet', '$q',
+    'topicService', 'PlaygroundNetService', 'userUtils', 'favouriteTopicService', 'filterTopicService', 'topicBlacklistService',
+    'collectionTopicService'];
+  function collectionTopicListControllerFn($ionicModal, $scope, $state, $log, $timeout, $ionicActionSheet, $q,
+                                           topicService, PlaygroundNetService, userUtils, favouriteTopicService,
+                                           filterTopicService, topicBlacklistService, collectionTopicService) {
     var vm = $scope.vm = {};
     vm.pageSize = 20;
     vm.canLoadMoreData = false;
-    $scope.$on("$ionicView.afterEnter", function () {
+    $scope.$on("$ionicView.beforeEnter", function () {
       vm.topicList = null;
       vm.loadMoreTopicList();
     });
 
-    vm.cb_gotoUser = function (userId) {
+    vm.cb_gotoUser = function (userId, event) {
+      if (event != null) {
+        event.stopPropagation();
+      }
+
       userUtils.gotoUser(userId, 'topic-group');
     }
 
     vm.loadMoreTopicList = function () {
       var pageNum = (vm.topicList != null) ? Math.ceil(vm.topicList.length / vm.pageSize) + 1 : 1;
 
-      PlaygroundNetService.getCollectionTopicListByUser(pageNum, vm.pageSize).then(function (res) {
+      topicService.getCollectionTopicListByUser(pageNum, vm.pageSize).then(function (res) {
         if (vm.topicList == null) {
           vm.topicList = res;
         }
@@ -1240,6 +1320,114 @@
     vm.go2TopicDetail = function (topic) {
       topicService.setCurrentDetailTopic(topic);
       $state.go('main.topic-group_topic-detail', {'topicId': topic.id});
+    }
+
+    vm.showImgs = function (imgList, event) {
+      if (event != null) {
+        event.stopPropagation();
+      }
+
+      var modalScope = $scope.$new();
+      var imgItemList = new Array();
+      for (var index = 0; index < imgList.length; ++index) {
+        var item = {imgSrc: imgList[index]};
+        imgItemList.push(item);
+      }
+      modalScope.imgList = imgItemList;
+      $ionicModal.fromTemplateUrl('modules/main/playground/templates/show-imgs.html', {
+        scope: modalScope,
+        animation: "slide-in-up"
+      }).then(function (modal) {
+        modalScope.modal = modal;
+        modal.show();
+      });
+    }
+
+    vm.shareTopic = function (topic, event) {
+      if (event != null) {
+        event.stopPropagation();
+      }
+      topicService.shareTopic(topic);
+    }
+
+    vm.favouriteToggle = function (topic, event) {
+      if (event != null) {
+        event.stopPropagation();
+      }
+
+      if (topic.isFavourite == false) {
+        favouriteTopicService.addFavouriteTopic(topic.id, topic.groupId, topic.created).then(function (topicId) {
+          topic.isFavourite = true;
+          ++topic.favouriteCount;
+        }, function (exception) {
+          $log.error(exception);
+        })
+      }
+      else {
+        favouriteTopicService.deleteFavouriteTopic(topic.id, topic.groupId, topic.created).then(function (topicId) {
+          topic.isFavourite = false;
+          --topic.favouriteCount;
+        }, function (exception) {
+          $log.error(exception);
+        })
+      }
+    }
+
+    vm.filterTopic = function (topic) {
+      filterTopicService.addFilterTopic(topic.id, topic.groupId, topic.created).then(function (topicId) {
+        topic.isShow = false;
+        collectionTopicService.cancelCollectionTopic(topic.id);
+      }, function (exception) {
+        $log.error(exception);
+      });
+      //$log.info("add topic " + topicId + " to filter list");
+    }
+
+    vm.addTopic2BlackList = function (topic) {
+      //$log.info("add topic " + topicId + " to black list");
+      topicBlacklistService.addTopicBlacklist(topic.id).then(function (topicId) {
+        topic.isShow = false;
+        collectionTopicService.cancelCollectionTopic(topic.id);
+      }, function (exception) {
+        $log.error(exception);
+      });
+    }
+
+    vm.moreOpt = function (topic, event) {
+      if (event != null) {
+        event.stopPropagation();
+      }
+
+      $ionicActionSheet.show({
+        titleText: '选择',
+        buttons: [
+          {
+            text: '不想看到本条目'
+          },
+          {
+            text: '举报'
+          },
+        ],
+        //destructiveText: '删除',
+        cancelText: '取消',
+        cancel: function () {
+          console.log('CANCELLED');
+        },
+        buttonClicked: function (index) {
+          console.log('BUTTON CLICKED', index);
+          if (index == 0) {
+            vm.filterTopic(topic);
+          }
+          else if (index == 1) {
+            vm.addTopic2BlackList(topic);
+          }
+          return true;
+        },
+        //destructiveButtonClicked: function () {
+        //  console.log('DESTRUCT');
+        //  return true;
+        //}
+      });
     }
   }
 
@@ -1293,6 +1481,8 @@
       topicService.setCurrentDetailTopic(topic);
       $state.go('main.topic-group_topic-detail', {'topicId': topic.id});
     }
+
+
   }
 
   myMessageListControllerFn.$inject = ['$scope', '$state', '$log', '$timeout', '$ionicActionSheet', '$q',
@@ -1349,10 +1539,10 @@
   }
 
   //////////////////////////////////////////////////
-  function TagConnector(){
+  function TagConnector() {
     var filter = function (data) {
       var ret = '';
-      for(var i in data) {
+      for (var i in data) {
         ret += '#' + data[i].name + '#';
         ret += '  ';
       }

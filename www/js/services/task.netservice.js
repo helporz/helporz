@@ -92,6 +92,7 @@
     }
 
     var _commentByPoster = function (taskId, commentLevel, comment, tagList,imgList,audioList) {
+      $log.debug("commentByPoster imgList:" + JSON.stringify(imgList));
       var imgCount = imgList.length;
       var audioCount = audioList.length;
       var data = {
@@ -108,7 +109,7 @@
           var promiseArray = new Array();
           if( imgList.length > 0 ) {
             for(var imgIndex = 0; imgIndex < imgList.length; ++imgIndex) {
-              var imgPromise = _uploadTaskCommentImgByPoster(vm.taskId,imgList[imgIndex]);
+              var imgPromise = _uploadTaskCommentImgByPoster(taskId,imgList[imgIndex]);
               if( imgPromise != null ) {
                 promiseArray.push(imgPromise);
               }
@@ -117,7 +118,7 @@
 
           if( audioList.length > 0) {
             for( var audioIndex = 0; audioIndex < audioList.length; ++audioIndex) {
-              var audioPromise = _uploadTaskCommentAudioByPoster(vm.taskId,audioList[audioIndex]);
+              var audioPromise = _uploadTaskCommentAudioByPoster(taskId,audioList[audioIndex]);
               if( imgPromise != null ) {
                 promiseArray.push(imgPromise);
               }
@@ -143,6 +144,7 @@
     }
 
     var _commentByAcceptor = function (taskId, commentLevel, comment, tagList,imgList,audioList) {
+      $log.debug("commentByAcceptor imgList:" + JSON.stringify(imgList));
       var imgCount = imgList.length;
       var audioCount = audioList.length;
       var data = {
@@ -158,7 +160,7 @@
           var promiseArray = new Array();
           if( imgList.length > 0 ) {
             for(var imgIndex = 0; imgIndex < imgList.length; ++imgIndex) {
-              var imgPromise = _uploadTaskCommentImgByAcceptor(vm.taskId,imgList[imgIndex]);
+              var imgPromise = _uploadTaskCommentImgByAcceptor(taskId,imgList[imgIndex]);
               if( imgPromise != null ) {
                 promiseArray.push(imgPromise);
               }
@@ -167,7 +169,7 @@
 
           if( audioList.length > 0) {
             for( var audioIndex = 0; audioIndex < audioList.length; ++audioIndex) {
-              var audioPromise = _uploadTaskCommentAudioByAcceptor(vm.taskId,audioList[audioIndex]);
+              var audioPromise = _uploadTaskCommentAudioByAcceptor(taskId,audioList[audioIndex]);
               if( imgPromise != null ) {
                 promiseArray.push(imgPromise);
               }

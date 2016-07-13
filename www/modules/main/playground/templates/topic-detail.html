@@ -115,18 +115,18 @@
       </div>
 
       <div class="row button-list-wrap">
-        <div class="col col-25 button-wrap">
-          <button class="button button-small icon ion-ios-eye-outline">
-            {{vm.topic.accessCount}}
-          </button>
-        </div>
+        <!--<div class="col col-25 button-wrap">-->
+          <!--<button class="button button-small icon ion-ios-eye-outline">-->
+            <!--{{vm.topic.accessCount}}-->
+          <!--</button>-->
+        <!--</div>-->
 
-        <div class="col col-25 button-wrap">
-          <button class="button button-small icon ion-ios-chatboxes-outline">
+        <div class="col col-33 button-wrap">
+          <button class="button button-small icon ho-chat-0">
             {{vm.topic.commentCount}}
           </button>
         </div>
-        <div class="col col-25 button-wrap">
+        <div class="col col-33 button-wrap">
           <button class="button button-small icon "
                   ng-class="{true:'ion-ios-heart favourite',false:'ion-ios-heart-outline '}[vm.topic.isFavourite == true]"
                   ng-click="vm.favouriteToggle()">
@@ -134,10 +134,9 @@
           </button>
 
         </div>
-        <div class="col col-25 button-wrap">
-          <button class="button button-small icon ion-ios-redo-outline"
+        <div class="col col-33 button-wrap">
+          <button class="button button-small icon ho-share"
                   ng-click="vm.topicService.shareTopic(vm.topic)">
-            {{vm.topic.shareCount}}
           </button>
         </div>
 
