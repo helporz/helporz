@@ -1,1 +1,570 @@
-!function(){"use strict";function e(e,s,n,t,i,o,r,a,c,l,u,g){var d=s.vm={};d.loading=function(){t.show({template:"正在加载数据"})},d.hideLoading=function(){t.hide()},s.user=u.cache.selfInfo,console.log("im message list controller"),d.popupConversationOptions=function(e){d.popup.index=d.imConversations.indexOf(e),d.popup.optionsPopup=o.show({templateUrl:"modules/im/popup.html",scope:s}),d.popup.isPopup=!0},d.markConversation=function(){var e=d.popup.index,s=d.imConversations[e];s.showHints?(s.showHints=!1,s.noReadMessages=0):(s.showHints=!0,s.noReadMessages=1),d.imConversations[e]=s,d.popup.optionsPopup.close(),d.popup.isPopup=!1,a.updateConversation(s)},d.deleteConversation=function(){var s=d.popup.index,n=d.imConversations[s];d.imConversations.splice(s,1),d.popup.optionsPopup.close(),d.popup.isPopup=!1,a.deleteConversation(n).then(function(){return e.info("完成删除会话：userId(#userId#) cUserId(#cUserId#)".replace("#userId#",n.userId).replace("#cUserId#",n.cUserId)),c.deleteMessageList(n.userId,n.cUserId)}).then(function(){e.info("我那层删除会话中的所有消息：userId(#userId#) cUserId(#cUserId#)".replace("#userId#",n.userId).replace("#cUserId#",n.cUserId))})},d.topConversation=function(){var e=d.popup.index,s=d.imConversations[e];s.isTop?s.isTop=0:s.isTop=(new Date).getTime(),d.popup.optionsPopup.close(),d.popup.isPopup=!1,a.updateConversation(s)},d.conversationDetails=function(e){g.gotoIM(e.cUserId)},s.$on("$ionicView.beforeEnter",function(){if(d.imConversations=a.getConversationList(),g_isDebug&&(null==d.imConversations||0==d.imConversations.length)){d.imConversations=new Array;var s={id:6,userId:"62",isTop:0,showHints:0,noReadMessages:0,cUserId:"61",cUserNickname:null,cUserAvatar:"null",created:"2016-07-01 20:32:20",lastMessage:"yfgcfhgguijgij",lastMessageTime:"2016-07-02 15:32:41"};d.imConversations.push(s),s={id:7,userId:"62",isTop:0,showHints:0,noReadMessages:0,cUserId:"61",cUserNickname:null,cUserAvatar:"null",created:"2016-07-01 20:32:20",lastMessage:"yfgcfhgguijgij",lastMessageTime:"2016-07-02 15:32:41"},d.imConversations.push(s)}e.info("conversation list:"+JSON.stringify(d.imConversations)),d.popup={isPopup:!1,index:0}});var p={onAddConversation:function(e){e.userId==s.user.userId&&(d.imConversations.push(e),s.$$phase||s.$apply())}};l.registerConversationObserver("imMessageListController",p),s.$on("$ionicView.beforeLeave",function(){l.unregisterConversationObserver("imMessageListController")})}angular.module("com.helporz.im",["com.helporz.im.controllers","com.helporz.im.services","components.widgets.hoBottomInput"]),angular.module("com.helporz.im.controllers",["com.helporz.im.services"]).controller("imMessageListController",e).controller("imMessageDetailController",["$log","$q","$scope","$stateParams","$ionicScrollDelegate","$timeout","$ionicPopup","imMessageService","jimService","imMessageStorageService","userNetService","imConversationService","UtilsService","userUtils",function(e,s,n,t,i,o,r,a,c,l,u,g,d,p){function m(s){var t=l.newMessage();t.userId=s.userId,t.cUserId=s.userId,t.time=s.time,t.isFromMe=s.isFromMe,t.type=s.type,t.message=s.message,t.id=s.id,t.sendState=s.sendState;for(var i=n.messageDetails.length-1;i>=0;--i){var o=n.messageDetails[i];if(e.info("message:"+s.message+" time:"+t.time),e.info("m content:"+o.msg+" time:"+o.time),o.id===t.id){console.log("更新scope messageDetail"),n.messageDetails.splice(i,1,t),v.scrollBottom(),n.$$phase||n.$apply();break}}}function f(s){for(var t=n.messageDetails.length-1;t>=0;--t){var i=n.messageDetails[t];if(e.info("message:"+s.message+" time:"+s.time),e.info("m content:"+i.msg+" time:"+i.time),i.id===s.id){n.messageDetails.splice(t,1);break}}}var v=i.$getByHandle("messageDetailsScroll");n.userUtils=p,n.doRefresh=function(){var s=0;null!==n.messageDetails&&n.messageDetails.length>0&&(s=n.messageDetails[0].id-1),s>0&&l.getMessageList(n.user.id,n.cUser.id,s,5).then(function(e){for(var s=0;s<e.length;++s)n.messageDetails.unshift(e[s]);n.messageNum=n.messageDetails.length,n.$broadcast("scroll.refreshComplete")},function(s){e.error(s),n.$broadcast("scroll.refreshComplete")})},n.$on("$ionicView.beforeLeave",function(){if(a.exitConversation(n.cUser),null!=n.messageDetails&&n.messageDetails.length>0){var e=n.messageDetails[n.messageDetails.length-1];n.conversation.lastMessage=e.message,n.conversation.lastMessageTime=e.time,n.conversation.noReadMessages=0,g.updateConversation(n.conversation)}a.unregisterMsgObserver("imMessageDetailController")}),n.$on("$ionicView.afterEnter",function(){"undefined"!=typeof n.messageDetails&&null!=n.messageDetails&&0!=n.messageDetails.length||(n.messageDetails=new Array,l.getMaxIdForMessage().then(function(s){l.getMessageList(n.user.userId,n.cUser.userId,s,20).then(function(s){e.error("getMessageList success,message length:"+s.length),n.messageDetails=[];for(var t=0;t<s.length;++t)n.messageDetails.unshift(s[t]);if(g_isDebug&&(null==n.messageDetails||0==n.messageDetails.length))for(var t=0;t<10;++t){var i=l.newMessage(),o=l.newMessage();i.userId=n.user.userId,i.cUserId=n.cUser.userId,i.isFromMe=!0,i.id=2*t,i.message="test",i.time=d.currentDate2String(),t%2==0?i.sendState=-1:i.sendState=0,o.userId=n.user.userId,o.cUserId=n.cUser.userId,o.isFromMe=!1,o.id=2*t+1,o.message="test",o.time=d.currentDate2String(),o.sendState=-1,n.messageDetails.push(i),n.messageDetails.push(o)}},function(s){e.error(JSON.stringify(s))})},function(s){e.error(s)}))}),n.$on("$ionicView.beforeEnter",function(){if(n.user=u.cache.selfInfo,e.info("currentUser info:"+JSON.stringify(n.user)),e.info("userinfo cache:"+JSON.stringify(u.cache.userInfo)),n.cUser=u.cache.userInfo[t.cid],n.conversation=g.getConversation(n.user.userId,t.cid),null==n.conversation&&null!=n.cUser){var s=l.newConversation();s.userId=n.user.userId,s.cUserId=n.cUser.userId,s.cUserNickname=n.cUser.nickname,s.cUerLoginName=n.cUser.loginName,s.cUserAvatar=n.cUser.avatar,g.addConversation(s),n.conversation=s}else null==n.cUser&&null!=n.conversation?(n.cUser={},n.cUser.userId=n.conversation.cUserId,n.cUser.nickname=n.conversation.cUserNickname,n.cUser.loginName=n.conversation.cUserLoginName,n.cUser.avatar=n.conversation.cUserAvatar):null==n.cUser&&null==n.conversation&&g_isDebug&&alert("im 模块无法获取联系人用户信息");e.info("cUser info:"+JSON.stringify(n.cUser)),a.enterConversation(n.cUser),v.scrollBottom()}),n.sendMessage=function(s){e.info("send message:"+n.sendContent);var t=l.newMessage();t.userId=n.user.userId,t.cUserId=n.cUser.userId,t.time=d.currentDate2String(),t.isFromMe=!0,t.type="text",t.message=n.sendContent,t.sentState=0,n.sendContent="",e.info("sendMessage:addMessage to db:"+JSON.stringify(t)),l.addMessage(t).then(function(s){t.id=s,n.messageDetails.push(t),a.sendMessage(n.cUser,t).then(function(){e.info("发烧消息成功:"+t.message),l.updateMessageState(t,1),t.sendState=1,m(t)},function(s){e.info("发烧消息失败:"+t.message),l.updateMessageState(t,-1),t.sendState=-1,m(t)})},function(s){e.error(s)})},n.reSendPrompt=function(e){var s=n.$new();s.cancel=function(){t.close()},s.ok=function(){n.reSend(e),t.close()};var t=r.show({templateUrl:"modules/im/resend-confirm-popup.html",title:null,subTitle:null,scope:s})},n.reSend=function(s){f(s),l.deleteMessage(s);var t=l.newMessage();t.userId=n.user.userId,t.cUserId=n.cUser.userId,t.time=d.currentDate2String(),t.isFromMe=!0,t.type="text",t.message=s.message,l.addMessage(t).then(function(e){t.id=e,n.messageDetails.push(t),a.sendMessage(n.cUser,t).then(function(){l.updateMessageState(t,1),t.sendState=1,m(t)},function(e){l.updateMessageState(t,-1),t.sendState=-1,m(t)})},function(s){e.error(s)})},window.addEventListener("native.keyboardshow",function(e){n.$$phase||n.$apply(function(){v.scrollBottom()})}),window.addEventListener("native.keyboardhide",function(e){n.$$phase||n.$apply(function(){v.scrollBottom()})});var h={onReceiveMessage:function(s){e.debug("messageObserver receive message:"+JSON.stringify(s)),s.userId==n.user.userId&&s.cUserId==n.cUser.userId&&(e.debug("push message to message detail list"),n.messageDetails.push(s),n.$apply(function(){v.scrollBottom()}))}};a.registerMsgObserver("imMessageDetailController",h)}]),angular.module("im.directives",[]).directive("rjHoldActive",["$ionicGesture","$timeout","$ionicBackdrop",function(e,s,n){return{scope:!1,restrict:"A",replace:!1,link:function(n,t,i,o){e.on("hold",function(){t.addClass("active"),s(function(){t.removeClass("active")},300)},t)}}}]).directive("rjCloseBackDrop",[function(){return{scope:!1,restrict:"A",replace:!1,link:function(e,s,n,t){var i=angular.element(document.querySelector("html"));i.on("click",function(s){"HTML"===s.target.nodeName&&e.popup.optionsPopup&&e.popup.isPopup&&(e.popup.optionsPopup.close(),e.popup.isPopup=!1)})}}}]).directive("resizeFootBar",["$ionicScrollDelegate",function(e){return{replace:!1,link:function(s,n,t,i){s.$on("taResize",function(s,t){if(t){var i=document.body.querySelector("#message-detail-content"),o=e.$getByHandle("messageDetailsScroll"),r=t[0].offsetHeight,a=r+10;a=a>44?a:44,n[0].style.height=a+"px",i.style.bottom=a+"px",o.scrollBottom()}})}}}]).directive("rjPositionMiddle",["$window",function(e){return{replace:!1,link:function(s,n,t,i){var o=e.innerHeight-44-49-n[0].offsetHeight;o>=0?n[0].style.top=o/2+44+"px":n[0].style.top="44px"}}}]),e.$inject=["$log","$scope","$state","$ionicLoading","$timeout","$ionicPopup","jimService","imConversationService","imMessageStorageService","imMessageService","userNetService","userUtils"]}();
+/**
+ * Created by binfeng on 16/3/27.
+ */
+;
+(function () {
+  'use strict';
+  angular.module('com.helporz.im', ['com.helporz.im.controllers',
+    'com.helporz.im.services',
+    //'monospaced.elastic'
+    'components.widgets.hoBottomInput'
+  ]);
+
+  angular.module('com.helporz.im.controllers', ['com.helporz.im.services'])
+    .controller('imMessageListController', imMessageListControllerFn)
+    .controller('imMessageDetailController', ['$log', '$q', '$scope', '$stateParams',
+      '$ionicScrollDelegate', '$timeout', '$ionicPopup', 'imMessageService', 'jimService', 'imMessageStorageService',
+      'userNetService', 'imConversationService', 'UtilsService', 'userUtils',
+      function ($log, $q, $scope, $stateParams, $ionicScrollDelegate, $timeout, $ionicPopup, imMessageService, jimService,
+                imMessageStorageService, userNetService, imConversationService, UtilsService, userUtils) {
+
+        //var popupScope = $scope.$new();
+        //
+        //popupScope.cancel = function() {
+        //  confirmPopup.close();
+        //};
+        //
+        //popupScope.ok = function() {
+        //  confirmPopup.close();
+        //};
+        //
+        //var confirmPopup = $ionicPopup.show({
+        //  templateUrl: 'modules/im/resend-confirm-popup.html',
+        //  title: null,
+        //  subTitle: null,
+        //  scope: popupScope,
+        //});
+
+        var viewScroll = $ionicScrollDelegate.$getByHandle('messageDetailsScroll');
+
+        $scope.userUtils = userUtils;
+
+        // console.log("enter");
+        $scope.doRefresh = function () {
+          // console.log("ok");
+          //$scope.messageNum += 5;
+          var miniMessageId = 0;
+          if ($scope.messageDetails !== null && $scope.messageDetails.length > 0) {
+            miniMessageId = $scope.messageDetails[0].id - 1;
+          }
+
+          if (miniMessageId > 0) {
+            imMessageStorageService.getMessageList($scope.user.id, $scope.cUser.id, miniMessageId, 5).then(function (msgList) {
+              for (var index = 0; index < msgList.length; ++index) {
+                $scope.messageDetails.unshift(msgList[index]);
+              }
+              $scope.messageNum = $scope.messageDetails.length;
+              $scope.$broadcast('scroll.refreshComplete');
+            }, function (error) {
+              $log.error(error);
+              $scope.$broadcast('scroll.refreshComplete');
+            })
+          }
+
+          //$timeout(function () {
+          //  var currentMinMsgId =
+          //    $scope.messageDetils = messageService.getAmountMessageById($scope.messageNum,
+          //      $stateParams.messageId);
+          //
+          //  $scope.$broadcast('scroll.refreshComplete');
+          //}, 200);
+        };
+
+        $scope.$on("$ionicView.beforeLeave", function () {
+          imMessageService.exitConversation($scope.cUser);
+          if ($scope.messageDetails != null && $scope.messageDetails.length > 0) {
+            var lastMessage = $scope.messageDetails[$scope.messageDetails.length - 1];
+            $scope.conversation.lastMessage = lastMessage.message;
+            $scope.conversation.lastMessageTime = lastMessage.time;
+            $scope.conversation.noReadMessages = 0;
+            imConversationService.updateConversation($scope.conversation);
+          }
+
+          imMessageService.unregisterMsgObserver('imMessageDetailController');
+        });
+
+        $scope.$on("$ionicView.afterEnter", function () {
+
+          if (typeof $scope.messageDetails === 'undefined' || $scope.messageDetails == null || $scope.messageDetails.length == 0) {
+            $scope.messageDetails = new Array();
+            imMessageStorageService.getMaxIdForMessage().then(function (maxMessageId) {
+              imMessageStorageService.getMessageList($scope.user.userId, $scope.cUser.userId, maxMessageId, 20).then(function (msgList) {
+                $log.error('getMessageList success,message length:' + msgList.length);
+                $scope.messageDetails = [];
+                for (var index = 0; index < msgList.length; ++index) {
+                  $scope.messageDetails.unshift(msgList[index]);
+                }
+
+                // for test
+                if (g_isDebug && ($scope.messageDetails == null || $scope.messageDetails.length == 0)) {
+                  for (var index = 0; index < 10; ++index) {
+                    var uMessage = imMessageStorageService.newMessage();
+                    var cMessage = imMessageStorageService.newMessage();
+                    uMessage.userId = $scope.user.userId;
+                    uMessage.cUserId = $scope.cUser.userId;
+                    uMessage.isFromMe = true;
+                    uMessage.id = index * 2;
+                    uMessage.message = 'test';
+                    //uMessage.sendState = 1;
+                    uMessage.time = UtilsService.currentDate2String();
+                    if (index % 2 == 0) {
+                      uMessage.sendState = -1;
+                    }
+                    else {
+                      uMessage.sendState = 0;
+                    }
+
+                    cMessage.userId = $scope.user.userId;
+                    cMessage.cUserId = $scope.cUser.userId;
+                    cMessage.isFromMe = false;
+                    cMessage.id = index * 2 + 1;
+                    cMessage.message = 'test';
+                    cMessage.time = UtilsService.currentDate2String();
+                    cMessage.sendState = -1;
+
+                    $scope.messageDetails.push(uMessage);
+                    $scope.messageDetails.push(cMessage);
+                  }
+                }
+                //end for test
+
+              }, function (error) {
+                $log.error(JSON.stringify(error));
+              });
+            }, function (error) {
+              $log.error(error);
+            })
+          }
+
+        });
+
+        $scope.$on("$ionicView.beforeEnter", function () {
+          $scope.user = userNetService.cache.selfInfo;
+          $log.info('currentUser info:' + JSON.stringify($scope.user));
+          $log.info('userinfo cache:' + JSON.stringify(userNetService.cache.userInfo));
+          $scope.cUser = userNetService.cache.userInfo[$stateParams.cid];
+          $scope.conversation = imConversationService.getConversation($scope.user.userId, $stateParams.cid);
+
+          if ($scope.conversation == null && $scope.cUser != null) {
+            var conversation = imMessageStorageService.newConversation();
+            conversation.userId = $scope.user.userId;
+            conversation.cUserId = $scope.cUser.userId;
+            conversation.cUserNickname = $scope.cUser.nickname;
+            conversation.cUerLoginName = $scope.cUser.loginName;
+            conversation.cUserAvatar = $scope.cUser.avatar;
+            imConversationService.addConversation(conversation);
+            $scope.conversation = conversation;
+          }
+          else if ($scope.cUser == null && $scope.conversation != null) {
+            $scope.cUser = {};
+            $scope.cUser.userId = $scope.conversation.cUserId;
+            $scope.cUser.nickname = $scope.conversation.cUserNickname;
+            $scope.cUser.loginName = $scope.conversation.cUserLoginName;
+            $scope.cUser.avatar = $scope.conversation.cUserAvatar;
+          }
+          else if ($scope.cUser == null && $scope.conversation == null) {
+            if (g_isDebug) {
+              alert('im 模块无法获取联系人用户信息');
+            }
+          }
+
+          $log.info('cUser info:' + JSON.stringify($scope.cUser));
+          imMessageService.enterConversation($scope.cUser);
+
+          viewScroll.scrollBottom();
+        });
+
+        function updateMessageDetailList(msg) {
+          //由于有时会出现消息状态无法刷新，因此重新构造一个新的message，然后插入消息列表并替换原message
+          var messageDetail = imMessageStorageService.newMessage();
+          messageDetail.userId = msg.userId;
+          messageDetail.cUserId = msg.userId;
+          messageDetail.time = msg.time
+          messageDetail.isFromMe = msg.isFromMe;
+          messageDetail.type = msg.type;
+          messageDetail.message = msg.message;
+          messageDetail.id = msg.id;
+          messageDetail.sendState = msg.sendState;
+
+          for (var index = $scope.messageDetails.length - 1; index >= 0; --index) {
+            var m = $scope.messageDetails[index];
+            $log.info('message:' + msg.message + ' time:' + messageDetail.time);
+            $log.info('m content:' + m.msg + ' time:' + m.time);
+            if (m.id === messageDetail.id) {
+              console.log('更新scope messageDetail');
+              $scope.messageDetails.splice(index, 1, messageDetail);
+              viewScroll.scrollBottom();
+              if (!$scope.$$phase) {
+                $scope.$apply();
+              }
+              break;
+            }
+          }
+        }
+
+        function deleteMessageFromDetailList(msg) {
+          for (var index = $scope.messageDetails.length - 1; index >= 0; --index) {
+            var m = $scope.messageDetails[index];
+            $log.info('message:' + msg.message + ' time:' + msg.time);
+            $log.info('m content:' + m.msg + ' time:' + m.time);
+            if (m.id === msg.id) {
+              $scope.messageDetails.splice(index, 1);
+              break;
+            }
+          }
+        }
+
+        $scope.sendMessage = function (event) {
+          $log.info('send message:' + $scope.sendContent);
+          var messageDetail = imMessageStorageService.newMessage();
+          messageDetail.userId = $scope.user.userId;
+          messageDetail.cUserId = $scope.cUser.userId;
+          messageDetail.time = UtilsService.currentDate2String();
+          messageDetail.isFromMe = true;
+          messageDetail.type = 'text';
+          messageDetail.message = $scope.sendContent;
+          messageDetail.sentState = 0;
+
+          $scope.sendContent = '';
+          $log.info('sendMessage:addMessage to db:' + JSON.stringify(messageDetail));
+          imMessageStorageService.addMessage(messageDetail).then(function (msgId) {
+            messageDetail.id = msgId;
+            $scope.messageDetails.push(messageDetail);
+            imMessageService.sendMessage($scope.cUser, messageDetail).then(function () {
+              $log.info("发烧消息成功:" + messageDetail.message);
+              imMessageStorageService.updateMessageState(messageDetail, 1);
+              messageDetail.sendState = 1;
+              updateMessageDetailList(messageDetail);
+            }, function (error) {
+              $log.info("发烧消息失败:" + messageDetail.message);
+              imMessageStorageService.updateMessageState(messageDetail, -1);
+              messageDetail.sendState = -1;
+              updateMessageDetailList(messageDetail);
+            });
+          }, function (error) {
+            $log.error(error);
+          });
+
+        };
+
+        $scope.reSendPrompt = function (message) {
+          var popupScope = $scope.$new();
+
+          popupScope.cancel = function () {
+            confirmPopup.close();
+          };
+
+          popupScope.ok = function () {
+            $scope.reSend(message);
+            confirmPopup.close();
+          }
+
+          var confirmPopup = $ionicPopup.show({
+            templateUrl: 'modules/im/resend-confirm-popup.html',
+            title: null,
+            subTitle: null,
+            scope: popupScope,
+          });
+        }
+
+        $scope.reSend = function (message) {
+          deleteMessageFromDetailList(message);
+          imMessageStorageService.deleteMessage(message);
+          var messageDetail = imMessageStorageService.newMessage();
+          messageDetail.userId = $scope.user.userId;
+          messageDetail.cUserId = $scope.cUser.userId;
+          messageDetail.time = UtilsService.currentDate2String();
+          messageDetail.isFromMe = true;
+          messageDetail.type = 'text';
+          messageDetail.message = message.message;
+
+          //$scope.sendContent = '';
+          imMessageStorageService.addMessage(messageDetail).then(function (msgId) {
+            messageDetail.id = msgId;
+            $scope.messageDetails.push(messageDetail);
+            imMessageService.sendMessage($scope.cUser, messageDetail).then(function () {
+              imMessageStorageService.updateMessageState(messageDetail, 1);
+              messageDetail.sendState = 1;
+              updateMessageDetailList(messageDetail);
+            }, function (error) {
+              imMessageStorageService.updateMessageState(messageDetail, -1);
+              messageDetail.sendState = -1;
+              updateMessageDetailList(messageDetail);
+            });
+          }, function (error) {
+            $log.error(error);
+          });
+        }
+
+        window.addEventListener("native.keyboardshow", function (e) {
+          if (!$scope.$$phase) {
+            $scope.$apply(function () {
+              viewScroll.scrollBottom();
+            });
+          }
+        });
+
+        window.addEventListener("native.keyboardhide", function (e) {
+
+          if (!$scope.$$phase) {
+            $scope.$apply(function () {
+              viewScroll.scrollBottom();
+            });
+          }
+        });
+
+        var messageObserver = {
+          onReceiveMessage: function (message) {
+            $log.debug('messageObserver receive message:' + JSON.stringify(message));
+            if (message.userId == $scope.user.userId && message.cUserId == $scope.cUser.userId) {
+              $log.debug('push message to message detail list');
+              $scope.messageDetails.push(message);
+
+              $scope.$apply(function () {
+                viewScroll.scrollBottom();
+              });
+
+            }
+          }
+        };
+
+        imMessageService.registerMsgObserver('imMessageDetailController', messageObserver);
+      }
+    ]);
+
+
+  angular.module('im.directives', [])
+    .directive('rjHoldActive', ['$ionicGesture', '$timeout', '$ionicBackdrop',
+      function ($ionicGesture, $timeout, $ionicBackdrop) {
+        return {
+          scope: false,
+          restrict: 'A',
+          replace: false,
+          link: function (scope, iElm, iAttrs, controller) {
+            $ionicGesture.on("hold", function () {
+              iElm.addClass('active');
+              $timeout(function () {
+                iElm.removeClass('active');
+              }, 300);
+            }, iElm);
+          }
+        };
+      }
+    ])
+    .directive('rjCloseBackDrop', [function () {
+      return {
+        scope: false,
+        restrict: 'A',
+        replace: false,
+        link: function (scope, iElm, iAttrs, controller) {
+          var htmlEl = angular.element(document.querySelector('html'));
+          htmlEl.on("click", function (event) {
+            if (event.target.nodeName === "HTML" &&
+              scope.popup.optionsPopup &&
+              scope.popup.isPopup) {
+              scope.popup.optionsPopup.close();
+              scope.popup.isPopup = false;
+            }
+          });
+        }
+      };
+    }])
+    .directive('resizeFootBar', ['$ionicScrollDelegate', function ($ionicScrollDelegate) {
+      // Runs during compile
+      return {
+        replace: false,
+        link: function (scope, iElm, iAttrs, controller) {
+          scope.$on("taResize", function (e, ta) {
+            if (!ta) return;
+            var scroll = document.body.querySelector("#message-detail-content");
+            var scrollBar = $ionicScrollDelegate.$getByHandle('messageDetailsScroll');
+            // console.log(scroll);
+            var taHeight = ta[0].offsetHeight;
+            var newFooterHeight = taHeight + 10;
+            newFooterHeight = (newFooterHeight > 44) ? newFooterHeight : 44;
+
+            iElm[0].style.height = newFooterHeight + 'px';
+            scroll.style.bottom = newFooterHeight + 'px';
+            scrollBar.scrollBottom();
+          });
+        }
+      };
+    }])
+    .directive('rjPositionMiddle', ['$window', function ($window) {
+      return {
+        replace: false,
+        link: function (scope, iElm, iAttrs, controller) {
+          var height = $window.innerHeight - 44 - 49 - iElm[0].offsetHeight;
+          if (height >= 0) {
+            iElm[0].style.top = (height / 2 + 44) + 'px';
+          } else {
+            iElm[0].style.top = 44 + 'px';
+          }
+        }
+      }
+    }])
+
+
+  imMessageListControllerFn.$inject = [
+    '$log',
+    '$scope',
+    '$state',
+    '$ionicLoading',
+    '$timeout',
+    '$ionicPopup',
+    'jimService',
+    'imConversationService',
+    'imMessageStorageService',
+    'imMessageService',
+    'userNetService',
+    'userUtils',
+  ];
+  function imMessageListControllerFn($log, $scope,
+                                     $state,
+                                     $ionicLoading,
+                                     $timeout,
+                                     $ionicPopup,
+                                     jimService,
+                                     imConversationService,
+                                     imMessageStorageService, imMessageService, userNetService, userUtils) {
+    var vm = $scope.vm = {};
+    vm.loading = function () {
+      $ionicLoading.show({
+        template: "正在加载数据"
+      });
+    };
+
+    vm.hideLoading = function () {
+      $ionicLoading.hide();
+    }
+
+    $scope.user = userNetService.cache.selfInfo;
+
+    console.log('im message list controller');
+
+    vm.popupConversationOptions = function (message) {
+      vm.popup.index = vm.imConversations.indexOf(message);
+      vm.popup.optionsPopup = $ionicPopup.show({
+        templateUrl: "modules/im/popup.html",
+        scope: $scope,
+      });
+      vm.popup.isPopup = true;
+    };
+
+    vm.markConversation = function () {
+      var index = vm.popup.index;
+      var conversation = vm.imConversations[index];
+      if (conversation.showHints) {
+        conversation.showHints = false;
+        conversation.noReadMessages = 0;
+      } else {
+        conversation.showHints = true;
+        conversation.noReadMessages = 1;
+      }
+
+      vm.imConversations[index] = conversation;
+      vm.popup.optionsPopup.close();
+      vm.popup.isPopup = false;
+
+      imConversationService.updateConversation(conversation);
+    };
+
+    vm.deleteConversation = function () {
+      var index = vm.popup.index;
+      var conversation = vm.imConversations[index];
+      vm.imConversations.splice(index, 1);
+      vm.popup.optionsPopup.close();
+      vm.popup.isPopup = false;
+      imConversationService.deleteConversation(conversation).then(function () {
+        $log.info('完成删除会话：userId(#userId#) cUserId(#cUserId#)'.replace('#userId#', conversation.userId).replace('#cUserId#', conversation.cUserId));
+        return imMessageStorageService.deleteMessageList(conversation.userId, conversation.cUserId);
+      }).then(function () {
+        $log.info('我那层删除会话中的所有消息：userId(#userId#) cUserId(#cUserId#)'
+          .replace('#userId#', conversation.userId).replace('#cUserId#', conversation.cUserId));
+      });
+    };
+
+    vm.topConversation = function () {
+      var index = vm.popup.index;
+      var conversation = vm.imConversations[index];
+      if (conversation.isTop) {
+        conversation.isTop = 0;
+      } else {
+        conversation.isTop = new Date().getTime();
+      }
+      vm.popup.optionsPopup.close();
+      vm.popup.isPopup = false;
+      imConversationService.updateConversation(conversation);
+    };
+
+    vm.conversationDetails = function (conversation) {
+      userUtils.gotoIM(conversation.cUserId);
+      //$state.go("main.im-detail", {
+      //  "cid": conversation.cUserId,
+      //});
+    };
+
+    $scope.$on("$ionicView.beforeEnter", function () {
+      vm.imConversations = imConversationService.getConversationList();
+      if (g_isDebug && (vm.imConversations == null || vm.imConversations.length == 0 )) {
+        vm.imConversations = new Array();
+        var conversation = {
+          "id": 6,
+          "userId": "62",
+          "isTop": 0,
+          "showHints": 0,
+          "noReadMessages": 0,
+          "cUserId": "61",
+          "cUserNickname": null,
+          "cUserAvatar": "null",
+          "created": "2016-07-01 20:32:20",
+          "lastMessage": "yfgcfhgguijgij",
+          "lastMessageTime": "2016-07-02 15:32:41"
+        };
+        vm.imConversations.push(conversation);
+
+        conversation = {
+          "id": 7,
+          "userId": "62",
+          "isTop": 0,
+          "showHints": 0,
+          "noReadMessages": 0,
+          "cUserId": "61",
+          "cUserNickname": null,
+          "cUserAvatar": "null",
+          "created": "2016-07-01 20:32:20",
+          "lastMessage": "yfgcfhgguijgij",
+          "lastMessageTime": "2016-07-02 15:32:41"
+        };
+        vm.imConversations.push(conversation);
+      }
+
+      $log.info('conversation list:' + JSON.stringify(vm.imConversations));
+      vm.popup = {
+        isPopup: false,
+        index: 0
+      };
+    });
+
+    var conversationObserver = {
+      onAddConversation: function (conversation) {
+        if (conversation.userId == $scope.user.userId) {
+          vm.imConversations.push(conversation);
+          if (!$scope.$$phase) {
+            $scope.$apply();
+          }
+        }
+      }
+    }
+
+
+    imMessageService.registerConversationObserver('imMessageListController', conversationObserver);
+
+    $scope.$on('$ionicView.beforeLeave', function () {
+      imMessageService.unregisterConversationObserver('imMessageListController');
+    })
+
+  }
+})();
+
+

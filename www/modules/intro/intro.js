@@ -1,1 +1,35 @@
-!function(o){"use strict";var n=angular.module("com.helporz.intro",["ionic","com.helporz.login","com.helporz.utils.service"]);n.controller("introCtrl",["$scope","$state","$log","loginService","userLoginInfoService",function(o,n,i,e,t){o.index=0,o.onChanged=function(o){4==o&&n.go("login")},o.enterApp=function(){e.isLogging()?e.loginByTicket().then(function(){i.info("登录成功"),n.go("main.near")},function(){n.go("login")}):n.go("login"),t.updateShowIntroInfo()}}])}(this);
+/**
+ * Created by binfeng on 16/3/17.
+ */
+;(function(window) {
+  "use strict";
+    var intro = angular.module("com.helporz.intro",["ionic",'com.helporz.login', 'com.helporz.utils.service']);
+    intro.controller("introCtrl",["$scope","$state",'$log','loginService','userLoginInfoService',
+      function($scope,$state,$log,loginService,userLoginInfoService) {
+      $scope.index = 0;
+      $scope.onChanged = function(index) {
+        if( index == 4){
+          $state.go("login");
+        }
+      };
+
+      $scope.enterApp = function() {
+        if(loginService.isLogging()) {
+          loginService.loginByTicket().then(function(){
+            $log.info("登录成功");
+            $state.go('main.near');
+          },function() {
+            $state.go('login');
+          });
+        }
+        else {
+          $state.go('login');
+        }
+
+        userLoginInfoService.updateShowIntroInfo();
+      }
+    }]);
+  }
+)(this);
+
+

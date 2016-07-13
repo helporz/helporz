@@ -1,1 +1,75 @@
-!function(){"use strict";function e(){return{restrict:"E",require:["^hoTabSet","hoTab"],controller:"hoTabCtrl",scope:{onSelect:"&"},compile:function(e,t){return function(e,t,c,n){function o(){a.selectedTab()===i.$scope?t.addClass("tab-item-active"):t.removeClass("tab-item-active")}var a=n[0],i=n[1];a.add(e),e.$on("$destroy",function(){}),e.$tabSelected=!1,e.selectTab=function(e){e.preventDefault(),a.select(i.$scope,!0)},t.on("click",function(t){e.$apply(function(){e.selectTab(t)})}),e.$on("tabSelected",o),o()}}}}angular.module("components.widgets.hoTabSet").directive("hoTab",e)}();
+/**
+ * Created by Midstream on 16/4/28.
+ */
+
+(function () {
+
+  'use strict'
+
+  angular.module('components.widgets.hoTabSet')
+
+    .directive('hoTab', hoTab);
+
+  function hoTab() {
+
+    return {
+      restrict: 'E',
+      require: ['^hoTabSet', 'hoTab'],
+      controller: 'hoTabCtrl',
+      scope: {
+        onSelect: '&'
+      },
+
+      compile: function (element, attr) {
+
+
+        return function link(scope, element, attr, ctrls) {
+          var tabSetCtrl = ctrls[0],
+            tabCtrl = ctrls[1];
+
+          tabSetCtrl.add(scope);
+          scope.$on('$destroy', function () {
+              //if (!scope.$tabsDestroy) {
+              //  // if the containing ionTabs directive is being destroyed
+              //  // then don't bother going through the controllers remove
+              //  // method, since remove will reset the active tab as each tab
+              //  // is being destroyed, causing unnecessary view loads and transitions
+              //  tabSetCtrl.remove(scope);
+            }
+          );
+
+          scope.$tabSelected = false;
+
+          scope.selectTab = function (e) {
+            e.preventDefault();
+            tabSetCtrl.select(tabCtrl.$scope, true);
+          };
+
+          //if (!attr.ngClick) {
+            element.on('click', function (event) {
+              scope.$apply(function () {
+                scope.selectTab(event);
+              });
+            });
+          //}
+
+          function styleTab() {
+            if (tabSetCtrl.selectedTab() === tabCtrl.$scope) {
+              element.addClass('tab-item-active');
+            }
+            else {
+              element.removeClass('tab-item-active');
+            }
+          }
+
+          scope.$on("tabSelected", styleTab);
+
+          styleTab();
+        }
+      }
+
+    }
+  }
+
+})
+()

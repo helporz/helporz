@@ -1,1 +1,171 @@
-!function(){"use strict";function e(){return{user:{id:"",nickname:""},tasks:[]}}function t(e,t,i,s,a,n,r,c,o,l,m,u,k,f,d,g,p,T,h){function v(){i.show(),t.debug("mainUserTasksService:"+JSON.stringify(d)),c.getWaitingTaskList(d.user.id).then(y,U)["finally"](function(){i.hide()})}function y(e){n.vm.items=e,d.tasks=e;for(var t=0;t<n.vm.items.length;t++){var i=n.vm.items[t];i.icon=l.iconByTypeValue(i.taskTypesId),i.typeName=l.nameByTypeValue(i.taskTypesId),i.commentCount=i.commentList?i.commentList.length:0,i.ui_isMyTask=o.cache.selfInfo.userId==i.poster.userId;var s=i.created.split(/[\:\-\s]/);6!=s.length&&alert("network err: task created time is not valid");var r=new Date(s[0],parseInt(s[1])-1,s[2],s[3],s[4],s[5]);i.ui_createTime=m.formatSimpleTimeBeforeNow(r),i.ui_tags=[],u.netTagsToUiTags(i.ui_tags,i.poster.tags)}a(function(){n.$apply()})}function U(e){alert(e)}var $=n.vm={};t.debug("mainUserTaskCtrl:"+JSON.stringify(r)),d.user.id=r.userId,d.user.nickname=r.nickname,$.nickname=d.user.nickname,$.items=[],$.sharePageService=f,$.doRefresh=function(){t.debug("mainUserTasksService:"+JSON.stringify(d)),c.getWaitingTaskList(d.user.id).then(y,U)["finally"](function(){n.$broadcast("scroll.refreshComplete")})},n.$on("$ionicView.enter",function(){0==d.tasks.length?v():$.items=d.tasks}),n.$on("$ionicView.leave",function(){}),$.cb_gotoUser=function(e){if(0!=p.canClick()){var t,i=h.$getByHandle("rootTabs").selectedIndex();0==i?t="near":4==i?t="me":ho.alert("gotoUser tab invalid, tabIndex="+i),T.gotoUser(e,t)}},$.cb_itemClick=function(e){0!=p.canClick()&&(g.task=$.items[e],T.gotoTaskDetail("-1"))},$.cb_acceptTask=function(e){if(0!=p.canClick()){var t=$.items[e];i.show(),c.acceptTask(t.id).then(function(e){200==e.code?(i.show({duration:1500,templateUrl:"modules/components/templates/ionic-loading/task-accept-success.html"}),a(function(){c.cache.isNearTaskNeedRefresh=!0,c.cache.isAcceptTaskGoingNeedRefresh=!0,v()},1500)):(i.show({duration:1500,templateUrl:"modules/components/templates/ionic-loading/task-not-exist.html"}),a(function(){c.cache.isNearTaskNeedRefresh=!0},1500))},function(){})["finally"](function(){console.log("accept taskid="+t.id)})}}}angular.module("main.user-tasks").factory("mainUserTasksService",e).controller("mainUserTasksCtrl",["$state","$log","$ionicLoading","$interval","$timeout","$scope","$stateParams","taskNetService","userNetService","taskUtils","timeUtils","impressUtils","intervalCenter","SharePageWrapService","mainUserTasksService","mainNearTaskDetailService","operationUtils","userUtils","$ionicTabsDelegate",t])}();
+/**
+ * Created by Midstream on 16/7/4.
+ */
+
+(function () {
+  'use strict';
+
+  angular.module('main.user-tasks')
+    .factory('mainUserTasksService', mainUserTasksService)
+    .controller('mainUserTasksCtrl', ['$state', '$log', '$ionicLoading', '$interval', '$timeout', '$scope','$stateParams', 'taskNetService', 'userNetService',
+      'taskUtils', 'timeUtils', 'impressUtils', 'intervalCenter', 'SharePageWrapService', 'mainUserTasksService',
+      'mainNearTaskDetailService', 'operationUtils', 'userUtils','$ionicTabsDelegate',
+      mainUserTasksCtrl]);
+
+  function mainUserTasksService() {
+    return {
+      user: {
+        id: '',
+        nickname: ''
+      },
+      tasks: []
+    }
+  }
+
+  function mainUserTasksCtrl($state, $log, $ionicLoading, $interval, $timeout, $scope, $stateParams,taskNetService, userNetService,
+                             taskUtils, timeUtils, impressUtils, intervalCenter, SharePageWrapService, mainUserTasksService,
+                             mainNearTaskDetailService, operationUtils, userUtils, $ionicTabsDelegate) {
+
+    var vm = $scope.vm = {};
+    $log.debug('mainUserTaskCtrl:' + JSON.stringify($stateParams));
+    mainUserTasksService.user.id = $stateParams.userId;
+    mainUserTasksService.user.nickname = $stateParams.nickname;
+
+    vm.nickname = mainUserTasksService.user.nickname;
+    vm.items = [];
+
+    vm.sharePageService = SharePageWrapService;
+    vm.doRefresh = function () {
+      $log.debug("mainUserTasksService:" + JSON.stringify(mainUserTasksService));
+      taskNetService.getWaitingTaskList(mainUserTasksService.user.id).then(flushSuccessFn, flushFailedFn).finally(function () {
+        $scope.$broadcast('scroll.refreshComplete');
+      });
+    };
+
+    function _refreshList() {
+      $ionicLoading.show();
+      $log.debug("mainUserTasksService:" + JSON.stringify(mainUserTasksService));
+      taskNetService.getWaitingTaskList(mainUserTasksService.user.id).then(flushSuccessFn, flushFailedFn).finally(function () {
+        $ionicLoading.hide();
+      });
+    }
+
+    $scope.$on("$ionicView.enter", function () {
+      if (mainUserTasksService.tasks.length == 0) {
+        _refreshList();
+      } else {  //从界面返回时,不将tasks置空,那么回来就不用再次从网络获取
+        vm.items = mainUserTasksService.tasks;
+      }
+    });
+
+    $scope.$on('$ionicView.leave', function () {
+
+    })
+
+    vm.cb_gotoUser = function(userId) {
+      if(operationUtils.canClick()==false){
+        return;
+      }
+      var index = $ionicTabsDelegate.$getByHandle('rootTabs').selectedIndex();
+      var tabName;
+      if(index==0) {
+        tabName = 'near';
+      }else if(index ==4) {
+        tabName = 'me';
+      }else{
+        ho.alert('gotoUser tab invalid, tabIndex=' + index);
+      }
+      userUtils.gotoUser(userId, tabName);
+    }
+
+    vm.cb_itemClick = function (index) {
+      if (operationUtils.canClick() == false) {
+        return
+      }
+      mainNearTaskDetailService.task = vm.items[index];
+      //$state.go('main.me_user-tasks_task-detail', {id: '-1'});
+      userUtils.gotoTaskDetail('-1');
+    };
+
+    vm.cb_acceptTask = function (index) {
+      if (operationUtils.canClick() == false) {
+        return
+      }
+
+      var task = vm.items[index];
+
+      $ionicLoading.show();
+
+      taskNetService.acceptTask(task.id).then(
+        function (data) {
+
+          if (data.code == 200) {
+            //成功
+            $ionicLoading.show({
+              duration: 1500,
+              templateUrl: 'modules/components/templates/ionic-loading/task-accept-success.html'
+            });
+            $timeout(function () {
+              taskNetService.cache.isNearTaskNeedRefresh = true;
+              taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
+              _refreshList();
+            }, 1500);
+          } else {
+            //失败
+            //temp:
+            $ionicLoading.show({
+              duration: 1500,
+              templateUrl: 'modules/components/templates/ionic-loading/task-not-exist.html'
+            });
+            $timeout(function () {
+              taskNetService.cache.isNearTaskNeedRefresh = true;
+            }, 1500);
+          }
+        },
+        function () {
+        }).finally(function () {
+          console.log('accept taskid=' + task.id);
+        });
+    }
+
+    //////////////////////////////////////////////////
+    //inner function
+
+    function flushSuccessFn(newTaskList) {
+      //$log.info('new task list:' + JSON.stringify(newTaskList));
+
+      $scope.vm.items = newTaskList;
+      mainUserTasksService.tasks = newTaskList;
+
+
+      // process attr
+      for (var i = 0; i < $scope.vm.items.length; i++) {
+        var item = $scope.vm.items[i];
+        item.icon = taskUtils.iconByTypeValue(item.taskTypesId);
+        item.typeName = taskUtils.nameByTypeValue(item.taskTypesId);
+        item.commentCount = item.commentList ? item.commentList.length : 0;
+        item.ui_isMyTask = userNetService.cache.selfInfo.userId == item.poster.userId;
+
+        //计算出发帖和现在的时间差
+        var pieces = item.created.split(/[\:\-\s]/);
+        if (pieces.length != 6) alert('network err: task created time is not valid')
+        var before = new Date(pieces[0], parseInt(pieces[1]) - 1, pieces[2], pieces[3], pieces[4], pieces[5]);
+        item.ui_createTime = timeUtils.formatSimpleTimeBeforeNow(before);
+
+        item.ui_tags = [];
+        impressUtils.netTagsToUiTags(item.ui_tags, item.poster.tags);
+      }
+
+      $timeout(function () {
+        $scope.$apply();
+      })
+
+    }
+
+    function flushFailedFn(error) {
+      alert(error);
+    }
+
+
+  }
+})()

@@ -1,1 +1,46 @@
-!function(){"use strict";function o(o,n,l){n.fromTemplateUrl("modules/main/post/postmodal.html",{scope:o,animation:"slide-in-up"}).then(function(n){o.modal=n,console.log("then")}),o.openModal=function(){o.modal.show(),console.log("show"),l(function(){o.closeModal()},1e3)},o.closeModal=function(){o.modal.hide(),console.log("close")},o.$on("$destroy",function(){o.modal.remove()}),o.$on("modal.hide",function(){}),o.$on("modal.removed",function(){})}angular.module("main.post").controller("mainPostCtrl",["$scope","$ionicModal","$timeout",o])}();
+/**
+ * Created by Midstream on 16/4/12.
+ */
+
+(function(){
+  'use strict';
+
+  angular.module('main.post')
+    .controller('mainPostCtrl', ['$scope', '$ionicModal', '$timeout', mainPostCtrl]);
+
+  function mainPostCtrl($scope, $ionicModal, $timeout) {
+    $ionicModal.fromTemplateUrl('modules/main/post/postmodal.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+      console.log("then");
+      //$scope.openModal();
+    });
+    $scope.openModal = function() {
+      $scope.modal.show();
+      console.log("show");
+
+      $timeout(function() {
+        $scope.closeModal();
+      }, 1000);
+      //ngDialog.open({ template: 'popupTmpl.html' });
+    };
+    $scope.closeModal = function() {
+      $scope.modal.hide();
+      console.log("close");
+    };
+    //当我们用到模型时，清除它！
+    $scope.$on('$destroy', function() {
+      $scope.modal.remove();
+    });
+    // 当隐藏的模型时执行动作
+    $scope.$on('modal.hide', function() {
+      // 执行动作
+    });
+    // 当移动模型时执行动作
+    $scope.$on('modal.removed', function() {
+      // 执行动作
+    });
+  }
+})()

@@ -12,38 +12,43 @@ var fs = require('fs');
 var path = require('path');
 var exec = require('child_process').exec;
 
-var rootdir = process.argv[2];
 
-process.stdout.write('start transport js...\n');
-//process.stdout.write('\nprocess argv 0:' + process.argv[0] + ' arg 1:' + process.argv[1] + ' arg 2:' + process.argv[2] + '\n');
+if (1) {
+
+  process.stdout.write('start transport js...\n');
 
 
-var platforms = (process.env.CORDOVA_PLATFORMS ? process.env.CORDOVA_PLATFORMS.split(',') : []);
-var str_pfs = JSON.stringify(platforms);
-process.stdout.write('platforms: ' + str_pfs + '\n');
+  var platforms = (process.env.CORDOVA_PLATFORMS ? process.env.CORDOVA_PLATFORMS.split(',') : []);
+  var str_pfs = JSON.stringify(platforms);
+  process.stdout.write('platforms: ' + str_pfs + '\n');
 
-var cmd = 'gulp transport';
+  var cmd = 'gulp transport';
 
-for(var i = 0; i < platforms.length; i++){
-  try {
+  for (var i = 0; i < platforms.length; i++) {
+    try {
 
-    if(platforms[i] == 'ios'){
-      cmd = cmd + '-ios';
-    } else if (platforms[i] == 'android') {
-      cmd = cmd + '-android';
-    }
-
-    process.stdout.write('do gulp: ' + cmd + '\n');
-    exec(cmd, function(err){
-      if(err){
-        //process.stdout.write('gulp exec err: ' + err);
+      if (platforms[i] == 'ios') {
+        cmd = cmd + '-ios';
+      } else if (platforms[i] == 'android') {
+        cmd = cmd + '-android';
       }
-    });
 
-  } catch(e) {
-    process.stdout.write(e);
+      process.stdout.write('do gulp: ' + cmd + '\n');
+      exec(cmd, function (err) {
+        if (err) {
+          //process.stdout.write('gulp exec err: ' + err);
+        }
+      });
+
+      //for(var start = +new Date; +new Date - start <= 8000; ) { }
+
+    } catch (e) {
+      process.stdout.write(e);
+    }
   }
 }
+
+
 
 
 

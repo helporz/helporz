@@ -1,1 +1,102 @@
-!function(){"use strict";angular.module("app.time.utils.service",[]).factory("timeUtils",[function(){function e(e){var t=e.getTime(),r=new Date,o=r.getTime(),a=o-t,i=Math.floor(a/864e5);a-=24*i*3600*1e3;var f=Math.floor(a/36e5);a-=36e5*f;var n=Math.floor(a/6e4),m="";return i>0&&(m+=i+"天"),f>0&&(m+=f+"小时"),n>0&&(m+=n+"分钟"),""==m?m="现在":m+="前",m}function t(e){var t=e.getTime(),r=new Date,o=r.getTime(),a=o-t,i=Math.floor(a/864e5);a-=24*i*3600*1e3;var f=Math.floor(a/36e5);a-=36e5*f;var n=Math.floor(a/6e4),m="";return i>0?(m+=i+"天",i<2&&f>0&&(m+=f+"小时")):(f>0&&(m+=f+"小时"),n>0&&(m+=n+"分钟")),""==m?m="现在":m+="前",m}return{formatTimeBeforeNow:e,formatSimpleTimeBeforeNow:t}}])}();
+/**
+ * Created by Midstream on 16/5/3.
+ */
+
+(function () {
+  'use strict'
+
+  angular.module('app.time.utils.service', [])
+
+    //////////////////////////////////////////////////
+    // timeUtils: 时间服务
+    .factory('timeUtils', [function () {
+
+      return {
+        formatTimeBeforeNow: formatTimeBeforeNow,
+        formatSimpleTimeBeforeNow: formatSimpleTimeBeforeNow
+      }
+
+      function formatTimeBeforeNow(before) {
+        var beforeMilliSec = before.getTime();
+
+        var now = new Date();
+        var nowMilliSec = now.getTime();
+
+        //计算出相差天数
+        var left = nowMilliSec - beforeMilliSec;
+        var days = Math.floor(left / (24 * 3600 * 1000));
+
+        //小时数
+        //var left = now % (24 * 3600 * 1000);    //计算天数后剩余的毫秒数
+        left = left - days * 24 * 3600 * 1000;
+        var hours = Math.floor(left / (3600 * 1000));
+
+        //计算相差分钟数
+        left = left -  hours * (3600 * 1000)        //计算小时数后剩余的毫秒数
+        var minutes = Math.floor(left / (60 * 1000))
+
+        var ret = '';
+        if (days > 0) {
+          ret += days + '天';
+        }
+        if (hours > 0) {
+          ret += hours + '小时';
+        }
+        if (minutes > 0) {
+          ret += minutes + '分钟';
+        }
+        if (ret == '') {
+          ret = '现在';
+        }else{
+          ret += '前';
+        }
+        return ret;
+      }
+
+      function formatSimpleTimeBeforeNow(before) {
+        var beforeMilliSec = before.getTime();
+
+        var now = new Date();
+        var nowMilliSec = now.getTime();
+
+        //计算出相差天数
+        var left = nowMilliSec - beforeMilliSec;
+        var days = Math.floor(left / (24 * 3600 * 1000));
+
+        //小时数
+        //var left = now % (24 * 3600 * 1000);    //计算天数后剩余的毫秒数
+        left = left - days * 24 * 3600 * 1000;
+        var hours = Math.floor(left / (3600 * 1000));
+
+        //计算相差分钟数
+        left = left -  hours * (3600 * 1000)        //计算小时数后剩余的毫秒数
+        var minutes = Math.floor(left / (60 * 1000))
+
+        var ret = '';
+        if (days > 0) {
+          ret += days + '天';
+          if (days < 2 && hours > 0) {
+            ret += hours + '小时';
+          }
+        }
+        else {
+          if (hours > 0) {
+            ret += hours + '小时';
+          }
+          if (minutes > 0) {
+            ret += minutes + '分钟';
+          }
+        }
+
+        if (ret == '') {
+          ret = '现在';
+        } else {
+          ret += '前';
+        }
+        return ret;
+      }
+
+    }])
+})
+()
+

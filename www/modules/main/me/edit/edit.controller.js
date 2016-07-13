@@ -1,1 +1,365 @@
-!function(){"use strict";function t(t,e,n,o,i,c,a,l,r,s,u,m,d,f,h){var p=t.vm={};p.cb_back=function(){a.goBack(-1)},t.$on("$ionicView.beforeEnter",function(){var t=h.cache.selfInfo;p.edit.avatar=t.avatar,p.edit.nickname=t.nickname,p.edit.org=t.orgList[0].name,p.edit.department=t.department,p.edit.dormitory=t.dormitory,p.edit.gender=1==t.gender?"男":"女",p.edit.hometown=t.hometown,p.edit.sign=t.sign}),p.edit={cb_avatar:function(){console.log("click on imag");l.show({titleText:"请选择图片来源",buttons:[{text:"照相机"},{text:"本地相薄"}],buttonClicked:function(t){function e(t){ho.alert("doUploadAvatar url="+t),r.show(),h.uploadAvatar(t).then(function(e){r.show({duration:1500,templateUrl:"modules/components/templates/ionic-loading/com-submit-success.html"}),h.cache.selfInfo.avatar=t,p.edit.avatar=t,ho.alert("url="+t)},function(t){r.hide(),ho.alert(ho.trace(obj))})["finally"](function(){})}if(0==t){var n={quality:100,destinationType:Camera.DestinationType.FILE_URI,sourceType:Camera.PictureSourceType.CAMERA,allowEdit:!0,encodingType:Camera.EncodingType.JPEG,targetWidth:200,targetHeight:200,mediaType:0,cameraDirection:0,popoverOptions:CameraPopoverOptions,saveToPhotoAlbum:!0};u.getPicture(n).then(function(t){e(t)},function(t){alert("err: camera get picture err="+t)})}else{var n={maximumImagesCount:1,width:800,height:800,quality:80};m.getPictures(n).then(function(t){alert("imgUrls="+t+";imgUrls[0]="+t[0]),e(t[0])},function(t){alert("err: pick image, err="+t)})}return!0},cancelText:"取消",cancel:function(){},destructiveButtonClicked:function(){}})},cb_nickname:function(){f.title="修改昵称",f.isInputOrTextarea=!0,f.placeholder="起个好听的名字吧",f.className="",f.cb=function(t){r.show(),h.updateNickname(t).then(function(n){r.show({duration:1500,templateUrl:"modules/components/templates/ionic-loading/com-submit-success.html"}),h.cache.selfInfo.nickname=t,e(function(){a.goBack(-1)},1500)},function(t){s.alert({title:"错误提示",template:t}).then(function(e){console.error(t)})})["finally"](function(){})},n.go("main.edit-sheet")},cb_org:function(){r.show({duration:3e3,templateUrl:"modules/components/templates/ionic-loading/user-edit-org.html"})},cb_department:function(){f.title="修改院系",f.isInputOrTextarea=!0,f.placeholder="你是哪个系的",f.className="",f.cb=function(t){r.show(),h.updateDepartment(t).then(function(n){r.show({duration:1500,templateUrl:"modules/components/templates/ionic-loading/com-submit-success.html"}),h.cache.selfInfo.department=t,e(function(){a.goBack(-1)},1500)},function(t){s.alert({title:"错误提示",template:t}).then(function(e){console.error(t)})})["finally"](function(){})},n.go("main.edit-sheet")},cb_dormitory:function(){f.title="修改寝室楼栋",f.isInputOrTextarea=!0,f.placeholder="你是哪个寝室哪个楼的",f.className="",f.cb=function(t){r.show(),h.updateDormitory(t).then(function(n){r.show({duration:1500,templateUrl:"modules/components/templates/ionic-loading/com-submit-success.html"}),h.cache.selfInfo.dormitory=t,e(function(){a.goBack(-1)},1500)},function(t){s.alert({title:"错误提示",template:t}).then(function(e){console.error(t)})})["finally"](function(){})},n.go("main.edit-sheet")},cb_gender:function(){l.show({titleText:"请选择性别",buttons:[{text:"<b>男</b>"},{text:"<b>女</b>"}],buttonClicked:function(t){return r.show(),h.updateGender(t+1).then(function(e){r.hide(),r.show({duration:1500,templateUrl:"modules/components/templates/ionic-loading/com-submit-success.html"}),h.cache.selfInfo.gender=t+1,p.edit.gender=1==h.cache.selfInfo.gender?"男":"女"},function(t){s.alert({title:"错误提示",template:t}).then(function(e){console.error(t)})})["finally"](function(){}),!0},cancelText:"取消",cancel:function(){},destructiveButtonClicked:function(){}})},cb_hometown:function(){f.title="修改家乡",f.isInputOrTextarea=!0,f.placeholder="老家是哪里的",f.className="",f.cb=function(t){r.show(),h.updateHometown(t).then(function(n){r.show({duration:1500,templateUrl:"modules/components/templates/ionic-loading/com-submit-success.html"}),h.cache.selfInfo.hometown=t,e(function(){a.goBack(-1)},1500)},function(t){s.alert({title:"错误提示",template:t}).then(function(e){console.error(t)})})["finally"](function(){})},n.go("main.edit-sheet")},cb_sign:function(){f.title="修改个人签名",f.isInputOrTextarea=!0,f.placeholder="...",f.className="",f.cb=function(t){r.show(),h.updateSign(t).then(function(n){r.show({duration:1500,templateUrl:"modules/components/templates/ionic-loading/com-submit-success.html"}),h.cache.selfInfo.sign=t,e(function(){a.goBack(-1)},1500)},function(t){s.alert({title:"错误提示",template:t}).then(function(e){console.error(t)})})["finally"](function(){})},n.go("main.edit-sheet")}}}angular.module("main.edit").controller("mainEditCtrl",["$scope","$timeout","$state","$stateParams","taskNetService","taskUtils","$ionicHistory","$ionicActionSheet","$ionicLoading","$ionicPopup","$cordovaCamera","$cordovaImagePicker","$window","mainEditSheetService","userNetService",t])}();
+/**
+ * Created by Midstream on 16/4/25 .
+ */
+
+(function () {
+  'use strict';
+
+  angular.module('main.edit')
+    .controller('mainEditCtrl', ['$scope', '$timeout', '$state', '$stateParams', 'taskNetService', 'taskUtils',
+      '$ionicHistory', '$ionicActionSheet', '$ionicLoading', '$ionicPopup', '$cordovaCamera', '$cordovaImagePicker', '$window',
+      'mainEditSheetService', 'userNetService',
+      mainEditCtrl]);
+
+  function mainEditCtrl($scope, $timeout, $state, $stateParams, taskNetService, taskUtils, $ionicHistory,
+                        $ionicActionSheet, $ionicLoading, $ionicPopup, $cordovaCamera, $cordovaImagePicker, $window,
+                        mainEditSheetService, userNetService) {
+    var vm = $scope.vm = {};
+
+    vm.cb_back = function () {
+      $ionicHistory.goBack(-1);
+    }
+
+    $scope.$on("$ionicView.beforeEnter", function () {
+      var selfInfo = userNetService.cache.selfInfo;
+      vm.edit.avatar = selfInfo.avatar;
+      vm.edit.nickname = selfInfo.nickname;
+      vm.edit.org = selfInfo.orgList[0].name;
+      vm.edit.department = selfInfo.department;
+      vm.edit.dormitory = selfInfo.dormitory;
+      vm.edit.gender = selfInfo.gender == 1 ? "男" : "女";
+      vm.edit.hometown = selfInfo.hometown;
+      vm.edit.sign = selfInfo.sign;
+    });
+
+    vm.edit = {
+
+      cb_avatar: function () {
+        console.log('click on imag');
+        // Show the action sheet
+        var hideSheet = $ionicActionSheet.show({
+          titleText: "请选择图片来源",
+          buttons: [
+            {text: "照相机"},
+            {text: "本地相薄"}
+          ],
+          buttonClicked: function (index) {
+
+            function doUploadAvatar(url) {
+              ho.alert('doUploadAvatar url=' + url);
+              $ionicLoading.show();
+              userNetService.uploadAvatar(url).then(
+                function (data) {
+                  $ionicLoading.show({
+                    duration: 1500,
+                    templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+                  });
+                  userNetService.cache.selfInfo.avatar = url;
+                  vm.edit.avatar = url;
+                  ho.alert('url=' + url);
+                },
+                function (data) {
+                  $ionicLoading.hide();
+                  ho.alert(ho.trace(obj));
+                }).finally(function () {
+                });
+            }
+
+            // 打开照相机
+            if (index == 0) {
+              var options = {
+                //这些参数可能要配合着使用，比如选择了sourcetype是0，destinationtype要相应的设置
+                quality: 100,                                            //相片质量0-100
+                destinationType: Camera.DestinationType.FILE_URI,        //返回类型：DATA_URL= 0，返回作为 base64 編碼字串。 FILE_URI=1，返回影像档的 URI。NATIVE_URI=2，返回图像本机URI (例如，資產庫)
+                sourceType: Camera.PictureSourceType.CAMERA,             //从哪里选择图片：PHOTOLIBRARY=0，相机拍照=1，SAVEDPHOTOALBUM=2。0和1其实都是本地图库
+                allowEdit: true,                                        //在选择之前允许修改截图
+                encodingType: Camera.EncodingType.JPEG,                   //保存的图片格式： JPEG = 0, PNG = 1
+                targetWidth: 200,                                        //照片宽度
+                targetHeight: 200,                                       //照片高度
+                mediaType: 0,                                             //可选媒体类型：圖片=0，只允许选择图片將返回指定DestinationType的参数。 視頻格式=1，允许选择视频，最终返回 FILE_URI。ALLMEDIA= 2，允许所有媒体类型的选择。
+                cameraDirection: 0,                                       //枪后摄像头类型：Back= 0,Front-facing = 1
+                popoverOptions: CameraPopoverOptions,
+                saveToPhotoAlbum: true                                   //保存进手机相册
+              };
+
+              $cordovaCamera.getPicture(options).then(function (imgUrl) {
+                doUploadAvatar(imgUrl);
+              }, function (err) {
+                alert('err: camera get picture err=' + err);
+              });
+            }
+            // 打开 ImagePicker
+            else {
+              var options = {
+                maximumImagesCount: 1,
+                width: 800,
+                height: 800,
+                quality: 80
+              };
+              $cordovaImagePicker.getPictures(options).then(function (imgUrls) {
+                alert('imgUrls=' + imgUrls + ';imgUrls[0]=' + imgUrls[0]);
+                //for (var index = 0; index < imgUrls.length; ++index) {
+                //  resolveLocalFileSystemURL(imgUrls[index], function (entry) {
+                //    $log.info('image cvd file:' + entry.toInternalURL());
+                //    alert('internal=' + entry.toInternalURL() + 'native=' + entry.toNativeURL());
+                //    doUploadAvatar(entry.toNativeURL());
+                  //}
+                 //);
+                //}
+                doUploadAvatar(imgUrls[0]);
+              }, function(err) {
+                alert('err: pick image, err=' + err);
+              })
+            }
+
+            return true;
+          },
+          cancelText: "取消",
+          cancel: function () {
+            // add cancel code..
+          },
+          //destructiveText: "删除",
+          destructiveButtonClicked: function () {
+          }
+        });
+
+        // For example's sake, hide the sheet after two seconds
+        //$timeout(function () {
+        //  //	hideSheet();
+        //}, 2000);
+
+      },
+
+      cb_nickname: function () {
+        mainEditSheetService.title = '修改昵称';
+        mainEditSheetService.isInputOrTextarea = true;
+        mainEditSheetService.placeholder = '起个好听的名字吧';
+        mainEditSheetService.className = '';
+        mainEditSheetService.cb = function (txt) {
+          $ionicLoading.show();
+          userNetService.updateNickname(txt).then(
+            function (data) {
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+              });
+              userNetService.cache.selfInfo.nickname = txt;
+              $timeout(function () {
+                $ionicHistory.goBack(-1);
+              }, 1500);
+
+            }, function (data) {
+              $ionicPopup.alert({
+                title: '错误提示',
+                template: data
+              }).then(function (res) {
+                console.error(data);
+              })
+            }).finally(function () {
+            });
+        }
+        $state.go('main.edit-sheet');
+      },
+
+      cb_org: function () {
+        //mainEditSheetService.title = '修改组织';
+        //mainEditSheetService.isInputOrTextarea = true;
+        //mainEditSheetService.placeholder = '你是哪个大学的';
+        //mainEditSheetService.className = '';
+        //mainEditSheetService.cb = function (txt) {
+        //  $ionicLoading.show();
+        //  userNetService.updateOrg(txt).then(
+        //    function (data) {
+        //      $ionicLoading.show({
+        //        duration: 1500,
+        //        templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+        //      });
+        //      userNetService.cache.selfInfo.orgList[0].name = txt;
+        //      $timeout(function () {
+        //        $ionicHistory.goBack(-1);
+        //      }, 1500);
+        //
+        //    }, function (data) {
+        //      $ionicPopup.alert({
+        //        title: '错误提示',
+        //        template: data
+        //      }).then(function (res) {
+        //        console.error(data);
+        //      })
+        //    }).finally(function () {
+        //    });
+        //}
+        //$state.go('main.edit-sheet');
+        $ionicLoading.show({
+          duration: 3000,
+          templateUrl: 'modules/components/templates/ionic-loading/user-edit-org.html'
+        });
+      },
+      cb_department: function () {
+        mainEditSheetService.title = '修改院系';
+        mainEditSheetService.isInputOrTextarea = true;
+        mainEditSheetService.placeholder = '你是哪个系的';
+        mainEditSheetService.className = '';
+        mainEditSheetService.cb = function (txt) {
+          $ionicLoading.show();
+          userNetService.updateDepartment(txt).then(
+            function (data) {
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+              });
+              userNetService.cache.selfInfo.department = txt;
+              $timeout(function () {
+                $ionicHistory.goBack(-1);
+              }, 1500);
+
+            }, function (data) {
+              $ionicPopup.alert({
+                title: '错误提示',
+                template: data
+              }).then(function (res) {
+                console.error(data);
+              })
+            }).finally(function () {
+            });
+        }
+        $state.go('main.edit-sheet');
+      },
+      cb_dormitory: function () {
+        mainEditSheetService.title = '修改寝室楼栋';
+        mainEditSheetService.isInputOrTextarea = true;
+        mainEditSheetService.placeholder = '你是哪个寝室哪个楼的';
+        mainEditSheetService.className = '';
+        mainEditSheetService.cb = function (txt) {
+          $ionicLoading.show();
+          userNetService.updateDormitory(txt).then(
+            function (data) {
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+              });
+              userNetService.cache.selfInfo.dormitory = txt;
+              $timeout(function () {
+                $ionicHistory.goBack(-1);
+              }, 1500);
+
+            }, function (data) {
+              $ionicPopup.alert({
+                title: '错误提示',
+                template: data
+              }).then(function (res) {
+                console.error(data);
+              })
+            }).finally(function () {
+            });
+        }
+        $state.go('main.edit-sheet');
+      },
+
+      cb_gender: function () {
+        $ionicActionSheet.show({
+          titleText: "请选择性别",
+          buttons: [
+            {text: "<b>男</b>"},
+            {text: "<b>女</b>"}
+          ],
+          buttonClicked: function (index) {
+
+            $ionicLoading.show();
+            userNetService.updateGender(index + 1).then(
+              function (data) {
+                $ionicLoading.hide();
+                $ionicLoading.show({
+                  duration: 1500,
+                  templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+                });
+                userNetService.cache.selfInfo.gender = index + 1;
+                vm.edit.gender = userNetService.cache.selfInfo.gender == 1 ? "男" : "女";
+              }, function (data) {
+
+                $ionicPopup.alert({
+                  title: '错误提示',
+                  template: data
+                }).then(function (res) {
+                  console.error(data);
+                })
+              }).finally(function () {
+              });
+
+            return true;
+          },
+          cancelText: "取消",
+          cancel: function () {
+            // add cancel code..
+          },
+          destructiveButtonClicked: function () {
+          }
+        })
+      },
+
+      cb_hometown: function () {
+        mainEditSheetService.title = '修改家乡';
+        mainEditSheetService.isInputOrTextarea = true;
+        mainEditSheetService.placeholder = '老家是哪里的';
+        mainEditSheetService.className = '';
+        mainEditSheetService.cb = function (txt) {
+          $ionicLoading.show();
+          userNetService.updateHometown(txt).then(
+            function (data) {
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+              });
+              userNetService.cache.selfInfo.hometown = txt;
+              $timeout(function () {
+                $ionicHistory.goBack(-1);
+              }, 1500);
+
+            }, function (data) {
+              $ionicPopup.alert({
+                title: '错误提示',
+                template: data
+              }).then(function (res) {
+                console.error(data);
+              })
+            }).finally(function () {
+            });
+        }
+        $state.go('main.edit-sheet');
+      },
+
+      cb_sign: function () {
+        mainEditSheetService.title = '修改个人签名';
+        mainEditSheetService.isInputOrTextarea = true;
+        mainEditSheetService.placeholder = '...';
+        mainEditSheetService.className = '';
+        mainEditSheetService.cb = function (txt) {
+          $ionicLoading.show();
+          userNetService.updateSign(txt).then(
+            function (data) {
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+              });
+              userNetService.cache.selfInfo.sign = txt;
+              $timeout(function () {
+                $ionicHistory.goBack(-1);
+              }, 1500);
+
+            }, function (data) {
+              $ionicPopup.alert({
+                title: '错误提示',
+                template: data
+              }).then(function (res) {
+                console.error(data);
+              })
+            }).finally(function () {
+            });
+        }
+        $state.go('main.edit-sheet');
+      }
+    };
+
+
+  }
+})()

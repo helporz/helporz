@@ -5,10 +5,8 @@
   function () {
     'use strict'
     angular.module('app.routes',['ionic'])
-      .config(function($stateProvider, $urlRouterProvider)
+      .config(['$stateProvider','$urlRouterProvider', function($stateProvider, $urlRouterProvider)
       {
-        $stateProvider
-
         $stateProvider.state('im-list',{
           url:'/im/list',
           templateUrl:'modules/im/list.html',
@@ -69,6 +67,6 @@
         }
         //$urlRouterProvider.otherwise('/user/proto');
       }
-    );
+    ]);
   }
 )();

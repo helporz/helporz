@@ -66,16 +66,24 @@ function transport(pf) {
   } else if (pf == 'android') {
     dest = 'platforms/android/assets/www';
   } else {
-    process.stdout.write('invalid platform\n');
+    //process.stdout.write('invalid platform\n');
   }
 
-  gulp.src('www/**/*.js')
-    //.pipe(concat('bundle.js'))
-    .pipe(uglify({
-      //mangle: true,
-      //compress: true
-    }))
-    .pipe(gulp.dest(dest));
+  //gulp.src('www/**/*.js')
+  //  .pipe(uglify({
+  //    output: {
+  //      max_line_len: 1000000
+  //    }
+  //  }))
+  //  .pipe(gulp.dest(dest));
+
+  gulp.src('www/js/**/*.js')
+    .pipe(uglify())
+    .pipe(gulp.dest(dest+'/js'));
+
+  gulp.src('www/modules/**/*.js')
+    .pipe(uglify())
+    .pipe(gulp.dest(dest+'/modules'));
 
   //gulp.src('src/www/**/*.html')
   //  .pipe(gulp.dest('www'));
@@ -83,7 +91,5 @@ function transport(pf) {
 
 gulp.task('test-trans', function() {
   gulp.src('src/www/**/*.js')
-    //.pipe(concat('bundle.js'))
-    .pipe(uglify())
     .pipe(gulp.dest('www'));
 })

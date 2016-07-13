@@ -1,1 +1,950 @@
-!function(){"use strict";function e(e,o,i,n,c,a,l,r,p,d,u,m,h,g,f,k,v){function T(){var e=p.cache;for(var t in e.nm_comment){var s=e.nm_comment[t].correlationId;for(var o in e.postTaskGoingList)e.postTaskGoingList[o].id==s&&(e.postTaskGoingList[o].ui_showPassive2Badge=!0)}}var S=r.vm={};S.tabsetSpace=ionic.Platform.isAndroid()?"44px":"64px",S.contentSpace=ionic.Platform.isAndroid()?"84px":"104px",S.state=o,S.IMInterfaceService=k,S._isClicking=!1;var b=function(){return 0==S._isClicking&&(u(function(){S._isClicking=!1},300),S._isClicking=!0,!0)};S.tabSelectedIndex=0,S.postTabSelectedIndex=0,S.acceptTabSelectedIndex=0,S.taskScroll=l.$getByHandle("taskScroll"),S.pollIntervalTime=t,S.lastPollErrorOccurMS=0,S.isNetSynchronizing=!1,S.timeChecker=new Date,S.badges={postGoing:0,postFinish:0,acceptGoing:0,acceptFinish:0};var _=g.getNoticeMessageTypes(),L=function(){var e=p.cache;e.nm_task_changed&&(e.nm_task_changed=!1,S.badges.postGoing=e.nm_postGoing.length+e.nm_comment.length,S.badges.postFinish=e.nm_postFinish.length,S.badges.acceptGoing=e.nm_acceptGoing.length,S.badges.acceptFinish=e.nm_acceptFinish.length,T()),0==S.tabSelectedIndex?0==S.postTabSelectedIndex?0!=S.badges.postGoing&&(h.setReadFlagByType(_.POSTER_UNCOMPLETED_TASK_MESSAGE_TYPE),e.nm_postGoing=[],e.nm_main_changed=!0,S.badges.postGoing=e.nm_comment.length):0!=S.badges.postFinish&&(e.nm_postFinish=[],e.nm_main_changed=!0,S.badges.postFinish=0):0==S.acceptTabSelectedIndex?0!=S.badges.acceptGoing&&(h.setReadFlagByType(_.ACCEPTER_UNCOMPLETED_TASK_MESSAGE_TYPE),e.nm_acceptGoing=[],e.nm_main_changed=!0,S.badges.acceptGoing=0):0!=S.badges.acceptFinish&&(h.setReadFlagByType(_.ACCEPTER_COMPLETED_TASK_MESSAGE_TYPE),e.nm_acceptFinish=[],e.nm_main_changed=!0,S.badges.acceptFinish=0),1!=S.isNetSynchronizing&&(G(),(S.lastPollErrorOccurMS>0||S.timeChecker.getTime()-S.lastPollErrorOccurMS>s+2e3)&&(m.remove(0,"task",L),m.add(1,"task",L)))};r.$on("$ionicView.enter",function(){p.cache.isPostTaskGoingNeedRefresh&&p.cache.isPostTaskFinishNeedRefresh&&p.cache.isAcceptTaskGoingNeedRefresh&&p.cache.isAcceptTaskFinishNeedRefresh&&(S.isNetSynchronizing=!0,i.show(),p.getTaskList().then(function(e){S.repeatList=e.uncompletedPostList,I(e.uncompletedPostList,!0),T(),I(e.completedPostList,!0),I(e.uncompletedAcceptList,!1),I(e.completedAcceptList,!1),S.taskScroll.scrollTop(),u(function(){r.$apply()})},y)["finally"](function(){i.hide(),S.isNetSynchronizing=!1})),m.add(0,"task.controller",L)}),r.$on("$ionicView.leave",function(){m.remove(0,"task.controller",L),m.remove(1,"task.controller",L)});var y=function(e){console.error(e),S.pollIntervalTime=s,S.lastPollErrorOccurMS=(new Date).getTime()},I=function(e,t){if(1==t)for(var s in e)e[s].ui_identifier=null!=e[s].accepter?"联系援助人":"",e[s].ui_nickname=null!=e[s].accepter?e[s].accepter.nickname:"神秘大侠",e[s].ui_userId=null!=e[s].accepter?e[s].accepter.userId:"",e[s].ui_avatar=null!=e[s].accepter?e[s].accepter.avatar:"",e[s].ui_taskIcon=d.iconByTypeValue(e[s].taskTypesId),e[s].ui_taskTypeName=d.nameByTypeValue(e[s].taskTypesId),d.taskStateToUiState(e[s],e[s].status,!0);else for(var s in e)e[s].ui_identifier="联系求助人",e[s].ui_nickname=e[s].poster.nickname,e[s].ui_userId=null!=e[s].poster?e[s].poster.userId:"",e[s].ui_avatar=e[s].poster.avatar,e[s].ui_taskIcon=d.iconByTypeValue(e[s].taskTypesId),e[s].ui_taskTypeName=d.nameByTypeValue(e[s].taskTypesId),d.taskStateToUiState(e[s],e[s].status,!1)},P=function(){1==p.cache.isPostTaskGoingNeedRefresh&&(i.show(),S.isNetSynchronizing=!0,p.getUncompletedPostTaskList().then(function(e){I(e,!0),T(),0==S.tabSelectedIndex&&0==S.postTabSelectedIndex&&(S.repeatList=e,S.taskScroll.scrollTop()),i.hide(),u(function(){r.$apply()})},y)["finally"](function(){S.isNetSynchronizing=!1}))},x=function(){1==p.cache.isPostTaskFinishNeedRefresh&&(i.show(),S.isNetSynchronizing=!0,p.getCompletedPostTaskList(1,15).then(function(e){I(e,!0),0==S.tabSelectedIndex&&1==S.postTabSelectedIndex&&(S.repeatList=e,S.taskScroll.scrollTop()),i.hide(),u(function(){r.$apply()})},y)["finally"](function(){S.isNetSynchronizing=!1}))},w=function(){1==p.cache.isAcceptTaskGoingNeedRefresh&&(i.show(),S.isNetSynchronizing=!0,p.getUncompletedAcceptTaskList().then(function(e){I(e,!1),1==S.tabSelectedIndex&&0==S.postTabSelectedIndex&&(S.repeatList=e,S.taskScroll.scrollTop()),i.hide(),u(function(){r.$apply()})},y)["finally"](function(){S.isNetSynchronizing=!1}))},C=function(){1==p.cache.isAcceptTaskFinishNeedRefresh&&(i.show(),S.isNetSynchronizing=!0,p.getCompletedAcceptTaskList(1,15).then(function(e){I(e,!1),1==S.tabSelectedIndex&&1==S.postTabSelectedIndex&&(S.repeatList=e,S.taskScroll.scrollTop()),i.hide(),u(function(){r.$apply()})},y)["finally"](function(){S.isNetSynchronizing=!1}))},G=function(){P(),x(),w(),C()};S.cb_post=function(){console.log("post"),S.tabSelectedIndex=0,a.getWidgetStatic("hoTabSet","task").last=0,0==ho.isValid(S.hasClicked_cb_post)?S.hasClicked_cb_post=!0:0==S.postTabSelectedIndex?S.cb_taskPostGoing():S.cb_taskPostFinish()},S.cb_accept=function(){console.log("accept"),S.tabSelectedIndex=1,a.getWidgetStatic("hoTabSet","task").last=1,0==S.acceptTabSelectedIndex?S.cb_taskAcceptGoing():S.cb_taskAcceptFinish()},S.cb_taskPostGoing=function(){S.postTabSelectedIndex=0,0==ho.isValid(S.hasClicked_cb_taskPostGoing)?S.hasClicked_cb_taskPostGoing=!0:(S.repeatList=p.cache.postTaskGoingList,P()),S.taskScroll.scrollTop()},S.cb_taskPostFinish=function(){S.postTabSelectedIndex=1,S.repeatList=p.cache.postTaskFinishList,C(),S.taskScroll.scrollTop()},S.cb_taskAcceptGoing=function(){S.acceptTabSelectedIndex=0,0==ho.isValid(S.hasClicked_cb_taskAcceptGoing)?S.hasClicked_cb_taskAcceptGoing=!0:(S.repeatList=p.cache.acceptTaskGoingList,w()),S.taskScroll.scrollTop()},S.cb_taskAcceptFinish=function(){S.acceptTabSelectedIndex=1,S.repeatList=p.cache.acceptTaskFinishList,C(),S.taskScroll.scrollTop()},S.doRefresh=function(){p.getTaskList().then(function(e){S.repeatList=e.uncompletedPostList,I(e.uncompletedPostList,!0),I(e.completedPostList,!0),I(e.uncompletedAcceptList,!1),I(e.completedAcceptList,!1),0==S.tabSelectedIndex&&0==S.postTabSelectedIndex?S.repeatList=e.uncompletedPostList:0==S.tabSelectedIndex&&1==S.postTabSelectedIndex?S.repeatList=e.completedPostList:1==S.tabSelectedIndex&&0==S.acceptTabSelectedIndex?S.repeatList=e.uncompletedAcceptList:1==S.tabSelectedIndex&&1==S.acceptTabSelectedIndex&&(S.repeatList=e.completedAcceptList),S.taskScroll.scrollTop()},y)["finally"](function(){r.$broadcast("scroll.refreshComplete")})},S.cb_gotoUser=function(e){b()&&f.gotoUser(e,"task")},S.cb_taskState=function(e){b()&&N(S.repeatList[e].id)};var N=function(e){o.go("main.task-state",{id:e})},A=function(e,t){o.go("main.comment",{desc:t+"-"+e})};S.gotoComment=function(e){b()&&o.go("main.comment",{desc:"accepter-"+e})},S.cb_contact=function(e){0!=b()&&n.show({titleText:"联系Ta",buttons:[{text:"<b>发消息</b>"},{text:"<b>打电话</b>"}],buttonClicked:function(t){var s,o=S.repeatList[e];return 0==S.tabSelectedIndex?s=o.poster:1==S.tabSelectedIndex?s=o.accepter:ho.alert("tabindex invalid"),0==t?f.gotoIM(s.userId):1==t&&(v.location.href="tel:"+s.phoneNo),!0},cancelText:"取消",cancel:function(){},destructiveButtonClicked:function(){}})},S.opt_passive=function(e){if(0!=b()){var t=S.repeatList[e];0==S.tabSelectedIndex?0==t.status?(i.show(),p.cancelByPoster(t.id).then(function(e){console.log(e),200==e.code&&(i.show({duration:1500,templateUrl:"modules/components/templates/ionic-loading/com-cancel-success.html"}),u(function(){p.cache.isPostTaskFinishNeedRefresh=!0,p.cache.isPostTaskGoingNeedRefresh=!0},1500))},function(e){i.hide(),c.alert({title:"错误提示",template:e}).then(function(t){console.error(e)})})["finally"](function(){})):2==t.status?console.error("invalid task opt: wait over time - post passive"):4==t.status?console.error("invalid task opt: going on - post passive"):8==t.status?console.error("invalid task opt: going on overtime - post passive"):32==t.status?console.error("invalid task opt: accepter cancel - post passive"):64==t.status?(i.show(),p.confirmByPoster(t.id,256).then(function(e){i.show({duration:1500,templateUrl:"modules/components/templates/ionic-loading/com-submit-success.html"}),u(function(){p.cache.isPostTaskFinishNeedRefresh=!0},1500)},function(e,t){c.alert({title:"错误提示",template:e}).then(function(t){console.error(e)})})["finally"](function(){})):128==t.status?console.error("invalid task opt: poster confirm success - post passive"):256==t.status&&console.error("invalid task opt: poster confirm failed - post passive"):0==t.status?console.error("invalid task opt: wait - accepter passive"):2==t.status?console.error("invalid task opt: wait over time - accepter passive"):4==t.status?(console.error("invalid task opt: going on - accepter passive"),i.show(),p.cancelByAcceptor(t.id).then(function(e,t){i.show({duration:1500,templateUrl:"modules/components/templates/ionic-loading/com-submit-success.html"}),u(function(){p.cache.isAcceptTaskFinishNeedRefresh=!0},1500)},function(e){i.hide(),c.alert({title:"错误提示",template:e}).then(function(t){console.error(e)})})["finally"](function(){})):8==t.status?console.error("invalid task opt: going on overtime -accepter post passive"):32==t.status?console.error("invalid task opt: accepter cancel - accepter passive"):64==t.status?console.error("invalid task opt: accepter confirm success  - accepter passive"):128==t.status?N(t.id):256==t.status&&N(t.id)}},S.opt_passive2=function(e){if(0!=b()){var t=S.repeatList[e];0==S.tabSelectedIndex?0==t.status?(o.go("main.task_task-detail",{id:t.id}),p.setCommentReadFlag(t.id),p.cache.nm_main_changed=!0,p.cache.nm_task_changed=!0):2==t.status?console.log("大侠召唤术"):4==t.status?console.error("invalid task opt: going on - post passive"):8==t.status?A(t.id,"poster"):32==t.status?0==t.posterCommentLevel?A(t.id,"poster"):N(t.id):64==t.status?(i.show(),p.confirmByPoster(t.id,128).then(function(e){i.show({duration:1500,templateUrl:"modules/components/templates/ionic-loading/com-submit-success.html"}),u(function(){p.cache.isPostTaskGoingNeedRefresh=!0},1500)},function(e,t){i.show({duration:1500,templateUrl:"modules/components/templates/ionic-loading/com-submit-fail.html"}),ho.alert(e)})["finally"](function(){})):128==t.status?0==t.posterCommentLevel?A(t.id,"poster"):N(t.id):256==t.status&&(0==t.posterCommentLevel?A(t.id,"poster"):N(t.id)):0==t.status?console.error("invalid task opt: waiting - accepter active"):2==t.status?console.error("invalid task opt: wait over time - accepter active"):4==t.status?(i.show(),p.completeByAcceptor(t.id).then(function(e){i.show({duration:1500,templateUrl:"modules/components/templates/ionic-loading/com-submit-success.html"}),u(function(){p.cache.isAcceptTaskGoingNeedRefresh=!0},1500)},function(e){i.show({duration:1500,templateUrl:"modules/components/templates/ionic-loading/com-submit-fail.html"}),ho.alert(e)})["finally"](function(){})):8==t.status?A(t.id,"accepter"):32==t.status?N(t.id):64==t.status?console.error("invalid task opt: accepter confirm success - accepter active"):128==t.status?0==t.accepterCommentLevel?A(t.id,"accepter"):N(t.id):256==t.status&&(0==t.accepterCommentLevel?A(t.id,"accepter"):N(t.id))}},S.opt_active=function(e){if(0!=b()){var t=S.repeatList[e];0==S.tabSelectedIndex?0==t.status||(2==t.status?console.log("大侠召唤术"):4==t.status?console.error("invalid task opt: going on - post passive"):8==t.status?A(t.id,"poster"):32==t.status?0==t.posterCommentLevel?A(t.id,"poster"):N(t.id):64==t.status?(i.show(),p.confirmByPoster(t.id,128).then(function(e){i.show({duration:1500,templateUrl:"modules/components/templates/ionic-loading/com-submit-success.html"}),u(function(){p.cache.isPostTaskGoingNeedRefresh=!0},1500)},function(e,t){i.show({duration:1500,templateUrl:"modules/components/templates/ionic-loading/com-submit-fail.html"}),ho.alert(e)})["finally"](function(){})):128==t.status?0==t.posterCommentLevel?A(t.id,"poster"):N(t.id):256==t.status&&(0==t.posterCommentLevel?A(t.id,"poster"):N(t.id))):0==t.status?console.error("invalid task opt: waiting - accepter active"):2==t.status?console.error("invalid task opt: wait over time - accepter active"):4==t.status?(i.show(),p.completeByAcceptor(t.id).then(function(e){i.show({duration:1500,templateUrl:"modules/components/templates/ionic-loading/com-submit-success.html"}),u(function(){p.cache.isAcceptTaskGoingNeedRefresh=!0},1500)},function(e){i.show({duration:1500,templateUrl:"modules/components/templates/ionic-loading/com-submit-fail.html"}),ho.alert(e)})["finally"](function(){})):8==t.status?A(t.id,"accepter"):32==t.status?N(t.id):64==t.status?console.error("invalid task opt: accepter confirm success - accepter active"):128==t.status?0==t.accepterCommentLevel?A(t.id,"accepter"):N(t.id):256==t.status&&(0==t.accepterCommentLevel?A(t.id,"accepter"):N(t.id))}}}angular.module("main.task").controller("mainTaskCtrl",["$log","$state","$ionicLoading","$ionicActionSheet","$ionicPopup","widgetDelegate","$ionicScrollDelegate","$scope","taskNetService","taskUtils","$timeout","intervalCenter","NoticeMessageDB","NoticeMessageService","userUtils","IMInterfaceService","$window",e]);var t=200,s=5e3}();
+/**
+ * Created by Midstream on 16/3/29.
+ */
+
+(function () {
+  'use strict';
+
+  angular.module('main.task')
+    .controller('mainTaskCtrl', ['$log', '$state', '$ionicLoading', '$ionicActionSheet', '$ionicPopup', 'widgetDelegate', '$ionicScrollDelegate',
+      '$scope', 'taskNetService', 'taskUtils', '$timeout', 'intervalCenter', 'NoticeMessageDB', 'NoticeMessageService',
+      'userUtils','IMInterfaceService','$window',
+      mainTaskCtrl]);
+
+
+  var enumClickTarget = {
+    NONE: 0,
+    TASK_STATE: 1,
+    OPT_CANCEL: 2
+  };
+
+  var POLL_MIN_TIME = 200;
+  var POLL_MAX_TIME = 5000;
+
+
+  function mainTaskCtrl($log, $state, $ionicLoading, $ionicActionSheet, $ionicPopup, widgetDelegate, $ionicScrollDelegate,
+                        $scope, taskNetService, taskUtils, $timeout, intervalCenter, NoticeMessageDB, NoticeMessageService,
+                        userUtils,IMInterfaceService,$window) {
+    var vm = $scope.vm = {};
+
+    vm.tabsetSpace = ionic.Platform.isAndroid()? '44px': '64px';
+    vm.contentSpace = ionic.Platform.isAndroid()? '84px': '104px';
+    vm.state = $state;
+    vm.IMInterfaceService = IMInterfaceService;
+    //fixme:因为点击会穿透,同时触发多个事件,这里先用标记来屏蔽,点击按钮后间隔一段时间才可触发下一次点击回调
+    vm._isClicking = false;
+    var canClick = function () {
+      if (vm._isClicking == false) {
+        $timeout(function () {
+          vm._isClicking = false;
+        }, 300);
+        vm._isClicking = true;
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    vm.tabSelectedIndex = 0;
+
+    vm.postTabSelectedIndex = 0;
+    vm.acceptTabSelectedIndex = 0;
+
+    vm.taskScroll = $ionicScrollDelegate.$getByHandle('taskScroll');
+
+
+    vm.pollIntervalTime = POLL_MIN_TIME;
+    vm.lastPollErrorOccurMS = 0;
+    vm.isNetSynchronizing = false;
+    vm.timeChecker = new Date();
+
+    vm.badges = {
+      postGoing: 0,
+      postFinish: 0,
+      acceptGoing: 0,
+      acceptFinish: 0
+    }
+
+    var NMT = NoticeMessageService.getNoticeMessageTypes();
+
+    var intervalFunc = function () {
+      //检测未读消息产生的badge
+      var taskCache = taskNetService.cache;
+      if(taskCache.nm_task_changed) {
+        taskCache.nm_task_changed = false;
+
+        vm.badges.postGoing = taskCache.nm_postGoing.length + taskCache.nm_comment.length;
+        vm.badges.postFinish = taskCache.nm_postFinish.length;
+
+        vm.badges.acceptGoing = taskCache.nm_acceptGoing.length;
+        vm.badges.acceptFinish = taskCache.nm_acceptFinish.length;
+
+        _refreshPostGoingTaskCommentNoticeMessage();
+      }
+
+      //根据当前页面,消除badge
+      if(vm.tabSelectedIndex==0){
+        if(vm.postTabSelectedIndex==0){
+          if(vm.badges.postGoing!=0){
+            NoticeMessageDB.setReadFlagByType(NMT.POSTER_UNCOMPLETED_TASK_MESSAGE_TYPE);
+            taskCache.nm_postGoing = [];
+            taskCache.nm_main_changed = true;
+            vm.badges.postGoing = taskCache.nm_comment.length;
+          }
+        }else{
+          if(vm.badges.postFinish!=0){
+            taskCache.nm_postFinish = [];
+            taskCache.nm_main_changed = true;
+            vm.badges.postFinish = 0;
+          }
+        }
+      }else{  // tab==1
+        if(vm.acceptTabSelectedIndex==0){
+          if(vm.badges.acceptGoing!=0){
+            NoticeMessageDB.setReadFlagByType(NMT.ACCEPTER_UNCOMPLETED_TASK_MESSAGE_TYPE);
+            taskCache.nm_acceptGoing = [];
+            taskCache.nm_main_changed = true;
+            vm.badges.acceptGoing = 0;
+          }
+        }else{
+          if(vm.badges.acceptFinish!=0){
+            NoticeMessageDB.setReadFlagByType(NMT.ACCEPTER_COMPLETED_TASK_MESSAGE_TYPE);
+            taskCache.nm_acceptFinish = [];
+            taskCache.nm_main_changed = true;
+            vm.badges.acceptFinish = 0;
+          }
+        }
+      }
+
+      //如果正在同步,跳过本次轮训
+      if(vm.isNetSynchronizing == true) {
+        return;
+      }
+      checkTaskNewState();
+      //网络条件不佳,或者从服务器读取数据出错的时候,会将轮训间隔调大,当一段时间不出错(网络恢复后),将轮询间隔重置成最小值
+      if(vm.lastPollErrorOccurMS > 0 || vm.timeChecker.getTime() - vm.lastPollErrorOccurMS > POLL_MAX_TIME + 2000){
+        //vm.pollInterval = POLL_MIN_TIME;
+
+        //从快轮询移除,加到慢轮训
+        intervalCenter.remove(0, 'task', intervalFunc);
+        intervalCenter.add(1, 'task', intervalFunc);
+      }
+    }
+
+    //刷新postGoing列表中comment红点
+    function _refreshPostGoingTaskCommentNoticeMessage() {
+      var taskCache = taskNetService.cache;
+      for(var i in taskCache.nm_comment) {
+        var commentTaskId = taskCache.nm_comment[i].correlationId
+        for(var j in taskCache.postTaskGoingList) {
+          if(taskCache.postTaskGoingList[j].id == commentTaskId){
+            taskCache.postTaskGoingList[j].ui_showPassive2Badge = true;
+          }
+        }
+      }
+    }
+
+
+    $scope.$on("$ionicView.enter", function () {
+      // 首次判断读取任务
+      if(taskNetService.cache.isPostTaskGoingNeedRefresh &&
+        taskNetService.cache.isPostTaskFinishNeedRefresh &&
+        taskNetService.cache.isAcceptTaskGoingNeedRefresh &&
+        taskNetService.cache.isAcceptTaskFinishNeedRefresh
+      ){
+        vm.isNetSynchronizing = true;
+
+        $ionicLoading.show();
+        taskNetService.getTaskList().then(function(taskList) {
+          vm.repeatList = taskList.uncompletedPostList;
+          _processTaskForUI(taskList.uncompletedPostList, true);  _refreshPostGoingTaskCommentNoticeMessage();
+          _processTaskForUI(taskList.completedPostList, true);
+          _processTaskForUI(taskList.uncompletedAcceptList, false);
+          _processTaskForUI(taskList.completedAcceptList, false);
+
+          vm.taskScroll.scrollTop();
+          $timeout(function(){
+            $scope.$apply();
+          })
+        }, _cb_failed).finally(function(){
+          $ionicLoading.hide();
+          vm.isNetSynchronizing = false;
+        })
+      }
+
+      //// 开始轮询
+      //if(vm.pollInterval == undefined){
+      //  vm.pollInterval = $interval(function () {
+      //    //如果正在同步,跳过本次轮训
+      //    if(vm.isNetSynchronizing == true) {
+      //      return;
+      //    }
+      //    checkTaskNewState();
+      //    //网络条件不佳,或者从服务器读取数据出错的时候,会将轮训间隔调大,当一段时间不出错(网络恢复后),将轮询间隔重置成最小值
+      //    if(vm.lastPollErrorOccurMS > 0 || vm.timeChecker.getTime() - vm.lastPollErrorOccurMS > POLL_MAX_TIME + 2000){
+      //      vm.pollInterval = POLL_MIN_TIME;
+      //    }
+      //  }, vm.pollIntervalTime);
+      //}
+
+      intervalCenter.add(0, 'task.controller', intervalFunc);
+
+
+    });
+    $scope.$on("$ionicView.leave", function () {
+      //$interval.cancel(vm.pollInterval);
+      //vm.pollInterval = undefined;
+
+      // try to remove from intervalCenter
+      intervalCenter.remove(0, 'task.controller', intervalFunc);
+      intervalCenter.remove(1, 'task.controller', intervalFunc);
+    });
+
+
+
+
+    //////////////////////////////////////////////////
+    // taskNet
+
+    var _cb_failed = function (error) {
+      console.error(error);
+      //出错后将轮训间隔调大,减小服务器压力
+      vm.pollIntervalTime = POLL_MAX_TIME;
+      vm.lastPollErrorOccurMS = (new Date()).getTime();
+    }
+
+    //--------------------------------------------------
+
+    var _processTaskForUI = function(taskList, isPoster) {
+      if (isPoster == true) {
+        for (var i in taskList) {
+          taskList[i].ui_identifier = taskList[i].accepter != null ? "联系援助人" : "";
+          taskList[i].ui_nickname = taskList[i].accepter != null ? taskList[i].accepter.nickname : "神秘大侠";
+          taskList[i].ui_userId = taskList[i].accepter != null ? taskList[i].accepter.userId : '';
+          taskList[i].ui_avatar = taskList[i].accepter != null ? taskList[i].accepter.avatar : "";
+          taskList[i].ui_taskIcon = taskUtils.iconByTypeValue(taskList[i].taskTypesId);
+          taskList[i].ui_taskTypeName = taskUtils.nameByTypeValue(taskList[i].taskTypesId);
+
+          taskUtils.taskStateToUiState(taskList[i], taskList[i].status, true);
+        }
+
+      }
+      else {
+        for (var i in taskList) {
+          taskList[i].ui_identifier = "联系求助人";
+          taskList[i].ui_nickname = taskList[i].poster.nickname;
+          taskList[i].ui_userId = taskList[i].poster != null ? taskList[i].poster.userId : '';
+          taskList[i].ui_avatar = taskList[i].poster.avatar;
+          taskList[i].ui_taskIcon = taskUtils.iconByTypeValue(taskList[i].taskTypesId);
+          taskList[i].ui_taskTypeName = taskUtils.nameByTypeValue(taskList[i].taskTypesId);
+
+          taskUtils.taskStateToUiState(taskList[i], taskList[i].status, false);
+        }
+      }
+    }
+
+    var _checkPostTaskGoing = function() {
+      if(taskNetService.cache.isPostTaskGoingNeedRefresh == true) {
+        $ionicLoading.show();
+        vm.isNetSynchronizing = true;
+        taskNetService.getUncompletedPostTaskList().then(function(taskList) {
+          _processTaskForUI(taskList, true);
+          _refreshPostGoingTaskCommentNoticeMessage();
+
+          if(vm.tabSelectedIndex==0 && vm.postTabSelectedIndex==0){
+            vm.repeatList = taskList;
+            vm.taskScroll.scrollTop();
+          }
+          $ionicLoading.hide();
+          $timeout(function(){
+            $scope.$apply();
+          })
+        }, _cb_failed).finally(function(){
+          vm.isNetSynchronizing = false;
+        })
+      }
+    };
+
+    var _checkPostTaskFinish = function() {
+      if(taskNetService.cache.isPostTaskFinishNeedRefresh == true) {
+        $ionicLoading.show();
+        vm.isNetSynchronizing = true;
+        taskNetService.getCompletedPostTaskList(1, 15).then(function (taskList) {
+          _processTaskForUI(taskList, true);
+          if(vm.tabSelectedIndex==0 && vm.postTabSelectedIndex==1){
+            vm.repeatList = taskList;
+            vm.taskScroll.scrollTop();
+          }
+          $ionicLoading.hide();
+          $timeout(function(){
+            $scope.$apply();
+          })
+        }, _cb_failed).finally(function () {
+          vm.isNetSynchronizing = false;
+        })
+      }
+    };
+
+    var _checkAcceptTaskGoing = function() {
+      if(taskNetService.cache.isAcceptTaskGoingNeedRefresh == true) {
+        $ionicLoading.show();
+        vm.isNetSynchronizing = true;
+        taskNetService.getUncompletedAcceptTaskList().then(function(taskList) {
+          _processTaskForUI(taskList, false);
+          if(vm.tabSelectedIndex==1 && vm.postTabSelectedIndex==0){
+            vm.repeatList = taskList;
+            vm.taskScroll.scrollTop();
+          }
+          $ionicLoading.hide();
+          $timeout(function(){
+            $scope.$apply();
+          })
+        }, _cb_failed).finally(function(){
+          vm.isNetSynchronizing = false;
+        })
+      }
+    };
+
+    var _checkAcceptTaskFinish = function() {
+      if(taskNetService.cache.isAcceptTaskFinishNeedRefresh == true) {
+        $ionicLoading.show();
+        vm.isNetSynchronizing = true;
+        taskNetService.getCompletedAcceptTaskList(1, 15).then(function(taskList) {
+          _processTaskForUI(taskList, false);
+           if(vm.tabSelectedIndex==1 && vm.postTabSelectedIndex==1){
+            vm.repeatList = taskList;
+            vm.taskScroll.scrollTop();
+          }
+          $ionicLoading.hide();
+          $timeout(function(){
+            $scope.$apply();
+          })
+        }, _cb_failed).finally(function(){
+          vm.isNetSynchronizing = false;
+        })
+      }
+    };
+
+
+    var checkTaskNewState = function () {
+      _checkPostTaskGoing();
+      _checkPostTaskFinish();
+      _checkAcceptTaskGoing();
+      _checkAcceptTaskFinish();
+    }
+
+    //--------------------------------------------------
+
+    vm.cb_post = function () {
+      console.log('post');
+
+      ////note: 这里比较特殊,tab组件加载的时候会默认点击第一个tab;当从子页面返回时,我们希望进入页面时,处在最后一次的tab页上
+      //if(vm.tabSelectedIndex == 1){
+      //  vm.cb_accept();
+      //  return;
+      //}
+
+      vm.tabSelectedIndex = 0;
+      //将tab选中信息保存到delegate里
+      widgetDelegate.getWidgetStatic('hoTabSet', 'task').last = 0;
+
+      //checkPostTaskRefresh();
+      //vm.repeatList = taskNetService.cache.postTaskList;
+
+      // 首次进入,则拉取所有任务;非首次,检差刷新当前页
+
+      if(ho.isValid(vm.hasClicked_cb_post) == false) {
+        vm.hasClicked_cb_post = true;
+      } else {
+       if(vm.postTabSelectedIndex == 0) {
+          vm.cb_taskPostGoing();
+        }else {
+          vm.cb_taskPostFinish();
+        }
+      }
+    }
+
+    //--------------------------------------------------
+    vm.cb_accept = function () {
+      console.log('accept');
+      vm.tabSelectedIndex = 1;
+      //将tab选中信息保存到delegate里
+      widgetDelegate.getWidgetStatic('hoTabSet', 'task').last = 1;
+
+      //checkAcceptTaskRefresh();
+      //vm.repeatList = taskNetService.cache.acceptTaskList;
+
+			 if(vm.acceptTabSelectedIndex == 0) {
+				 vm.cb_taskAcceptGoing();
+			 } else {
+				 vm.cb_taskAcceptFinish();
+			 }
+    };
+
+    /////////////////////////////////////
+
+    vm.cb_taskPostGoing = function () {
+      vm.postTabSelectedIndex = 0;
+
+      //非第一次点击(控件初始化时会自动点击一次)
+      if (ho.isValid(vm.hasClicked_cb_taskPostGoing) == false) {
+        vm.hasClicked_cb_taskPostGoing = true;
+      }else {
+        vm.repeatList = taskNetService.cache.postTaskGoingList;
+        _checkPostTaskGoing()
+      }
+      vm.taskScroll.scrollTop();
+    };
+
+    vm.cb_taskPostFinish = function () {
+      vm.postTabSelectedIndex = 1;
+      vm.repeatList = taskNetService.cache.postTaskFinishList;
+      _checkAcceptTaskFinish();
+      vm.taskScroll.scrollTop();
+    };
+
+    vm.cb_taskAcceptGoing = function () {
+      vm.acceptTabSelectedIndex = 0;
+
+      //非第一次点击(控件初始化时会自动点击一次)
+      if (ho.isValid(vm.hasClicked_cb_taskAcceptGoing) == false) {
+        vm.hasClicked_cb_taskAcceptGoing = true;
+      }else {
+        vm.repeatList = taskNetService.cache.acceptTaskGoingList;
+        _checkAcceptTaskGoing()
+      }
+      vm.taskScroll.scrollTop();
+    };
+
+    vm.cb_taskAcceptFinish = function () {
+      vm.acceptTabSelectedIndex = 1;
+      vm.repeatList = taskNetService.cache.acceptTaskFinishList;
+      _checkAcceptTaskFinish();
+      vm.taskScroll.scrollTop();
+    };
+
+    /////////////////////////////////////
+    vm.doRefresh = function () {
+      //taskNetService.getPostTaskList().then(_cb_getPostTaskSuccess, _cb_failed).finally(function () {
+      //  taskNetService.getAcceptTaskList().then(_cb_getAcceptTaskSuccess, _cb_failed).finally(function () {
+      //    $scope.$broadcast('scroll.refreshComplete');
+      //    $ionicLoading.hide();
+      //  });
+      //});
+
+      taskNetService.getTaskList().then(function(taskList) {
+        vm.repeatList = taskList.uncompletedPostList;
+        _processTaskForUI(taskList.uncompletedPostList, true);
+        _processTaskForUI(taskList.completedPostList, true);
+        _processTaskForUI(taskList.uncompletedAcceptList, false);
+        _processTaskForUI(taskList.completedAcceptList, false);
+        if(vm.tabSelectedIndex==0 && vm.postTabSelectedIndex==0) {
+          vm.repeatList = taskList.uncompletedPostList;
+        }
+        else if(vm.tabSelectedIndex==0 && vm.postTabSelectedIndex==1) {
+          vm.repeatList = taskList.completedPostList;
+        }
+        else if(vm.tabSelectedIndex==1 && vm.acceptTabSelectedIndex==0) {
+          vm.repeatList = taskList.uncompletedAcceptList;
+        }
+        else if(vm.tabSelectedIndex==1 && vm.acceptTabSelectedIndex==1) {
+          vm.repeatList = taskList.completedAcceptList;
+        }
+        vm.taskScroll.scrollTop();
+      }, _cb_failed).finally(function() {
+        $scope.$broadcast('scroll.refreshComplete');
+      })
+    };
+
+    //////////////////////////////////////////////////
+    vm.cb_gotoUser = function(userId) {
+      if (canClick()) {
+        userUtils.gotoUser(userId, 'task');
+      }
+    };
+
+    vm.cb_taskState = function (index) {
+      if (canClick()) {
+        gotoTaskState(vm.repeatList[index].id);
+      }
+    }
+
+    var gotoTaskState = function (taskId) {
+      $state.go('main.task-state', {id: taskId});
+    };
+
+    var gotoComment = function (taskId, who) {
+      $state.go('main.comment', {desc: who + '-' + taskId});
+    };
+
+    vm.gotoComment = function (taskId) {
+      if (canClick()) {
+        $state.go('main.comment', {desc: 'accepter-' + taskId});
+        //$state.go('main.comment', {desc: 'accepter-' + '516'});
+      }
+    };
+
+    vm.cb_contact = function ($index) {
+      if(canClick()==false){
+        return;
+      }
+      $ionicActionSheet.show({
+        titleText: "联系Ta",
+        buttons: [
+          {text: "<b>发消息</b>"},
+          {text: "<b>打电话</b>"}
+        ],
+        buttonClicked: function (index) {
+          var task = vm.repeatList[$index];
+          var user;
+          if(vm.tabSelectedIndex==0){
+            user = task.poster;
+          }else if(vm.tabSelectedIndex==1){
+            user = task.accepter;
+          }else{
+            ho.alert('tabindex invalid');
+          }
+
+          if (index == 0) {
+            userUtils.gotoIM(user.userId);
+          }else if(index==1){
+            $window.location.href='tel:'+ user.phoneNo;
+          }
+
+          return true;
+        },
+        cancelText: "取消",
+        cancel: function () {
+          // add cancel code..
+        },
+        destructiveButtonClicked: function () {
+        }
+      })
+    };
+
+    vm.opt_passive = function (index) {
+      if (canClick() == false) {
+        return;
+      }
+
+      var task = vm.repeatList[index];
+
+      if (vm.tabSelectedIndex == 0) {
+        if (task.status == 0) {  //waiting  -- 取消
+          $ionicLoading.show();
+          taskNetService.cancelByPoster(task.id).then(
+            function (data) {
+              console.log(data);
+              if (data.code == 200) {
+
+                $ionicLoading.show({
+                  duration: 1500,
+                  templateUrl: 'modules/components/templates/ionic-loading/com-cancel-success.html'
+                });
+                $timeout(function() {
+                  taskNetService.cache.isPostTaskFinishNeedRefresh = true;
+                  taskNetService.cache.isPostTaskGoingNeedRefresh = true;
+                }, 1500);
+              } else {
+              }
+            }, function (data) {
+              $ionicLoading.hide();
+              $ionicPopup.alert({
+                title: '错误提示',
+                template: data
+              }).then(function (res) {
+                console.error(data);
+              })
+            }).finally(function () {
+            });
+        }
+        else if (task.status == 2) {  //wait over time
+          console.error('invalid task opt: wait over time - post passive');
+        }
+        else if (task.status == 4) {  // going on
+          console.error('invalid task opt: going on - post passive');
+        }
+        else if (task.status == 8) {  //going on overtime
+          console.error('invalid task opt: going on overtime - post passive');
+        }
+        else if (task.status == 32) { //accepter cancel
+          console.error('invalid task opt: accepter cancel - post passive');
+        }
+        else if (task.status == 64) { //accepter confirm success  -- 未完成援助
+          $ionicLoading.show();
+          taskNetService.confirmByPoster(task.id, 256).then(  //ask:xiaolang  status: success,failed
+            function (data) {
+							//vm.cb_post();
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+              });
+              $timeout(function() {
+                taskNetService.cache.isPostTaskFinishNeedRefresh = true;
+              }, 1500);
+
+            }, function (data, status) {
+              $ionicPopup.alert({
+                title: '错误提示',
+                template: data
+              }).then(function (res) {
+                console.error(data);
+              })
+            }).finally(function () {
+            });
+        }
+        else if (task.status == 128) { //poster confirm success
+          console.error('invalid task opt: poster confirm success - post passive');
+        }
+        else if (task.status == 256) { //poster confirm failed
+          console.error('invalid task opt: poster confirm failed - post passive');
+        }
+      }
+      /////////////////////////
+      else {
+        if (task.status == 0) {  //waiting  -- 取消
+          console.error('invalid task opt: wait - accepter passive');
+        }
+        else if (task.status == 2) {  //wait over time
+          console.error('invalid task opt: wait over time - accepter passive');
+        }
+
+        else if (task.status == 4) {  // going on -- 放弃援助
+          console.error('invalid task opt: going on - accepter passive');
+          $ionicLoading.show();
+          taskNetService.cancelByAcceptor(task.id).then(  //ask:xiaolang  status: success,failed
+            function (data, status) {
+              //console.log(data);
+              //if (data.code == 200) {
+              //  taskNetService.cache.isAcceptTaskFinishNeedRefresh = true;
+              //  vm.cb_accept();
+              //} else {
+              //
+              //}
+
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+              });
+              $timeout(function() {
+                taskNetService.cache.isAcceptTaskFinishNeedRefresh = true;
+              }, 1500);
+
+            }, function (data) {
+              $ionicLoading.hide();
+              //temp
+              $ionicPopup.alert({
+                title: '错误提示',
+                template: data
+              }).then(function (res) {
+                console.error(data);
+              })
+            }).finally(function () {
+            });
+        }
+        else if (task.status == 8) {  //going on overtime
+          console.error('invalid task opt: going on overtime -accepter post passive');
+        }
+        else if (task.status == 32) { //accepter cancel
+          console.error('invalid task opt: accepter cancel - accepter passive');
+        }
+        else if (task.status == 64) { //accepter confirm success
+          console.error('invalid task opt: accepter confirm success  - accepter passive');
+        }
+        else if (task.status == 128) { //poster confirm success
+          gotoTaskState(task.id);
+        }
+        else if (task.status == 256) { //poster confirm failed
+          gotoTaskState(task.id);
+        }
+      }
+
+    }
+
+    vm.opt_passive2 = function (index) {
+      if (canClick() == false) {
+        return;
+      }
+
+      var task = vm.repeatList[index];
+
+      if (vm.tabSelectedIndex == 0) {
+
+        if (task.status == 0) { //wait
+          $state.go('main.task_task-detail', {id: task.id})
+          //todo: 取消comment红点
+          taskNetService.setCommentReadFlag(task.id);
+          taskNetService.cache.nm_main_changed = true;
+          taskNetService.cache.nm_task_changed = true;
+        }
+        else if (task.status == 2) {  //wait over time - 大侠召唤术
+          console.log('大侠召唤术');
+        }
+        else if (task.status == 4) {  // going on
+          console.error('invalid task opt: going on - post passive');
+        }
+        else if (task.status == 8) {  //going on overtime -- 评价
+          gotoComment(task.id, 'poster');
+        }
+        else if (task.status == 32) { //acceptor cancel -- 评价
+          if(task.posterCommentLevel == 0) {
+            gotoComment(task.id, 'poster');
+          }else{
+            gotoTaskState(task.id);
+          }
+        }
+        else if (task.status == 64) { //poster confirm success  -- 确认完成援助
+          $ionicLoading.show();
+          taskNetService.confirmByPoster(task.id, 128).then(  //ask:xiaolang  status: success,failed
+            function (data) {
+              //console.log(data);
+              //if (data.code == 200) {
+              //  taskNetService.cache.isPostTaskFinishNeedRefresh = true;
+              //  vm.cb_post();
+              //} else {
+              //
+              //}
+
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+              });
+              $timeout(function() {
+                taskNetService.cache.isPostTaskGoingNeedRefresh = true;
+              }, 1500);
+
+            }, function (data, status) {
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-fail.html'
+              });
+              ho.alert(data);
+            }).finally(function () {
+            });
+        }
+        else if (task.status == 128) { //poster confirm success -- 评价
+          if(task.posterCommentLevel == 0){
+            gotoComment(task.id, 'poster');
+          }else {
+            gotoTaskState(task.id);
+          }
+        }
+        else if (task.status == 256) { //poster confirm failed -- 评价
+          if(task.posterCommentLevel == 0){
+            gotoComment(task.id, 'poster');
+          }else {
+            gotoTaskState(task.id);
+          }
+        }
+      }
+      // accepter
+      else {
+        if (task.status == 0) {  //waiting
+          console.error('invalid task opt: waiting - accepter active');
+        }
+        else if (task.status == 2) {  //wait over time
+          console.error('invalid task opt: wait over time - accepter active');
+        }
+        else if (task.status == 4) {  // going on -- 我已完成援助
+          $ionicLoading.show();
+          taskNetService.completeByAcceptor(task.id).then(
+            function (data) {
+              //if (data.code == 200) {
+              //  taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
+              //  vm.cb_accept();
+              //} else {
+              //}
+
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+              });
+              $timeout(function() {
+                taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
+              }, 1500);
+
+            }, function (data) {
+              //$ionicPopup.alert({
+              //  title: '错误提示',
+              //  template: data
+              //}).then(function (res) {
+              //  console.error(data);
+              //})
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-fail.html'
+              });
+
+              ho.alert(data);
+            }).finally(function () {
+            });
+        }
+        else if (task.status == 8) {  //going on overtime -- 评价
+          gotoComment(task.id, 'accepter');
+        }
+        else if (task.status == 32) { //accepter cancel -- 查看评价
+          gotoTaskState(task.id);
+        }
+        else if (task.status == 64) { //accepter confirm success
+          console.error('invalid task opt: accepter confirm success - accepter active');
+        }
+        else if (task.status == 128) { //accepter confirm success -- 评价留言
+          if(task.accepterCommentLevel == 0) {
+            gotoComment(task.id, 'accepter');
+          }else{
+            gotoTaskState(task.id);
+          }
+        }
+        else if (task.status == 256) { //accepter confirm failed -- 评价留言
+          if(task.accepterCommentLevel == 0){
+            gotoComment(task.id, 'accepter');
+          }else{
+            gotoTaskState(task.id);
+          }
+        }
+      }
+    }
+
+    vm.opt_active = function (index) {
+      if (canClick() == false) {
+        return;
+      }
+
+      var task = vm.repeatList[index];
+
+      if (vm.tabSelectedIndex == 0) {
+
+        if (task.status == 0) { //wait
+          //$state.go('main.task_task-detail', {id: task.id})
+        }
+        else if (task.status == 2) {  //wait over time - 大侠召唤术
+          console.log('大侠召唤术');
+        }
+        else if (task.status == 4) {  // going on
+          console.error('invalid task opt: going on - post passive');
+        }
+        else if (task.status == 8) {  //going on overtime -- 评价
+          gotoComment(task.id, 'poster');
+        }
+        else if (task.status == 32) { //acceptor cancel -- 评价
+          if(task.posterCommentLevel == 0) {
+            gotoComment(task.id, 'poster');
+          }else{
+            gotoTaskState(task.id);
+          }
+        }
+        else if (task.status == 64) { //poster confirm success  -- 确认完成援助
+          $ionicLoading.show();
+          taskNetService.confirmByPoster(task.id, 128).then(  //ask:xiaolang  status: success,failed
+            function (data) {
+              //console.log(data);
+              //if (data.code == 200) {
+              //  taskNetService.cache.isPostTaskFinishNeedRefresh = true;
+              //  vm.cb_post();
+              //} else {
+              //
+              //}
+
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+              });
+              $timeout(function() {
+                taskNetService.cache.isPostTaskGoingNeedRefresh = true;
+              }, 1500);
+
+            }, function (data, status) {
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-fail.html'
+              });
+              ho.alert(data);
+            }).finally(function () {
+            });
+        }
+        else if (task.status == 128) { //poster confirm success -- 评价
+          if(task.posterCommentLevel == 0){
+            gotoComment(task.id, 'poster');
+          }else {
+            gotoTaskState(task.id);
+          }
+        }
+        else if (task.status == 256) { //poster confirm failed -- 评价
+          if(task.posterCommentLevel == 0){
+            gotoComment(task.id, 'poster');
+          }else {
+            gotoTaskState(task.id);
+          }
+        }
+      }
+      // accepter
+      else {
+        if (task.status == 0) {  //waiting
+          console.error('invalid task opt: waiting - accepter active');
+        }
+        else if (task.status == 2) {  //wait over time
+          console.error('invalid task opt: wait over time - accepter active');
+        }
+        else if (task.status == 4) {  // going on -- 我已完成援助
+          $ionicLoading.show();
+          taskNetService.completeByAcceptor(task.id).then(
+            function (data) {
+              //if (data.code == 200) {
+              //  taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
+              //  vm.cb_accept();
+              //} else {
+              //}
+
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+              });
+              $timeout(function() {
+                taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
+              }, 1500);
+
+            }, function (data) {
+              //$ionicPopup.alert({
+              //  title: '错误提示',
+              //  template: data
+              //}).then(function (res) {
+              //  console.error(data);
+              //})
+              $ionicLoading.show({
+                duration: 1500,
+                templateUrl: 'modules/components/templates/ionic-loading/com-submit-fail.html'
+              });
+
+              ho.alert(data);
+            }).finally(function () {
+            });
+        }
+        else if (task.status == 8) {  //going on overtime -- 评价
+          gotoComment(task.id, 'accepter');
+        }
+        else if (task.status == 32) { //accepter cancel -- 查看评价
+          gotoTaskState(task.id);
+        }
+        else if (task.status == 64) { //accepter confirm success
+          console.error('invalid task opt: accepter confirm success - accepter active');
+        }
+        else if (task.status == 128) { //accepter confirm success -- 评价留言
+          if(task.accepterCommentLevel == 0) {
+            gotoComment(task.id, 'accepter');
+          }else{
+            gotoTaskState(task.id);
+          }
+        }
+        else if (task.status == 256) { //accepter confirm failed -- 评价留言
+          if(task.accepterCommentLevel == 0){
+            gotoComment(task.id, 'accepter');
+          }else{
+            gotoTaskState(task.id);
+          }
+        }
+      }
+    }
+
+  }
+})
+()

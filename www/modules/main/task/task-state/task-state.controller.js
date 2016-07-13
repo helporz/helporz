@@ -1,1 +1,167 @@
-!function(){"use strict";function t(t,e,s,a,o,m,n,r,i){console.log(s);var k=t.vm={};t.$on("$ionicView.beforeEnter",function(){var a=!0;k.task=o.getTaskInPostList(s.id),null==k.task&&(a=!1,k.task=o.getTaskInAcceptList(s.id)),k.task.icon=m.iconByTypeValue(k.task.taskTypesId),k.task.typeName=m.nameByTypeValue(k.task.taskTypesId),k.task.commentCount=k.task.commentList?k.task.commentList.length:0,k.task.ui_tags=[],n.netTagsToUiTags(k.task.ui_tags,k.task.poster.tags),m.taskStateToUiState(k.task,k.task.status,a),k.task.state=2;var i=r.cache.selfInfo;return void 0==i?void console.error("err: no selfInfo"):(k.showMyComment=!1,k.showOtherComment=!1,k.showState=0,a===!0?(0!=k.task.posterCommentLevel&&(k.showMyComment=!0,k.ui_myComment=k.task.posterComment,k.ui_myCommentLevel=""+k.task.posterCommentLevel,k.ui_myCommentTags=[],n.netTagsToUiTags(k.ui_myCommentTags,k.task.posterTags)),0!=k.task.accepterCommentLevel&&0!=k.task.posterCommentLevel&&(k.showOtherComment=!0,k.ui_otherComment=k.task.accepterComment,k.ui_otherCommentLevel=""+k.task.accepterCommentLevel,k.ui_otherCommentTags=[],n.netTagsToUiTags(k.ui_otherCommentTags,k.task.accepterTags)),"128"!=k.task.status&&"256"!=k.task.status||(0==k.task.posterCommentLevel?k.showState=1:0==k.task.accepterCommentLevel?k.showState=2:k.showState=0),"32"==k.task.status&&(k.task.posterComment||(k.showState=1))):(0!=k.task.posterCommentLevel&&0!=k.task.accepterCommentLevel&&(k.showOtherComment=!0,k.ui_otherComment=k.task.posterComment,k.ui_otherCommentLevel=""+k.task.posterCommentLevel,k.ui_otherCommentTags=[],n.netTagsToUiTags(k.ui_otherCommentTags,k.task.posterTags)),0!=k.task.accepterCommentLevel&&(k.showMyComment=!0,k.ui_myComment=k.task.accepterComment,k.ui_myCommentLevel=""+k.task.accepterCommentLevel,k.ui_myCommentTags=[],n.netTagsToUiTags(k.ui_myCommentTags,k.task.accepterTags)),"128"!=k.task.status&&"256"!=k.task.status||(0==k.task.accepterCommentLevel?k.showState=1:0==k.task.posterCommentLevel?k.showState=2:k.showState=0)),void e(function(){t.$apply()},0))}),k.cb_gotoUser=function(t){var e,s=a.$getByHandle("rootTabs").selectedIndex();0==s?e="near":4==s?e="me":3==s?e="task":ho.alert("gotoUser tab invalid, tabIndex="+s),i.gotoUser(t,e)}}angular.module("main.task.taskState").controller("mainTaskTaskStateCtrl",["$scope","$timeout","$stateParams","$ionicTabsDelegate","taskNetService","taskUtils","impressUtils","userNetService","userUtils",t])}();
+/**
+ * Created by Midstream on 16/4/11 .
+ */
+
+(function () {
+  'use strict';
+
+  angular.module('main.task.taskState')
+    .controller('mainTaskTaskStateCtrl', ['$scope', '$timeout', '$stateParams', '$ionicTabsDelegate','taskNetService', 'taskUtils',
+      'impressUtils', 'userNetService','userUtils',  mainTaskTaskStateCtrl]);
+
+  function mainTaskTaskStateCtrl($scope, $timeout, $stateParams, $ionicTabsDelegate, taskNetService, taskUtils,
+                                 impressUtils, userNetService, userUtils) {
+    console.log($stateParams);
+
+    var vm = $scope.vm = {};
+
+    $scope.$on("$ionicView.beforeEnter", function () {
+      var isPosterOrAccepter = true;
+      vm.task = taskNetService.getTaskInPostList($stateParams.id);
+      if(vm.task == null){
+        isPosterOrAccepter = false;
+        vm.task = taskNetService.getTaskInAcceptList($stateParams.id);
+      }
+
+      vm.task.icon = taskUtils.iconByTypeValue(vm.task.taskTypesId);
+      vm.task.typeName = taskUtils.nameByTypeValue(vm.task.taskTypesId);
+      vm.task.commentCount = vm.task.commentList ? vm.task.commentList.length : 0;
+
+
+      // impresses
+      //var impressUI = impressUtils.impressUI();
+      //vm.task.ui_tags = vm.task.poster.tags.concat();
+      //vm.task.ui_tags = [impressUI[0], impressUI[2], impressUI[3]];
+
+      vm.task.ui_tags = [];
+      impressUtils.netTagsToUiTags(vm.task.ui_tags, vm.task.poster.tags);
+
+      taskUtils.taskStateToUiState(vm.task, vm.task.status, isPosterOrAccepter);
+
+      vm.task.state = 2;
+
+      //////////////////////////////////////////////////
+      var selfInfo = userNetService.cache.selfInfo;
+      if(selfInfo == undefined){
+        console.error('err: no selfInfo');
+        return;
+      }
+
+      //if (vm.task.poster) {
+      //  if (vm.task.poster.userId == selfInfo.userId) {
+      //    isPosterOrAccepter = true;
+      //  } else {
+      //    isPosterOrAccepter = false;
+      //  }
+      //}
+      //
+      //if (vm.task.accepter) {
+      //  if (vm.task.accepter.userId == selfInfo.userId) {
+      //    isPosterOrAccepter = false;
+      //  } else {
+      //    isPosterOrAccepter = true;
+      //  }
+      //}
+
+
+      //////////////////////////////////////////////////
+      //temp show all
+      vm.showMyComment = false;
+      vm.showOtherComment = false;
+      vm.showState = 0; // 0 none, 1 my, 2 other
+
+      if (isPosterOrAccepter===true){   // user is poster
+        if(vm.task.posterCommentLevel != 0){
+					vm.showMyComment = true;
+					vm.ui_myComment = vm.task.posterComment;
+					vm.ui_myCommentLevel = '' + vm.task.posterCommentLevel;
+
+          vm.ui_myCommentTags = [];
+          impressUtils.netTagsToUiTags(vm.ui_myCommentTags, vm.task.posterTags);
+        }
+        if(vm.task.accepterCommentLevel != 0 && vm.task.posterCommentLevel != 0) {    // 如果自己没有评价,那么看不到对方的评价
+          vm.showOtherComment = true;
+          vm.ui_otherComment = vm.task.accepterComment;
+          vm.ui_otherCommentLevel = '' + vm.task.accepterCommentLevel;
+
+          vm.ui_otherCommentTags = [];
+          impressUtils.netTagsToUiTags(vm.ui_otherCommentTags, vm.task.accepterTags);
+        }
+
+        if(vm.task.status == '128' || vm.task.status == '256') {  // 发单人确认'成功' or '失败'
+          if (vm.task.posterCommentLevel == 0) {
+            vm.showState = 1;
+          } else {
+            if (vm.task.accepterCommentLevel == 0) {
+              vm.showState = 2;
+            } else {
+              vm.showState = 0;
+            }
+          }
+        }
+        if(vm.task.status == '32') {    // 接单人放弃,那么只有user可以单向评价他
+          if(!vm.task.posterComment) {
+            vm.showState = 1;
+          }
+        }
+
+      }
+
+      else {  // user is accepter
+
+        if(vm.task.posterCommentLevel != 0 && vm.task.accepterCommentLevel != 0){   // 如果自己没有评价,那么看不到对方的评价
+					vm.showOtherComment = true;
+					vm.ui_otherComment = vm.task.posterComment;
+					vm.ui_otherCommentLevel = '' + vm.task.posterCommentLevel;
+
+          vm.ui_otherCommentTags = [];
+          impressUtils.netTagsToUiTags(vm.ui_otherCommentTags, vm.task.posterTags);
+        }
+        if(vm.task.accepterCommentLevel != 0) {
+          vm.showMyComment = true;
+          vm.ui_myComment = vm.task.accepterComment;
+          vm.ui_myCommentLevel = '' + vm.task.accepterCommentLevel;
+
+          vm.ui_myCommentTags = [];
+          impressUtils.netTagsToUiTags(vm.ui_myCommentTags, vm.task.accepterTags);
+        }
+
+        if(vm.task.status == '128' || vm.task.status == '256') {
+          if (vm.task.accepterCommentLevel == 0) {
+            vm.showState = 1;
+          } else {
+            if (vm.task.posterCommentLevel == 0) {
+              vm.showState = 2;
+            } else {
+              vm.showState = 0;
+            }
+          }
+        }
+      }
+
+      $timeout(function () {
+          $scope.$apply();
+        },
+        0
+      );
+    });
+
+    vm.cb_gotoUser = function(userId) {
+      var index = $ionicTabsDelegate.$getByHandle('rootTabs').selectedIndex();
+      var tabName;
+      if(index==0) {
+        tabName = 'near';
+      }else if(index ==4) {
+        tabName = 'me';
+      }else if(index==3){
+        tabName = 'task';
+      }
+      else{
+        ho.alert('gotoUser tab invalid, tabIndex=' + index);
+      }
+
+      userUtils.gotoUser(userId, tabName);
+    }
+
+  }
+})()

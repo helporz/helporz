@@ -1,1 +1,733 @@
-!function(){"use strict";function e(e,r,t,s,o,n,a){var i=new Array,l=null,c={POSTER_UNCOMPLETED_TASK_MESSAGE_TYPE:1,ACCEPTER_UNCOMPLETED_TASK_MESSAGE_TYPE:2,COMMENT_TASK_MESSAGE_TYPE:3,FRIEND_TASK_MESSAGE_TYPE:4,POSTER_COMPLETED_TASK_MESSAGE_TYPE:5,ACCEPTER_COMPLETED_TASK_MESSAGE_TYPE:6},u=function(e){console.log(" index onOpenNotification");try{"undefined"!=typeof e._j_type&&"jmessage"===e._j_type?n.onOpenNotification(e):_(p(e))}catch(r){console.log("JPushPlugin:onOpenNotification"+r)}},d=function(r){e.info(" index onReceiveNotification:"+JSON.stringify(r));try{_(p(r))}catch(t){console.log(t)}},g=function(r){try{e.info("on receive push message:"+JSON.stringify(r)),_(p(r))}catch(t){console.log("JPushPlugin:onReceivePushMessage-->"+t)}},f=function(e){try{console.log("onSetTagsWithAlias");var r="result code:"+e.resultCode+" ";r+="tags:"+e.tags+" ",r+="alias:"+e.alias+" "}catch(t){console.log(t)}},p=function(e){var r={};return"Android"==device.platform?(r.alert=e.alert,r.userId=e.extras["cn.jpush.android.EXTRA"].userId,r.type=e.extras["cn.jpush.android.EXTRA"].type,r.correlationId=e.extras["cn.jpush.android.EXTRA"].correlation_id):(r.alert=e.aps.alert,r.userId=e.userId,r.type=e.type,r.correlationId=e.correlation_id),r},N=function(r){if(e.info("NoticeMessageService init"),null!=l&&l===r)return void e.info("NoticeMessageService 已经初始化了");l=r;var s={onOpenNotification:u,onReceiveNotification:d,onReceivePushMessage:g,onSetTagsWithAlias:f};o.setNotificationFn(s),o.getRegistrationID(),t.initDB(r)},_=function(t){e.info("enter on receive notice message list");var s=r.defer();return null==t.userId||null==l||t.userId!==l?void e.warn("收到非当前登录用户推送消息,当前用户Id#cId#,推送消息用户ID#uId#".replace("#cId#",l).replace("#uId#",t.userId)):(e.info("will call refresh notice message list"),m().then(function(r){e.debug("completed refresh notice message from server"),e.debug("observer count:"+i.length);for(var t=0;t<i.length;++t)i[t].onNotify();s.resolve(r)},function(e){s.reject(e)}),s.promise)},m=function(){var o=r.defer();return t.getMaxSerialNo().then(function(r){s.getUnreadMessageBySerialNo(r).then(function(s){if(null==s||0==s.length)o.resolve([]);else{e.debug("message length "+s.length);var n=s[0].serialNo;n>r?t.addNoticeMessages(n,s).then(function(e){o.resolve(e)},function(e){o.reject(e)}):o.resolve(s)}},function(e){o.reject(e)})},function(e){o.reject(e)}),o.promise},v=function(r){e.debug("register observer"),i.push(r)},S=function(){return c},E=function(e){var s=r.defer();return m().then(function(){t.getUnReadMessageByType(e).then(function(e){s.resolve(e)},function(e){s.reject(e)})}),s.promise},M=function(){var e=r.defer();return m().then(function(){t.getAllUnreadMessage().then(function(r){e.resolve(r)},function(r){e.reject(r)})}),e.promise},y=function(){var s=r.defer();return m().then(function(){t.getAllUnreadMessageEx(" correlationId desc ").then(function(r){var t=new Array,o=new Array,n=new Array,a=new Array,i=new Array,l=new Array,u=null,d=null,g=null,f=null,p=null;e.info("raw notice message length:"+r.length);for(var N=0;N<r.length;++N)if(r[N].type!=c.COMMENT_TASK_MESSAGE_TYPE)if(r[N].type==c.FRIEND_TASK_MESSAGE_TYPE&&l.push(r[N]),null==u&&(u=r[N].correlationId),u===r[N].correlationId)switch(r[N].type){case c.POSTER_UNCOMPLETED_TASK_MESSAGE_TYPE:null==d&&(g=r[N]);break;case c.POSTER_COMPLETED_TASK_MESSAGE_TYPE:d=r[N],g=null;break;case c.ACCEPTER_UNCOMPLETED_TASK_MESSAGE_TYPE:null==f&&(p=r[N]);break;case c.ACCEPTER_COMPLETED_TASK_MESSAGE_TYPE:f=r[N],p=null}else null!=d&&o.push(d),null!=g&&t.push(g),null!=f&&a.push(f),null!=p&&n.push(p),u=r[N].correlationId,d=null,g=null,f=null,p=null,--N;else i.push(r[N]);null!=d&&o.push(d),null!=g&&t.push(g),null!=f&&a.push(f),null!=p&&n.push(p);var _={uncompleted_post_task_message_list:t,completed_post_task_message_list:o,uncompleted_accept_task_message_list:n,completed_accept_task_message_list:a,comment_task_message_list:i,friend_task_message_list:l};s.resolve(_)},function(e){s.reject(e)})}),s.promise},I=function(e,r){return t.setReadFlagByCorrelationId(e,r)},h=function(e,r){return t.setReadFlagForLessAndEqualSerialNo(e,r)},T=function(e){return t.setReadFlagByType(e)},A=function(e){return t.setReadFlagBySerialNo(e)};return{initService:N,onReceiveNoticeMessageList:_,refreshNoticeMessageListFromServer:m,registerObserver:v,getNoticeMessageTypes:S,getNoticeMessage:E,getAllNoticeMessage:M,getAllNoticeMessageEx:y,setReadFlagByCorrelationId:I,setReadFlagForLessAndEqualSerialNo:h,setReadFlagByType:T,setReadFlagBySerialNo:A}}function r(e,r,t,s){var o={noticeMessage:{userId:"0",serialNo:"0",type:0,correlationId:"0",message:null,ext:null},userMaxNoticeSerialNo:{userId:"0",serialNo:"0"}},n=function(r,s){var n=o[r];return null==n||""==n?(e.error("invalid table name"),null):t.createRow(r,s,n)},a=function(r){var s=o[r];return null==s||""==s?(e.error("invalid table name"),null):t.createRow(r,null,s)},i=null,l=function(r){e.info("NoticeMessageDB init -> userId:"+r),null!=r&&(i=r);var s=["CREATE TABLE IF NOT EXISTS noticeMessage(userId text,serialNo text,type INTEGER,correlationId text,message text,ext text)","CREATE TABLE IF NOT EXISTS userMaxNoticeSerialNo(userId text, serialNo text)"];t.executeSqlList(s).then(function(){e.info("create notice message tables success")},function(r){e.error("create notice message tables error: "+r.message)})},c=function(){var s=r.defer();return t.findRecords("userMaxNoticeSerialNo",'userId = "'+i+'"').then(function(r){if(e.info("userMaxNoticeSerialNo success"),"undefined"==typeof r||null===r)return void s.resolve("0");if(0==r.rows.length)return void s.resolve("0");var t=n("userMaxNoticeSerialNo",r.rows.item(r.rows.length-1));e.info("getMaxSerialNo: userMaxNoticeSerialNo record count:"+r.rows.length),e.info("userMaxNoticeSerialNo:"+t.serialNo),s.resolve(t.serialNo)},function(r){e.error("getMaxSerialNo failed:"+r.message),s.reject()}),s.promise},u=function(s){var o=r.defer(),n=a("userMaxNoticeSerialNo");return n.userId=i,n.serialNo=s,t.saveRecords("userMaxNoticeSerialNo",(new Array).push(n)).then(function(e){o.resolve()},function(r){e.error("setMaxSerialNo failed:"+r.message),o.reject()}),o.promise},d=function(s,n){e.debug("addNoticeMessage maxSerialNo:"+s);for(var l=r.defer(),c=0;c<n.length;++c)n[c].userId=i;var u=t.getSaveRecordSql("noticeMessage",n,o.noticeMessage),d=a("userMaxNoticeSerialNo");d.userId=i,d.serialNo=s;var g=t.getSaveRecordSql("userMaxNoticeSerialNo",d,o.userMaxNoticeSerialNo),f=new Array;return f.push(g),f.push(u),t.executeSqlList(f).then(function(){l.resolve()},function(){l.reject()}),l.promise},g=function(e,s){var o=r.defer();return t.dropRecords("noticeMessage",'userId ="'+i+'" and type = "'+e+'" and serialNo <= "'+s+'"').then(function(e){o.resolve()},function(e){o.reject()}),o.promise},f=function(e,s){var o=r.defer();return t.dropRecords("noticeMessage",'userId ="'+i+'" and type = "'+e+'" and correlationId = "'+s+'"').then(function(e){o.resolve()},function(e){o.reject()}),o.promise},p=function(e,s){var o=r.defer();return t.dropRecords("noticeMessage",'userId ="'+i+'" and type = "'+e+'"').then(function(e){o.resolve()},function(e){o.reject()}),o.promise},N=function(e){var s=r.defer();return t.dropRecords("noticeMessage",'userId ="'+i+'" and serialNo = "'+e+'"').then(function(e){s.resolve()},function(e){s.reject()}),s.promise},_=function(e){var s=r.defer();return t.findRecordsEx("noticeMessage","userId='#uId#' and type=#tId#".replace("#uId#",i).replace("#tId#",e),o.noticeMessage).then(function(e){s.resolve(e)},function(e){s.reject(e)}),s.promise},m=function(){var e=r.defer();return t.findRecordsEx("noticeMessage","userId='#uId#'".replace("#uId#",i),o.noticeMessage).then(function(r){e.resolve(r)},function(r){e.reject(r)}),e.promise},v=function(e){var s=r.defer(),n="userId='#uId#'".replace("#uId#",i)+" order by "+e;return t.findRecordsEx("noticeMessage",n,o.noticeMessage).then(function(e){s.resolve(e)},function(e){s.reject(e)}),s.promise};return{initDB:l,createRecord:a,getMaxSerialNo:c,setMaxSerialNo:u,addNoticeMessages:d,setReadFlagByCorrelationId:f,setReadFlagForLessAndEqualSerialNo:g,setReadFlagByType:p,setReadFlagBySerialNo:N,getUnReadMessageByType:_,getAllUnreadMessage:m,getAllUnreadMessageEx:v}}function t(e,r,t){var s=function(s){e.debug("getUnreadMessageBySerialNo:"+s);var o=r.defer(),n={serialNo:s};return t.getForPromise("/message/by_serial_no",n).then(function(e){o.resolve(e)},function(e){o.reject(e)}),o.promise};return{getUnreadMessageBySerialNo:s}}function s(e,r){e.error("NoticeMessageServiceTest");var t=null,s={onNotify:function(){r.getAllNoticeMessageEx().then(function(r){if(null!=r.uncompleted_post_task_message_list){t=r.uncompleted_post_task_message_list;for(var s=0;s<t.length;++s)e.info("noticemsg[#index#] type[#type#] serialNo[#serialNo#] correlationId[#correlationId#] message[#message#]".replace("#index#",s).replace("#type#",t[s].type).replace("#serialNo#",t[s].serialNo).replace("correlationId",t[s].correlationId).replace("message",t[s].message))}if(null!=r.completed_post_task_message_list){t=r.completed_post_task_message_list;for(var s=0;s<t.length;++s)e.info("noticemsg[#index#] type[#type#] serialNo[#serialNo#] correlationId[#correlationId#] message[#message#]".replace("#index#",s).replace("#type#",t[s].type).replace("#serialNo#",t[s].serialNo).replace("correlationId",t[s].correlationId).replace("message",t[s].message))}if(null!=r.uncompleted_accept_task_message_list){t=r.uncompleted_accept_task_message_list;for(var s=0;s<t.length;++s)e.info("noticemsg[#index#] type[#type#] serialNo[#serialNo#] correlationId[#correlationId#] message[#message#]".replace("#index#",s).replace("#type#",t[s].type).replace("#serialNo#",t[s].serialNo).replace("correlationId",t[s].correlationId).replace("message",t[s].message))}if(null!=r.completed_accept_task_message_list){t=r.completed_accept_task_message_list;for(var s=0;s<t.length;++s)e.info("noticemsg[#index#] type[#type#] serialNo[#serialNo#] correlationId[#correlationId#] message[#message#]".replace("#index#",s).replace("#type#",t[s].type).replace("#serialNo#",t[s].serialNo).replace("correlationId",t[s].correlationId).replace("message",t[s].message))}if(null!=r.comment_task_message_list){t=r.comment_task_message_list;for(var s=0;s<t.length;++s)e.info("noticemsg[#index#] type[#type#] serialNo[#serialNo#] correlationId[#correlationId#] message[#message#]".replace("#index#",s).replace("#type#",t[s].type).replace("#serialNo#",t[s].serialNo).replace("correlationId",t[s].correlationId).replace("message",t[s].message))}if(null!=r.friend_task_message_list){t=r.friend_task_message_list;for(var s=0;s<t.length;++s)e.info("noticemsg[#index#] type[#type#] serialNo[#serialNo#] correlationId[#correlationId#] message[#message#]".replace("#index#",s).replace("#type#",t[s].type).replace("#serialNo#",t[s].serialNo).replace("correlationId",t[s].correlationId).replace("message",t[s].message))}},function(r){e.error(r)})}};return r.registerObserver(s),s}angular.module("com.helporz.task.noticemessage",["com.helporz.utils.service","com.helporz.task.netservice","pusher"]).factory("NoticeMessageNetService",t).factory("NoticeMessageService",e).factory("NoticeMessageDB",r).factory("NoticeMessageServiceTest",s),e.$inject=["$log","$q","NoticeMessageDB","NoticeMessageNetService","pushService","imMessageService","debugHelpService"],r.$inject=["$log","$q","dbService","debugHelpService"],t.$inject=["$log","$q","httpBaseService"],s.$inject=["$log","NoticeMessageService"]}();
+/**
+ * Created by binfeng on 16/6/20.
+ */
+
+(function () {
+  'use strict';
+
+  angular.module('com.helporz.task.noticemessage', ['com.helporz.utils.service', 'com.helporz.task.netservice', 'pusher'])
+    .factory('NoticeMessageNetService', NoticeMessageNetServiceFn)
+    .factory('NoticeMessageService', NoticeMessageServiceFn)
+    .factory('NoticeMessageDB', NoticeMessageDBFn)
+    .factory('NoticeMessageServiceTest', NoticeMessageServiceTestFn);
+
+
+  NoticeMessageServiceFn.$inject = ['$log', '$q', 'NoticeMessageDB', 'NoticeMessageNetService', 'pushService', 'imMessageService','debugHelpService'];
+
+  function NoticeMessageServiceFn($log, $q, NoticeMessageDB, NoticeMessageNetService, pushService, imMessageService,debugHelpService) {
+    var _observerList = new Array();
+    var _currentUserId = null;
+    var NOTICE_TYPE = {
+      POSTER_UNCOMPLETED_TASK_MESSAGE_TYPE: 1,
+      ACCEPTER_UNCOMPLETED_TASK_MESSAGE_TYPE: 2,
+      COMMENT_TASK_MESSAGE_TYPE: 3,
+      FRIEND_TASK_MESSAGE_TYPE: 4,
+      POSTER_COMPLETED_TASK_MESSAGE_TYPE: 5,
+      ACCEPTER_COMPLETED_TASK_MESSAGE_TYPE: 6,
+    };
+
+    var onOpenNotification = function (event) {
+      console.log(" index onOpenNotification");
+
+      try {
+        //var alertContent;
+        //if (device.platform == "Android") {
+        //  alertContent = event.alert;
+        //} else {
+        //  alertContent = event.aps.alert;
+        //}
+        //alert("open Notificaiton:" + alertContent);
+        if( typeof event._j_type !== 'undefined' && event._j_type === "jmessage") {
+          imMessageService.onOpenNotification(event);
+        }
+        else {
+          _onReceiveNoticeMessageList(getMessageFromNotificationEvent(event));
+        }
+
+      }
+      catch (exception) {
+        console.log("JPushPlugin:onOpenNotification" + exception);
+      }
+    }
+
+    var onReceiveNotification = function (event) {
+      $log.info(" index onReceiveNotification:" + JSON.stringify(event));
+      try {
+        //var alertContent;
+        //if (device.platform == "Android") {
+        //  //alertContent = window.plugins.jPushPlugin.receiveNotification.alert;
+        //  alertContent = event.alert;
+        //} else {
+        //  alertContent = event.aps.alert;
+        //}
+        //alert("Receive Notificaiton:" + alertContent);
+        _onReceiveNoticeMessageList(getMessageFromNotificationEvent(event));
+        //$("#notificationResult").html(alertContent);
+
+      }
+      catch (exception) {
+        console.log(exception)
+      }
+    }
+
+    var onReceivePushMessage = function (event) {
+      try {
+        $log.info('on receive push message:' + JSON.stringify(event));
+        //var message;
+        //if (device.platform == "Android") {
+        //  message = event.message;
+        //} else {
+        //  message = event.content;
+        //}
+        //console.log(message);
+        //alert("Receive Push Message:" + message );
+        _onReceiveNoticeMessageList(getMessageFromNotificationEvent(event));
+        //$("#messageResult").html(message);
+      }
+      catch (exception) {
+        console.log("JPushPlugin:onReceivePushMessage-->" + exception);
+      }
+    }
+
+    var onSetTagsWithAlias = function (event) {
+      try {
+        console.log("onSetTagsWithAlias");
+        var result = "result code:" + event.resultCode + " ";
+        result += "tags:" + event.tags + " ";
+        result += "alias:" + event.alias + " ";
+        //$("#tagAliasResult").html(result);
+      }
+      catch (exception) {
+        console.log(exception)
+      }
+    }
+    var getMessageFromNotificationEvent = function (event) {
+      var message = {};
+      if (device.platform == "Android") {
+
+        message.alert = event.alert;
+        message.userId = event.extras['cn.jpush.android.EXTRA'].userId;
+        message.type = event.extras['cn.jpush.android.EXTRA'].type;
+        message.correlationId = event.extras['cn.jpush.android.EXTRA'].correlation_id;
+      } else {
+        message.alert = event.aps.alert;
+        message.userId = event.userId;
+        message.type = event.type;
+        message.correlationId = event.correlation_id;
+      }
+      //$log.info(debugHelpService.writeObj(message));
+      return message;
+    }
+
+    var _initService = function (userId) {
+      $log.info('NoticeMessageService init');
+      if (_currentUserId != null && _currentUserId === userId) {
+        $log.info('NoticeMessageService 已经初始化了');
+        return;
+      }
+      _currentUserId = userId;
+      var config = {
+        onOpenNotification: onOpenNotification,
+        onReceiveNotification: onReceiveNotification,
+        onReceivePushMessage: onReceivePushMessage,
+        onSetTagsWithAlias: onSetTagsWithAlias
+      };
+
+      pushService.setNotificationFn(config);
+      pushService.getRegistrationID();
+      NoticeMessageDB.initDB(userId);
+    }
+
+    var _onReceiveNoticeMessageList = function (noticeMessage) {
+      $log.info('enter on receive notice message list');
+      var _innerDefer = $q.defer();
+      if (noticeMessage.userId == null || _currentUserId == null || noticeMessage.userId !== _currentUserId) {
+        //忽略不是当前登录用户的通知消息
+        $log.warn("收到非当前登录用户推送消息,当前用户Id#cId#,推送消息用户ID#uId#".replace('#cId#', _currentUserId).replace('#uId#', noticeMessage.userId));
+        return;
+      }
+
+      $log.info('will call refresh notice message list');
+      _refreshNoticeMessageListFromServer().then(function (res) {
+        $log.debug('completed refresh notice message from server');
+        $log.debug('observer count:' + _observerList.length);
+        for (var observerIndex = 0; observerIndex < _observerList.length; ++observerIndex) {
+          _observerList[observerIndex].onNotify();
+        }
+        _innerDefer.resolve(res);
+      }, function (error) {
+        _innerDefer.reject(error);
+      });
+
+      return _innerDefer.promise;
+    }
+
+
+    var _refreshNoticeMessageListFromServer = function () {
+      var _innerDefer = $q.defer();
+      NoticeMessageDB.getMaxSerialNo().then(function (maxSerialNo) {
+        NoticeMessageNetService.getUnreadMessageBySerialNo(maxSerialNo).then(function (noticeMessageList) {
+
+          if (noticeMessageList == null || noticeMessageList.length == 0) {
+            _innerDefer.resolve([]);
+          }
+          else {
+            $log.debug('message length ' + noticeMessageList.length);
+            var newMaxSerialNo = noticeMessageList[0].serialNo;
+            if (newMaxSerialNo > maxSerialNo) {
+              NoticeMessageDB.addNoticeMessages(newMaxSerialNo, noticeMessageList).then(function (res) {
+                _innerDefer.resolve(res);
+              }, function (error) {
+                _innerDefer.reject(error);
+              })
+            }
+            else {
+              _innerDefer.resolve(noticeMessageList);
+            }
+          }
+
+        }, function (error) {
+          _innerDefer.reject(error);
+        });
+      }, function (error) {
+        _innerDefer.reject(error);
+      });
+
+      return _innerDefer.promise;
+    }
+
+    var _registerObserver = function (observer) {
+      $log.debug('register observer');
+      _observerList.push(observer);
+    }
+
+    var _getNoticeMessageTypes = function() {
+      return NOTICE_TYPE;
+    }
+
+    var _getNoticeMessage = function (type) {
+      var _innerDefer = $q.defer();
+      _refreshNoticeMessageListFromServer().then(function () {
+        NoticeMessageDB.getUnReadMessageByType(type).then(function (res) {
+            _innerDefer.resolve(res);
+          },
+          function (error) {
+            _innerDefer.reject(error);
+          })
+      });
+      return _innerDefer.promise;
+    }
+
+    var getAllNoticeMessage = function () {
+      var _innerDefer = $q.defer();
+      _refreshNoticeMessageListFromServer().then(function () {
+        NoticeMessageDB.getAllUnreadMessage().then(function (res) {
+            _innerDefer.resolve(res);
+          },
+          function (error) {
+            _innerDefer.reject(error);
+          })
+      });
+      return _innerDefer.promise;
+    }
+
+    var getAllNoticeMessageEx = function () {
+      var _innerDefer = $q.defer();
+      _refreshNoticeMessageListFromServer().then(function () {
+        NoticeMessageDB.getAllUnreadMessageEx(' correlationId desc ').then(function (res) {
+            var uncompleted_post_task_message_list = new Array();
+            var completed_post_task_message_list = new Array();
+            var uncompleted_accept_task_message_list = new Array();
+            var completed_accept_task_message_list = new Array();
+            var comment_task_message_list = new Array();
+            var friend_task_message_list = new Array();
+
+            //POSTER_UNCOMPLETED_TASK_MESSAGE_TYPE: 1,
+            //  ACCEPTER_UNCOMPLETED_TASK_MESSAGE_TYPE
+            //:
+            //2,
+            //  COMMENT_TASK_MESSAGE_TYPE
+            //:
+            //3,
+            //  FRIEND_TASK_MESSAGE_TYPE
+            //:
+            //4,
+            //  POSTER_COMPLETED_TASK_MESSAGE_TYPE
+            //:
+            //5,
+            //  ACCEPTER_COMPLETED_TASK_MESSAGE_TYPE
+            //:
+            //6,
+            var currentCorrelationId = null;
+            var correlationCompletedPostMessage = null;
+            var correlationUncompletedPostMessage = null;
+            var correlationCompletedAcceptMessage = null;
+            var correlationUncompletedAcceptMessage = null;
+            $log.info('raw notice message length:' + res.length);
+
+            for (var index = 0; index < res.length; ++index) {
+              if (res[index].type == NOTICE_TYPE.COMMENT_TASK_MESSAGE_TYPE) {
+                comment_task_message_list.push(res[index]);
+                continue;
+              }
+
+              if (res[index].type == NOTICE_TYPE.FRIEND_TASK_MESSAGE_TYPE) {
+                friend_task_message_list.push(res[index]);
+              }
+
+              if (currentCorrelationId == null) {
+                currentCorrelationId = res[index].correlationId;
+              }
+
+              if (currentCorrelationId === res[index].correlationId) {
+                switch (res[index].type) {
+                  case NOTICE_TYPE.POSTER_UNCOMPLETED_TASK_MESSAGE_TYPE:
+                    if (correlationCompletedPostMessage == null) {
+                      correlationUncompletedPostMessage = res[index];
+                    }
+                    break;
+                  case NOTICE_TYPE.POSTER_COMPLETED_TASK_MESSAGE_TYPE:
+                    correlationCompletedPostMessage = res[index];
+                    correlationUncompletedPostMessage = null;
+                    break;
+                  case NOTICE_TYPE.ACCEPTER_UNCOMPLETED_TASK_MESSAGE_TYPE:
+                    if (correlationCompletedAcceptMessage == null) {
+                      correlationUncompletedAcceptMessage = res[index];
+                    }
+                    break;
+                  case NOTICE_TYPE.ACCEPTER_COMPLETED_TASK_MESSAGE_TYPE:
+                    correlationCompletedAcceptMessage = res[index];
+                    correlationUncompletedAcceptMessage = null;
+                    break;
+
+                }
+
+              }
+              else {
+                if (correlationCompletedPostMessage != null) {
+                  completed_post_task_message_list.push(correlationCompletedPostMessage);
+                }
+
+                if (correlationUncompletedPostMessage != null) {
+                  uncompleted_post_task_message_list.push(correlationUncompletedPostMessage);
+                }
+
+                if (correlationCompletedAcceptMessage != null) {
+                  completed_accept_task_message_list.push(correlationCompletedAcceptMessage);
+                }
+
+                if (correlationUncompletedAcceptMessage != null) {
+                  uncompleted_accept_task_message_list.push(correlationUncompletedAcceptMessage);
+                }
+
+                currentCorrelationId = res[index].correlationId;
+                correlationCompletedPostMessage = null;
+                correlationUncompletedPostMessage = null;
+                correlationCompletedAcceptMessage = null;
+                correlationUncompletedAcceptMessage = null;
+                --index; //下次循环再处理
+
+              }
+            }
+
+            //处理最后一的correlationId的消息
+            if (correlationCompletedPostMessage != null) {
+              completed_post_task_message_list.push(correlationCompletedPostMessage);
+            }
+
+            if (correlationUncompletedPostMessage != null) {
+              uncompleted_post_task_message_list.push(correlationUncompletedPostMessage);
+            }
+
+            if (correlationCompletedAcceptMessage != null) {
+              completed_accept_task_message_list.push(correlationCompletedAcceptMessage);
+            }
+
+            if (correlationUncompletedAcceptMessage != null) {
+              uncompleted_accept_task_message_list.push(correlationUncompletedAcceptMessage);
+            }
+            var noticeMessageData = {
+              uncompleted_post_task_message_list: uncompleted_post_task_message_list,
+              completed_post_task_message_list: completed_post_task_message_list,
+              uncompleted_accept_task_message_list: uncompleted_accept_task_message_list,
+              completed_accept_task_message_list: completed_accept_task_message_list,
+              comment_task_message_list: comment_task_message_list,
+              friend_task_message_list: friend_task_message_list,
+            }
+            _innerDefer.resolve(noticeMessageData);
+          },
+          function (error) {
+            _innerDefer.reject(error);
+          })
+      });
+      return _innerDefer.promise;
+    }
+
+    var _setReadFlagByCorrelationId = function (type, correlationId) {
+      return NoticeMessageDB.setReadFlagByCorrelationId(type, correlationId);
+    }
+
+    var _setReadFlagForLessAndEqualSerialNo = function (type, serialNo) {
+      return NoticeMessageDB.setReadFlagForLessAndEqualSerialNo(type, serialNo);
+    }
+
+    var setReadFlagByType = function (type) {
+      return NoticeMessageDB.setReadFlagByType(type);
+    }
+
+    var setReadFlagBySerialNo = function (serialNo) {
+      return NoticeMessageDB.setReadFlagBySerialNo(serialNo);
+    }
+
+    return {
+      initService: _initService,
+      onReceiveNoticeMessageList: _onReceiveNoticeMessageList,
+      refreshNoticeMessageListFromServer: _refreshNoticeMessageListFromServer,
+      registerObserver: _registerObserver,
+      getNoticeMessageTypes: _getNoticeMessageTypes,
+      getNoticeMessage: _getNoticeMessage,
+      getAllNoticeMessage: getAllNoticeMessage,
+      getAllNoticeMessageEx: getAllNoticeMessageEx,
+      setReadFlagByCorrelationId: _setReadFlagByCorrelationId,
+      setReadFlagForLessAndEqualSerialNo: _setReadFlagForLessAndEqualSerialNo,
+      setReadFlagByType: setReadFlagByType,
+      setReadFlagBySerialNo: setReadFlagBySerialNo,
+    };
+
+
+  }
+
+  NoticeMessageDBFn.$inject = ['$log', '$q', 'dbService', 'debugHelpService'];
+  function NoticeMessageDBFn($log, $q, dbService, debugHelpService) {
+    var patterns = {
+      noticeMessage: {'userId': '0', 'serialNo': '0', 'type': 0, 'correlationId': '0', 'message': null, 'ext': null},
+      userMaxNoticeSerialNo: {'userId': '0', 'serialNo': '0'},
+    };
+
+    var recordSetItem2Record = function (table, recordSetItem) {
+      var pattern = patterns[table];
+      if (pattern == null || pattern == '') {
+        $log.error("invalid table name");
+        return null;
+      }
+
+      return dbService.createRow(table, recordSetItem, pattern);
+    }
+    var _createRecord = function (table) {
+      var pattern = patterns[table];
+      if (pattern == null || pattern == '') {
+        $log.error("invalid table name");
+        return null;
+      }
+
+      return dbService.createRow(table, null, pattern);
+    };
+
+    var _currentUserId = null;
+    var _initDB = function (userId) {
+      $log.info('NoticeMessageDB init -> userId:' + userId);
+      if (userId != null) {
+        _currentUserId = userId;
+      }
+
+      var tableSqlList = ['CREATE TABLE IF NOT EXISTS noticeMessage(userId text,serialNo text,type INTEGER,correlationId text,message text,ext text)',
+        'CREATE TABLE IF NOT EXISTS userMaxNoticeSerialNo(userId text, serialNo text)'];
+      dbService.executeSqlList(tableSqlList).then(function () {
+        $log.info('create notice message tables success');
+      }, function (error) {
+        $log.error('create notice message tables error: ' + error.message);
+      });
+    }
+
+    var _getMaxSerialNo = function () {
+      var _innerDefer = $q.defer();
+      dbService.findRecords('userMaxNoticeSerialNo', 'userId = "' + _currentUserId + '"').then(function (res) {
+        $log.info('userMaxNoticeSerialNo success');
+        //debugHelpService.writeObj(res);
+        if (typeof res == 'undefined' || res === null) {
+          _innerDefer.resolve("0");
+          return;
+        }
+        if( res.rows.length == 0) {
+          _innerDefer.resolve("0");
+          return ;
+        }
+        var record = recordSetItem2Record('userMaxNoticeSerialNo', res.rows.item(res.rows.length - 1));
+        $log.info('getMaxSerialNo: userMaxNoticeSerialNo record count:' + res.rows.length);
+        $log.info('userMaxNoticeSerialNo:' + record.serialNo);
+        _innerDefer.resolve(record.serialNo);
+      }, function (error) {
+        $log.error("getMaxSerialNo failed:" + error.message);
+        _innerDefer.reject();
+      });
+      return _innerDefer.promise;
+    }
+
+    var _setMaxSerialNo = function (serialNo) {
+      var _innerDefer = $q.defer();
+      var record = _createRecord('userMaxNoticeSerialNo');
+      record.userId = _currentUserId;
+      record.serialNo = serialNo;
+      dbService.saveRecords('userMaxNoticeSerialNo', new Array().push(record)).then(
+        function (res) {
+          _innerDefer.resolve();
+        },
+        function (error) {
+          $log.error("setMaxSerialNo failed:" + error.message);
+          _innerDefer.reject();
+        });
+      return _innerDefer.promise;
+    }
+
+    var _addNoticeMessages = function (maxSerialNo, noticeMessageList) {
+      $log.debug('addNoticeMessage maxSerialNo:' + maxSerialNo);
+      var _innerDefer = $q.defer();
+
+      for (var index = 0; index < noticeMessageList.length; ++index) {
+        noticeMessageList[index].userId = _currentUserId;
+      }
+
+      var saveNoticeMessageListSql = dbService.getSaveRecordSql('noticeMessage', noticeMessageList, patterns['noticeMessage']);
+
+      var userMaxNoticeSerialNoRecord = _createRecord('userMaxNoticeSerialNo');
+      userMaxNoticeSerialNoRecord.userId = _currentUserId;
+      userMaxNoticeSerialNoRecord.serialNo = maxSerialNo;
+      var maxSerialUpdateSql = dbService.getSaveRecordSql('userMaxNoticeSerialNo',
+        userMaxNoticeSerialNoRecord,
+        patterns['userMaxNoticeSerialNo']);
+
+      var sqlArray = new Array();
+      sqlArray.push(maxSerialUpdateSql);
+      sqlArray.push(saveNoticeMessageListSql);
+      //$log.debug('maxSerialUpdateSql:' + maxSerialUpdateSql);
+      //$log.debug('saveNoticeMessageListSql:' + saveNoticeMessageListSql);
+
+      dbService.executeSqlList(sqlArray).then(function () {
+        _innerDefer.resolve();
+      }, function () {
+        _innerDefer.reject();
+      });
+      //dbService.sqlBatch(sqlArray).then(function () {
+      //  _innerDefer.resolve();
+      //}, function () {
+      //  _innerDefer.reject();
+      //});
+      return _innerDefer.promise;
+    }
+
+    var _setReadFlagForLessAndEqualSerialNo = function (type, serialNo) {
+      var _innerDefer = $q.defer();
+      dbService.dropRecords('noticeMessage', 'userId ="' +
+        _currentUserId + '" and type = "' + type + '" and serialNo <= "' + serialNo + '"').then(function (res) {
+        _innerDefer.resolve();
+      }, function (error) {
+        _innerDefer.reject();
+      });
+      return _innerDefer.promise;
+    }
+
+    var _setReadFlagByCorrelationId = function (type, correlationId) {
+      var _innerDefer = $q.defer();
+      dbService.dropRecords('noticeMessage', 'userId ="' +
+        _currentUserId + '" and type = "' + type + '" and correlationId = "' + correlationId + '"').then(function (res) {
+        _innerDefer.resolve();
+      }, function (error) {
+        _innerDefer.reject();
+      });
+      return _innerDefer.promise;
+    }
+
+    var setReadFlagByType = function (type, correlationId) {
+      var _innerDefer = $q.defer();
+      dbService.dropRecords('noticeMessage', 'userId ="' +
+        _currentUserId + '" and type = "' + type + '"').then(function (res) {
+        _innerDefer.resolve();
+      }, function (error) {
+        _innerDefer.reject();
+      });
+      return _innerDefer.promise;
+    }
+
+    var setReadFlagBySerialNo = function (serialNo) {
+      var _innerDefer = $q.defer();
+      dbService.dropRecords('noticeMessage', 'userId ="' +
+        _currentUserId + '" and serialNo = "' + serialNo + '"').then(function (res) {
+        _innerDefer.resolve();
+      }, function (error) {
+        _innerDefer.reject();
+      });
+      return _innerDefer.promise;
+    }
+
+
+    var _getUnReadMessageByType = function (type) {
+      var _innerDefer = $q.defer();
+      dbService.findRecordsEx('noticeMessage',
+        "userId='#uId#' and type=#tId#".replace('#uId#', _currentUserId).replace('#tId#', type),
+        patterns['noticeMessage']).then(function (res) {
+          _innerDefer.resolve(res);
+        }, function (error) {
+          _innerDefer.reject(error);
+        });
+      return _innerDefer.promise;
+    }
+
+    var _getAllUnreadMessage = function () {
+      var _innerDefer = $q.defer();
+      dbService.findRecordsEx('noticeMessage',
+        "userId='#uId#'".replace('#uId#', _currentUserId),
+        patterns['noticeMessage']).then(function (res) {
+          _innerDefer.resolve(res);
+        }, function (error) {
+          _innerDefer.reject(error);
+        })
+      return _innerDefer.promise;
+    }
+
+    var getAllUnreadMessageEx = function (orderBy) {
+      var _innerDefer = $q.defer();
+      var where = "userId='#uId#'".replace('#uId#', _currentUserId) + " order by " + orderBy;
+      dbService.findRecordsEx('noticeMessage',
+        where,
+        patterns['noticeMessage']).then(function (res) {
+          _innerDefer.resolve(res);
+        }, function (error) {
+          _innerDefer.reject(error);
+        })
+
+      return _innerDefer.promise;
+    }
+
+    return {
+      initDB: _initDB,
+      createRecord: _createRecord,
+      getMaxSerialNo: _getMaxSerialNo,
+      setMaxSerialNo: _setMaxSerialNo,
+      addNoticeMessages: _addNoticeMessages,
+      setReadFlagByCorrelationId: _setReadFlagByCorrelationId,
+      setReadFlagForLessAndEqualSerialNo: _setReadFlagForLessAndEqualSerialNo,
+      setReadFlagByType: setReadFlagByType,
+      setReadFlagBySerialNo: setReadFlagBySerialNo,
+      getUnReadMessageByType: _getUnReadMessageByType,
+      getAllUnreadMessage: _getAllUnreadMessage,
+      getAllUnreadMessageEx: getAllUnreadMessageEx,
+    };
+  }
+
+  NoticeMessageNetServiceFn.$inject = ['$log', '$q', 'httpBaseService'];
+  function NoticeMessageNetServiceFn($log, $q, httpBaseService) {
+    var _getUnreadMessageBySerialNo = function (serialNo) {
+      $log.debug('getUnreadMessageBySerialNo:' + serialNo);
+      var _innerDefer = $q.defer();
+      var param = {
+        serialNo: serialNo,
+      };
+      httpBaseService.getForPromise('/message/by_serial_no', param).then(function (res) {
+        _innerDefer.resolve(res);
+      }, function (error) {
+        _innerDefer.reject(error);
+      });
+      return _innerDefer.promise;
+    }
+
+    return {
+      getUnreadMessageBySerialNo: _getUnreadMessageBySerialNo,
+    }
+  }
+
+  NoticeMessageServiceTestFn.$inject = ['$log', 'NoticeMessageService'];
+  function NoticeMessageServiceTestFn($log, NoticeMessageService) {
+    $log.error('NoticeMessageServiceTest');
+    var unreadMessageList = null;
+    var taskNoticeMessageMonitor = {
+      onNotify: function () {
+        NoticeMessageService.getAllNoticeMessageEx().then(function (noticeMessageData) {
+          if(noticeMessageData.uncompleted_post_task_message_list!= null ) {
+            unreadMessageList = noticeMessageData.uncompleted_post_task_message_list;
+            for (var msgIndex = 0; msgIndex < unreadMessageList.length; ++msgIndex) {
+              $log.info('noticemsg[#index#] type[#type#] serialNo[#serialNo#] correlationId[#correlationId#] message[#message#]'
+                .replace('#index#', msgIndex).replace('#type#',unreadMessageList[msgIndex].type)
+                .replace('#serialNo#', unreadMessageList[msgIndex].serialNo).replace("correlationId",unreadMessageList[msgIndex].correlationId).
+                replace("message",unreadMessageList[msgIndex].message)
+              );
+            }
+          }
+
+          if(noticeMessageData.completed_post_task_message_list != null ) {
+            unreadMessageList = noticeMessageData.completed_post_task_message_list ;
+            for (var msgIndex = 0; msgIndex < unreadMessageList.length; ++msgIndex) {
+              $log.info('noticemsg[#index#] type[#type#] serialNo[#serialNo#] correlationId[#correlationId#] message[#message#]'
+                  .replace('#index#', msgIndex).replace('#type#',unreadMessageList[msgIndex].type)
+                  .replace('#serialNo#', unreadMessageList[msgIndex].serialNo).replace("correlationId",unreadMessageList[msgIndex].correlationId).
+                  replace("message",unreadMessageList[msgIndex].message)
+              );
+            }
+          }
+
+          if( noticeMessageData.uncompleted_accept_task_message_list != null ) {
+            unreadMessageList = noticeMessageData.uncompleted_accept_task_message_list;
+            for (var msgIndex = 0; msgIndex < unreadMessageList.length; ++msgIndex) {
+              $log.info('noticemsg[#index#] type[#type#] serialNo[#serialNo#] correlationId[#correlationId#] message[#message#]'
+                  .replace('#index#', msgIndex).replace('#type#',unreadMessageList[msgIndex].type)
+                  .replace('#serialNo#', unreadMessageList[msgIndex].serialNo).replace("correlationId",unreadMessageList[msgIndex].correlationId).
+                  replace("message",unreadMessageList[msgIndex].message)
+              );
+            }
+          }
+
+          if( noticeMessageData.completed_accept_task_message_list != null ) {
+            unreadMessageList = noticeMessageData.completed_accept_task_message_list;
+            for (var msgIndex = 0; msgIndex < unreadMessageList.length; ++msgIndex) {
+              $log.info('noticemsg[#index#] type[#type#] serialNo[#serialNo#] correlationId[#correlationId#] message[#message#]'
+                  .replace('#index#', msgIndex).replace('#type#',unreadMessageList[msgIndex].type)
+                  .replace('#serialNo#', unreadMessageList[msgIndex].serialNo).replace("correlationId",unreadMessageList[msgIndex].correlationId).
+                  replace("message",unreadMessageList[msgIndex].message)
+              );
+            }
+          }
+
+          if( noticeMessageData.comment_task_message_list != null ) {
+            unreadMessageList = noticeMessageData.comment_task_message_list;
+            for (var msgIndex = 0; msgIndex < unreadMessageList.length; ++msgIndex) {
+              $log.info('noticemsg[#index#] type[#type#] serialNo[#serialNo#] correlationId[#correlationId#] message[#message#]'
+                  .replace('#index#', msgIndex).replace('#type#',unreadMessageList[msgIndex].type)
+                  .replace('#serialNo#', unreadMessageList[msgIndex].serialNo).replace("correlationId",unreadMessageList[msgIndex].correlationId).
+                  replace("message",unreadMessageList[msgIndex].message)
+              );
+            }
+          }
+
+          if( noticeMessageData.friend_task_message_list != null ) {
+            unreadMessageList = noticeMessageData.friend_task_message_list;
+            for (var msgIndex = 0; msgIndex < unreadMessageList.length; ++msgIndex) {
+              $log.info('noticemsg[#index#] type[#type#] serialNo[#serialNo#] correlationId[#correlationId#] message[#message#]'
+                  .replace('#index#', msgIndex).replace('#type#',unreadMessageList[msgIndex].type)
+                  .replace('#serialNo#', unreadMessageList[msgIndex].serialNo).replace("correlationId",unreadMessageList[msgIndex].correlationId).
+                  replace("message",unreadMessageList[msgIndex].message)
+              );
+            }
+          }
+
+          //NoticeMessageService.setReadFlagByType(1);
+
+          //if (noticeMessageList != null && noticeMessageList.length > 0) {
+          //  unreadMessageList = noticeMessageList;
+          //  for (var msgIndex = 0; msgIndex < unreadMessageList.length; ++msgIndex) {
+          //    $log.info('noticemsg[#index#] serialNo[#serialNo#]'
+          //      .replace('#index#', msgIndex)
+          //      .replace('#serialNo#', unreadMessageList[msgIndex].serialNo));
+          //  }
+          //
+          //  NoticeMessageService.setReadFlagForLessAndEqualSerialNo(1, noticeMessageList[0].serialNo);
+          //}
+        }, function (error) {
+          $log.error(error);
+        });
+      }
+    }
+    NoticeMessageService.registerObserver(taskNoticeMessageMonitor);
+    return taskNoticeMessageMonitor;
+  }
+
+})();
+

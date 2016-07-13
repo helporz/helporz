@@ -1,1 +1,264 @@
-!function(e){"use strict";function o(o,i,r,n,t,c,s,a,l,u,p,d,g,v,f,h,m,S,b,y,P,$){s.info("app.run.init"),o.ready(function(){h.initConfig(),navigator.splashscreen&&navigator.splashscreen.hide(),console.log("ionicPlatform.ready"),e.cordova&&e.cordova.plugins&&e.cordova.plugins.Keyboard&&(cordova.plugins.Keyboard.hideKeyboardAccessoryBar(!0),cordova.plugins.Keyboard.disableScroll(!0)),e.StatusBar&&StatusBar.styleDefault(),e.cordova&&e.cordova.plugins&&e.cordova.plugins.Wechat&&e.cordova.plugins.Wechat.isInstalled(function(e){alert("Wechat installed: "+(e?"Yes":"No"))},function(e){alert("Failed: "+e)}),e.cordova&&e.cordova.plugins&&e.cordova.plugins.InAppBrowser&&(e.open=e.cordova.plugins.InAppBrowser.open),l.init(),a.init().then(function(){y.isShowIntro()?c.go("intro"):y.isLogging()?y.loginByTicket().then(function(){c.go("main.near"),b.observeNoticeMessage(),b.fetchNoticeMessage()},function(){c.go("login")}):c.go("login")},function(){c.go("login")}),$.check(),document.addEventListener("deviceready",function(){e.sqlitePlugin.openDatabase({name:"helporz.db",location:"default"},function(e){v.setDBConn(e),s.info("create table"),f.createTable()},function(e){s.error(e)}),d.init(function(){s.info("存储服务初始化成功")},function(){s.info("存储服务初始化失败"),alert("failed")}),"Android"!=device.platform?(e.plugins.jPushPlugin.setDebugModeFromIos(),e.plugins.jPushPlugin.setApplicationIconBadgeNumber(0)):e.plugins.jPushPlugin.setDebugMode(!0)},!1)})}function i(e){e.defaults.headers.post["Content-Type"]="application/x-www-form-urlencoded;charset=utf-8",e.defaults.headers.post.Accept="application/json, text/javascript, */*; q=0.01",e.defaults.headers.post["X-Requested-With"]="XMLHttpRequest";var o=function(e){var i,r,n,t,c,s,a,l="";for(i in e)if(r=e[i],r instanceof Array)for(a=0;a<r.length;++a)c=r[a],n=i+"["+a+"]",s={},s[n]=c,l+=o(s)+"&";else if(r instanceof Object)for(t in r)c=r[t],n=i+"["+t+"]",s={},s[n]=c,l+=o(s)+"&";else void 0!==r&&null!==r&&(l+=encodeURIComponent(i)+"="+encodeURIComponent(r)+"&");return l.length?l.substr(0,l.length-1):l};e.defaults.transformRequest=[function(e){return angular.isObject(e)&&"[object File]"!==String(e)?o(e):e}]}angular.module("app",["ionic","ngResource","ngCordova","pusher","com.helporz.im","app.routes","app.directives","interval.service","app.time.utils.service","app.user.utils.service","app.ui.utils.service","impress.utils.service","starter.controllers","starter.services","app.features.service","com.helporz.login","com.helporz.intro","com.helporz.utils.service","com.helporz.task.publish","com.helporz.task.netservice","com.helporz.playground","com.helporz.user.netservice","com.helporz.task.noticemessage","main","info","wall"]).run(o).config(["$stateProvider","$urlRouterProvider","$httpProvider","$ionicConfigProvider",function(e,o,r,n){i(r),n.scrolling.jsScrolling(!0)}]).directive("errSrc",function(){return{link:function(e,o,i){o.bind("error",function(){i.src!=i.errSrc&&i.$set("src",i.errSrc)})}}}),o.$inject=["$ionicPlatform","$cordovaDevice","$cordovaNetwork","$timeout","$cordovaDialogs","$state","$log","pushService","jimService","imConversationService","imMessageService","fileService","userImgFileService","dbService","PlaygroundDBService","playgroundTestConfigService","userLoginInfoService","userNetService","taskNetService","loginService","intervalCenter","checkUpdateFeature"]}(this);
+// Ionic Starter App
+
+// angular.module is a global place for creating, registering and retrieving Angular modules
+// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
+// the 2nd parameter is an array of 'requires'
+// 'starter.services' is found in services.js
+// 'starter.controllers' is found in controllers.js
+
+;
+(function (window) {
+  "use strict";
+
+  angular.module('app', ['ionic',
+    'ngResource',
+    'ngCordova',
+    'pusher',
+    'com.helporz.im',
+    'app.routes',
+    'app.directives',
+    'interval.service',
+    'app.time.utils.service',
+    'app.user.utils.service',
+    'app.ui.utils.service',
+    'impress.utils.service',
+    'starter.controllers',
+    'starter.services',
+
+    'app.features.service',
+
+    'com.helporz.login',
+    'com.helporz.intro',
+    'com.helporz.utils.service',
+    'com.helporz.task.publish',
+    'com.helporz.task.netservice',
+    'com.helporz.playground',
+    'com.helporz.user.netservice',
+    'com.helporz.task.noticemessage',
+    'main',
+    'info',
+    'wall',
+  ])
+
+    .run(init)
+
+    .config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$ionicConfigProvider',
+      function ($stateProvider, $urlRouterProvider, $httpProvider, $ionicConfigProvider) {
+        //configRouter($stateProvider,$urlRouterProvider);
+        setHttpProvider($httpProvider);
+        $ionicConfigProvider.scrolling.jsScrolling(true);
+
+      }]).directive('errSrc', function () {
+      return {
+        link: function (scope, element, attrs) {
+          element.bind('error', function () {
+            if (attrs.src != attrs.errSrc) {
+              attrs.$set('src', attrs.errSrc);
+            }
+          });
+        }
+      }
+    });
+
+
+  //function init($ionicPlatform, $cordovaDevice, $cordovaNetwork, $timeout, $cordovaDialogs, $state) {
+  init.$inject = [
+    '$ionicPlatform',
+    '$cordovaDevice',
+    '$cordovaNetwork',
+    '$timeout',
+    '$cordovaDialogs',
+    '$state',
+    '$log',
+    'pushService',
+    'jimService',
+    'imConversationService',
+    'imMessageService',
+    'fileService',
+    'userImgFileService',
+    'dbService',
+    'PlaygroundDBService',
+    'playgroundTestConfigService',
+    'userLoginInfoService',
+    'userNetService',
+    'taskNetService',
+    'loginService',
+    'intervalCenter',
+    'checkUpdateFeature',
+  ];
+
+  function init($ionicPlatform,
+                $cordovaDevice,
+                $cordovaNetwork,
+                $timeout,
+                $cordovaDialogs,
+                $state,
+                $log,
+                pushService,
+                jimService,
+                imConversationService,
+                imMessageService,
+                fileService,
+                userImgFileService,
+                dbService,
+                PlaygroundDBService,
+                playgroundTestConfigService,
+                userLoginInfoService,
+                userNetService,
+                taskNetService,
+                loginService,
+                intervalCenter,
+                checkUpdateFeature
+                 ) {
+    $log.info('app.run.init');
+
+    $ionicPlatform.ready(function () {
+      //ConfigForTest(playgroundTestConfigService);
+      playgroundTestConfigService.initConfig();
+      if (navigator.splashscreen) {
+        navigator.splashscreen.hide();
+      }
+      console.log('ionicPlatform.ready');
+      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+      // for form inputs)
+      if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+        cordova.plugins.Keyboard.disableScroll(true);
+      }
+      if (window.StatusBar) {
+        // org.apache.cordova.statusbar required
+        StatusBar.styleDefault();
+      }
+
+      //wechat
+      if (window.cordova && window.cordova.plugins && window.cordova.plugins.Wechat) {
+        window.cordova.plugins.Wechat.isInstalled(function (installed) {
+          alert("Wechat installed: " + (installed ? "Yes" : "No"));
+        }, function (reason) {
+          alert("Failed: " + reason);
+        });
+      }
+
+      //in app browser
+      if (window.cordova && window.cordova.plugins && window.cordova.plugins.InAppBrowser) {
+        window.open = window.cordova.plugins.InAppBrowser.open;
+      }
+
+      jimService.init();
+      pushService.init().then(function () {
+        if (loginService.isShowIntro()) {
+          $state.go('intro');
+        }
+        else if (loginService.isLogging()) {
+          loginService.loginByTicket().then(function () {
+            $state.go('main.near');
+
+            //ho.alert('fetch after login');
+            //notice message
+            taskNetService.observeNoticeMessage();
+            // test:
+            //intervalCenter.add(1, 'app.noticeMessage', function () {
+            taskNetService.fetchNoticeMessage();
+            //});
+
+          }, function () {
+            $state.go('login');
+          });
+        }
+        else {
+          $state.go('login');
+        }
+
+      }, function () {
+        $state.go('login');
+      });
+
+      //检查更新
+      checkUpdateFeature.check();
+
+      document.addEventListener("deviceready", function () {
+        window.sqlitePlugin.openDatabase({name: 'helporz.db', location: 'default'}, function (dbConn) {
+          dbService.setDBConn(dbConn);
+          $log.info("create table");
+          PlaygroundDBService.createTable();
+        }, function (error) {
+          $log.error(error);
+        });
+
+        fileService.init(function () {
+          $log.info("存储服务初始化成功");
+        }, function () {
+          $log.info("存储服务初始化失败");
+          alert('failed');
+        });
+
+
+        //pushService.getRegistrationID();
+
+        if (device.platform != "Android") {
+          window.plugins.jPushPlugin.setDebugModeFromIos();
+          window.plugins.jPushPlugin.setApplicationIconBadgeNumber(0);
+        } else {
+          window.plugins.jPushPlugin.setDebugMode(true);
+        }
+      }, false);
+
+
+    });
+
+  }
+
+  function ConfigForTest(playgroundTestConfigService) {
+    playgroundTestConfigService.initConfig();
+  }
+
+  function setHttpProvider($httpProvider) {
+    // 头部配置
+    $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+    $httpProvider.defaults.headers.post['Accept'] = 'application/json, text/javascript, */*; q=0.01';
+    $httpProvider.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+
+    /**
+     * 重写angular的param方法，使angular使用jquery一样的数据序列化方式  The workhorse; converts an object to x-www-form-urlencoded serialization.
+     * @param {Object} obj
+     * @return {String}
+     */
+    var param = function (obj) {
+      var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
+
+      for (name in obj) {
+        value = obj[name];
+
+        if (value instanceof Array) {
+          for (i = 0; i < value.length; ++i) {
+            subValue = value[i];
+            fullSubName = name + '[' + i + ']';
+            innerObj = {};
+            innerObj[fullSubName] = subValue;
+            query += param(innerObj) + '&';
+          }
+        }
+        else if (value instanceof Object) {
+          for (subName in value) {
+            subValue = value[subName];
+            fullSubName = name + '[' + subName + ']';
+            innerObj = {};
+            innerObj[fullSubName] = subValue;
+            query += param(innerObj) + '&';
+          }
+        }
+        else if (value !== undefined && value !== null)
+          query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
+      }
+
+      return query.length ? query.substr(0, query.length - 1) : query;
+    };
+
+    // Override $http service's default transformRequest
+    $httpProvider.defaults.transformRequest = [function (data) {
+      return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
+    }];
+  }
+
+})(this);
+

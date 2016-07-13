@@ -1,1 +1,7 @@
-!function(){"use strict";angular.module("main.task.taskState",[])}();
+(function(){
+  'use strict';
+
+  angular.module('main.task.taskState', []);
+
+
+})()

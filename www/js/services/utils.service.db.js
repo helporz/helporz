@@ -1,1 +1,294 @@
-!function(){"use strict";function e(e,r,n){var o={},l=function(e){o=e},a=function(n){var l=e.defer();return o.sqlBatch(n,function(){l.resolve()},function(e,n){r.error("Populate table error: "+n.message),l.reject(n)}),l.promise},t=function(e,r,n){var o;r=r||{};var l={};for(o in n)l[o]=r[o]||n[o];return l};return{executeSqlList:a,setDBConn:l,createRow:t,addRecords:function(r,n,l){var a="",t="";if(angular.isArray(n)){if(!n||!n.length)return}else{var c=new Array;c.push(n),n=c}var s="INSERT INTO `#table#` (#cols#) VALUES #rows#;".replace("#table#",r),i=[],u=[];for(a in l)i.push("`"+a+"`");for(t in n){var f=[];for(a in l){var p=n[t][a]||l[a];f.push(null===p?"null":"'"+p+"'")}u.push("(#row#)".replace("#row#",f.join(",")))}s=s.replace("#cols#",i.join(",")).replace("#rows#",u.join(",")),s+=";select last_insert_rowid();";var v=e.defer();return o&&o.transaction(function(e){e.executeSql(s,[],function(e,r){v.resolve(r.insertId)},function(e,r){console.log("ERROR: "+r.message),v.reject(r)})}),console.log(s),v.promise},saveRecords:function(r,n,l){var a="",t="";if(angular.isArray(n)){if(!n||!n.length)return}else{var c=new Array;c.push(n),n=c}var s="REPLACE INTO `#table#` (#cols#) VALUES #rows#;".replace("#table#",r),i=[],u=[];for(a in l)i.push("`"+a+"`");for(t in n){var f=[];for(a in l){var p=n[t][a]||l[a];f.push(null===p?"null":"'"+p+"'")}u.push("(#row#)".replace("#row#",f.join(",")))}s=s.replace("#cols#",i.join(",")).replace("#rows#",u.join(","));var v=e.defer();return o&&o.transaction(function(e){e.executeSql(s,[],function(e,r){v.resolve(r)},function(e,r){console.log("ERROR: "+r.message),v.reject(r)})}),v.promise},findRecords:function(r,l){var a=e.defer(),t="SELECT * FROM `#table#` where #where#;".replace("#table#",r).replace("#where#",l||"");return o&&o.transaction(function(e){e.executeSql(t,[],function(e,r){a.resolve(r)},function(e,r){console.log("ERROR: "+r.message),console.log("ERROR: "+n.writeObj(r)),a.reject(r)})}),console.log(t),a.promise},findRecordsEx:function(r,n,l){var a=e.defer(),c="SELECT * FROM `#table#` where #where#;".replace("#table#",r).replace("#where#",n||"");return o&&o.transaction(function(e){e.executeSql(c,[],function(e,n){if("undefined"==typeof n||null===n)a.resolve(new Array);else{var o=new Array;if(n.rows.length)for(var c=0;c<n.rows.length;++c){var s=t(r,n.rows.item(c),l);null!=s&&o.push(s)}a.resolve(o)}},function(e,r){console.log("ERROR: "+r.message),a.reject(r)})}),a.promise},dropRecords:function(r,n){var l=e.defer(),a="DELETE   FROM `#table#` where #where#;".replace("#table#",r).replace("#where#",n||"");return o&&o.transaction(function(e){e.executeSql(a,[],function(e,r){l.resolve(r)},function(e,r){console.log("ERROR: "+r.message),l.reject(r)})}),console.log(a),l.promise},getSaveRecordSql:function(e,r,n){var o="",l="";if(angular.isArray(r)){if(!r||!r.length)return}else{var a=new Array;a.push(r),r=a}var t="REPLACE INTO `#table#` (#cols#) VALUES #rows#;".replace("#table#",e),c=[],s=[];for(o in n)c.push("`"+o+"`");for(l in r){var i=[];for(o in n){var u=r[l][o]||n[o];i.push(null===u?"null":"'"+u+"'")}s.push("(#row#)".replace("#row#",i.join(",")))}return t=t.replace("#cols#",c.join(",")).replace("#rows#",s.join(","))},updateData:function(r,n,l){var a=e.defer(),t="",c=[];for(t in l)"$hashKey"!==t&&"$$hashKey"!==t&&c.push("#key# = '#value#'".replace("#key#",t).replace("#value#",l[t]));var s="update `#table#` SET #cols# where #where#;".replace("#table#",r).replace("#where#",n||"").replace("#cols#",c.join(","));return o&&o.transaction(function(e){e.executeSql(s,[],function(e,r){a.resolve(r)},function(e,r){console.log("ERROR: "+r.message),a.reject(r)})}),console.log(s),a.promise},getMaxValue:function(r,n,l){var a=e.defer(),t="SELECT max(#col#) as maxValue FROM `#table#` #where#;".replace("#table#",r).replace("#col#",n).replace("#where#",l||"");return o&&o.transaction(function(e){e.executeSql(t,[],function(e,r){"undefined"==typeof r||null===r?a.resolve(0):a.resolve(r.rows.item(0).maxValue)},function(e,r){console.log("ERROR: "+r.message),a.reject(r)})}),console.log(t),a.promise}}}angular.module("com.helporz.utils.service").service("dbService",e),e.$inject=["$q","$log","debugHelpService"]}();
+/**
+ * Created by binfeng on 16/4/24.
+ */
+(
+  function() {
+    'use strict';
+    angular.module('com.helporz.utils.service').service('dbService',dbServiceFactoryFn);
+
+
+    dbServiceFactoryFn.$inject = ['$q','$log','debugHelpService'];
+    function dbServiceFactoryFn($q,$log,debugHelpService) {
+      var dbconn = {};
+
+      var _setDBConn = function (conn){
+        dbconn = conn;
+      };
+
+      var _executeSqlList = function(sqlList) {
+        var _innerDefer = $q.defer();
+        //for(var idx = 0; idx < sqlList.length; ++idx) {
+        //  $log.info('executeSqlList:' + sqlList[idx]);
+        //}
+
+        dbconn.sqlBatch(sqlList,function(){
+          _innerDefer.resolve();
+        },function(tx,error){
+          $log.error('Populate table error: ' + error.message);
+          _innerDefer.reject(error);
+        });
+        return _innerDefer.promise;
+      };
+
+      var _createRow =  function (table, record,pattern) {
+          var key;
+          record = record || {};
+          //var pattern = patterns[table];
+          var row = {};
+          for (key in pattern) {
+            row[key] = record[key] || pattern[key];
+          }
+          return row;
+        };
+      return {
+        executeSqlList:_executeSqlList,
+        setDBConn: _setDBConn,
+        createRow: _createRow,
+        addRecords: function(table,records,pattern) {
+          var key = '';
+          var i = '';
+          if( angular.isArray(records)) {
+            if (!records || !records.length) {
+              return;
+            }
+          }
+          else {
+            var temp = new Array();
+            temp.push(records);
+            records = temp;
+          }
+
+          //var pattern = patterns[table];
+          var sql = "INSERT INTO `#table#` (#cols#) VALUES #rows#;".replace('#table#', table);
+          var cols = [], rows = [];
+          for (key in pattern) {
+            cols.push('`' + key + '`');
+          }
+          for (i in records) {
+            var row = [];
+            for (key in pattern) {
+              var val = (records[i][key] || pattern[key]);
+              row.push(val === null ? "null" : "'" + val + "'");
+            }
+            rows.push("(#row#)".replace("#row#", row.join(',')));
+          }
+          sql = sql.replace('#cols#', cols.join(',')).replace('#rows#', rows.join(','));
+
+          sql = sql + ";select last_insert_rowid();";
+          var _dbDefer = $q.defer();
+          dbconn && dbconn.transaction(function (tx) {
+            tx.executeSql(sql, [], function (tx, res) {
+              _dbDefer.resolve(res.insertId);
+              //callback && callback(res);
+            }, function (tx,e) {
+              console.log("ERROR: " + e.message);
+              _dbDefer.reject(e);
+            });
+          });
+          console.log(sql);
+          return _dbDefer.promise;
+        },
+        saveRecords: function (table, records,pattern) {
+          var key = '';
+          var i = '';
+          if( angular.isArray(records)) {
+            if (!records || !records.length) {
+              return;
+            }
+          }
+          else {
+            var temp = new Array();
+            temp.push(records);
+            records = temp;
+          }
+
+          //var pattern = patterns[table];
+          var sql = "REPLACE INTO `#table#` (#cols#) VALUES #rows#;".replace('#table#', table);
+          var cols = [], rows = [];
+          for (key in pattern) {
+            cols.push('`' + key + '`');
+          }
+          for (i in records) {
+            var row = [];
+            for (key in pattern) {
+              var val = (records[i][key] || pattern[key]);
+              row.push(val === null ? "null" : "'" + val + "'");
+            }
+            rows.push("(#row#)".replace("#row#", row.join(',')));
+          }
+          sql = sql.replace('#cols#', cols.join(',')).replace('#rows#', rows.join(','));
+
+          var _dbDefer = $q.defer();
+          dbconn && dbconn.transaction(function (tx) {
+            tx.executeSql(sql, [], function (tx, res) {
+              _dbDefer.resolve(res);
+              //callback && callback(res);
+            }, function (tx,e) {
+              console.log("ERROR: " + e.message);
+              _dbDefer.reject(e);
+            });
+          });
+          //console.log(sql);
+          return _dbDefer.promise;
+        },
+        findRecords: function (table, where) {
+          var _dbDefer = $q.defer();
+          var sql = "SELECT * FROM `#table#` where #where#;".replace('#table#', table).replace('#where#', where || '');
+          dbconn && dbconn.transaction(function (tx) {
+            tx.executeSql(sql, [], function (tx, res) {
+              //callback && callback(res);
+              _dbDefer.resolve(res);
+            }, function (tx,e) {
+              console.log("ERROR: " + e.message);
+              console.log("ERROR: " + debugHelpService.writeObj(e));
+              _dbDefer.reject(e);
+            });
+          });
+          console.log(sql);
+          return _dbDefer.promise;
+        },
+        findRecordsEx: function (table, where,pattern) {
+          var _dbDefer = $q.defer();
+          var sql = "SELECT * FROM `#table#` where #where#;".replace('#table#', table).replace('#where#', where || '');
+          dbconn && dbconn.transaction(function (tx) {
+            tx.executeSql(sql, [], function (tx, res) {
+              //callback && callback(res);
+              if (typeof res == 'undefined' || res === null) {
+                _dbDefer.resolve(new Array());
+              }
+              else {
+                var records = new Array();
+                if (res.rows.length) {
+                  for (var index = 0; index < res.rows.length; ++index) {
+                    var record = _createRow(table, res.rows.item(index),pattern);
+                    if (record != null) {
+                      records.push(record);
+                    }
+                  }
+                }
+                _dbDefer.resolve(records);
+              }
+
+            }, function (tx,e) {
+              console.log("ERROR: " + e.message);
+              _dbDefer.reject(e);
+            });
+          });
+          //console.log(sql);
+          return _dbDefer.promise;
+        },
+        dropRecords: function (table, where) {
+          var _dbDefer = $q.defer();
+          var sql = "DELETE   FROM `#table#` where #where#;".replace('#table#', table).replace('#where#', where || '');
+          dbconn && dbconn.transaction(function (tx) {
+            tx.executeSql(sql, [], function (tx, res) {
+              //callback && callback(res);
+              _dbDefer.resolve(res);
+            }, function (tx,e) {
+              console.log("ERROR: " + e.message);
+              _dbDefer.reject(e);
+            });
+          });
+          console.log(sql);
+          return _dbDefer.promise;
+        },
+        getSaveRecordSql:function(table,records,pattern) {
+          var key = '';
+          var i = '';
+          if( angular.isArray(records)) {
+            if (!records || !records.length) {
+              return;
+            }
+          }
+          else {
+            var temp = new Array();
+            temp.push(records);
+            records = temp;
+          }
+
+          //var pattern = patterns[table];
+          var sql = "REPLACE INTO `#table#` (#cols#) VALUES #rows#;".replace('#table#', table);
+          var cols = [], rows = [];
+          for (key in pattern) {
+            cols.push('`' + key + '`');
+          }
+          for (i in records) {
+            var row = [];
+            for (key in pattern) {
+              var val = (records[i][key] || pattern[key]);
+              row.push(val === null ? "null" : "'" + val + "'");
+            }
+            rows.push("(#row#)".replace("#row#", row.join(',')));
+          }
+          sql = sql.replace('#cols#', cols.join(',')).replace('#rows#', rows.join(','));
+          return sql;
+        },
+        updateData:function(table,where,cols) {
+          var _dbDefer = $q.defer();
+
+          var key = '';
+          var value = '';
+
+          var colList = [];
+
+          for( key in cols) {
+            if( key === '$hashKey' || key === '$$hashKey') {
+              //过滤掉angular ng-repeat增加的$hashKey;
+              continue;
+            }
+            colList.push("#key# = '#value#'".replace('#key#',key).replace('#value#',cols[key]));
+          }
+
+          var sql = "update `#table#` SET #cols# where #where#;".
+            replace('#table#', table).replace('#where#', where || '').replace('#cols#',colList.join(','));
+          dbconn && dbconn.transaction(function (tx) {
+            tx.executeSql(sql, [], function (tx, res) {
+              //callback && callback(res);
+              _dbDefer.resolve(res);
+            }, function (tx,e) {
+              console.log("ERROR: " + e.message);
+              _dbDefer.reject(e);
+            });
+          });
+          console.log(sql);
+          return _dbDefer.promise;
+        },
+        getMaxValue:function(table,col,where) {
+          var _innerDefer = $q.defer();
+          var sql = "SELECT max(#col#) as maxValue FROM `#table#` #where#;".replace('#table#', table).replace('#col#',col).replace('#where#', where || '');
+          dbconn && dbconn.transaction(function (tx) {
+            tx.executeSql(sql, [], function (tx, res) {
+              //callback && callback(res);
+              if (typeof res == 'undefined' || res === null) {
+                _innerDefer.resolve(0);
+              }
+              else {
+                _innerDefer.resolve(res.rows.item(0).maxValue);
+              }
+
+            }, function (tx,e) {
+              console.log("ERROR: " + e.message);
+              _innerDefer.reject(e);
+            });
+          });
+          console.log(sql);
+          return _innerDefer.promise;
+        },
+        //sqlBatch:function(sqlList) {
+        //  var _dbDefer = $q.defer();
+        //  dbconn && dbconn.transaction(function (tx) {
+        //    tx.sqlBatch(sqlList,  function (tx, res) {
+        //      _dbDefer.resolve(res);
+        //      //callback && callback(res);
+        //    }, function (tx,e) {
+        //      console.log("ERROR: " + e.message);
+        //      _dbDefer.reject(e);
+        //    });
+        //  });
+        //  //console.log(sql);
+        //  return _dbDefer.promise;
+        //}
+      };
+    }
+  }
+)();

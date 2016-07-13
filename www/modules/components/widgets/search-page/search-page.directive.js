@@ -1,1 +1,52 @@
-!function(){"use strict";angular.module("components.widgets.searchPage",[]).directive("searchPage",function(){return{restrict:"E",replace:!0,templateUrl:"modules/components/widgets/search-page/search-page.html",scope:{items:"="},link:function(e,i,t){e.ui_items=[],e.$watch("input",function(i){if("undefined"==typeof i||""==i)e.ui_items=e.items;else{e.ui_items=[];for(var t in e.items)e.items[t].name.indexOf(i)!=-1&&e.ui_items.push(e.items[t])}})}}})}();
+/**
+ * Created by Midstream on 16/4/22.
+ */
+
+(function () {
+
+  'use strict'
+
+  angular.module('components.widgets.searchPage', [])
+
+    .directive('searchPage', function () {
+
+      return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'modules/components/widgets/search-page/search-page.html',
+        scope: {
+          items: '='
+        },
+
+        link: function (scope, element, attr) {
+
+          var cb_selectItem = function(index){
+          }
+
+          scope.ui_items = [];
+
+          scope.$watch('input', function(val){
+            if(typeof val == 'undefined' || val==''){
+
+              scope.ui_items = scope.items;
+            }
+            else{
+              scope.ui_items = [];
+              for(var i in scope.items) {
+
+                if(scope.items[i].name.indexOf(val) != -1){
+                  scope.ui_items.push(scope.items[i])
+                }
+              }
+            }
+
+          });
+
+        }
+      }
+    }
+  )
+
+
+})
+()
