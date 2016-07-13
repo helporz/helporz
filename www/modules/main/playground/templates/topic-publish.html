@@ -20,13 +20,13 @@
 
   <ion-header-bar align-title="center" class="bar-dark task-publish-default bgcolor-theme">
     <div class="buttons">
-      <a class="button" style="background-color:#ff492f" ng-click="ctl.closeModal()">取消
+      <a class="button button-icon icon ion-android-close bgcolor-bg" ng-click="ctl.closeModal()">
       </a>
     </div>
 
-    <div class="title col-center">发布</div>
+    <div class="title col-center">发布话题</div>
     <div class="buttons buttons-right">
-      <a class="button" style="background-color:#ff492f" ng-click="ctl.publish()">发送
+      <a class="button button-icon" style="background-color:#ff492f" ng-click="ctl.publish()">发送
       </a>
     </div>
   </ion-header-bar>
@@ -34,10 +34,16 @@
     <div class="topic-group-wrapper bottom-bordered bottom-bordered-normal">
       <!--<div class="row group-item group-item-input no-border left-align">-->
       <div class="row no-border left-align">
-        <textarea placeholder="我们都是能好好说话的孩纸" ng-model="ctl.content" style="width: 100%;height: 100px"/></textarea>
+        <textarea placeholder="我们都是能好好说话的孩纸" ng-model="ctl.content" style="width: 100%;height: 100px;resize: none"/></textarea>
+        <div class="topic-publish-word-count" style="background-color: #FFFFFF;  text-align: center;">
+          <a class=" icon ion-ios-close-empty icon-right;" style="color:black "
+             ng-click="ctl.clearContent()"> {{140 - ctl.content.length}}</a>
+        </div>
       </div>
 
-      <div class="row photo-list">
+      <div class="split" style="margin-left: 10px;"></div>
+
+      <div class="row photo-list" style="padding:3px">
 
         <div class="col col-25 col-center img-item" ng-repeat="imgItem in ctl.imgList">
           <div style="background-color: #FFFFFF; border-radius:8px;
@@ -61,17 +67,17 @@
           <!--<input type="checkbox"/> <span>匿名发送</span>-->
         <!--</div>-->
 
-        <div class="col col-offset-80 col-center" style="background-color: #FFFFFF; border-radius:4px;
-        border:1px solid #D2E0E6 ;padding:2px;width: 20px; text-align: center;">
-          <a class=" icon ion-ios-close-empty icon-right;" style="color:black "
-             ng-click="ctl.clearContent()"> {{140 - ctl.content.length}}</a>
-        </div>
+        <!--<div class="col col-offset-80 col-center" style="background-color: #FFFFFF; border-radius:4px;-->
+        <!--border:1px solid #D2E0E6 ;padding:2px;width: 20px; text-align: center;">-->
+          <!--<a class=" icon ion-ios-close-empty icon-right;" style="color:black "-->
+             <!--ng-click="ctl.clearContent()"> {{140 - ctl.content.length}}</a>-->
+        <!--</div>-->
 
       </div>
     </div>
 
     <div class="topic-group-wrapper">
-      <div class="topic-tag-wrap">
+      <div class="topic-public-tag-wrap">
         <div class="topic-tag" ng-repeat="tag in ctl.tagList"
              ng-click="ctl.toggleSelected(tag)"
              ng-class="{true:'tag-selected'}[tag.selected]">

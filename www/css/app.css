@@ -173,11 +173,11 @@
   border-style: solid;
   border-width: 1px; }
   .ho-button.button-gray.button-outline {
-    border-color: #bbbbbb;
+    border-color: #aaaaaa;
     background: transparent;
-    color: #bbbbbb; }
+    color: #aaaaaa; }
     .ho-button.button-gray.button-outline.active, .ho-button.button-gray.button-outline.activated {
-      background-color: #bbbbbb;
+      background-color: #aaaaaa;
       box-shadow: none;
       color: #fff; }
 
@@ -697,17 +697,20 @@
     width: 120px; }
   .loading-tpl-icon-text .tpl-text.tpl-text-width-140 {
     width: 140px; }
+  .loading-tpl-icon-text .tpl-text.tpl-text-width-180 {
+    width: 180px; }
 
 .ho-popup {
   background-color: white;
   font-size: 15px; }
   .ho-popup .line-1 {
     line-height: 26px;
-    min-height: 41px;
-    padding: 7px 5px;
+    min-height: 46px;
+    padding: 9px 5px;
     border-bottom: 1px solid #eaeaea;
     text-align: center; }
     .ho-popup .line-1 p {
+      font-weight: bold;
       padding: 0;
       margin: 0;
       font-size: 13px;
@@ -728,10 +731,11 @@
       width: 50%;
       font-weight: bold; }
     .ho-popup .line-2 button {
-      line-height: 32px;
-      color: #3c84c7;
+      height: 44px;
+      color: #0072ff;
       background-color: white;
-      border: none; }
+      border: none;
+      font-size: 15px; }
       .ho-popup .line-2 button.activated {
         background-color: #efeff4; }
 
@@ -1002,7 +1006,7 @@
     .ho-tabset.ho-tabset-block-border > ho-tab {
       border-style: solid;
       border-width: 1px;
-      height: 26px;
+      height: 28px;
       font-size: 12px;
       font-weight: bold;
       padding: 0 7px;
@@ -1041,11 +1045,11 @@
       .ho-tabset.ho-tabset-block-border > ho-tab.ho-tab-gray {
         background-color: white;
         color: #aaa;
-        border-color: #efeff4; }
+        border-color: #ddd; }
         .ho-tabset.ho-tabset-block-border > ho-tab.ho-tab-gray.tab-item-active {
           background-color: #eee;
           color: #6a6a6a;
-          border-color: #efeff4; }
+          border-color: #999; }
       .ho-tabset.ho-tabset-block-border > ho-tab.col-2 {
         -webkit-box-flex: 0;
         -webkit-flex: 0 0 50%;
@@ -1416,6 +1420,15 @@
 
 .popup-container.active .popup {
   border-radius: 10px; }
+
+.button-border {
+  border: 1px solid white !important;
+  width: 70px;
+  height: 26px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 22px; }
 
 .login-group-wrapper {
   -webkit-box-align: center;
@@ -1981,7 +1994,7 @@
       .topics .content-right .user-panel ul li.tip {
         color: #5f9cc5; }
     .topics .content-right .summary-panel .summary {
-      padding: 2px 0;
+      padding: 2px 10px 2px 0;
       word-break: break-all;
       white-space: pre-wrap;
       font-size: 14px;
@@ -1997,7 +2010,8 @@
       -webkit-align-items: center;
       -moz-align-items: center;
       align-items: center;
-      height: 45px; }
+      padding: 8px 8px 6px 0;
+      margin: 0; }
     .topics .content-right .summary-panel .appendix {
       display: -webkit-box;
       display: -webkit-flex;
@@ -2526,7 +2540,7 @@
         color: #878787;
         font-size: 9px; }
     .task-comment-panel .right-panel .comment-panel {
-      margin-top: 7px;
+      margin-top: 5px;
       display: -webkit-box;
       display: -webkit-flex;
       display: -moz-box;
@@ -2538,13 +2552,15 @@
       -webkit-align-items: top;
       -moz-align-items: top;
       align-items: top; }
+      .task-comment-panel .right-panel .comment-panel > p {
+        line-height: 22px; }
       .task-comment-panel .right-panel .comment-panel .comment-with-icon {
         width: calc(100% - 40px);
         margin-bottom: 0;
         color: #2a2a2a; }
       .task-comment-panel .right-panel .comment-panel .comment-without-icon {
         width: 100%;
-        margin-top: 7px;
+        margin-top: 5px;
         margin-bottom: 0;
         color: #2a2a2a; }
       .task-comment-panel .right-panel .comment-panel .comment-icon {
@@ -2900,7 +2916,7 @@
     background-color: #FF432F;
     position: fixed;
     width: 100%;
-    height: 280px;
+    height: 240px;
     z-index: -999; }
   .me .mid {
     padding-top: 15px;
@@ -3811,8 +3827,16 @@ ion-popover-view#task-publish-success-popup {
   background-color: #FFFFFF;
   margin-bottom: 7px; }
 
+.topic-publish-word-count {
+  position: absolute;
+  right: 5px;
+  bottom: 110px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid #D2E0E6; }
+
 .split {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #eaeaea;
   margin-top: 2px;
   margin-bottom: 2px; }
 
@@ -3899,18 +3923,21 @@ ion-popover-view#task-publish-success-popup {
 .topic-detail .div-line {
   margin-left: 58px;
   margin-top: 8px;
+  margin-bottom: 5px;
   line-height: 0;
   border-bottom: 1px solid #eaeaea; }
 
-.topic-detail .content-tag-wrap {
-  padding: 7px 10px 0px 58px; }
-  .topic-detail .content-tag-wrap .content-tag {
-    font-size: 12px;
-    line-height: 13px;
-    color: #f78058; }
+.topic-detail .content-tag {
+  padding: 2px 10px 0px 58px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  font-size: 12px;
+  line-height: 13px;
+  color: #f78058;
+  margin-bottom: 2px; }
 
 .topic-detail .content-wrap {
-  padding: 6px 10px 5px 58px; }
+  padding: 0px 10px 5px 58px; }
   .topic-detail .content-wrap p {
     color: #2a2a2a;
     margin: 0;
@@ -4004,7 +4031,7 @@ ion-popover-view#task-publish-success-popup {
 .topic-group-popover {
   padding: 2px 0;
   width: 140px;
-  height: 241px; }
+  height: 192px; }
   .topic-group-popover .topic-group-popover-item {
     line-height: 43px;
     display: -webkit-box;
@@ -4041,3 +4068,25 @@ ion-popover-view#task-publish-success-popup {
       color: gold; }
     .topic-group-popover .topic-group-popover-item.item-5 {
       color: crimson; }
+
+.topic-public-tag-wrap {
+  word-wrap: break-word;
+  padding: 6px 4px; }
+  .topic-public-tag-wrap .topic-tag {
+    float: left;
+    height: 26px;
+    min-width: 65px;
+    border: 1px solid #aaaaaa;
+    border-radius: 13px;
+    font-size: 12px;
+    padding: 2px 6px;
+    text-align: center;
+    margin: 0px 5px 5px 5px;
+    word-wrap: break-word;
+    color: #878787; }
+  .topic-public-tag-wrap .tag-selected {
+    border-color: #f78058;
+    color: white;
+    background-color: #f78058; }
+  .topic-public-tag-wrap .no-border {
+    border-width: 0px !important; }

@@ -8,81 +8,35 @@
   angular.module('main.me')
     .controller('mainMeCtrl', ['$state', '$scope', '$ionicLoading', '$ionicPopup', '$ionicScrollDelegate', '$ionicActionSheet',
       '$timeout', '$interval', 'userNetService', 'impressUtils', 'userUtils',
-      'errorCodeService', 'SharePageWrapService', 'mainUserTasksService','IMInterfaceService', mainMeCtrl])
+      'errorCodeService', 'SharePageWrapService', 'mainUserTasksService','taskNetService', 'intervalCenter',
+      'IMInterfaceService', 'NoticeMessageDB', 'NoticeMessageService', mainMeCtrl])
 
   function mainMeCtrl($state, $scope, $ionicLoading, $ionicPopup, $ionicScrollDelegate, $ionicActionSheet,
                       $timeout, $interval, userNetService, impressUtils, userUtils,
-                      errorCodeService, SharePageWrapService, mainUserTasksService,IMInterfaceService) {
+                      errorCodeService, SharePageWrapService, mainUserTasksService, taskNetService, intervalCenter,
+                      IMInterfaceService,NoticeMessageDB, NoticeMessageService) {
     var vm = $scope.vm = {};
+
+    vm.followBadge = 0;
+
     vm.IMInterfaceService = IMInterfaceService;
-    vm.cb_edit = function () {
-      $state.go('main.edit');
-    }
-    vm.cb_setting = function () {
-      $state.go('main.setting');
-    }
-
-    vm.cb_share = function () {
-      SharePageWrapService.shareApp();
-      //var sheet = {};
-      //sheet.titleText = '与朋友们分享好图';
-      //sheet.cancelText = '算了';
-      //sheet.buttonClicked = buttonClicked;
-      //sheet.buttons = [{
-      //  text: '<i class="icon ion-at"></i> 分享给微信小伙伴'
-      //}, {
-      //  text: '<i class="icon ion-chatbubbles"></i> 分享到微信朋友圈'
-      //}, {
-      //  text: '<i class="icon ion-star"></i> 添加到微信收藏夹'
-      //}];
 
 
-      //$ionicActionSheet.show(sheet);
+    var NMT = NoticeMessageService.getNoticeMessageTypes();
+    var intervalFunc = function () {
+      //检测未读消息产生的badge
+      var taskCache = taskNetService.cache;
+      if (taskCache.nm_follow_changed) {
+        taskCache.nm_follow_changed = false;
+        vm.followBadge = taskCache.nm_follow.length;
+      }
 
-      //function buttonClicked(index) {
-      //  //if (!window.Wechat) return;
-      //
-      //  var title = "title";
-      //  var thumbnail = null;
-      //  var description = 'description';
-      //
-      //
-      //  description += ' 图虫日报，精选每日图虫热门图片。'
-      //
-      //  if (ho.isValid(window.cordova.plugins.Wechat) == false) {
-      //    alert(window.cordova.plugins.Wechat);
-      //  }
-      //  Wechat.share({
-      //    message: {
-      //      title: title,
-      //      description: description,
-      //      thumb: 'http://ww2.sinaimg.cn/large/61ff0de3gw1emj19ju7p4j2030030745.jpg',
-      //      media: {
-      //        type: Wechat.Type.WEBPAGE,
-      //        webpageUrl: 'http://www.helporz.com'
-      //      }
-      //    },
-      //    scene: index
-      //  });
-      //
-      //  //window.cordova.plugins.Wechat.share({
-      //  //  message: {
-      //  //    title: title,
-      //  //    description: description,
-      //  //    thumb:  'http://ww2.sinaimg.cn/large/61ff0de3gw1emj19ju7p4j2030030745.jpg' ,
-      //  //    media: {
-      //  //      type: Wechat.Type.WEBPAGE,
-      //  //      webpageUrl: post.url
-      //  //    }
-      //  //  },
-      //  //  scene: index
-      //  //});
-      //
-      //}
-    }
-
-    vm.cb_im = function () {
-      $state.go('main.im');
+      if(vm.activeTab==1 && vm.self.tabFollow==0){
+        NoticeMessageDB.setReadFlagByType(NMT.FRIEND_TASK_MESSAGE_TYPE);
+        taskCache.nm_follow = [];
+        taskCache.nm_main_changed = true;
+        vm.followBadge = 0;
+      }
     }
 
     // me info
@@ -107,11 +61,9 @@
       vm.meInfo.ui_tags = [];
       impressUtils.netTagsToUiTags(vm.meInfo.ui_tags, selfInfo.tags);
 
-
       $timeout(function () {
         $scope.$apply();
       });
-
 
       //// test:
       //vm._repeatList = userNetService.cache.selfInfo.attentionList;
@@ -141,7 +93,29 @@
         userUtils.uiProcessFollowed(friends[i]);
       }
 
+      //add poll
+      intervalCenter.add(0, 'me.controller', intervalFunc);
     });
+
+    $scope.$on("$ionicView.leave", function () {
+      intervalCenter.remove(0, 'me.controller', intervalFunc);
+    });
+
+    vm.cb_edit = function () {
+      $state.go('main.edit');
+    }
+    vm.cb_setting = function () {
+      $state.go('main.setting');
+    }
+
+    vm.cb_share = function () {
+      SharePageWrapService.shareApp();
+
+    }
+
+    vm.cb_im = function () {
+      $state.go('main.im');
+    }
 
 
     vm.meInfo.accessUserAvatar = function (index) {

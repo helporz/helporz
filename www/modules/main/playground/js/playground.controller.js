@@ -13,7 +13,9 @@
     .controller('collectionTopicListController', collectionTopicListControllerFn)
     .controller('myCommentListController', myCommentListControllerFn)
     .controller('myMessageListController', myMessageListControllerFn)
-    .controller('commentSessionController', commentSessionControllerFn);
+    .controller('commentSessionController', commentSessionControllerFn)
+
+    .filter('TagConnector', TagConnector);
 
   playgroundListControllerFn.$inject = ['$scope', '$state', '$log', 'topicGroupService'];
   function playgroundListControllerFn($scope, $state, $log, topicGroupService) {
@@ -1344,6 +1346,20 @@
       topicService.setCurrentDetailTopic(topic);
       $state.go('main.topic-group_topic-detail', {'topicId': topic.id});
     }
+  }
+
+  //////////////////////////////////////////////////
+  function TagConnector(){
+    var filter = function (data) {
+      var ret = '';
+      for(var i in data) {
+        ret += '#' + data[i].name + '#';
+        ret += '  ';
+      }
+      return ret;
+    }
+
+    return filter;
   }
 })
 ();

@@ -96,7 +96,9 @@
         <strong>自己</strong></ho-tab>
       <ho-tab class="col-2 ho-tab-weak-gray-bg" on-select="vm.onChangeTab(1)"
               style="font-size:14px;padding-top:5px;height:48px">
-        <strong>伙伴</strong></ho-tab>
+        <strong>伙伴</strong>
+        <ho-badge ng-if="vm.followBadge>0" count="vm.followBadge"></ho-badge>
+      </ho-tab>
     </ho-tab-set>
 
     <div class="tab-panel">
@@ -194,6 +196,7 @@
           <ho-tab-set widget-id="me-friend" first-on="last" class="ho-tabset ho-tabset-block-border">
             <ho-tab class="col-2 ho-tab-gray" on-select="vm.self.cb_tabFollow(0)" style="">
               关注
+              <ho-badge ng-if="vm.followBadge>0" count="vm.followBadge"></ho-badge>
             </ho-tab>
             <ho-tab class="col-2 ho-tab-gray" on-select="vm.self.cb_tabFollow(1)">
               粉丝

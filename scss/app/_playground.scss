@@ -204,8 +204,17 @@
   margin-bottom: 7px;
 }
 
+.topic-publish-word-count {
+  position:absolute;
+  right: 5px;
+  bottom: 110px;
+  padding: 2px 8px;
+  border-radius:4px;
+  border:1px solid #D2E0E6 ;
+}
+
 .split {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid $color-div-line;
   margin-top: 2px;
   margin-bottom: 2px;
 }
@@ -298,23 +307,37 @@
   .div-line {
     margin-left: 58px;
     margin-top: 8px;
-    //margin-bottom
+    margin-bottom: 5px;
     line-height: 0;
     border-bottom: 1px solid $color-div-line;
   }
 
-  .content-tag-wrap {
-    padding: 7px 10px 0px 58px;
-    .content-tag {
-      font-size: 12px;
-      line-height: 13px;
-      color: $color-theme-weak;
-    }
+  //.content-tag-wrap {
+  //  padding: 7px 10px 0px 58px;
+  //  width: 100%;
+  //  .content-tag {
+  //    display: inline-block;
+  //    word-wrap: break-word;
+  //    font-size: 12px;
+  //    line-height: 13px;
+  //    color: $color-theme-weak;
+  //  }
+  //}
+
+  .content-tag {
+    padding: 2px 10px 0px 58px;
+    word-wrap: break-word;
+    //word-break: break-all;
+    white-space: pre-wrap;
+    font-size: 12px;
+    line-height: 13px;
+    color: $color-theme-weak;
+    margin-bottom: 2px;
   }
 
   .content-wrap {
     //padding: 8px 12px 5px 12px;;
-    padding: 6px 10px 5px 58px;
+    padding: 0px 10px 5px 58px;
     p {
       color: $color-text-primary;
       margin: 0;
@@ -427,7 +450,7 @@
 .topic-group-popover {
   padding: 2px 0;
   width: 140px;
-  height: 241px;
+  height: 192px;
 
   .topic-group-popover-item {
     line-height: 43px;
@@ -462,5 +485,35 @@
     &.item-5 {
       color: crimson;
     }
+  }
+}
+
+.topic-public-tag-wrap {
+  word-wrap:break-word;
+  padding:6px 4px;
+  .topic-tag {
+    float:left;
+    height: 26px;
+    min-width: 65px;
+    border: 1px solid $button-outline-gray-color;
+    border-radius: 13px;
+    font-size: 12px;
+    //line-height:20px;
+    padding: 2px 6px;
+    text-align: center;
+    margin:0px 5px 5px 5px;
+    word-wrap:break-word;
+    color: $color-text-secondary;
+
+  }
+
+  .tag-selected {
+    border-color: $color-theme-weak;
+    color: white;
+    background-color: $color-theme-weak;
+  }
+
+  .no-border {
+    border-width: 0px !important;
   }
 }

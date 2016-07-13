@@ -156,11 +156,12 @@
     </div>
   </ion-nav-title>
 
-  <ion-nav-buttons side="right">
-    <!--<button class="button icon ion-ios-plus" ng-click="vm.showPopover($event)">-->
-
-    <!--</button>-->
+  <ion-nav-buttons side="left">
     <button class="button button-icon icon ion-ios-keypad" ng-click="vm.showPopover($event)"></button>
+  </ion-nav-buttons>
+
+  <ion-nav-buttons side="right">
+    <button class="button button-icon icon ion-compose" ng-click="vm.go2AddTopic()"></button>
     <button class="button button-icon icon ho-chat-2" ng-click="vm.state.go('main.topic-group_im')">
       <div class="badge-count" ng-if="vm.IMInterfaceService.unReadMessageCount > 0">
         <p class="count">{{vm.IMInterfaceService.unReadMessageCount}}</p>
@@ -305,9 +306,10 @@
 
         <div class="div-line"></div>
 
-        <div class="row content-tag-wrap" ng-if="item.tagInfoList != null && item.tagInfoList.length > 0">
-          <div class="content-tag" ng-repeat="tag in item.tagInfoList"> #{{tag.name}}#</div>
-        </div>
+        <!--<div class="row content-tag-wrap" ng-if="item.tagInfoList != null && item.tagInfoList.length > 0">-->
+          <!--<span class="content-tag" ng-repeat="tag in item.tagInfoList">#{{tag.name}}# </span>-->
+        <!--</div>-->
+        <p class="content-tag" ng-if="item.tagInfoList != null && item.tagInfoList.length > 0">{{item.tagInfoList | TagConnector}}</p>
 
         <div class="content-wrap" ng-if="item.content.length>0">
           <p ng-bind-html="item.content" class="auto-wrap font-size-14" style=""></p>

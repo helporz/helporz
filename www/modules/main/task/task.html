@@ -92,7 +92,7 @@
 
             <p class="name">{{item.ui_nickname}}</p>
 
-            <p class="desc" ng-if="item.ui_identifier != ''">{{item.ui_identifier}}</p>
+            <p class="desc" ng-if="item.ui_identifier != ''" ng-click="vm.cb_contact($index)">{{item.ui_identifier}}</p>
           </div>
           <div class="right">
             <!--<button class="chat button button-icon icon ion-ios-chatbubble-outline"-->
