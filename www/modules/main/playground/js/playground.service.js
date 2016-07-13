@@ -859,6 +859,8 @@
     };
   }
 
+  PlaygroundStartupServiceFn.$inject = ['topicService', 'PlaygroundDBService', 'favouriteTopicService',
+                                        'topicBlacklistService', 'filterTopicService'];
   function PlaygroundStartupServiceFn(topicService, PlaygroundDBService, favouriteTopicService,
                                       topicBlacklistService, filterTopicService) {
     var _init = function (currentUserId) {
