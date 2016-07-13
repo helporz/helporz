@@ -1,0 +1,77 @@
+<ion-view view-title="设置">
+  <ion-content class="bgcolor-bg">
+
+    <ion-list class="ho-list">
+
+      <ion-item class="ho-item" ng-click="vm.edit.cb_avatar()">
+        <p class="title">头像</p>
+
+        <div class="content-right">
+          <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
+          <img class="avatar" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g"
+               live-image ng-src="{{vm.edit.avatar}}">
+        </div>
+      </ion-item>
+      <ion-item class="ho-item" ng-click="vm.edit.cb_nickname()">
+        <p class="title">名字</p>
+
+        <div class="content-right">
+          <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
+          <span class="body">{{vm.edit.nickname}}</span>
+        </div>
+      </ion-item>
+      <ion-item class="ho-item" ng-click="vm.edit.cb_org()">
+        <p class="title">所属组织</p>
+
+        <div class="content-right">
+          <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
+          <span class="body">{{vm.edit.org}}</span>
+        </div>
+      </ion-item>
+      <ion-item class="ho-item" ng-click="vm.edit.cb_department()">
+        <p class="title">院系</p>
+
+        <div class="content-right">
+          <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
+          <span class="body">{{vm.edit.department}}</span>
+        </div>
+      </ion-item>
+
+      <ion-item class="ho-item" ng-click="vm.edit.cb_dormitory()">
+        <p class="title">寝室的楼栋</p>
+
+        <div class="content-right">
+          <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
+          <span class="body">{{vm.edit.dormitory}}</span>
+        </div>
+      </ion-item>
+
+      <ion-item class="ho-item" ng-click="vm.edit.cb_hometown()">
+        <p class="title">家乡</p>
+
+        <div class="content-right">
+          <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
+          <span class="body">{{vm.edit.hometown}}</span>
+        </div>
+      </ion-item>
+
+      <ion-item class="ho-item" style="margin-top:15px" ng-click="vm.edit.cb_gender()">
+        <p class="title">性别</p>
+
+        <div class="content-right">
+          <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
+          <span class="body">{{vm.edit.gender}}</span>
+        </div>
+      </ion-item>
+
+      <ion-item class="ho-item" ng-click="vm.edit.cb_sign()">
+        <p class="title">个人签名</p>
+
+        <div class="content-right">
+          <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
+          <span class="body">{{vm.edit.sign}}</span>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

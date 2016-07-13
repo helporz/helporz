@@ -1,0 +1,31 @@
+<ion-view  view-title="个人编辑">
+
+  <ion-content class="bgcolor-bg ">
+
+    <ion-list class="ho-list self">
+      <ion-item class="ho-item" ng-click="vm.cb_feedback()">
+        <p class="title">意见与反馈</p>
+        <div class="content-right">
+          <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
+        </div>
+      </ion-item>
+      <ion-item class="ho-item" ng-click="vm.cb_about()">
+        <p class="title">关于</p>
+        <div class="content-right">
+          <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
+        </div>
+      </ion-item>
+    </ion-list>
+
+    <div class="padding">
+      <button class="ho-button-block button-theme" ng-click="vm.SharePageWrapService.shareApp()">
+        分享应用给更多小伙伴
+      </button>
+
+      <button class="ho-button-block button-theme margin-top" ng-click="vm.cb_logout()">
+        退出登陆
+      </button>
+    </div>
+
+  </ion-content>
+</ion-view>

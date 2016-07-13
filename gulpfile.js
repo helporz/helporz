@@ -7,37 +7,39 @@ var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
 
+var uglify = require('gulp-uglify');
+
 var paths = {
   sass: ['./scss/**/*.scss']
 };
 
 gulp.task('default', ['sass']);
 
-gulp.task('sass', function(done) {
-  gulp.src(['./scss/ionic.app.scss','./scss/app/app.scss','./scss/im/im.scss','./scss/hoicons/hoicons.scss'])
+gulp.task('sass', function (done) {
+  gulp.src(['./scss/ionic.app.scss', './scss/app/app.scss', './scss/im/im.scss', './scss/hoicons/hoicons.scss'])
     .pipe(sass())
     .on('error', sass.logError)
     .pipe(gulp.dest('./www/css/'))
     .pipe(minifyCss({
       keepSpecialComments: 0
     }))
-    .pipe(rename({ extname: '.min.css' }))
+    .pipe(rename({extname: '.min.css'}))
     .pipe(gulp.dest('./www/css/'))
     .on('end', done);
 });
 
-gulp.task('watch', function() {
+gulp.task('watch', function () {
   gulp.watch(paths.sass, ['sass']);
 });
 
-gulp.task('install', ['git-check'], function() {
+gulp.task('install', ['git-check'], function () {
   return bower.commands.install()
-    .on('log', function(data) {
+    .on('log', function (data) {
       gutil.log('bower', gutil.colors.cyan(data.id), data.message);
     });
 });
 
-gulp.task('git-check', function(done) {
+gulp.task('git-check', function (done) {
   if (!sh.which('git')) {
     console.log(
       '  ' + gutil.colors.red('Git is not installed.'),
@@ -49,3 +51,39 @@ gulp.task('git-check', function(done) {
   }
   done();
 });
+
+gulp.task('transport-ios', function () {
+  transport('ios');
+});
+gulp.task('transport-android', function () {
+  transport('android');
+});
+
+function transport(pf) {
+  var dest;
+  if (pf == 'ios') {
+    dest = 'platforms/ios/www';
+  } else if (pf == 'android') {
+    dest = 'platforms/android/assets/www';
+  } else {
+    process.stdout.write('invalid platform\n');
+  }
+
+  gulp.src('www/**/*.js')
+    //.pipe(concat('bundle.js'))
+    .pipe(uglify({
+      //mangle: true,
+      //compress: true
+    }))
+    .pipe(gulp.dest(dest));
+
+  //gulp.src('src/www/**/*.html')
+  //  .pipe(gulp.dest('www'));
+}
+
+gulp.task('test-trans', function() {
+  gulp.src('src/www/**/*.js')
+    //.pipe(concat('bundle.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest('www'));
+})

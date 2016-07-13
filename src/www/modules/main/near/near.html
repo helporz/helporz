@@ -1,0 +1,108 @@
+<ion-view view-title="{{vm.orgName}}">
+  <!--<ion-view>-->
+  <ion-nav-buttons side="right">
+    <button class="button button-icon icon ho-chat-2" ng-click="vm.state.go('main.near_im')">
+      <div class="badge-count" ng-if="vm.IMInterfaceService.unReadMessageCount > 0">
+        <p class="count">{{vm.IMInterfaceService.unReadMessageCount}}</p>
+      </div>
+    </button>
+  </ion-nav-buttons>
+
+  <ion-content class="has-tabs has-header">
+    <ion-refresher pulling-text="下拉刷新..." on-refresh="vm.doRefresh()">
+    </ion-refresher>
+
+    <ion-list>
+      <ion-item class="topics bottom-bordered bottom-bordered-normal" ng-repeat="item in vm.items"
+               item-height="223px" ng-click="vm.cb_itemClick($index)">
+        <!--<ion-item class="topics bottom-bordered bottom-bordered-small" collection-repeat="item in vm.items"-->
+                  <!--href="#/main/near/task-detail/{{item.id}}" item-height="223px">-->
+        <div class="row nopadding">
+          <div class="content-left">
+            <img class="task-img" src={{item.icon}} reset-img>
+
+            <p class="task-type">{{item.typeName}}</p>
+          </div>
+          <div class="content-right">
+            <div class="row user-panel nopadding">
+              <img class="avatar" ng-src={{item.poster.avatar}} ng-click="vm.cb_gotoUser(item.poster.userId)">
+
+              <div class="user-detail">
+                <div class="top">
+                  <div class="line-1">
+                    <p class="name">{{item.poster.nickname}}</p>
+                    <i class="gender-icon ho-gender-female color-woman"></i>
+                  </div>
+
+                  <!--<p class="time">{{item.ui_createTime}}</p>-->
+                  <p class="time">{{item.created | DateShow}}</p>
+                </div>
+                <div class="bottom">
+                  <div class="impress-panel" ng-repeat="item in item.ui_tags">
+                    <p class="elem text-tag toggle-on {{item.className}}">{{item.text}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="div-line-1"></div>
+
+            <div class="summary-panel">
+              <p class="summary">{{item.summary}}</p>
+              <!--<p class="summary" clamp="{{item.summary}}"></p>-->
+
+              <div class="appendix">
+                <i class="icon ion-ios-clock-outline font-size-13 deadline "></i>
+
+                <p>{{item.deadline}}截止</p>
+              </div>
+              <div class="appendix">
+                <i class="icon ho-location font-size-13 address"></i>
+
+                <p>{{item.pubLocation}}</p>
+              </div>
+              <div>
+                <p class="thank">感谢:</p>
+
+                <p class="thank-what tabs-color-light">{{item.rewardDescription}} </p>
+              </div>
+            </div>
+
+            <div class="div-line-2"></div>
+
+            <div class="bottom-panel">
+              <div class="item-panel">
+                <i class="elem2 icon ho-chat-0 font-size-13"></i>
+                <span class="count">{{item.commentCount}}</span>
+              </div>
+              <div class="item-panel" ng-click="vm.sharePageService.shareTask(item.id)">
+                <i class="elem2 icon ho-share font-size-13"></i>
+                <span class="count">0</span>
+              </div>
+
+              <p class="my-task-txt" ng-if="item.ui_isMyTask">我的求助</p>
+              <button class="button-accept  button-light-red" ng-if="!item.ui_isMyTask" ng-click="vm.cb_acceptTask($index)">
+                接单
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+        <!--<p class="summary">-->
+        <!--<span ng-if="true" class="tab">vm.xx</span>-->
+        <!--<span ng-if="false" class="tab hl">置顶</span>-->
+        <!--<span ng-if="false" class="tab hl">精华</span>-->
+        <!--<span class="item-note ago" am-time-ago="topic.last_reply_at">-->
+        <!--</span>-->
+        <!--</p>-->
+      </ion-item>
+    </ion-list>
+
+    <!--<ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="true"></ion-infinite-scroll>-->
+
+    <!--<ul class="list">-->
+    <!--<li class="item" collection-repeat="item in items">{{item}}</li>-->
+    <!--</ul>-->
+  </ion-content>
+</ion-view>

@@ -1,18 +1,1 @@
-/**
- * Created by Midstream on 16/4/28.
- */
-
-(function () {
-
-  'use strict'
-
-  angular.module('components.widgets.hoTabSet')
-
-    .controller('hoTabCtrl', ['$scope', hoTabCtrl]);
-
-  function hoTabCtrl($scope) {
-    this.$scope = $scope;
-  };
-
-})
-()
+!function(){"use strict";function o(o){this.$scope=o}angular.module("components.widgets.hoTabSet").controller("hoTabCtrl",["$scope",o])}();

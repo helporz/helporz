@@ -1,0 +1,69 @@
+<!--<style type="text/css">-->
+  <!--.mypopover {-->
+    <!--width: 150px;-->
+    <!--height: 245px;-->
+  <!--}-->
+  <!--.mypopover .split {-->
+    <!--border-bottom: 1px solid #ddd;-->
+    <!--margin-top: 2px;-->
+    <!--margin-bottom: 2px;-->
+  <!--}-->
+
+  <!--.mypopover span {-->
+    <!--padding-right : 10px;-->
+    <!--font-size: x-large;-->
+    <!--vertical-align: middle;-->
+  <!--}-->
+<!--</style>-->
+<ion-popover-view  class="topic-group-popover">
+  <!--<ion-header-bar>-->
+  <!--<h1 class="title">My Popover Title</h1>-->
+  <!--</ion-header-bar>-->
+  <ion-content>
+    <div class="topic-group-popover-item item-1" ng-click="gotoMyMessageList()">
+        <i class="icon ion-ios-email-outline"></i>
+        <p>消息提醒</p>
+    </div>
+
+    <div class="col-offset-5 split"></div>
+
+    <!--<div class="row">-->
+      <!--<div class="col col-center" style="text-align:center;" ng-click="gotoOwnTopic()">-->
+        <!--<span class="icon ion-ios-flag-outline" style="text-align:center; color:lightskyblue"></span>我的主题</div>-->
+    <!--</div>-->
+
+    <div class="topic-group-popover-item item-2" ng-click="gotoOwnTopic()">
+      <i class="icon ion-ios-flag-outline font-size-29"></i>
+      <p>我的主题</p>
+    </div>
+
+    <div class="col-offset-5 split"></div>
+
+    <!--<div class="row">-->
+      <!--&lt;!&ndash;<div class="col icon ion-ios-chatbubble-outline" style="text-align:center"> 我的回复</div>&ndash;&gt;-->
+      <!--<div class="col col-center" style="text-align:center;" ng-click="gotoMyCommentList()">-->
+        <!--<span class="icon ion-ios-chatbubble-outline" style="text-align:center; color:dodgerblue"></span>我的回复</div>-->
+    <!--</div>-->
+
+    <div class="topic-group-popover-item item-3" ng-click="gotoMyCommentList()">
+      <i class="icon ion-ios-chatbubble-outline"></i>
+      <p>我的回复</p>
+    </div>
+
+    <div class="col-offset-5 split"></div>
+
+    <div class="topic-group-popover-item item-4" ng-click="gotoCollectionTopic()">
+      <i class="icon ion-ios-star-outline font-size-23"></i>
+      <p>我的收藏</p>
+    </div>
+
+
+    <!--<div class="col-offset-5 split"></div>-->
+
+    <!--<div class="topic-group-popover-item item-5" ng-click="go2AddTopic()">-->
+      <!--<i class="icon ion-ios-plus-outline font-size-21"></i>-->
+      <!--<p>发布话题</p>-->
+    <!--</div>-->
+
+  </ion-content>
+</ion-popover-view>

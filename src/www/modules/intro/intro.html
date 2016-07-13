@@ -1,0 +1,67 @@
+<ion-view hide-nav-bar="true" ng-controller="introCtrl">
+  <style type="text/css">
+    ion-slide{
+      height:100%;
+      width:100%;
+      text-align:center;
+    }
+
+    ion-slide img{
+      /*max-width:720px;*/
+      /*max-height:1280px;*/
+      height:auto;
+      width:100%;
+    }
+
+    .enter-app {
+      /*position:fixed;*/
+      position: absolute;
+      /*top:0;*/
+      /*left: 0;*/
+      bottom: 20%;
+      left: calc(50% - 40px);
+      z-index: 3;
+      /*overflow-y:auto;*/
+      filter: alpha(opacity=50);
+      -moz-opacity: 0.5;
+      opacity: 0.5;
+      font-size: 14px;
+      color: #FFFFFF;
+      width: 80px;
+      background-color:#FC4B39;
+      border: 2px solid #FFFFFF;
+      font-weight:900;
+    }
+
+  </style>
+
+  <ion-content class="no-header">
+    <ion-slide-box does-continue="false" on-slide-changed="onChanged(index)"  show-pager="false" >
+      <ion-slide>
+        <img src="img/intro/jieshao1@2x.png">
+      </ion-slide>
+      <ion-slide>
+        <img src="img/intro/jieshao2@2x.png">
+      </ion-slide>
+      <ion-slide>
+        <img src="img/intro/jieshao3@2x.png">
+      </ion-slide>
+      <ion-slide>
+        <img src="img/intro/jieshao4@2x.png">
+        <!--
+        后续在第四页增加进入app按钮
+        -->
+
+        <button class="enter-app button button-small" ng-click="enterApp()"> 进入应用</button>
+      </ion-slide>
+
+      <!--&lt;!&ndash;后续去掉第五页&ndash;&gt;-->
+      <!--<ion-slide>-->
+        <!--<div class="row">-->
+            <!--<h1  class="col-50 col-offset-10">进入大侠拜托</h1>-->
+        <!--</div>-->
+      <!--</ion-slide>-->
+
+    </ion-slide-box>
+  </ion-content>
+</ion-view>
