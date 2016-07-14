@@ -7,12 +7,14 @@
 
   angular.module('main.near')
     .controller('mainNearCtrl', ['$state', '$log', '$ionicLoading', '$interval', '$timeout', '$scope', 'taskNetService', 'userNetService',
-      'taskUtils', 'timeUtils', 'impressUtils', 'intervalCenter','SharePageWrapService', 'userUtils','IMInterfaceService', mainNearCtrl]);
+      'taskUtils', 'timeUtils', 'impressUtils', 'intervalCenter','SharePageWrapService', 'userUtils','IMInterfaceService','imMessageService',
+      mainNearCtrl]);
 
 
 
   function mainNearCtrl($state, $log, $ionicLoading, $interval, $timeout, $scope, taskNetService, userNetService,
-                        taskUtils, timeUtils, impressUtils, intervalCenter,SharePageWrapService, userUtils,IMInterfaceService) {
+                        taskUtils, timeUtils, impressUtils, intervalCenter,SharePageWrapService, userUtils,IMInterfaceService,
+                        imMessageService) {
 
     //fixme:因为点击会穿透,同时触发多个事件,这里先用标记来屏蔽,点击按钮后间隔一段时间才可触发下一次点击回调
     var _isClicking = false;
@@ -30,7 +32,16 @@
 
     var vm = $scope.vm = {};
     vm.state = $state;
-    vm.IMInterfaceService = IMInterfaceService;
+    vm.noReadMessageCount = IMInterfaceService.getNoReadMessageCount();
+    var conversationObserver = {
+      onAddConversation: function (conversation) {
+        vm.noReadMessageCount = IMInterfaceService.getNoReadMessageCount();
+      }
+    }
+
+    imMessageService.registerConversationObserver('mainNearCtrl', conversationObserver);
+
+
     vm.sharePageService = SharePageWrapService;
     vm.doRefresh = function () {
       taskNetService.queryNewTaskList().then(flushSuccessFn, flushFailedFn).finally(function () {
@@ -46,7 +57,7 @@
     }
 
     $scope.$on("$ionicView.enter", function () {
-
+      vm.noReadMessageCount = IMInterfaceService.getNoReadMessageCount();
       if (ho.isValid(userNetService.cache.selfInfo)) {
         vm.orgName = userNetService.cache.selfInfo.orgList[0].name;
       }

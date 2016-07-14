@@ -1,7 +1,7 @@
 <ion-list>
     <ion-item class="my-popup" ng-click="vm.markConversation()">
-        <h2 ng-if="!vm.imConversations[vm.popup.index].showHints">标为未读</h2>
-        <h2 ng-if="vm.imConversations[vm.popup.index].showHints">标为已读</h2>
+        <h2 ng-if="vm.imConversations[vm.popup.index].noReadMessages > 0">标为未读</h2>
+        <h2 ng-if="vm.imConversations[vm.popup.index].noReadMessages == 0">标为已读</h2>
     </ion-item>
     <ion-item class="my-popup" ng-click="vm.topConversation()">
         <h2 ng-if="!vm.imConversations[vm.popup.index].isTop">置顶聊天</h2>

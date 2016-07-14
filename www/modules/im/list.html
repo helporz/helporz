@@ -122,7 +122,7 @@
                 ng-repeat="conversation in vm.imConversations | orderBy:['isTop', 'lastMessage.time']:true"
                 ng-click="vm.conversationDetails(conversation)">
         <img ng-src="{{conversation.cUserAvatar}}">
-        <span class="rj-sm-red-icon" ng-show="conversation.showHints"><p
+        <span class="rj-sm-red-icon" ng-if="conversation.noReadMessages > 0"><p
           ng-bind="conversation.noReadMessages"></p></span>
 
         <h2 ng-bind="conversation.cUserNickname"></h2>

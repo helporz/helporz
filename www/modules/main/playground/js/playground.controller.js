@@ -89,11 +89,11 @@
 
   topicGroupControllerFn.$inject = ['$q', '$scope', '$stateParams', '$state', '$log', '$timeout', '$ionicActionSheet',
     '$ionicPopover', '$ionicModal', '$ionicLoading', 'topicService', 'topicGroupService', 'filterTopicService', 'topicBlacklistService',
-    'favouriteTopicService', 'topicModalService', 'impressUtils', 'userUtils', 'IMInterfaceService', 'PlaygroundNetService'];
+    'favouriteTopicService', 'topicModalService', 'impressUtils', 'userUtils', 'IMInterfaceService', 'PlaygroundNetService','imMessageService'];
   function topicGroupControllerFn($q, $scope, $stateParams, $state, $log, $timeout, $ionicActionSheet,
                                   $ionicPopover, $ionicModal, $ionicLoading, topicService, topicGroupService, filterTopicService,
                                   topicBlacklistService, favouriteTopicService, topicModalService, impressUtils, userUtils,
-                                  IMInterfaceService, PlaygroundNetService) {
+                                  IMInterfaceService, PlaygroundNetService,imMessageService) {
     var vm = $scope.vm = {};
     if (typeof $stateParams.groupId === 'undefined' || $stateParams.groupId == null) {
       vm.groupId = 1;
@@ -102,7 +102,15 @@
       vm.groupId = $stateParams.groupId;
     }
     vm.state = $state;
-    vm.IMInterfaceService = IMInterfaceService;
+    vm.noReadMessageCount = IMInterfaceService.getNoReadMessageCount();
+    var conversationObserver = {
+      onAddConversation: function (conversation) {
+        vm.noReadMessageCount = IMInterfaceService.getNoReadMessageCount();
+      }
+    }
+
+    imMessageService.registerConversationObserver('topicGroupControllerFn', conversationObserver);
+
     vm.topicGroup = topicGroupService.getGroupInfo(vm.groupId);
 
     vm.sysTopicList = topicService.getSysTopicList(vm.groupId);
@@ -149,6 +157,7 @@
     });
 
     $scope.$on('$ionicView.beforeEnter', function () {
+      vm.noReadMessageCount = IMInterfaceService.getNoReadMessageCount();
       if (vm.userTopicList == null || vm.userTopicList.length == 0) {
         $ionicLoading.show();
         vm.doRefresh().then(function () {
@@ -157,7 +166,6 @@
           $ionicLoading.hide();
         });
       }
-
     });
 
     var popoverScope = $scope.$new();

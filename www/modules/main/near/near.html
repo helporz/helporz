@@ -2,8 +2,8 @@
   <!--<ion-view>-->
   <ion-nav-buttons side="right">
     <button class="button button-icon icon ho-chat-2" ng-click="vm.state.go('main.near_im')">
-      <div class="badge-count" ng-if="vm.IMInterfaceService.unReadMessageCount > 0">
-        <p class="count">{{vm.IMInterfaceService.unReadMessageCount}}</p>
+      <div class="badge-count" ng-if="vm.noReadMessageCount > 0">
+        <p class="count">{{vm.noReadMessageCount}}</p>
       </div>
     </button>
   </ion-nav-buttons>

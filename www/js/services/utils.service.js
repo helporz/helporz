@@ -257,7 +257,7 @@
                 $ionicLoading.hide();
                 $ionicLoading.show({
                   duration: 1500,
-                  templateUrl: 'modules/components/templates/ionic-loading/user-relogin-hit.html'
+                  templateUrl: 'modules/components/templates/ionic-loading/user-relogin-hint.html'
                 });
                 $timeout(function () {
                   $ionicLoading.hide();
@@ -299,7 +299,7 @@
                 $ionicLoading.hide();
                 $ionicLoading.show({
                   duration: 1500,
-                  templateUrl: 'modules/components/templates/ionic-loading/user-relogin-hit.html'
+                  templateUrl: 'modules/components/templates/ionic-loading/user-relogin-hint.html'
                 });
                 $timeout(function () {
                   $ionicLoading.hide();
@@ -332,7 +332,7 @@
                 $ionicLoading.hide();
                 $ionicLoading.show({
                   duration: 1500,
-                  templateUrl: 'modules/components/templates/ionic-loading/user-relogin-hit.html'
+                  templateUrl: 'modules/components/templates/ionic-loading/user-relogin-hint.html'
                 });
                 $timeout(function () {
                   $ionicLoading.hide();
@@ -368,7 +368,7 @@
                 $ionicLoading.hide();
                 $ionicLoading.show({
                   duration: 1500,
-                  templateUrl: 'modules/components/templates/ionic-loading/user-relogin-hit.html'
+                  templateUrl: 'modules/components/templates/ionic-loading/user-relogin-hint.html'
                 });
                 $timeout(function () {
                   $ionicLoading.hide();
