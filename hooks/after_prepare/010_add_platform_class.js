@@ -13,6 +13,8 @@ var path = require('path');
 
 var rootdir = process.argv[2];
 
+//process.stdout.write('\nprocess argv 0:' + process.argv[0] + ' arg 1:' + process.argv[1] + ' arg 2:' + process.argv[2] + '\n');
+
 function addPlatformBodyTag(indexPath, platform) {
   // add the platform class to the body tag
   try {

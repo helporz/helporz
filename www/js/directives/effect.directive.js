@@ -9,7 +9,7 @@
   angular.module('app.directives', [])
 
     //lkj:
-    .directive('scaleTopBg', function ($timeout, $document) {
+    .directive('scaleTopBg', ['$timeout', '$document', function ($timeout, $document) {
 
       return function (scope, element, attr) {
         element.css({
@@ -47,7 +47,7 @@
         //)
       }
     }
-  )
+  ])
 
     //lkj:
     //用于ionTab内部不关联ion-nav-view的情况.
