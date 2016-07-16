@@ -311,7 +311,7 @@
       ////////////////////////////////////////////////
       //为了方便浏览器调试增加如下代码
 
-      if( g_isDebug == true ) {
+      if( g_isDebug == true  && _ctlSelf.deadline == null) {
         _ctlSelf.startTime = new Date();
         _ctlSelf.deadline = new Date();
         _ctlSelf.startTime.setMonth(_ctlSelf.startTime.getMonth() + 1);

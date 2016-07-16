@@ -177,6 +177,10 @@
           $log.info('cUser info:' + JSON.stringify($scope.cUser));
           imMessageService.enterConversation($scope.cUser);
 
+          //// for test
+          //
+          //jimService.getMessageHistory($scope.cUser.loginName + '_' + $scope.cUser.userId,0,50,function() {},function() {});
+          //// end teste
 
         });
 

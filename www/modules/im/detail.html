@@ -28,7 +28,7 @@
   <ion-content class="rj-stable-content has-footer" delegate-handle="messageDetailsScroll" id="message-detail-content">
     <ion-refresher pulling-text="..." on-refresh="doRefresh()" pulling-icon=""></ion-refresher>
     <div ng-repeat="item in messageDetails">
-      <p class="rj-message-time" ng-bind="item.time|DateShow" ng-if="true"></p>
+      <p class="rj-message-time" ng-bind="item.time|IMDateShow" ng-if="true"></p>
 
       <div class="rj-message-wrap" ng-if="!item.isFromMe">
         <img ng-src="{{cUser.avatar}}" class="rj-head-pic" err-src="img/ionic.png">
