@@ -13,6 +13,7 @@
   angular.module('app', ['ionic',
     'ngResource',
     'ngCordova',
+    'ngCordova.plugins.splashscreen',
     'pusher',
     'com.helporz.im',
     'app.routes',
@@ -63,6 +64,7 @@
 
   //function init($ionicPlatform, $cordovaDevice, $cordovaNetwork, $timeout, $cordovaDialogs, $state) {
   init.$inject = [
+    '$cordovaSplashscreen',
     '$ionicPlatform',
     '$cordovaDevice',
     '$cordovaNetwork',
@@ -87,7 +89,8 @@
     'checkUpdateFeature',
   ];
 
-  function init($ionicPlatform,
+  function init($cordovaSplashscreen,
+                $ionicPlatform,
                 $cordovaDevice,
                 $cordovaNetwork,
                 $timeout,
@@ -108,16 +111,15 @@
                 taskNetService,
                 loginService,
                 intervalCenter,
-                checkUpdateFeature
-                 ) {
+                checkUpdateFeature) {
     $log.info('app.run.init');
 
     $ionicPlatform.ready(function () {
       //ConfigForTest(playgroundTestConfigService);
       playgroundTestConfigService.initConfig();
-      if (navigator.splashscreen) {
-        navigator.splashscreen.hide();
-      }
+      //if (navigator.splashscreen) {
+      //  navigator.splashscreen.hide();
+      //}
       console.log('ionicPlatform.ready');
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -147,31 +149,38 @@
       jimService.init();
       pushService.init().then(function () {
         if (loginService.isShowIntro()) {
+          $cordovaSplashscreen.hide();
+          console.log('goto intro');
           $state.go('intro');
         }
         else if (loginService.isLogging()) {
           loginService.loginByTicket().then(function () {
+            console.log('goto main.near');
             $state.go('main.near');
-
             //ho.alert('fetch after login');
             //notice message
             taskNetService.observeNoticeMessage();
             // test:
             //intervalCenter.add(1, 'app.noticeMessage', function () {
             taskNetService.fetchNoticeMessage();
+            $cordovaSplashscreen.hide();
             //});
 
           }, function () {
             $state.go('login');
+            $cordovaSplashscreen.hide();
           });
         }
         else {
           $state.go('login');
+          $cordovaSplashscreen.hide();
         }
 
       }, function () {
         $state.go('login');
+        $cordovaSplashscreen.hide();
       });
+
 
       //检查更新
       checkUpdateFeature.check();
@@ -194,6 +203,7 @@
 
 
         //pushService.getRegistrationID();
+
 
         if (device.platform != "Android") {
           window.plugins.jPushPlugin.setDebugModeFromIos();

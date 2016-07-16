@@ -850,7 +850,7 @@
     vm.topicService = topicService;
     vm.topicId = $stateParams.topicId;
 
-    $ionicLoading.show();
+
     vm.topic = topicService.getCurrentDetailTopic();
     if (vm.topic == null) {
       vm.topic = {id: vm.topicId, poster: {}};
@@ -867,7 +867,8 @@
     vm.collectionTopicService = collectionTopicService;
 
     $scope.$on("$ionicView.beforeEnter", function () {
-      if (vm.topicCommentList != null && vm.topicCommentList.length == 0) {
+      $ionicLoading.show();
+      if (vm.topicCommentList == null || vm.topicCommentList.length == 0) {
         vm.doRefresh().then(function () {
           $ionicLoading.hide();
         }, function () {
@@ -1188,7 +1189,7 @@
     vm.loadMoreTopicList = function () {
       var pageNum = (vm.topicList != null) ? Math.ceil(vm.topicList.length / vm.pageSize) + 1 : 1;
 
-      topicService.getOwnTopicListByUser(0, pageNum, vm.pageSize).then(function (res) {
+      topicService.getOwnTopicListByUser(pageNum, vm.pageSize).then(function (res) {
         if (vm.topicList == null) {
           vm.topicList = res;
         }
