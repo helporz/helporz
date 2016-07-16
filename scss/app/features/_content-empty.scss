@@ -1,0 +1,21 @@
+.content-empty {
+
+  text-align: center;
+  .image {
+    margin-top: 35px;
+    height: 90px;
+    width: 90px;
+    margin-bottom: -20px;
+  }
+  .desc {
+    margin: 25px 0 ;
+    font-size: 14px;
+    color: $color-text-secondary;
+  }
+}
+
+.string-empty {
+  text-align: center;
+  padding: 10px 0;
+  color: $color-text-secondary;
+}

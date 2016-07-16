@@ -42,14 +42,14 @@
 
       <div class="row group-item group-item-input no-border left-align">
         <!--<img class="icon" src="./img/login/phone.png"/>-->
-        <div class="icon ion-ios-location color-text-secondary font-size-19" style="margin:0 2px 0 2px;"/>
+        <div class="icon ho-location color-text-secondary font-size-17" style="margin:0 1px 0 -1px;"/>
         <input class="col-80" type="text" placeholder="你希望对方在哪里与你碰头" ng-model="ctl.pubLocation"/>
       </div>
 
       <div class="left-align  split" ng-show="taskTypeIndex == 2"></div>
 
       <div class="row group-item group-item-input no-border left-align" ng-show="taskTypeIndex == 2">
-        <div class="icon ion-clock color-text-secondary font-size-15" style="margin: 0 1px 0 1px"/>
+        <div class="icon ho-alert-clock color-text-secondary font-size-14" style="margin: 0 1px 0 1px"/>
         <input class="col-80" type="text" placeholder="请输入开始时间" ng-model="ctl.startTimeShow"
                ng-click="ctl.setStartTime($event)" required readonly/>
       </div>
@@ -58,7 +58,7 @@
 
       <div class="row group-item group-item-input no-border left-align">
         <!--<img class="icon" src="./img/login/phone.png"/>-->
-        <div class="icon ion-clock color-text-secondary font-size-15" style="margin: 0 1px 0 1px"/>
+        <div class="icon ho-alert-clock color-text-secondary font-size-14" style="margin: 0 1px 0 1px"/>
         <input class="col-80" type="text" placeholder="请输入截止时间" ng-model="ctl.deadlineShow"
                ng-click="ctl.setDeadline($event)" required readonly/>
       </div>

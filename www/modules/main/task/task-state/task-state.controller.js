@@ -146,6 +146,10 @@
       );
     });
 
+    $scope.$on("$ionicView.leave", function () {
+      alert('123');
+    });
+
     vm.cb_gotoUser = function(userId) {
       var index = $ionicTabsDelegate.$getByHandle('rootTabs').selectedIndex();
       var tabName;

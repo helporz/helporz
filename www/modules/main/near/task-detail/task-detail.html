@@ -46,12 +46,12 @@
           <p class="summary">{{vm.task.summary}}</p>
 
           <div class="appendix">
-            <i class="icon ion-ios-clock-outline font-size-13 deadline "></i>
+            <i class="icon ho-alert-clock deadline "></i>
 
             <p class="_desc-p">{{vm.task.deadline}}截止</p>
           </div>
           <div class="appendix">
-            <i class="icon ho-location font-size-13 address"></i>
+            <i class="icon ho-location address"></i>
 
             <p class="_desc-p">{{vm.task.pubLocation}}</p>
           </div>
@@ -66,12 +66,12 @@
 
         <div class="bottom-panel">
           <div class="item-panel">
-            <i class="elem2 icon ho-chat-0 font-size-13"></i>
+            <i class="elem2 icon ho-chat-3 font-size-13"></i>
             <span class="count">{{vm.task.commentCount}}</span>
           </div>
           <div class="item-panel" ng-click="vm.sharePageService.shareTask(vm.task.id)">
-            <i class="elem2 icon ho-share font-size-13"></i>
-            <span class="count">0</span>
+            <i class="elem2 icon ho-share"></i>
+            <span class="count">分享</span>
           </div>
           <p class="my-task-txt" ng-if="vm.task.ui_isMyTask">我的求助</p>
           <button class="button-accept  button-light-red _accept-bt" ng-if="!vm.task.ui_isMyTask" ng-click="vm.cb_acceptTask($index)">
@@ -84,7 +84,7 @@
 
     <ion-list class="ho-list self">
       <ion-item class="ho-item ho-item-header-icon-title has-bg-color">
-        <i class="side-icon icon ho-chat-0 color-theme"></i>
+        <i class="side-icon icon ho-chat-3 color-theme"></i>
 
         <p class="title">留言{{vm.task.commentCount}}条</p>
       </ion-item>
@@ -112,12 +112,17 @@
           <p align="left" ng-class="{'comment-with-icon': item.ui_canContact,'comment-without-icon': !item.ui_canContact}">
 						{{item.comment}}
 					</p>
-          <i ng-if="item.ui_canContact" class="comment-icon icon ho-chat-0" ng-click="vm.cb_contact()"></i>
+          <i ng-if="item.ui_canContact" class="comment-icon icon ho-chat-2" ng-click="vm.cb_contact()"></i>
         </div>
 
       </div>
+
     </div>
 
+    <div ng-if="vm.task.commentCount==0" class="content-empty">
+      <!--<img class="image" src="img/theme/role-2@2x.png">-->
+      <p class="desc">想了解情况可以留言哦~</p>
+    </div>
 
   </ion-content>
 

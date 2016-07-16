@@ -8,9 +8,26 @@
     .factory('SharePageService', SharePageServiceFn)
     .factory('SharePageWrapService',SharePageWrapServiceFn);
 
+  var uiGlob = {
+    app: {
+      title: '和小伙伴们一起玩',
+      bt1: '邀请微信好友',
+      bt2: '在朋友圈邀请'
+    },
+    task: {
+      title:  '转发求助',
+      bt1: '转发微信好友',
+      bt2: '转发到朋友圈'
+    },
+    topic: {
+      title:  '分享帖子',
+      bt1: '分享微信好友',
+      bt2: '分享到朋友圈'
+    }
+  };
+
   SharePageServiceFn.$inject = ['$log','$q', 'httpBaseService'];
   function SharePageServiceFn($log,$q, httpBaseService) {
-
     var _sharePageCommon = function (url,scene) {
       var _innerDefer = $q.defer();
       httpBaseService.getForPromise(url, null).then(function (res) {
@@ -64,11 +81,11 @@
 
   SharePageWrapServiceFn.$inject = ['$q','httpBaseService','$ionicActionSheet','SharePageService'];
   function SharePageWrapServiceFn($q,httpBaseService,$ionicActionSheet,SharePageService) {
-    var _sharePageCom = function (url) {
+    var _sharePageCom = function (url, uiDesc) {
       var _innerDefer = $q.defer();
       var sheet = {};
-      sheet.titleText = '与朋友们分享';
-      sheet.cancelText = '算了';
+      sheet.titleText = uiDesc.title;
+      sheet.cancelText = '取消';
       sheet.buttonClicked = function(index) {
         SharePageService.sharePageCommon(url,index).then(function() {
           _innerDefer.resolve();
@@ -78,11 +95,9 @@
         return true;
       };
       sheet.buttons = [{
-        text: '<i class="icon ion-at"></i> 分享给微信小伙伴'
+        text: '<i class="icon ho-wechat-at"></i> ' + uiDesc.bt1
       }, {
-        text: '<i class="icon ion-chatbubbles"></i> 分享到微信朋友圈'
-      }, {
-        text: '<i class="icon ion-star"></i> 添加到微信收藏夹'
+        text: '<i class="icon ho-wechat-friend"></i> ' + uiDesc.bt2
       }];
 
       $ionicActionSheet.show(sheet);
@@ -91,17 +106,17 @@
 
     var _shareApp = function () {
       var url = '/message/share_page';
-      return _sharePageCom(url);
+      return _sharePageCom(url, uiGlob.app);
     }
 
     var _shareTask = function (taskId) {
       var url = '/task/' + taskId + '/share_page';
-      return _sharePageCom(url);
+      return _sharePageCom(url, uiGlob.task);
     }
 
     var _shareTopic = function (topicId) {
       var url = '/playground/topic/' + topicId + '/share_page';
-      return _sharePageCom(url);
+      return _sharePageCom(url, uiGlob.topic);
     }
 
     return {

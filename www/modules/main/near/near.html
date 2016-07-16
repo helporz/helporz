@@ -9,7 +9,7 @@
   </ion-nav-buttons>
 
   <ion-content class="has-tabs has-header">
-    <ion-refresher pulling-text="下拉刷新..." on-refresh="vm.doRefresh()">
+    <ion-refresher pulling-text="正在加载..." on-refresh="vm.doRefresh()">
     </ion-refresher>
 
     <ion-list>
@@ -52,12 +52,14 @@
               <!--<p class="summary" clamp="{{item.summary}}"></p>-->
 
               <div class="appendix">
-                <i class="icon ion-ios-clock-outline font-size-13 deadline "></i>
+                <i class="icon ho-alert-clock deadline "></i>
 
-                <p>{{item.deadline}}截止</p>
+                <p ng-if="item.taskTypesId<200">{{item.deadline}}截止</p>
+                <p ng-if="item.taskTypesId>=200">{{item.startTime}}{{' - '}}{{item.deadline}}{{' 借用'}}</p>
+                <!--<p>{{item.deadline}}截止</p>-->
               </div>
               <div class="appendix">
-                <i class="icon ho-location font-size-13 address"></i>
+                <i class="icon ho-location address"></i>
 
                 <p>{{item.pubLocation}}</p>
               </div>
@@ -72,12 +74,12 @@
 
             <div class="bottom-panel">
               <div class="item-panel">
-                <i class="elem2 icon ho-chat-0 font-size-13"></i>
+                <i class="elem2 icon ho-chat-3 font-size-13"></i>
                 <span class="count">{{item.commentCount}}</span>
               </div>
-              <div class="item-panel" ng-click="vm.sharePageService.shareTask(item.id)">
+              <div class="item-panel" ng-click="vm.cb_share(item.id)">
                 <i class="elem2 icon ho-share font-size-13"></i>
-                <span class="count">0</span>
+                <span class="count">分享</span>
               </div>
 
               <p class="my-task-txt" ng-if="item.ui_isMyTask">我的求助</p>
@@ -99,7 +101,14 @@
       </ion-item>
     </ion-list>
 
-    <!--<ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="true"></ion-infinite-scroll>-->
+    <ion-infinite-scroll immediate-check="false" on-infinite="vm.loadMore()" distance="1%" ng-if="vm.hasMoreTaskFn()==true"></ion-infinite-scroll>
+
+    <div class="string-empty" ng-if="vm.hasMoreTaskFn()==false">没有新内容了=￣ω￣=</div>
+
+    <div ng-if="vm.taskNetService.cache.isNearTaskNeedRefresh==false && vm.items.length==0" class="content-empty">
+      <img class="image" src="img/theme/role-2@2x.png">
+      <p class="desc">没人需要帮忙了吗？好无聊...</p>
+    </div>
 
     <!--<ul class="list">-->
     <!--<li class="item" collection-repeat="item in items">{{item}}</li>-->

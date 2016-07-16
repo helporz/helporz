@@ -12,8 +12,8 @@
   <!--</ion-nav-buttons>-->
 
   <ion-nav-buttons side="right">
-    <button class="button icon ion-ios-star-outline"
-            ng-class="{true:'ion-ios-star  collection-color',false:'ion-ios-star-outline'}[vm.collectionTopicService.isCollectionTopic(vm.topicId)]"
+    <button class="button icon "
+            ng-class="{true:'ho-star  collection-color',false:'ho-star-outline'}[vm.collectionTopicService.isCollectionTopic(vm.topicId)]"
             ng-click="vm.collectionToggle($event)">
     </button>
 
@@ -122,7 +122,7 @@
         <!--</div>-->
 
         <div class="col col-33 button-wrap">
-          <button class="button button-small icon ho-chat-0">
+          <button class="button button-small icon ho-chat-3">
             {{vm.topic.commentCount}}
           </button>
         </div>
@@ -146,7 +146,7 @@
     <!-- 话题评论列表-->
     <div class="topic-comment topic-group-wrapper">
       <div class="row font-size-13 header">
-        <span class="header-icon icon ho-chat-0"/> <span class="header-txt">评论</span> <span class="header-txt">{{vm.topic.commentCount}}</span> <span class="header-txt">条</span>
+        <span class="header-icon icon ho-chat-3"/> <span class="header-txt">评论</span> <span class="header-txt">{{vm.topic.commentCount}}</span> <span class="header-txt">条</span>
       </div>
 
       <div class="" ng-if="vm.topic.commentCount == 0">
@@ -213,7 +213,7 @@
 
                 </div>
                 <div class="topic-comment-panel-right">
-                  <div class="reply-bt icon ho-chat-0" ng-click="vm.setReplyCommentFocus(item,$event)"></div>
+                  <div class="reply-bt icon ho-chat-3" ng-click="vm.setReplyCommentFocus(item,$event)"></div>
                 </div>
               </div>
 

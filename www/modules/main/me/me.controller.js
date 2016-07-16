@@ -23,9 +23,10 @@
 
 
     var NMT = NoticeMessageService.getNoticeMessageTypes();
+
+    var taskCache = taskNetService.cache;
     var intervalFunc = function () {
       //检测未读消息产生的badge
-      var taskCache = taskNetService.cache;
       if (taskCache.nm_follow_changed) {
         taskCache.nm_follow_changed = false;
         vm.followBadge = taskCache.nm_follow.length;

@@ -163,9 +163,14 @@ $tab-font-size: 12px;
 
       &.ho-tab-gray {
         //@include ho-tab-color(#aaa, white, $color-page-bg, #6a6a6a, #eee, $color-page-bg);
-        @include ho-tab-color(#aaa, white, #ddd, #6a6a6a, #eee, #999);
+        //@include ho-tab-color(#aaa, white, #ddd, #6a6a6a, #eee, #999);
+
+        @include ho-tab-color( #aaa, #eee, #ddd, #6a6a6a, white, #999);
+        //@include ho-tab-color(  #6a6a6a, #eee, #999, #6a6a6a, white, #999);
+
         //@include ho-tab-color(#999, white, #999, white, #999, #999);
         // red theme
+        //@include ho-tab-color(#777777, white, #777777, $color-theme, white, $color-theme);
         //@include ho-tab-color($color-theme, white, $color-theme, white, $color-theme, $color-theme);
       }
 

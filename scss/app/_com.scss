@@ -199,6 +199,10 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
   &.button-weak-gray {
     @include ho-button-color($button-gray-color, $button-gray-deep-color, $color-text-secondary, $color-text-secondary);
   }
+  &.button-weak-gray-outline {
+    @include ho-button-color($color-page-bg, $button-gray-color, $color-text-secondary, $color-text-secondary);
+    border: 1px solid $button-outline-gray-color;
+  }
 }
 
 //////////////////////////////////////////////////

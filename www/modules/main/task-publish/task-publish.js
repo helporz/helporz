@@ -75,8 +75,8 @@
     }
   }
 
-  taskPublishListControllerFn.$inject = ['$scope', '$log', '$ionicModal', 'taskPublishModalService', 'taskUtils', 'taskDesc', '$timeout'];
-  function taskPublishListControllerFn($scope, $log, $ionicModal, taskPublishModalService, taskUtils, taskDesc, $timeout) {
+  taskPublishListControllerFn.$inject = ['$scope', '$log', '$ionicModal', '$ionicLoading', 'taskPublishModalService', 'taskUtils', 'taskDesc', '$timeout'];
+  function taskPublishListControllerFn($scope, $log, $ionicModal, $ionicLoading, taskPublishModalService, taskUtils, taskDesc, $timeout) {
 
 
     $ionicModal.fromTemplateUrl('modules/main/task-publish/task-publish.html', {
@@ -105,6 +105,10 @@
 
     this.publishJiebao = function () {
       publishTask($scope, 2, taskPublishModalService, taskUtils, taskDesc, $timeout);
+      $ionicLoading.show({
+        duration: 2000,
+        template: '借用物品须向对方出示学生证'
+      });
     }
   }
 

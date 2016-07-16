@@ -89,7 +89,13 @@ var ho = {
 
     throw new Error("Unable to copy obj! Its type isn't supported.");
 
-  }
+  },
+
+
+};
+
+var appConst = {
+  strFail: '稍后再试试 ╮(╯▽╰)╭'
 }
 
 
