@@ -1,17 +1,28 @@
 .five-stars {
   @include display-flex();
+  margin-top: -2px;
 
   :not(:last-child) {
-    padding-right: 15px;
+    margin-right: 10px;
   }
   :last-child {
-    padding-right: 7px;
+    margin-right: 5px;
   }
 
-  .star {
+  // font
+  i.star {
     @include transform-origin(left, center);
     @include transform(scale(1.5));
     color: $color-theme;
+  }
+
+  // img
+  img.star {
+    //@include transform-origin(left, center);
+    //@include transform(scale(1.5));
+    //color: $color-theme;
+    width: 22px;
+    height: 22px;
   }
 
 }

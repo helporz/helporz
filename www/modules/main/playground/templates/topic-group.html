@@ -157,11 +157,11 @@
   </ion-nav-title>
 
   <ion-nav-buttons side="left">
-    <button class="button button-icon icon ion-ios-keypad" ng-click="vm.showPopover($event)"></button>
+    <button class="button button-icon icon ho-three-lines" ng-click="vm.showPopover($event)"></button>
   </ion-nav-buttons>
 
   <ion-nav-buttons side="right">
-    <button class="button button-icon icon ion-compose" ng-click="vm.go2AddTopic()"></button>
+    <button class="button button-icon icon ho-add" ng-click="vm.go2AddTopic()"></button>
     <button class="button button-icon icon ho-chat-2" ng-click="vm.state.go('main.topic-group_im')">
       <div class="badge-count" ng-if="vm.noReadMessageCount > 0">
         <p class="count">{{vm.noReadMessageCount}}</p>
@@ -356,7 +356,7 @@
           <!--</div>-->
 
           <div class="col col-33 button-wrap">
-            <button class="button button-small ho-chat-0"
+            <button class="button button-small icon ho-chat-3"
                     ng-click="vm.go2TopicDetail(item)">
               {{item.commentCount}}
             </button>
@@ -370,7 +370,7 @@
 
           </div>
           <div class="col col-33 button-wrap">
-            <button class="button button-small ho-share" ng-click="vm.shareTopic(item,$event)">
+            <button class="button button-small icon ho-share" ng-click="vm.shareTopic(item,$event)">
             </button>
           </div>
 
@@ -379,8 +379,10 @@
       </ion-item>
     </ion-list>
 
-    <ion-infinite-scroll ng-if="vm.moreDataCanBeLoaded()" on-infinite="vm.loadMore()"
+    <ion-infinite-scroll ng-if="vm.moreDataCanBeLoaded()" on-infinite="vm.loadMore()" immediate-check="false"
                          distance="1%"></ion-infinite-scroll>
+
+    <div class="string-empty" ng-if="vm.moreDataCanBeLoaded()==false">没有新内容了=￣ω￣=</div>
   </ion-content>
 
 </ion-view>

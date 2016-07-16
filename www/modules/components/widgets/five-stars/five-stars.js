@@ -33,19 +33,30 @@
 
             var index = 0;
             for (; index < intVal; index++) {
-              jqE.removeClass('ion-ios-star-outline');
-              jqE.addClass('ion-ios-star');
-              jqE = jqE.next();
-            }
-            for(; index < 5; index ++){
-              jqE.removeClass('ion-ios-star');
-              jqE.addClass('ion-ios-star-outline');
+              //jqE.removeClass('ion-ios-star-outline');
+              //jqE.addClass('ion-ios-star');
+
+              jqE[0].setAttribute('src', 'img/user/star-full.png');
+
               jqE = jqE.next();
             }
             if (floatVal.toFixed(2) >= 0.50) {
-              jqE.removeClass('ion-ios-star-outline');
-              jqE.addClass('ion-ios-star-half');
+              //jqE.removeClass('ion-ios-star-outline');
+              //jqE.addClass('ion-ios-star-half');
+
+              jqE[0].setAttribute('src', 'img/user/star-half.png');
+              jqE = jqE.next();
+              index++;
             }
+            for(; index < 5; index ++){
+              //jqE.removeClass('ion-ios-star');
+              //jqE.addClass('ion-ios-star-outline');
+
+              jqE[0].setAttribute('src', 'img/user/star-none.png');
+
+              jqE = jqE.next();
+            }
+
           };
 
           refreshByValue(scope.value);
@@ -57,7 +68,6 @@
       }
     }
   )
-
 
 })
 ()

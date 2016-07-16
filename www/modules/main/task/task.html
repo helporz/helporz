@@ -342,6 +342,26 @@
     <!--</ion-item>-->
     <!--</ion-list>-->
 
+    <div ng-if="vm.taskNetService.cache.isPostTaskGoingNeedRefresh==false && vm.repeatList.length==0 &&
+                vm.tabSelectedIndex==0 && vm.postTabSelectedIndex==0" class="content-empty">
+      <img class="image" src="img/theme/role-3@2x.png">
+      <p class="desc">我们都在等你召唤哦！</p>
+    </div>
+    <div ng-if="vm.taskNetService.cache.isPostTaskFinishNeedRefresh==false && vm.repeatList.length==0 &&
+                vm.tabSelectedIndex==0 && vm.postTabSelectedIndex==1" class="content-empty">
+      <img class="image" src="img/theme/role-3@2x.png">
+      <p class="desc">我们都在等你召唤哦！</p>
+    </div>
+    <div ng-if="vm.taskNetService.cache.isAcceptTaskGoingNeedRefresh==false && vm.repeatList.length==0 &&
+                vm.tabSelectedIndex==1 && vm.postTabSelectedIndex==0" class="content-empty">
+      <img class="image" src="img/theme/role-1@2x.png">
+      <p class="desc">这么清闲？大伙都等你去拯救呢!</p>
+    </div>
+    <div ng-if="vm.taskNetService.cache.isAcceptTaskFinishNeedRefresh==false && vm.repeatList.length==0 &&
+                vm.tabSelectedIndex==1 && vm.postTabSelectedIndex==1" class="content-empty">
+      <img class="image" src="img/theme/role-1@2x.png">
+      <p class="desc">这么清闲？大伙都等你去拯救呢!</p>
+    </div>
 
   </ion-content>
 </ion-view>

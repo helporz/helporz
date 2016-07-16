@@ -16,7 +16,7 @@
   <!--</div>-->
 
   <ion-nav-buttons side="left">
-    <button class="button button-icon icon ion-compose" ng-click="vm.cb_edit()"></button>
+    <button class="button button-icon icon ho-edit" ng-click="vm.cb_edit()"></button>
   </ion-nav-buttons>
 
   <ion-nav-title class="title-container">
@@ -47,9 +47,8 @@
       </div>
       <!--<button class="col-20 right button button-icon ion-chatbubble-working"></button>-->
       <div class="mid-right-panel">
-        <i class="side-icon button button-icon ho-setting" ng-click="vm.cb_setting()"></i>
+        <button class="side-icon button button-icon ho-setting" ng-click="vm.cb_setting()"></button>
       </div>
-
 
     </div>
 
@@ -112,7 +111,8 @@
 
           <ion-item class="ho-item">
             <p class="title">声誉</p>
-            <five-stars value="vm.meInfo.remoteData.credit"></five-stars>
+            <!--<five-stars value="vm.meInfo.remoteData.credit"></five-stars>-->
+            <five-stars value="2.6"></five-stars>
           </ion-item>
 
           <ion-item class="ho-item">

@@ -302,12 +302,24 @@
       }
     }
 
+    vm.firstLoadMore = true;
     vm.loadMore = function () {
+      if(vm.firstLoadMore) {
+        vm.firstLoadMore = false;
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+        return;
+      }
       var currentUserTopicCount = vm.userTopicList.length;
       topicService.moreTopic(vm.groupId).then(function (topicList) {
         vm.userTopicList = topicList;
         if (topicList.length == 0 || currentUserTopicCount == topicList.length) {
           vm.isCanLoadMore = false;
+        }
+
+        for (var i in vm.userTopicList) {
+          var item = vm.userTopicList[i];
+          item.ui_tags = [];
+          impressUtils.netTagsToUiTags(item.ui_tags, item.poster.tags);
         }
         //for test
         //for(var topicIndex = 0; topicIndex < vm.userTopicList.length; ++ topicIndex) {
@@ -520,10 +532,10 @@
   }
 
 
-  topicPublishControllerFn.$inject = ['$timeout', '$scope', '$stateParams', '$state', '$log', '$ionicPopup', '$ionicActionSheet',
+  topicPublishControllerFn.$inject = ['$timeout', '$ionicLoading', '$scope', '$stateParams', '$state', '$log', '$ionicPopup', '$ionicActionSheet',
     '$cordovaCamera', '$cordovaImagePicker', '$ionicModal', '$q', 'topicModalService', 'PlaygroundNetService', 'uploadService',
     'userLoginInfoService', 'topicService'];
-  function topicPublishControllerFn($timeout, $scope, $stateParams, $state, $log, $ionicPopup, $ionicActionSheet,
+  function topicPublishControllerFn($timeout, $ionicLoading, $scope, $stateParams, $state, $log, $ionicPopup, $ionicActionSheet,
                                     $cordovaCamera, $cordovaImagePicker, $ionicModal, $q, topicModalService,
                                     PlaygroundNetService, uploadService, userLoginInfoService, topicService) {
     var self = this;
@@ -807,6 +819,7 @@
         }
       }
 
+      $ionicLoading.show();
       PlaygroundNetService.addTopic(groupId, self.content, self.imgList.length, 0, tagInfoArray).then(function (resp) {
         var topicId = resp.data;
         var pArray = new Array();
@@ -824,16 +837,30 @@
         }
 
         $q.all(pArray).then(function () {
-          alert('发布话题成功');
-          self.closeModal();
-          $timeout(function () {
-            $scope.onRefresh();
-          });
+
+          $ionicLoading.show({
+            duration: 1500,
+            templateUrl: 'modules/components/templates/ionic-loading/task-post-success.html'
+          })
+          $timeout(function() {
+            self.closeModal();
+            $timeout(function () {
+              $scope.onRefresh();
+            });
+          }, 1500)
+
         }, function () {
-          alert('发布话题失败，上传图片失败');
+          //alert('发布话题失败，上传图片失败');
+          $ionicLoading.show({
+            duration: 1500,
+            template: '发布不成功,' + appConst.strFail
+          })
         });
       }, function (error) {
-        alert('发布话题失败');
+        $ionicLoading.show({
+          duration: 1500,
+          template: '发布不成功,' + appConst.strFail
+        })
       });
     }
 
@@ -1023,17 +1050,31 @@
 
     vm.collectionToggle = function (event) {
       if (collectionTopicService.isCollectionTopic(vm.topicId)) {
+        $ionicLoading.show();
         collectionTopicService.cancelCollectionTopic(vm.topicId).then(function () {
-          alert("取消收藏成功");
+          $ionicLoading.show({
+            duration: 1500,
+            template: '取消收藏成功'
+          })
         }, function () {
-          alert("取消收藏失败");
+          $ionicLoading.show({
+            duration: 1500,
+            template: '取消收藏失败,' + appConst.strFail
+          })
         });
       }
       else {
+        $ionicLoading.show();
         collectionTopicService.addCollectionTopic(vm.topicId).then(function () {
-          alert("收藏成功");
+          $ionicLoading.show({
+            duration: 1500,
+            templateUrl: 'modules/components/templates/ionic-loading/com-collection-success.html'
+          })
         }, function () {
-          alert("收藏失败")
+          $ionicLoading.show({
+            duration: 1500,
+            template: '收藏失败,' + appConst.strFail
+          })
         });
       }
     }

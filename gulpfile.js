@@ -52,6 +52,8 @@ gulp.task('git-check', function (done) {
   done();
 });
 
+// 将www代码混淆并复制到手机对应的文件夹
+// [[
 gulp.task('transport-ios', function () {
   transport('ios');
 });
@@ -88,7 +90,10 @@ function transport(pf) {
   //gulp.src('src/www/**/*.html')
   //  .pipe(gulp.dest('www'));
 }
+// ]]
 
+
+// test code:
 gulp.task('test-trans', function() {
   gulp.src('src/www/**/*.js')
     .pipe(gulp.dest('www'));

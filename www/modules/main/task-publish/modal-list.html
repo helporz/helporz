@@ -18,6 +18,14 @@
       bottom: -100px;
       color: #333;
     }
+    .task-title-panel .task-title-img {
+      /*font-size: 22px;*/
+      position: relative;
+      bottom: -100px;
+      /*color: #333;*/
+      /*width: 100px;*/
+      height: 60px;
+    }
 
     .task-select {
       width: 100%;
@@ -26,7 +34,12 @@
     }
 
     .task-select .task {
-      text-align: center
+      text-align: center;
+      position: relative;
+      top: 50px;
+    }
+    .task-select .task p {
+      margin: 10px 0;
     }
 
     .task-select .task > img {
@@ -61,13 +74,24 @@
       text-align: center;
       vertical-align: middle;
     }
+    .cancel-button > button {
+      background-color: transparent;
+    }
+    .cancel-button > button:before {
+      font-size: 46px !important;
+      color: #b7b7b7 !important;
+    }
+    .cancel-button > button.activated {
+      background-color: transparent;
+    }
   </style>
 
   <ion-content class="no-header" overflow-scroll="true" style="overflow: hidden;"
                ng-controller="taskPublishListController as ctl">
     <div class="task-select-wrap">
       <div class="task-title-panel">
-        <p class="task-title">召唤大侠</p>
+        <!--<p class="task-title">召唤大侠</p>-->
+        <img class="task-title-img" src="img/task/publish/publish-title-fly.png">
       </div>
       <div class="task-select">
         <div class="row">
@@ -100,7 +124,8 @@
     </div>
     <div class="row">
       <div class="cancel-button">
-        <img src="./img/task/publish/cancel.png" ng-click="ctl.cancel()">
+        <!--<img src="./img/task/publish/cancel.png" ng-click="ctl.cancel()">-->
+        <button class="button icon ion-ios-close-outline" ng-click="ctl.cancel()"></button>
       </div>
     </div>
 

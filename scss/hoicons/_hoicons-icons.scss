@@ -4,12 +4,12 @@
 .#{$hoicons-prefix}me-on:before,
 .#{$hoicons-prefix}me:before,
 .#{$hoicons-prefix}chat-0:before,
-.#{$hoicons-prefix}share:before,
-.#{$hoicons-prefix}location:before,
+.#{$hoicons-prefix}edit:before,
+.#{$hoicons-prefix}task-wait-overtime:before,
 .#{$hoicons-prefix}chat-1:before,
 .#{$hoicons-prefix}chat-2:before,
 .#{$hoicons-prefix}setting:before,
-.#{$hoicons-prefix}invite:before,
+.#{$hoicons-prefix}share:before,
 .#{$hoicons-prefix}discover:before,
 .#{$hoicons-prefix}rmb-on:before,
 .#{$hoicons-prefix}who:before,
@@ -21,18 +21,26 @@
 .#{$hoicons-prefix}person:before,
 .#{$hoicons-prefix}add-on:before,
 .#{$hoicons-prefix}task:before,
-.#{$hoicons-prefix}edit:before,
-.#{$hoicons-prefix}task-wait-overtime:before,
+.#{$hoicons-prefix}star-outline:before,
 .#{$hoicons-prefix}task-going:before,
 .#{$hoicons-prefix}task-unfinish:before,
-.#{$hoicons-prefix}task-finish:before,
 .#{$hoicons-prefix}task-wait:before,
+.#{$hoicons-prefix}task-finish:before,
 .#{$hoicons-prefix}task-confirm-wait:before,
 .#{$hoicons-prefix}task-giveup:before,
 .#{$hoicons-prefix}task-going-overtime:before,
 .#{$hoicons-prefix}task-remark:before,
 .#{$hoicons-prefix}gender-female:before,
 .#{$hoicons-prefix}gender-male:before,
+.#{$hoicons-prefix}alert-clock:before,
+.#{$hoicons-prefix}add:before,
+.#{$hoicons-prefix}star:before,
+.#{$hoicons-prefix}chat-3:before,
+.#{$hoicons-prefix}location:before,
+.#{$hoicons-prefix}invite:before,
+.#{$hoicons-prefix}three-lines:before,
+.#{$hoicons-prefix}wechat-friend:before,
+.#{$hoicons-prefix}wechat-at:before,
 
 {
   @extend .ion;
@@ -41,12 +49,12 @@
 .#{$hoicons-prefix}me-on:before{ content: $hoicon-var-me-on; }
 .#{$hoicons-prefix}me:before{ content: $hoicon-var-me; }
 .#{$hoicons-prefix}chat-0:before{ content: $hoicon-var-chat-0; }
-.#{$hoicons-prefix}share:before{ content: $hoicon-var-share; }
-.#{$hoicons-prefix}location:before{ content: $hoicon-var-location; }
+.#{$hoicons-prefix}edit:before{ content: $hoicon-var-edit; }
+.#{$hoicons-prefix}task-wait-overtime:before{ content: $hoicon-var-task-wait-overtime; }
 .#{$hoicons-prefix}chat-1:before{ content: $hoicon-var-chat-1; }
 .#{$hoicons-prefix}chat-2:before{ content: $hoicon-var-chat-2; }
 .#{$hoicons-prefix}setting:before{ content: $hoicon-var-setting; }
-.#{$hoicons-prefix}invite:before{ content: $hoicon-var-invite; }
+.#{$hoicons-prefix}share:before{ content: $hoicon-var-share; }
 .#{$hoicons-prefix}discover:before{ content: $hoicon-var-discover; }
 .#{$hoicons-prefix}rmb-on:before{ content: $hoicon-var-rmb-on; }
 .#{$hoicons-prefix}who:before{ content: $hoicon-var-who; }
@@ -58,15 +66,24 @@
 .#{$hoicons-prefix}person:before{ content: $hoicon-var-person; }
 .#{$hoicons-prefix}add-on:before{ content: $hoicon-var-add-on; }
 .#{$hoicons-prefix}task:before{ content: $hoicon-var-task; }
-.#{$hoicons-prefix}edit:before{ content: $hoicon-var-edit; }
+.#{$hoicons-prefix}star-outline:before{ content: $hoicon-var-star-outline; }
 .#{$hoicons-prefix}task-wait-overtime:before{ content: $hoicon-var-task-wait-overtime; }
 .#{$hoicons-prefix}task-going:before{ content: $hoicon-var-task-going; }
 .#{$hoicons-prefix}task-unfinish:before{ content: $hoicon-var-task-unfinish; }
-.#{$hoicons-prefix}task-finish:before{ content: $hoicon-var-task-finish; }
 .#{$hoicons-prefix}task-wait:before{ content: $hoicon-var-task-wait; }
+.#{$hoicons-prefix}task-finish:before{ content: $hoicon-var-task-finish; }
 .#{$hoicons-prefix}task-confirm-wait:before{ content: $hoicon-var-task-confirm-wait; }
 .#{$hoicons-prefix}task-giveup:before{ content: $hoicon-var-task-giveup; }
 .#{$hoicons-prefix}task-going-overtime:before{ content: $hoicon-var-task-going-overtime; }
 .#{$hoicons-prefix}task-remark:before{ content: $hoicon-var-task-remark; }
 .#{$hoicons-prefix}gender-female:before{ content: $hoicon-var-gender-female; }
 .#{$hoicons-prefix}gender-male:before{ content: $hoicon-var-gender-male; }
+.#{$hoicons-prefix}alert-clock:before{ content: $hoicon-var-alert-clock; }
+.#{$hoicons-prefix}add:before{ content: $hoicon-var-add; }
+.#{$hoicons-prefix}star:before{ content: $hoicon-var-star; }
+.#{$hoicons-prefix}chat-3:before{ content: $hoicon-var-chat-3; }
+.#{$hoicons-prefix}location:before{ content: $hoicon-var-location; }
+.#{$hoicons-prefix}invite:before{ content: $hoicon-var-invite; }
+.#{$hoicons-prefix}three-lines:before{ content: $hoicon-var-three-lines; }
+.#{$hoicons-prefix}wechat-friend:before{ content: $hoicon-var-wechat-friend; }
+.#{$hoicons-prefix}wechat-at:before{ content: $hoicon-var-wechat-at; }

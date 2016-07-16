@@ -30,6 +30,9 @@
     vm.tabsetSpace = ionic.Platform.isAndroid()? '44px': '64px';
     vm.contentSpace = ionic.Platform.isAndroid()? '84px': '104px';
     vm.state = $state;
+
+    vm.IMInterfaceService = IMInterfaceService;
+    vm.taskNetService = taskNetService;
     vm.noReadMessageCount = IMInterfaceService.getNoReadMessageCount();
     var conversationObserver = {
       onAddConversation: function (conversation) {

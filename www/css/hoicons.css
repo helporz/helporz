@@ -15,12 +15,12 @@
 .ion, .ho-me-on:before,
 .ho-me:before,
 .ho-chat-0:before,
-.ho-share:before,
-.ho-location:before,
+.ho-edit:before,
+.ho-task-wait-overtime:before,
 .ho-chat-1:before,
 .ho-chat-2:before,
 .ho-setting:before,
-.ho-invite:before,
+.ho-share:before,
 .ho-discover:before,
 .ho-rmb-on:before,
 .ho-who:before,
@@ -32,18 +32,26 @@
 .ho-person:before,
 .ho-add-on:before,
 .ho-task:before,
-.ho-edit:before,
-.ho-task-wait-overtime:before,
+.ho-star-outline:before,
 .ho-task-going:before,
 .ho-task-unfinish:before,
-.ho-task-finish:before,
 .ho-task-wait:before,
+.ho-task-finish:before,
 .ho-task-confirm-wait:before,
 .ho-task-giveup:before,
 .ho-task-going-overtime:before,
 .ho-task-remark:before,
 .ho-gender-female:before,
-.ho-gender-male:before {
+.ho-gender-male:before,
+.ho-alert-clock:before,
+.ho-add:before,
+.ho-star:before,
+.ho-chat-3:before,
+.ho-location:before,
+.ho-invite:before,
+.ho-three-lines:before,
+.ho-wechat-friend:before,
+.ho-wechat-at:before {
   display: inline-block;
   font-family: "Hoicons";
   speak: none;
@@ -65,10 +73,10 @@
 .ho-chat-0:before {
   content: ""; }
 
-.ho-share:before {
+.ho-edit:before {
   content: ""; }
 
-.ho-location:before {
+.ho-task-wait-overtime:before {
   content: ""; }
 
 .ho-chat-1:before {
@@ -80,7 +88,7 @@
 .ho-setting:before {
   content: ""; }
 
-.ho-invite:before {
+.ho-share:before {
   content: ""; }
 
 .ho-discover:before {
@@ -116,11 +124,11 @@
 .ho-task:before {
   content: ""; }
 
-.ho-edit:before {
+.ho-star-outline:before {
   content: ""; }
 
 .ho-task-wait-overtime:before {
-  content: ""; }
+  content: ""; }
 
 .ho-task-going:before {
   content: ""; }
@@ -128,11 +136,11 @@
 .ho-task-unfinish:before {
   content: ""; }
 
+.ho-task-wait:before {
+  content: ""; }
+
 .ho-task-finish:before {
   content: ""; }
-
-.ho-task-wait:before {
-  content: ""; }
 
 .ho-task-confirm-wait:before {
   content: ""; }
@@ -151,3 +159,30 @@
 
 .ho-gender-male:before {
   content: ""; }
+
+.ho-alert-clock:before {
+  content: ""; }
+
+.ho-add:before {
+  content: ""; }
+
+.ho-star:before {
+  content: ""; }
+
+.ho-chat-3:before {
+  content: ""; }
+
+.ho-location:before {
+  content: ""; }
+
+.ho-invite:before {
+  content: ""; }
+
+.ho-three-lines:before {
+  content: ""; }
+
+.ho-wechat-friend:before {
+  content: ""; }
+
+.ho-wechat-at:before {
+  content: ""; }

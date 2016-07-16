@@ -28,8 +28,10 @@
 
     var vm = $scope.vm = {};
     $log.debug('mainUserTaskCtrl:' + JSON.stringify($stateParams));
-    mainUserTasksService.user.id = $stateParams.userId;
-    mainUserTasksService.user.nickname = $stateParams.nickname;
+    if($stateParams.userId != '' && $stateParams.nickname != ''){
+      mainUserTasksService.user.id = $stateParams.userId;
+      mainUserTasksService.user.nickname = $stateParams.nickname;
+    }
 
     vm.nickname = mainUserTasksService.user.nickname;
     vm.items = [];
@@ -96,36 +98,38 @@
 
       $ionicLoading.show();
 
-      taskNetService.acceptTask(task.id).then(
-        function (data) {
+      //taskNetService.acceptTask(task.id).then(
+      //  function (data) {
+      //
+      //    if (data.code == 200) {
+      //      //成功
+      //      $ionicLoading.show({
+      //        duration: 1500,
+      //        templateUrl: 'modules/components/templates/ionic-loading/task-accept-success.html'
+      //      });
+      //      $timeout(function () {
+      //        taskNetService.cache.isNearTaskNeedRefresh = true;
+      //        taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
+      //        _refreshList();
+      //      }, 1500);
+      //    } else {
+      //      //失败
+      //      //temp:
+      //      $ionicLoading.show({
+      //        duration: 1500,
+      //        templateUrl: 'modules/components/templates/ionic-loading/task-not-exist.html'
+      //      });
+      //      $timeout(function () {
+      //        taskNetService.cache.isNearTaskNeedRefresh = true;
+      //      }, 1500);
+      //    }
+      //  },
+      //  function () {
+      //  }).finally(function () {
+      //    console.log('accept taskid=' + task.id);
+      //  });
 
-          if (data.code == 200) {
-            //成功
-            $ionicLoading.show({
-              duration: 1500,
-              templateUrl: 'modules/components/templates/ionic-loading/task-accept-success.html'
-            });
-            $timeout(function () {
-              taskNetService.cache.isNearTaskNeedRefresh = true;
-              taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
-              _refreshList();
-            }, 1500);
-          } else {
-            //失败
-            //temp:
-            $ionicLoading.show({
-              duration: 1500,
-              templateUrl: 'modules/components/templates/ionic-loading/task-not-exist.html'
-            });
-            $timeout(function () {
-              taskNetService.cache.isNearTaskNeedRefresh = true;
-            }, 1500);
-          }
-        },
-        function () {
-        }).finally(function () {
-          console.log('accept taskid=' + task.id);
-        });
+      taskUtils.acceptTask(task, _refreshList);
     }
 
     //////////////////////////////////////////////////

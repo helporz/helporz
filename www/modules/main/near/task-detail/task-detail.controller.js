@@ -118,45 +118,51 @@
         return;
       }
 
-      $ionicLoading.show();
-      taskNetService.acceptTask(vm.task.id).then(
-        function (data) {
-          console.log(data);
-          if (data.code == 200) {
-            //成功
-            taskNetService.cache.isNearTaskNeedRefresh = true;
-            taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
-            $ionicLoading.show({
-              duration: 1500,
-              templateUrl: 'modules/components/templates/ionic-loading/task-accept-success.html'
-            });
-            $timeout(function(){
-              $state.go('main.near');
-            }, 1500);
-          } else {
-            //失败
-            //temp:
-            taskNetService.cache.isNearTaskNeedRefresh = true;
-            $ionicLoading.show({
-              duration: 1500,
-              templateUrl: 'modules/components/templates/ionic-loading/task-not-exist.html'
-            });
+      //$ionicLoading.show();
+      //taskNetService.acceptTask(vm.task.id).then(
+      //  function (data) {
+      //    console.log(data);
+      //    if (data.code == 200) {
+      //      //成功
+      //      taskNetService.cache.isNearTaskNeedRefresh = true;
+      //      taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
+      //      $ionicLoading.show({
+      //        duration: 1500,
+      //        templateUrl: 'modules/components/templates/ionic-loading/task-accept-success.html'
+      //      });
+      //      $timeout(function(){
+      //        $state.go('main.near');
+      //      }, 1500);
+      //    } else {
+      //      //失败
+      //      //temp:
+      //      taskNetService.cache.isNearTaskNeedRefresh = true;
+      //      $ionicLoading.show({
+      //        duration: 1500,
+      //        templateUrl: 'modules/components/templates/ionic-loading/task-not-exist.html'
+      //      });
+      //
+      //    }
+      //
+      //
+      //  }, function (data) {
+      //    //temp:
+      //    $ionicLoading.show({
+      //      duration: 1500,
+      //      templateUrl: 'modules/components/templates/ionic-loading/task-not-exist.html'
+      //    })
+      //
+      //    $timeout(function() {
+      //      $state.go('main.near');
+      //    }, 1500)
+      //  }).finally(function () {
+      //  });
 
-          }
-
-
-        }, function (data) {
-          //temp:
-          $ionicLoading.show({
-            duration: 1500,
-            templateUrl: 'modules/components/templates/ionic-loading/task-not-exist.html'
-          })
-
-          $timeout(function() {
-            $state.go('main.near');
-          }, 1500)
-        }).finally(function () {
-        });
+      taskUtils.acceptTask(task, function () {
+        $timeout(function () {
+          $state.go('main.near');
+        }, 1500);
+      });
     }
 
     vm.input = '';
