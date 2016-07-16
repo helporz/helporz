@@ -13,7 +13,8 @@
     //////////////////////////////////////////////////
     // taskUtils
     .factory('userUtils', ['userNetService', '$state', '$ionicLoading', '$ionicPopup', '$location','$log','mainUserInfoService',
-      function (userNetService, $state, $ionicLoading, $ionicPopup, $location,$log, mainUserInfoService) {
+      'imConversationService',
+      function (userNetService, $state, $ionicLoading, $ionicPopup, $location,$log, mainUserInfoService,imConversationService) {
 
         return {
           uiProcessFollow: uiProcessFollow,
@@ -83,7 +84,19 @@
             }
             if( mainIndex < pathList.length ) {
               var fullState = 'main.' + pathList[mainIndex + 1] + '_im-detail';
-              $state.go(fullState, {cid: userId});
+              if( userNetService.cache.userInfo[userId] != null||
+                imConversationService.getConversation(userNetService.cache.selfInfo.userId, userId) != null) {
+                $state.go(fullState, {cid: userId});
+              }
+              else {
+                userNetService.getUserInfo(userId, function (userInfo) {
+                  $log.debug("getUserInfo from Server:" + JSON.stringify(userInfo));
+                  $state.go(fullState, {cid: userId});
+                }, function (error) {
+                  $log.error('getUserInfo failed:userId(#userId#) error(#error#)'
+                    .replace('#userId#', userId).replace('#error#', error));
+                })
+              }
             }
             else {
               $state.go('main.me');

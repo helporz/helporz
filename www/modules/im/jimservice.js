@@ -147,8 +147,9 @@
       var _getMessageHistory = function(username,messagePos,messageCount,onSuccessFn,onFailedFn) {
         console.log("getMessageHistory lastest 50 message with username:" + username);
         //读取的是从0开始的50条聊天记录，可按实现需求传不同的值
-        $window.plugins.jmessagePlugin.getSingleHistoryMessage(username, messagePos, messageCount, function (response) {
+        //$window.plugins.jmessagePlugin.getHistoryMessages('single',username,appConfig.JPUSH_APPKEY, messagePos, messageCount, function (response) {
 
+        $window.plugins.jmessagePlugin.getSingleConversationHistoryMessage(username, messagePos, messageCount, function (response) {
           var ss = JSON.stringify(response);
           console.log("getMessageHistory ok: " + ss);
           <!--for (var o in response) {-->

@@ -8,7 +8,7 @@
   angular.module('main.task')
     .controller('mainTaskCtrl', ['$log', '$state', '$ionicLoading', '$ionicActionSheet', '$ionicPopup', 'widgetDelegate', '$ionicScrollDelegate',
       '$scope', 'taskNetService', 'taskUtils', '$timeout', 'intervalCenter', 'NoticeMessageDB', 'NoticeMessageService',
-      'userUtils','IMInterfaceService','$window',
+      'userUtils','IMInterfaceService','imMessageService','$window',
       mainTaskCtrl]);
 
 
@@ -24,14 +24,24 @@
 
   function mainTaskCtrl($log, $state, $ionicLoading, $ionicActionSheet, $ionicPopup, widgetDelegate, $ionicScrollDelegate,
                         $scope, taskNetService, taskUtils, $timeout, intervalCenter, NoticeMessageDB, NoticeMessageService,
-                        userUtils,IMInterfaceService,$window) {
+                        userUtils,IMInterfaceService,imMessageService,$window) {
     var vm = $scope.vm = {};
 
     vm.tabsetSpace = ionic.Platform.isAndroid()? '44px': '64px';
     vm.contentSpace = ionic.Platform.isAndroid()? '84px': '104px';
     vm.state = $state;
+
     vm.IMInterfaceService = IMInterfaceService;
     vm.taskNetService = taskNetService;
+    vm.noReadMessageCount = IMInterfaceService.getNoReadMessageCount();
+    var conversationObserver = {
+      onAddConversation: function (conversation) {
+        vm.noReadMessageCount = IMInterfaceService.getNoReadMessageCount();
+      }
+    }
+
+    imMessageService.registerConversationObserver('topicGroupControllerFn', conversationObserver);
+
     //fixme:因为点击会穿透,同时触发多个事件,这里先用标记来屏蔽,点击按钮后间隔一段时间才可触发下一次点击回调
     vm._isClicking = false;
     var canClick = function () {
@@ -147,6 +157,7 @@
 
 
     $scope.$on("$ionicView.enter", function () {
+      vm.noReadMessageCount = IMInterfaceService.getNoReadMessageCount();
       // 首次判断读取任务
       if(taskNetService.cache.isPostTaskGoingNeedRefresh &&
         taskNetService.cache.isPostTaskFinishNeedRefresh &&
@@ -499,9 +510,9 @@
           var task = vm.repeatList[$index];
           var user;
           if(vm.tabSelectedIndex==0){
-            user = task.poster;
-          }else if(vm.tabSelectedIndex==1){
             user = task.accepter;
+          }else if(vm.tabSelectedIndex==1){
+            user = task.poster;
           }else{
             ho.alert('tabindex invalid');
           }

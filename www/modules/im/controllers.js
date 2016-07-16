@@ -12,11 +12,11 @@
 
   angular.module('com.helporz.im.controllers', ['com.helporz.im.services'])
     .controller('imMessageListController', imMessageListControllerFn)
-    .controller('imMessageDetailController', ['$log', '$q', '$scope', '$stateParams',
+    .controller('imMessageDetailController', ['$ionicLoading','$log', '$q', '$scope', '$stateParams',
       '$ionicScrollDelegate', '$timeout', '$ionicPopup', 'imMessageService', 'jimService', 'imMessageStorageService',
-      'userNetService', 'imConversationService', 'UtilsService', 'userUtils',
-      function ($log, $q, $scope, $stateParams, $ionicScrollDelegate, $timeout, $ionicPopup, imMessageService, jimService,
-                imMessageStorageService, userNetService, imConversationService, UtilsService, userUtils) {
+      'userNetService', 'imConversationService', 'UtilsService', 'userUtils','IMInterfaceService',
+      function ($ionicLoading,$log, $q, $scope, $stateParams, $ionicScrollDelegate, $timeout, $ionicPopup, imMessageService, jimService,
+                imMessageStorageService, userNetService, imConversationService, UtilsService, userUtils,IMInterfaceService) {
 
         //var popupScope = $scope.$new();
         //
@@ -86,6 +86,7 @@
         $scope.$on("$ionicView.afterEnter", function () {
 
           if (typeof $scope.messageDetails === 'undefined' || $scope.messageDetails == null || $scope.messageDetails.length == 0) {
+            $ionicLoading.show();
             $scope.messageDetails = new Array();
             imMessageStorageService.getMaxIdForMessage().then(function (maxMessageId) {
               imMessageStorageService.getMessageList($scope.user.userId, $scope.cUser.userId, maxMessageId, 20).then(function (msgList) {
@@ -94,7 +95,10 @@
                 for (var index = 0; index < msgList.length; ++index) {
                   $scope.messageDetails.unshift(msgList[index]);
                 }
-
+                $timeout(function() {
+                  $ionicLoading.hide();
+                  viewScroll.scrollBottom();
+                });
                 //// for test
                 //if (g_isDebug && ($scope.messageDetails == null || $scope.messageDetails.length == 0)) {
                 //  for (var index = 0; index < 10; ++index) {
@@ -130,9 +134,11 @@
 
               }, function (error) {
                 $log.error(JSON.stringify(error));
+                $ionicLoading.hide();
               });
             }, function (error) {
               $log.error(error);
+              $ionicLoading.hide();
             })
           }
 
@@ -150,7 +156,7 @@
             conversation.userId = $scope.user.userId;
             conversation.cUserId = $scope.cUser.userId;
             conversation.cUserNickname = $scope.cUser.nickname;
-            conversation.cUerLoginName = $scope.cUser.loginName;
+            conversation.cUserLoginName = $scope.cUser.loginName;
             conversation.cUserAvatar = $scope.cUser.avatar;
             imConversationService.addConversation(conversation);
             $scope.conversation = conversation;
@@ -171,7 +177,11 @@
           $log.info('cUser info:' + JSON.stringify($scope.cUser));
           imMessageService.enterConversation($scope.cUser);
 
-          viewScroll.scrollBottom();
+          //// for test
+          //
+          //jimService.getMessageHistory($scope.cUser.loginName + '_' + $scope.cUser.userId,0,50,function() {},function() {});
+          //// end teste
+
         });
 
         function updateMessageDetailList(msg) {
@@ -193,9 +203,14 @@
             if (m.id === messageDetail.id) {
               console.log('更新scope messageDetail');
               $scope.messageDetails.splice(index, 1, messageDetail);
-              viewScroll.scrollBottom();
+
               if (!$scope.$$phase) {
-                $scope.$apply();
+                $scope.$apply(function() {
+                  viewScroll.scrollBottom();
+                });
+              }
+              else {
+                viewScroll.scrollBottom();
               }
               break;
             }
@@ -230,6 +245,17 @@
           imMessageStorageService.addMessage(messageDetail).then(function (msgId) {
             messageDetail.id = msgId;
             $scope.messageDetails.push(messageDetail);
+            $timeout(function() {
+              if (!$scope.$$phase) {
+                $scope.$apply(function() {
+                  viewScroll.scrollBottom();
+                });
+              }
+              else {
+                viewScroll.scrollBottom();
+              }
+            });
+
             imMessageService.sendMessage($scope.cUser, messageDetail).then(function () {
               $log.info("发烧消息成功:" + messageDetail.message);
               imMessageStorageService.updateMessageState(messageDetail, 1);
@@ -319,10 +345,17 @@
             if (message.userId == $scope.user.userId && message.cUserId == $scope.cUser.userId) {
               $log.debug('push message to message detail list');
               $scope.messageDetails.push(message);
+              $timeout(function() {
+                if (!$scope.$$phase) {
+                  $scope.$apply(function() {
+                    viewScroll.scrollBottom();
+                  });
+                }
+                else {
+                  viewScroll.scrollBottom();
+                }
+              })
 
-              $scope.$apply(function () {
-                viewScroll.scrollBottom();
-              });
 
             }
           }
@@ -454,11 +487,11 @@
     vm.markConversation = function () {
       var index = vm.popup.index;
       var conversation = vm.imConversations[index];
-      if (conversation.showHints) {
-        conversation.showHints = false;
+      if (conversation.noReadMessages > 0) {
+        //conversation.showHints = false;
         conversation.noReadMessages = 0;
       } else {
-        conversation.showHints = true;
+        //conversation.showHints = true;
         conversation.noReadMessages = 1;
       }
 

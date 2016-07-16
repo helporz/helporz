@@ -446,9 +446,9 @@
     $ionicConfigProvider.tabs.position('bottom')
   }
 
-  mainRun.$inject = ['$log','$ionicPlatform', '$ionicPopup', '$rootScope', '$location','$ionicHistory'];
-  function mainRun($log,$ionicPlatform, $ionicPopup, $rootScope, $location,$ionicHistory) {
-
+  mainRun.$inject = ['$log','$ionicPlatform', '$ionicPopup', '$rootScope', '$location','$ionicHistory','$ionicLoading'];
+  function mainRun($log,$ionicPlatform, $ionicPopup, $rootScope, $location,$ionicHistory,$ionicLoading) {
+    var exitClickTime = null;
     function showConfirm() {
       var popupScope = $rootScope.$new();
 
@@ -496,7 +496,23 @@
       if ($location.path() === '/main/near' || $location.path() === '/main/me'
         || $location.path() === '/main/task' || $location.path() === '/main/topic-group' || $location.path() === '/login') {
         //showConfirm();
-        ionic.Platform.exitApp();
+        var currentDate = new Date().getTime();
+        if( exitClickTime == null ||  currentDate - exitClickTime > 3000 ) {
+          exitClickTime = currentDate;
+          $ionicLoading.hide();
+          $ionicLoading.show({
+            duration: 1000,
+            template: '再按一次将退出大侠拜托',
+          });
+          $timeout(function () {
+            $ionicLoading.hide();
+            $state.go('login');
+          }, 2000);
+        }
+        else {
+          ionic.Platform.exitApp();
+        }
+
       } else if ($ionicHistory.backView()) {
         console.log('currentView:', $ionicHistory.currentView);
         // Go back in history

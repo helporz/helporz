@@ -6,20 +6,28 @@
   'use strict';
 
   angular.module('main.me')
-    .controller('mainMeCtrl', ['$state', '$scope', '$ionicLoading', '$ionicPopup', '$ionicScrollDelegate', '$ionicActionSheet',
+    .controller('mainMeCtrl', ['$stateParams','$state', '$scope', '$ionicLoading', '$ionicPopup', '$ionicScrollDelegate', '$ionicActionSheet',
       '$timeout', '$interval', 'userNetService', 'impressUtils', 'userUtils',
       'errorCodeService', 'SharePageWrapService', 'mainUserTasksService','taskNetService', 'intervalCenter',
-      'IMInterfaceService', 'NoticeMessageDB', 'NoticeMessageService', mainMeCtrl])
+      'IMInterfaceService', 'NoticeMessageDB', 'NoticeMessageService','imMessageService', mainMeCtrl])
 
-  function mainMeCtrl($state, $scope, $ionicLoading, $ionicPopup, $ionicScrollDelegate, $ionicActionSheet,
+  function mainMeCtrl($stateParams,$state, $scope, $ionicLoading, $ionicPopup, $ionicScrollDelegate, $ionicActionSheet,
                       $timeout, $interval, userNetService, impressUtils, userUtils,
                       errorCodeService, SharePageWrapService, mainUserTasksService, taskNetService, intervalCenter,
-                      IMInterfaceService,NoticeMessageDB, NoticeMessageService) {
+                      IMInterfaceService,NoticeMessageDB, NoticeMessageService,imMessageService) {
     var vm = $scope.vm = {};
 
     vm.followBadge = 0;
 
-    vm.IMInterfaceService = IMInterfaceService;
+    vm.noReadMessageCount = IMInterfaceService.getNoReadMessageCount();
+
+    var conversationObserver = {
+      onAddConversation: function (conversation) {
+        vm.noReadMessageCount = IMInterfaceService.getNoReadMessageCount();
+      }
+    }
+
+    imMessageService.registerConversationObserver('mainMeCtrl', conversationObserver);
 
 
     var NMT = NoticeMessageService.getNoticeMessageTypes();
@@ -50,7 +58,7 @@
     }
 
     $scope.$on("$ionicView.beforeEnter", function () {
-
+      vm.noReadMessageCount = IMInterfaceService.getNoReadMessageCount();
       var selfInfo = userNetService.cache.selfInfo;
 
       vm.meInfo.remoteData = selfInfo;
@@ -453,6 +461,5 @@
 
     self.repeatList = [];
   }
-
 
 })()
