@@ -592,7 +592,7 @@
                 templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
               });
               $timeout(function() {
-                taskNetService.cache.isPostTaskFinishNeedRefresh = true;
+                taskNetService.cache.isPostTaskGoingNeedRefresh = true;
               }, 1500);
 
             }, function (data, status) {
@@ -606,10 +606,10 @@
             });
         }
         else if (task.status == 128) { //poster confirm success
-          console.error('invalid task opt: poster confirm success - post passive');
+          gotoTaskState(task.id);
         }
         else if (task.status == 256) { //poster confirm failed
-          console.error('invalid task opt: poster confirm failed - post passive');
+          gotoTaskState(task.id);
         }
       }
       /////////////////////////
@@ -639,7 +639,7 @@
                 templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
               });
               $timeout(function() {
-                taskNetService.cache.isAcceptTaskFinishNeedRefresh = true;
+                taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
               }, 1500);
 
             }, function (data) {

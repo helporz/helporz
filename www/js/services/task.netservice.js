@@ -450,7 +450,7 @@
 
     // notice message
     var _fetchNoticeMessage = function() {
-      //ho.alert('_fetchMessage');
+      ho.alert('_fetchMessage');
       NoticeMessageService.getAllNoticeMessage().then(function (noticeMessageList) {
 
         //old
@@ -468,7 +468,6 @@
         var acceptFinish = cache.nm_acceptFinish = [];
         var comment = cache.nm_comment = [];
         var follow = cache.nm_follow = [];
-
 
 
         // analyze fetched message
