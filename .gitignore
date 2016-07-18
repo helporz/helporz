@@ -9,7 +9,7 @@ platforms/*
 platforms/ios/*
 !/platforms/ios/helporz/
 platforms/ios/helporz/*
-!/platforms/ios/helporz/Classes/
+!platforms/ios/helporz/Classes/
 
 
 plugins/*
