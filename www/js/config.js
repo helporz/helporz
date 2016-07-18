@@ -95,7 +95,16 @@ var ho = {
 };
 
 var appConst = {
-  strFail: '稍后再试试 ╮(╯▽╰)╭'
+  strFail: '稍后再试试 ╮(╯▽╰)╭',
+  nicknameMax: 8,
+  signMax: 15,
+
+  holder_editDepartment:'填写后更易获得同系小伙伴的帮助哦',
+  max_editDepartment: 10,
+  holder_editDormitory: '填写后更易获得同楼小伙伴的帮助哦',
+  max_editDormitory: 10,
+  holder_editHometown: '例如：四川成都。让你更易获得老乡的帮助哦',
+  max_editHometown: 10,
 }
 
 

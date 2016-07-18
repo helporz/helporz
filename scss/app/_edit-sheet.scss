@@ -8,6 +8,18 @@
     height: 100px;
   }
 
+  .left-words {
+    color: $color-text-secondary;
+    font-size: 14px;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    line-height: 18px;
+    padding: 2px 8px;
+    border-radius: 5px;
+    background-color: $color-page-bg;
+  }
+
   .line {
     height: 40px;
   }

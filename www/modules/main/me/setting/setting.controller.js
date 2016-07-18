@@ -28,6 +28,7 @@
       mainEditSheetService.isInputOrTextarea = false;
       mainEditSheetService.placeholder = '感谢您提出的宝贵意见';
       mainEditSheetService.className = 'textarea-big';
+      mainEditSheetService.max = 280;
       $state.go('main.edit-sheet');
     }
 

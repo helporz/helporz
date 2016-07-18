@@ -149,10 +149,16 @@
         <span class="header-icon icon ho-chat-3"/> <span class="header-txt">评论</span> <span class="header-txt">{{vm.topic.commentCount}}</span> <span class="header-txt">条</span>
       </div>
 
-      <div class="" ng-if="vm.topic.commentCount == 0">
-        <div class="row" style="margin:10px 10px 0 26px;">
-          <p>还没有评论，你来试试？</p>
-        </div>
+      <!--<div class="" ng-if="vm.topic.commentCount == 0">-->
+        <!--<div class="row" style="margin:10px 10px 0 26px;">-->
+          <!--<p>还没有评论，你来试试？</p>-->
+        <!--</div>-->
+
+      </div>
+
+      <div ng-if="vm.topic.commentCount == 0" class="content-empty">
+        <img class="image" src="img/theme/sofa@2x.png" style="width:130px;">
+        <p class="desc">还没评论过，第一个沙发谁坐？</p>
       </div>
 
       <div class="topic-comment topic-group-wrapper" ng-click="vm.clearReplyComment()"

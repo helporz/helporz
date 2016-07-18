@@ -3301,6 +3301,17 @@
 .edit-sheet .textarea-normal {
   height: 100px; }
 
+.edit-sheet .left-words {
+  color: #878787;
+  font-size: 14px;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  line-height: 18px;
+  padding: 2px 8px;
+  border-radius: 5px;
+  background-color: #efeff4; }
+
 .edit-sheet .line {
   height: 40px; }
 

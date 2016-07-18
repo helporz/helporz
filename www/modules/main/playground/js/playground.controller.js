@@ -810,6 +810,12 @@
       }
     }
 
+    self.cb_checkText = function() {
+      if(self.content.length > 140) {
+        self.content = self.content.substr(0, 140);
+      }
+    }
+
     self.publish = function () {
       var groupId = $scope.groupId;
       var tagInfoArray = new Array();
