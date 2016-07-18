@@ -8,11 +8,11 @@
   angular.module('main.comment')
     .controller('mainCommentCtrl', ['$state', '$stateParams', '$timeout', '$log', '$ionicLoading', '$ionicPopup',
       '$ionicActionSheet', '$cordovaCamera', '$cordovaImagePicker',
-      '$scope', 'taskNetService', 'taskUtils', 'impressUtils', mainCommentCtrl]);
+      '$scope', 'taskNetService', 'taskUtils', 'impressUtils', 'mainTaskService', mainCommentCtrl]);
 
   function mainCommentCtrl($state, $stateParams, $timeout, $log, $ionicLoading, $ionicPopup,
                            $ionicActionSheet, $cordovaCamera, $cordovaImagePicker,
-                           $scope, taskNetService, taskUtils, impressUtils) {
+                           $scope, taskNetService, taskUtils, impressUtils, mainTaskService) {
     var vm = $scope.vm = {};
 
     //////////////////////////////////////////////////
@@ -189,6 +189,7 @@
             $timeout(function() {
               taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
               taskNetService.cache.isAcceptTaskFinishNeedRefresh = true;
+              mainTaskService.jump = { tab: 1, subTab: 1 };
               $state.go('main.task');
             }, 1500);
 
@@ -215,6 +216,7 @@
             $timeout(function() {
               taskNetService.cache.isPostTaskGoingNeedRefresh = true;
               taskNetService.cache.isPostTaskFinishNeedRefresh = true;
+              mainTaskService.jump = { tab: 0, subTab: 1 };
               $state.go('main.task');
             }, 1500);
 

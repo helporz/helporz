@@ -12,7 +12,9 @@
         title: 'err: no title',
         isInputOrTextarea: true,
         placeholder: '',
-        className: ''
+        content: '',
+        className: '',
+        max: -1
       }
     })
 
@@ -23,15 +25,23 @@
 
     var vm = $scope.vm = {};
 
+    $scope.service = mainEditSheetService;
     vm.title = mainEditSheetService.title;
     vm.placeholder = mainEditSheetService.placeholder;
+    vm.mod_text = mainEditSheetService.content;
+    mainEditSheetService.content = '';
     vm.isInputOrTextarea = mainEditSheetService.isInputOrTextarea;
     vm.className = mainEditSheetService.className;
     vm.cb = mainEditSheetService.cb;
 
     $scope.$on("$ionicView.beforeEnter", function() {
-      vm.mod_text = '';
     });
+
+    vm.cb_checkText = function() {
+      if(vm.mod_text.length > mainEditSheetService.max) {
+        vm.mod_text = vm.mod_text.substr(0, mainEditSheetService.max);
+      }
+    }
 
     vm.cb_back = function() {
       $ionicHistory.goBack(-1);

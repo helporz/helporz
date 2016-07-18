@@ -7,11 +7,13 @@
 
     <label ng-show="vm.isInputOrTextarea==false" class="item item-input item-stacked-label">
       <!--<span class="input-label">Last Name</span>-->
-      <textarea class="{{vm.className}}" placeholder="{{vm.placeholder}}" style="resize: none"></textarea>
+      <textarea ng-model="vm.mod_text" class="{{vm.className}}" ng-change="vm.cb_checkText()" placeholder="{{vm.placeholder}}" style="resize: none"></textarea>
+      <p ng-if="service.max>0 && vm.mod_text.length>0" class="left-words">{{service.max - vm.mod_text.length}}</p>
     </label>
 
     <label ng-show="vm.isInputOrTextarea==true" class="item item-input item-stacked-label">
-      <input class="{{vm.className}}" type="text" ng-model="vm.mod_text" placeholder="{{vm.placeholder}}" style="resize: none">
+      <input class="{{vm.className}}" type="text" ng-model="vm.mod_text" ng-change="vm.cb_checkText()" placeholder="{{vm.placeholder}}" style="resize: none">
+      <p ng-if="service.max>0 && vm.mod_text.length>0" class="left-words">{{service.max - vm.mod_text.length}}</p>
     </label>
 
     <!--<button class="button ion-android-happy button-commit button-accept button-light-red">-->

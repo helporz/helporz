@@ -133,8 +133,9 @@
       cb_nickname: function () {
         mainEditSheetService.title = '修改昵称';
         mainEditSheetService.isInputOrTextarea = true;
-        mainEditSheetService.placeholder = '起个好听的名字吧';
+        mainEditSheetService.content = vm.edit.nickname;
         mainEditSheetService.className = '';
+        mainEditSheetService.max = appConst.nicknameMax;
         mainEditSheetService.cb = function (txt) {
           $ionicLoading.show();
           userNetService.updateNickname(txt).then(
@@ -149,12 +150,7 @@
               }, 1500);
 
             }, function (data) {
-              $ionicPopup.alert({
-                title: '错误提示',
-                template: data
-              }).then(function (res) {
-                console.error(data);
-              })
+              ho.alert('ionicLoading');
             }).finally(function () {
             });
         }
@@ -198,7 +194,9 @@
       cb_department: function () {
         mainEditSheetService.title = '修改院系';
         mainEditSheetService.isInputOrTextarea = true;
-        mainEditSheetService.placeholder = '你是哪个系的';
+        mainEditSheetService.placeholder = appConst.holder_editDepartment;
+        mainEditSheetService.max = appConst.max_editDepartment;
+        mainEditSheetService.content = vm.edit.department;
         mainEditSheetService.className = '';
         mainEditSheetService.cb = function (txt) {
           $ionicLoading.show();
@@ -228,7 +226,9 @@
       cb_dormitory: function () {
         mainEditSheetService.title = '修改寝室楼栋';
         mainEditSheetService.isInputOrTextarea = true;
-        mainEditSheetService.placeholder = '你是哪个寝室哪个楼的';
+        mainEditSheetService.placeholder = appConst.holder_editDormitory;
+        mainEditSheetService.max = appConst.max_editDormitory;
+        mainEditSheetService.content = vm.edit.dormitory;
         mainEditSheetService.className = '';
         mainEditSheetService.cb = function (txt) {
           $ionicLoading.show();
@@ -300,7 +300,9 @@
       cb_hometown: function () {
         mainEditSheetService.title = '修改家乡';
         mainEditSheetService.isInputOrTextarea = true;
-        mainEditSheetService.placeholder = '老家是哪里的';
+        mainEditSheetService.placeholder = appConst.holder_editHometown;
+        mainEditSheetService.content = vm.edit.hometown;
+        mainEditSheetService.max = appConst.max_editHometown;
         mainEditSheetService.className = '';
         mainEditSheetService.cb = function (txt) {
           $ionicLoading.show();
@@ -331,8 +333,10 @@
       cb_sign: function () {
         mainEditSheetService.title = '修改个人签名';
         mainEditSheetService.isInputOrTextarea = true;
-        mainEditSheetService.placeholder = '...';
+        //mainEditSheetService.placeholder = appConst.holder_editHometown
+        mainEditSheetService.content = vm.edit.sign;
         mainEditSheetService.className = '';
+        mainEditSheetService.max = appConst.signMax;
         mainEditSheetService.cb = function (txt) {
           $ionicLoading.show();
           userNetService.updateSign(txt).then(

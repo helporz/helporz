@@ -34,7 +34,9 @@
     <div class="topic-group-wrapper bottom-bordered bottom-bordered-normal">
       <!--<div class="row group-item group-item-input no-border left-align">-->
       <div class="row no-border left-align">
-        <textarea placeholder="我们都是能好好说话的孩纸" ng-model="ctl.content" style="width: 100%;height: 100px;resize: none"/></textarea>
+        <textarea placeholder="我们都是能好好说话的孩纸"
+                  ng-change="ctl.cb_checkText()"
+                  ng-model="ctl.content" style="width: 100%;height: 100px;resize: none"/></textarea>
         <div class="topic-publish-word-count" style="background-color: #FFFFFF;  text-align: center;">
           <a class=" icon ion-ios-close-empty icon-right;" style="color:black "
              ng-click="ctl.clearContent()"> {{140 - ctl.content.length}}</a>
