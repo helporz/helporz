@@ -9,11 +9,20 @@ platforms/*
 platforms/ios/*
 !/platforms/ios/helporz/
 platforms/ios/helporz/*
-!/platforms/ios/helporz/Classes/
+!platforms/ios/helporz/Classes/
+!platforms/ios/helporz/Plugins/
 
+!platforms/android
+platforms/android/*
+!platforms/android/src
+!platforms/android/assets
+!platforms/ios/platform_www/
+!platforms/ios/www/
+#!platforms/ios/platform_www/plugins/cordova-plugin-jmessage/www
+#!platforms/ios/www/plugins/cordova-plugin-jmessage/www
 
 plugins/*
-#!plugins/cordova-plugin-jmessage
+!plugins/cordova-plugin-jmessage
 #resources/android
 #resources/ios
 

@@ -81,3 +81,10 @@
 //JMessage remove code mark; 
 }
 @end
+
+@implementation NSURLRequest(DataController)
++ (BOOL)allowsAnyHTTPSCertificateForHost:(NSString *)host
+{
+    return YES;
+}
+@end
