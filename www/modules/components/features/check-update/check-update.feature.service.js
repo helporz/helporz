@@ -19,6 +19,9 @@
           userNetService.checkUpdatePackage(appConfig.APP_VERSION, deviceService.getDeviceInfo(),
             function (downloadUrl, version, isMustUpdate) {
               //ho.alert('d:' + downloadUrl + ';v:' + version);
+              if( version === appConfig.APP_VERSION) {
+                return;
+              }
 
               var popupScope = $rootScope.$new();
 
