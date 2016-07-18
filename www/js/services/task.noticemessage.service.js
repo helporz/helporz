@@ -106,6 +106,7 @@
       if (device.platform == "Android") {
 
         message.alert = event.alert;
+        $log.debug('getMessageFromNotifycationEvent:' + JSON.stringify(event.extras));
         message.userId = event.extras['cn.jpush.android.EXTRA'].userId;
         message.type = event.extras['cn.jpush.android.EXTRA'].type;
         message.correlationId = event.extras['cn.jpush.android.EXTRA'].correlation_id;

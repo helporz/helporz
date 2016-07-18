@@ -446,8 +446,9 @@
     $ionicConfigProvider.tabs.position('bottom')
   }
 
-  mainRun.$inject = ['$log','$ionicPlatform', '$ionicPopup', '$rootScope', '$location','$ionicHistory','$ionicLoading'];
-  function mainRun($log,$ionicPlatform, $ionicPopup, $rootScope, $location,$ionicHistory,$ionicLoading) {
+  mainRun.$inject = ['$log','$ionicPlatform', '$ionicPopup', '$rootScope', '$location','$ionicHistory','$ionicLoading',
+    '$timeout','$state'];
+  function mainRun($log,$ionicPlatform, $ionicPopup, $rootScope, $location,$ionicHistory,$ionicLoading,$timeout,$state) {
     var exitClickTime = null;
     function showConfirm() {
       var popupScope = $rootScope.$new();
@@ -507,7 +508,7 @@
           $timeout(function () {
             $ionicLoading.hide();
             $state.go('login');
-          }, 2000);
+          }, 3000);
         }
         else {
           ionic.Platform.exitApp();

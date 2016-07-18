@@ -156,24 +156,24 @@
 
     var _isShowIntro = function () {
       var showIntroInfo = localStorageService.get('showIntroInfo', null);
-      if (showIntroInfo == null || showIntroInfo.expireTime == null) {
+      if (showIntroInfo == null) {
         return true;
       }
-
-      var currentDate = new Date();
-      var expireTime = utilConvertDateToString.getStringToDate(showIntroInfo.expireTime);
-      if (expireTime < currentDate) {
-        return true;
-      }
-      else {
-        return false;
-      }
+      return false;
+      //var currentDate = new Date();
+      //var expireTime = utilConvertDateToString.getStringToDate(showIntroInfo.expireTime);
+      //if (expireTime < currentDate) {
+      //  return true;
+      //}
+      //else {
+      //  return false;
+      //}
     }
 
     var _updateShowIntroInfo = function () {
       var lastTime = new Date();
       var expireTime = new Date();
-      expireTime.setDate(expireTime.getDate() + 2);
+      expireTime.setDate(expireTime.getDate() + 30);
       var showIntroInfo = {
         lastTime: utilConvertDateToString.getDateToString(lastTime, 'yyyy-MM-dd HH:mm:ss'),
         expireTime: utilConvertDateToString.getDateToString(expireTime, 'yyyy-MM-dd HH:mm:ss'),
@@ -511,14 +511,14 @@
     var filterFn = function (dateString) {
       var d = new Date(dateString.replace(/-/g, "/"));
       var currentDate = new Date();
-      if ( d.getFullYear() === currentDate.getFullYear()&&
+      if (d.getFullYear() === currentDate.getFullYear() &&
         d.getMonth() === currentDate.getMonth()) {
 
         var diffDay = d.getDay() - currentDate.getDay()
-        if ( diffDay == 0) {
+        if (diffDay == 0) {
           return d.getHours() + ":" + d.getMinutes();
         }
-        else if(  -1 ){
+        else if (-1) {
           return "昨天" + " " + d.getHours() + ":" + d.getMinutes();
         }
       }
