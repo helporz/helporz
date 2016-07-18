@@ -48,7 +48,8 @@
           <div class="appendix">
             <i class="icon ho-alert-clock deadline "></i>
 
-            <p class="_desc-p">{{vm.task.deadline}}截止</p>
+            <p class="_desc-p" ng-if="vm.task.taskTypesId<200">{{vm.task.deadline | IMDateShow}}截止</p>
+            <p class="_desc-p" ng-if="vm.task.taskTypesId>=200">{{vm.task.startTime | IMDateShow}}{{' ~ '}}{{vm.task.deadline | IMDateShow}}{{' 借用'}}</p>
           </div>
           <div class="appendix">
             <i class="icon ho-location address"></i>
