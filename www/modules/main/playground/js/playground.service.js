@@ -686,6 +686,10 @@
       return _topicCacheTable.get(topicGroupId);
     }
 
+    var updateTopic2Cache = function(topicGroupId,topic) {
+      return _topicCacheTable.get(topicGroupId);
+    }
+
     var _currentDetailTopic = {};
     var _setCurrentDetailTopic = function (topic) {
       _currentDetailTopic = topic;

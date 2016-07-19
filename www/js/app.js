@@ -224,7 +224,7 @@
 
   function setHttpProvider($httpProvider) {
     // 头部配置
-    $httpProvider.defaults.withCredentials = true;
+    //$httpProvider.defaults.withCredentials = true;
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
     $httpProvider.defaults.headers.post['Accept'] = 'application/json, text/javascript, */*; q=0.01';
     $httpProvider.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';

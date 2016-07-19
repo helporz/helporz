@@ -1044,8 +1044,12 @@
     }
 
     vm.moreDataCanBeLoaded = function () {
-      if (vm.topicCommentList == null) {
+      if (vm.topic.commentCount == 0) {
         return false;
+      }
+
+      if( vm.topicCommentList == null ) {
+        return true;
       }
 
       if (vm.topicCommentList.length >= vm.topic.commentCount) {
