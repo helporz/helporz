@@ -105,7 +105,7 @@
         return "用户不存在";
       }
       else {
-        return "未知错误";
+        return null;
       }
     }
 
@@ -307,11 +307,13 @@
                 }, 3000);
               }
               else {
-                _postDefer.reject(errorCodeService.getErrorCodeDescription(resp.code));
+                _postDefer.reject(resp.code);
               }
             }
           }).error(function (data, status) {
-            _postDefer.reject(httpErrorCodeService.getErrCodeDescription(status));
+            alert(data);
+            alert('error status:' + status)
+            _postDefer.reject(status);
           });
           return _postDefer.promise;
         };
@@ -376,11 +378,11 @@
                 }, 3000);
               }
               else {
-                _getDefer.reject(errorCodeService.getErrorCodeDescription(resp.code));
+                _getDefer.reject(resp);
               }
             }
           }).error(function (data, status) {
-            _getDefer.reject(httpErrorCodeService.getErrorCodeDescription(status));
+            _getDefer.reject(status);
           });
           return _getDefer.promise;
         };
@@ -409,12 +411,42 @@
         }
       };
     }])
+    .factory('promptService', promptServiceFn)
     .constant('base64', (Base64ConstantFn)())
     .filter('DateShow', DateShowFn)
     .filter('IMDateShow', IMDateShowFn)
     .filter('String2Date', String2DateFn)
     .directive('focusMe', focusMeFn);
 
+  promptServiceFn.$inject = ['$log', '$timeout', '$ionicLoading', 'errorCodeService', 'httpErrorCodeService'];
+  function promptServiceFn($log, $timeout, $ionicLoading, errorCodeService, httpErrorCodeService) {
+
+    var promptMessage = function (message, duration) {
+      if (typeof duration === 'undefined' || duration == null || duration == 0) {
+        duration = 1000;
+      }
+      $ionicLoading.show({
+        duration: duration,
+        template: message,
+      });
+      $timeout(function () {
+        $ionicLoading.hide();
+      }, duration * 2);
+    }
+
+    var promptErrorInfo = function (errorCode, duration) {
+      var errorMessage = errorCodeService.getErrorCodeDescription(errorCode);
+      if (errorMessage == null) {
+        errorMessage = httpErrorCodeService.getErrorCodeDescription(errorCode);
+      }
+      promptMessage(errorMessage, duration);
+    }
+
+    return {
+      promptMessage: promptMessage,
+      promptErrorInfo: promptErrorInfo,
+    }
+  }
 
   UtilsServiceFn.$inject = [];
   function UtilsServiceFn() {

@@ -153,7 +153,7 @@
         $log.debug('completed refresh notice message from server');
         $log.debug('observer count:' + _observerList.length);
         for (var observerIndex = 0; observerIndex < _observerList.length; ++observerIndex) {
-          _observerList[observerIndex].onNotify();
+          _observerList[observerIndex].onNotify(noticeMessage);
         }
         _innerDefer.resolve(res);
       }, function (error) {
