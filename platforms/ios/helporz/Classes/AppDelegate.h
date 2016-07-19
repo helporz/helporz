@@ -33,6 +33,8 @@
 //JMessage remove code mark
 
 //JMessage remove code mark //JMessage add
+
+//JMessage remove code mark //JMessage add
 #import "JMessageHelper.h" //JMessage add 
 @interface AppDelegate : CDVAppDelegate {}
 
@@ -40,6 +42,9 @@
 
 //JMessage remove code mark; //JMessage add 
  
+
+//JMessage remove code mark; //JMessage add 
+
 
 //JMessage remove code mark; //JMessage add 
 

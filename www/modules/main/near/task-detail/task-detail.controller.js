@@ -9,7 +9,8 @@
     .factory('mainNearTaskDetailService', mainNearTaskDetailService)
     .controller('mainNearTaskDetailCtrl', ['$state', '$scope', '$ionicScrollDelegate', '$ionicLoading', '$ionicPopup', '$timeout', '$stateParams', 'taskNetService',
       'taskUtils', 'userNetService', 'impressUtils', 'timeUtils','SharePageWrapService',
-      'mainNearTaskDetailService','userUtils','$ionicTabsDelegate',
+      'mainNearTaskDetailService','userUtils','$ionicTabsDelegate','$ionicActionSheet',
+      'feedbackService',
       mainNearTaskDetailCtrl]);
 
 
@@ -21,7 +22,9 @@
 
   function mainNearTaskDetailCtrl($state, $scope, $ionicScrollDelegate, $ionicLoading, $ionicPopup, $timeout, $stateParams, taskNetService,
                                   taskUtils, userNetService, impressUtils, timeUtils,SharePageWrapService,
-                                  mainNearTaskDetailService,userUtils,$ionicTabsDelegate) {
+                                  mainNearTaskDetailService,userUtils,$ionicTabsDelegate,$ionicActionSheet,
+                                  feedbackService)
+  {
     console.log($stateParams);
 
     var vm = $scope.vm = {};
@@ -90,6 +93,32 @@
     //    return list.length;
     //  }
     //};
+
+    vm.cb_moreOpt = function() {
+      var sheet = {};
+      sheet.titleText = '举报该任务';
+      sheet.cancelText = '取消';
+      sheet.buttonClicked = function(index) {
+        $ionicLoading.hide();
+        feedbackService.reportTask(vm.task.id, index+1, feedbackService.reportTypes[index].text).then(
+          function (data) {
+            $ionicLoading.show({
+              duration: 1500,
+              templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+            });
+          }, function (data) {
+            $ionicLoading.hide();
+            ho.alert('ionicLoading');
+          }).finally(function () {
+          });
+        return true;
+      };
+      sheet.buttons = feedbackService.reportTypes;
+
+      $ionicActionSheet.show(sheet);
+      return true;
+    };
+
     vm.cb_gotoUser = function(userId) {
       var index = $ionicTabsDelegate.$getByHandle('rootTabs').selectedIndex();
       var tabName;

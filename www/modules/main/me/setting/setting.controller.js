@@ -8,12 +8,12 @@
   angular.module('main.setting')
     .controller('mainSettingCtrl', ['$scope', '$timeout', '$state', '$stateParams', 'taskNetService', 'taskUtils',
       'mainEditSheetService','SharePageWrapService', 'loginService',
-      '$ionicLoading',
+      '$ionicLoading','feedbackService','$ionicHistory',
       mainSettingCtrl]);
 
   function mainSettingCtrl($scope, $timeout, $state, $stateParams, taskNetService, taskUtils,
                            mainEditSheetService,SharePageWrapService, loginService,
-                           $ionicLoading) {
+                           $ionicLoading, feedbackService,$ionicHistory) {
     console.log($stateParams);
 
     var vm = $scope.vm = {};
@@ -29,6 +29,24 @@
       mainEditSheetService.placeholder = '感谢您提出的宝贵意见';
       mainEditSheetService.className = 'textarea-big';
       mainEditSheetService.max = 280;
+      mainEditSheetService.cb = function(txt) {
+        $ionicLoading.hide();
+        feedbackService.feedback(txt).then(
+          function (data) {
+            $ionicLoading.show({
+              duration: 1500,
+              templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
+            });
+            $timeout(function () {
+              $ionicHistory.goBack(-1);
+            }, 1500);
+          }, function (data) {
+            $ionicLoading.hide();
+            ho.alert('ionicLoading');
+          }).finally(function () {
+          });
+        return true;
+      };
       $state.go('main.edit-sheet');
     }
 
