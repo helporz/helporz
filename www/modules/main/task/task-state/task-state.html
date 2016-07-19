@@ -156,7 +156,7 @@
     </div>
 
 
-    <div class="comment-board bottom-bordered bottom-bordered-small" ng-hide ng-show="vm.showOtherComment==true">
+    <div class="comment-board bottom-bordered bottom-bordered-small" ng-if="vm.showOtherComment==true">
       <p class="title"><b>对方点评</b></p>
 
       <div class="div-text-panel">
@@ -186,7 +186,7 @@
       </div>
     </div>
 
-    <div class="comment-board" ng-hide ng-show="vm.showMyComment==true">
+    <div class="comment-board" ng-if="vm.showMyComment==true">
     <!--<div class="comment-board bottom-bordered bottom-bordered-small" ng-hide ng-show="vm.showMyComment==true">-->
       <p class="title"><b>我的点评</b></p>
 

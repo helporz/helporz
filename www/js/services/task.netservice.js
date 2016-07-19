@@ -7,10 +7,11 @@
   'use strict'
   angular.module('com.helporz.task.netservice', []).factory('taskNetService', ['$q', '$log', 'httpBaseService',
     'errorCodeService', 'httpErrorCodeService','uploadService','userLoginInfoService',
-    'NoticeMessageService', TaskNetServiceFactoryFn]);
+    'NoticeMessageService','$rootScope', '$ionicPopup',
+    TaskNetServiceFactoryFn]);
 
   function TaskNetServiceFactoryFn($q, $log, httpBaseService, errorCodeService, httpErrorCodeService,uploadService,userLoginInfoService,
-  NoticeMessageService) {
+  NoticeMessageService, $rootScope, $ionicPopup) {
 
     // cache
     var cache = {
@@ -448,8 +449,22 @@
       return httpBaseService.getForPromise('/task/query/status/waiting',param);
     }
 
+    var _onNotifyNoticeMessage = function() {
+      if(ionic.Platform.isIOS()) {
+        var popupScope = $rootScope.$new();
+        var pp = $ionicPopup.show({
+          templateUrl: 'js/templates/ios-push-notify.html',
+          scope: popupScope
+        });
+        popupScope.cb_ok = function() {
+          pp.close();
+        }
+      }
+      _fetchNoticeMessage();
+    }
     // notice message
     var _fetchNoticeMessage = function() {
+
       ho.alert('_fetchMessage');
       NoticeMessageService.getAllNoticeMessage().then(function (noticeMessageList) {
 
@@ -546,7 +561,7 @@
 
     var _observeNoticeMessage = function() {
       var taskNoticeMessageMonitor = {
-        onNotify: _fetchNoticeMessage
+        onNotify: _onNotifyNoticeMessage
       }
       NoticeMessageService.registerObserver(taskNoticeMessageMonitor);
     };

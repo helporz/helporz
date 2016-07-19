@@ -101,7 +101,7 @@
       //根据当前页面,消除badge
       if (vm.tabSelectedIndex == 0) {
         if (vm.postTabSelectedIndex == 0) {
-          if (vm.badges.postGoing != 0) {
+          if (taskCache.nm_postGoing.length != 0) {
             NoticeMessageDB.setReadFlagByType(NMT.POSTER_UNCOMPLETED_TASK_MESSAGE_TYPE);
             taskCache.nm_postGoing = [];
             taskCache.nm_main_changed = true;
@@ -109,6 +109,7 @@
           }
         } else {
           if (vm.badges.postFinish != 0) {
+            NoticeMessageDB.setReadFlagByType(NMT.POSTER_COMPLETED_TASK_MESSAGE_TYPE);
             taskCache.nm_postFinish = [];
             taskCache.nm_main_changed = true;
             vm.badges.postFinish = 0;
@@ -152,10 +153,16 @@
       var taskCache = taskNetService.cache;
       for (var i in taskCache.nm_comment) {
         var commentTaskId = taskCache.nm_comment[i].correlationId
+        var isFound = false;
         for (var j in taskCache.postTaskGoingList) {
           if (taskCache.postTaskGoingList[j].id == commentTaskId) {
             taskCache.postTaskGoingList[j].ui_showPassive2Badge = true;
+            isFound = true;
+            break;
           }
+        }
+        if(isFound==false) {
+          taskNetService.setCommentReadFlag(commentTaskId);
         }
       }
     }
@@ -701,7 +708,7 @@
 
         if (task.status == 0) { //wait
           $state.go('main.task_task-detail', {id: task.id})
-          //todo: 取消comment红点
+          task.ui_showPassive2Badge = false;
           taskNetService.setCommentReadFlag(task.id);
           taskNetService.cache.nm_main_changed = true;
           taskNetService.cache.nm_task_changed = true;
