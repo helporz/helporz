@@ -87,6 +87,7 @@
     'loginService',
     'intervalCenter',
     'checkUpdateFeature',
+    '$window',
   ];
 
   function init($cordovaSplashscreen,
@@ -111,7 +112,8 @@
                 taskNetService,
                 loginService,
                 intervalCenter,
-                checkUpdateFeature) {
+                checkUpdateFeature,
+                $window) {
     $log.info('app.run.init');
 
     $ionicPlatform.ready(function () {
@@ -146,6 +148,10 @@
         window.open = window.cordova.plugins.InAppBrowser.open;
       }
 
+      var hideSplashScreen = function(){
+        if($window.navigator.splashscreen){ $cordovaSplashscreen.hide(); }
+      }
+
       jimService.init();
       pushService.init().then(function () {
         if (loginService.isShowIntro()) {
@@ -163,22 +169,22 @@
             // test:
             //intervalCenter.add(1, 'app.noticeMessage', function () {
             taskNetService.fetchNoticeMessage();
-            $cordovaSplashscreen.hide();
+            hideSplashScreen();
             //});
 
           }, function () {
             $state.go('login');
-            $cordovaSplashscreen.hide();
+            hideSplashScreen();
           });
         }
         else {
           $state.go('login');
-          $cordovaSplashscreen.hide();
+          hideSplashScreen();
         }
 
       }, function () {
         $state.go('login');
-        $cordovaSplashscreen.hide();
+        hideSplashScreen();
       });
 
 
