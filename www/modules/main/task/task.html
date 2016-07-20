@@ -226,8 +226,9 @@
     </ion-infinite-scroll>
 
     <div class="string-empty"
-         ng-if="(vm.tabSelectedIndex==0&&!vm.taskNetService.cache.hasMorePostTaskFinish) ||
-         (vm.tabSelectedIndex==1&&!vm.taskNetService.cache.hasMoreAcceptTaskFinish)">
+         ng-if="((vm.tabSelectedIndex==0&&!vm.taskNetService.cache.hasMorePostTaskFinish) ||
+         (vm.tabSelectedIndex==1&&!vm.taskNetService.cache.hasMoreAcceptTaskFinish)) &&
+         (vm.repeatList.length!=0)">
       没有新内容了=￣ω￣=
     </div>
 
@@ -236,18 +237,18 @@
       <img class="image" src="img/theme/role-3@2x.png">
       <p class="desc">我们都在等你召唤哦！</p>
     </div>
-    <div ng-if="vm.taskNetService.cache.isPostTaskFinishNeedRefresh==false && vm.repeatList.length==0 &&
+    <div ng-if="vm.taskNetService.cache.isPostTaskFinishNeedRefresh==false && vm.repeatList.length==0 && vm.isNetSynchronizing==false&&
                 vm.tabSelectedIndex==0 && vm.postTabSelectedIndex==1" class="content-empty">
       <img class="image" src="img/theme/role-3@2x.png">
       <p class="desc">我们都在等你召唤哦！</p>
     </div>
     <div ng-if="vm.taskNetService.cache.isAcceptTaskGoingNeedRefresh==false && vm.repeatList.length==0 &&
-                vm.tabSelectedIndex==1 && vm.postTabSelectedIndex==0" class="content-empty">
+                vm.tabSelectedIndex==1 && vm.acceptTabSelectedIndex==0" class="content-empty">
       <img class="image" src="img/theme/role-1@2x.png">
       <p class="desc">这么清闲？大伙都等你去拯救呢!</p>
     </div>
     <div ng-if="vm.taskNetService.cache.isAcceptTaskFinishNeedRefresh==false && vm.repeatList.length==0 &&
-                vm.tabSelectedIndex==1 && vm.postTabSelectedIndex==1" class="content-empty">
+                vm.tabSelectedIndex==1 && vm.acceptTabSelectedIndex==1" class="content-empty">
       <img class="image" src="img/theme/role-1@2x.png">
       <p class="desc">这么清闲？大伙都等你去拯救呢!</p>
     </div>

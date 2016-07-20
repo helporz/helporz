@@ -282,9 +282,11 @@
             正在求助
           </button>
 
+          <!-- 加上这句可以在粉丝列表屏蔽点击-->
+          <!--ng-disabled="vm.self.tabFollow==1"-->
           <button
             class="width-60 bt-right ho-button button-theme button-gray button-outline ho-button-small bt-inactive"
-            ng-disabled="vm.self.tabFollow==1"
+
             ng-if="item.ui_showHasFollow"
             ng-click="vm.self.cb_cancelFocus($index)">
             <!--<i class="icon ion-ios-checkmark-empty"></i>-->

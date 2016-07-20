@@ -21,7 +21,7 @@
       @include display-flex();
       @include justify-content(center);
       @include align-items(center);
-
+      margin-top: 5px;
     }
 
     .impress-panel {
@@ -29,7 +29,7 @@
       @include justify-content(center);
       @include align-items(center);
       > * {
-        margin: 7px 5px 2px;
+        margin: 10px 5px 3px;
         transform: scale(1.1);
       }
     }
@@ -74,7 +74,7 @@
     @include justify-content(center);
     @include align-items(center);
     padding: 0 50px;
-    margin: 3px 0 5px;
+    margin: 3px 0 0;
 
     .left-line {
       border-bottom-color: $color-div-line;
