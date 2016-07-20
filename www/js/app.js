@@ -187,7 +187,7 @@
 
 
       //检查更新
-      //checkUpdateNetWrapper.check();
+      checkUpdateNetWrapper.check();
 
       document.addEventListener("deviceready", function () {
         window.sqlitePlugin.openDatabase({name: 'helporz.db', location: 'default'}, function (dbConn) {

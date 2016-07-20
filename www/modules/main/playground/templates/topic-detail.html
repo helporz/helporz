@@ -231,6 +231,7 @@
     </div>
     <ion-infinite-scroll ng-if="vm.moreDataCanBeLoaded()" on-infinite="vm.loadMore()"
                          distance="1%"></ion-infinite-scroll>
+    <div class="string-empty" ng-if="vm.moreDataCanBeLoaded()==false">没有新评论了=￣ω￣=</div>
   </ion-content>
 
   <ho-bottom-input input="vm.sendContent"

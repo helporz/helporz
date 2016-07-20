@@ -631,7 +631,7 @@
       var taskNoticeMessageMonitor = {
         onNotify: _onNotifyNoticeMessage
       }
-      NoticeMessageService.registerObserver(taskNoticeMessageMonitor);
+      NoticeMessageService.registerObserver('taskNetService',taskNoticeMessageMonitor);
     };
 
     return {

@@ -89,11 +89,11 @@
 
   topicGroupControllerFn.$inject = ['$q', '$scope', '$stateParams', '$state', '$log', '$timeout', '$ionicActionSheet',
     '$ionicPopover', '$ionicModal', '$ionicLoading', 'topicService', 'topicGroupService', 'filterTopicService', 'topicBlacklistService',
-    'favouriteTopicService', 'topicModalService', 'impressUtils', 'userUtils', 'IMInterfaceService', 'PlaygroundNetService','imMessageService'];
+    'favouriteTopicService', 'topicModalService', 'impressUtils', 'userUtils', 'IMInterfaceService', 'PlaygroundNetService', 'imMessageService'];
   function topicGroupControllerFn($q, $scope, $stateParams, $state, $log, $timeout, $ionicActionSheet,
                                   $ionicPopover, $ionicModal, $ionicLoading, topicService, topicGroupService, filterTopicService,
                                   topicBlacklistService, favouriteTopicService, topicModalService, impressUtils, userUtils,
-                                  IMInterfaceService, PlaygroundNetService,imMessageService) {
+                                  IMInterfaceService, PlaygroundNetService, imMessageService) {
     var vm = $scope.vm = {};
     if (typeof $stateParams.groupId === 'undefined' || $stateParams.groupId == null) {
       vm.groupId = 1;
@@ -134,12 +134,7 @@
     //  vm.loadMore();
     //});
     vm.moreDataCanBeLoaded = function () {
-      if (vm.userTopicList != null && vm.isCanLoadMore) {
-        return true;
-      }
-      else {
-        return false;
-      }
+      return vm.isCanLoadMore;
     }
     //Cleanup the popover when we're done with it!
     $scope.$on('$destroy', function () {
@@ -158,6 +153,7 @@
 
     $scope.$on('$ionicView.beforeEnter', function () {
       vm.noReadMessageCount = IMInterfaceService.getNoReadMessageCount();
+      vm.userTopicList = topicService.getTopicList(vm.groupId);
       if (vm.userTopicList == null || vm.userTopicList.length == 0) {
         $ionicLoading.show();
         vm.doRefresh().then(function () {
@@ -304,7 +300,7 @@
 
     vm.firstLoadMore = true;
     vm.loadMore = function () {
-      if(vm.firstLoadMore) {
+      if (vm.firstLoadMore) {
         vm.firstLoadMore = false;
         $scope.$broadcast('scroll.infiniteScrollComplete');
         return;
@@ -371,27 +367,33 @@
 
     vm.doRefresh = function () {
       var _innerDefer = $q.defer();
-      topicService.refreshSysTopic(vm.groupId).then(function (sysTopicList) {
-        vm.sysTopicList = sysTopicList;
-        topicService.refreshTopic(vm.groupId).then(function (topicList) {
-          $scope.$broadcast('scroll.refreshComplete');
-          vm.userTopicList = topicList;
-          vm.isCanLoadMore = true;
+      vm.sysTopicList = null;
+      vm.isCanLoadMore = true;
+      topicService.refreshTopic(vm.groupId).then(function (topicList) {
+        $scope.$broadcast('scroll.refreshComplete');
+        vm.userTopicList = topicList;
+        if( vm.userTopicList == null || vm.userTopicList.length == 0 ) {
+          vm.isCanLoadMore = false;
+        }
 
-          for (var i in vm.userTopicList) {
-            var item = vm.userTopicList[i];
-            item.ui_tags = [];
-            impressUtils.netTagsToUiTags(item.ui_tags, item.poster.tags);
-          }
-          _innerDefer.resolve();
-        }, function (err) {
-          $scope.$broadcast('scroll.refreshComplete');
-          _innerDefer.reject();
-        });
+        for (var i in vm.userTopicList) {
+          var item = vm.userTopicList[i];
+          item.ui_tags = [];
+          impressUtils.netTagsToUiTags(item.ui_tags, item.poster.tags);
+        }
+        _innerDefer.resolve();
       }, function (err) {
         $scope.$broadcast('scroll.refreshComplete');
         _innerDefer.reject();
       });
+
+      //topicService.refreshSysTopic(vm.groupId).then(function (sysTopicList) {
+      //  vm.sysTopicList = sysTopicList;
+      //
+      //}, function (err) {
+      //  $scope.$broadcast('scroll.refreshComplete');
+      //  _innerDefer.reject();
+      //});
       //$scope.$broadcast('scroll.refreshComplete');
       return _innerDefer.promise;
     }
@@ -810,8 +812,8 @@
       }
     }
 
-    self.cb_checkText = function() {
-      if(self.content.length > 140) {
+    self.cb_checkText = function () {
+      if (self.content.length > 140) {
         self.content = self.content.substr(0, 140);
       }
     }
@@ -848,7 +850,7 @@
             duration: 1500,
             templateUrl: 'modules/components/templates/ionic-loading/task-post-success.html'
           })
-          $timeout(function() {
+          $timeout(function () {
             self.closeModal();
             $timeout(function () {
               $scope.onRefresh();
@@ -910,6 +912,12 @@
       }
       else {
         $ionicLoading.hide();
+      }
+    });
+
+    $scope.$on('$ionicView.beforeLeave', function () {
+      if (vm.topic != null) {
+        topicService.updateTopic2Cache(vm.topic);
       }
     });
 
@@ -999,7 +1007,7 @@
 
     vm.doRefresh = function () {
       var _innerDefer = $q.defer();
-      PlaygroundNetService.getTopicDetailInfo(vm.topic.id, 0, 1, 10).then(function (res) {
+      topicService.getTopicDetailInfo(vm.topic.id, 0, 1, 10).then(function (res) {
         vm.topic = res.topic;
         vm.topicCommentList = res.commentList;
         $timeout(function () {
@@ -1016,7 +1024,14 @@
       return _innerDefer.promise;
     }
 
+    vm.firstLoadMore = true;
     vm.loadMore = function () {
+      if( vm.firstLoadMore ) {
+        vm.firstLoadMore = false;
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+        return ;
+      }
+
       var topicId = vm.topic.id;
       var startCommentId = (vm.topicCommentList != null && vm.topicCommentList.length > 0) ? vm.topicCommentList[0].id : 0;
       var pageSize = 10;
@@ -1048,8 +1063,8 @@
         return false;
       }
 
-      if( vm.topicCommentList == null ) {
-        return true;
+      if (vm.topicCommentList == null) {
+        return false;
       }
 
       if (vm.topicCommentList.length >= vm.topic.commentCount) {
