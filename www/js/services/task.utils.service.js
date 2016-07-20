@@ -85,8 +85,8 @@
 
     //////////////////////////////////////////////////
     // taskUtils
-    .factory('taskUtils', ['taskDesc', 'taskNetService', '$ionicLoading', '$timeout',
-      function (taskDesc, taskNetService, $ionicLoading, $timeout) {
+    .factory('taskUtils', ['taskDesc', '$ionicLoading', '$timeout',
+      function (taskDesc, $ionicLoading, $timeout) {
 //
         //ui 表示任务状态的图标
         var enumTagState_1 = {
@@ -120,7 +120,6 @@
           nameByTypeValue: nameByTypeValue,
           // 根据任务状态,获得ui相关显示信息
           taskStateToUiState: taskStateToUiState,
-          acceptTask: acceptTask
         }
 
         // 类别值=主类值*100 + 分类值
@@ -425,58 +424,6 @@
           }
         }
 
-        function acceptTask(task, cb_success, cb_fail) {
 
-          $ionicLoading.show();
-          taskNetService.acceptTask(task.id).then(
-            function (data) {
-
-                //成功
-                $ionicLoading.show({
-                  duration: 1500,
-                  templateUrl: 'modules/components/templates/ionic-loading/task-accept-success.html'
-                });
-                $timeout(function () {
-
-
-                  //接物品,提示出示证件
-                  if(mainByTypeValue(task.taskTypesId) == 2){
-                    $ionicLoading.show({
-                      duration: 2000,
-                      template: '请记录对方出示的学生证以防欺诈'
-                    });
-                    $timeout(function() {
-                      taskNetService.cache.isNearTaskNeedRefresh = true;
-                      taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
-                      if(cb_success) {
-                        cb_success();
-                      }
-                    }, 1500);
-
-                  }else{
-                    taskNetService.cache.isNearTaskNeedRefresh = true;
-                    taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
-                    if (cb_success) {
-                      cb_success();
-                    }
-                  }
-
-                }, 1500);
-
-            },
-            function () {
-              //失败
-              $ionicLoading.show({
-                duration: 1500,
-                templateUrl: 'modules/components/templates/ionic-loading/task-not-exist.html'
-              });
-              $timeout(function () {
-                taskNetService.cache.isNearTaskNeedRefresh = true;
-              }, 1200);
-
-            }).finally(function () {
-              console.log('accept taskid=' + task.id);
-            });
-        }
       }]);
 })()

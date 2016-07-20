@@ -10,7 +10,7 @@
     .controller('mainNearTaskDetailCtrl', ['$state', '$scope', '$ionicScrollDelegate', '$ionicLoading', '$ionicPopup', '$timeout', '$stateParams', 'taskNetService',
       'taskUtils', 'userNetService', 'impressUtils', 'timeUtils','SharePageWrapService',
       'mainNearTaskDetailService','userUtils','$ionicTabsDelegate','$ionicActionSheet',
-      'feedbackService',
+      'feedbackService','taskNetWrapper',
       mainNearTaskDetailCtrl]);
 
 
@@ -23,7 +23,7 @@
   function mainNearTaskDetailCtrl($state, $scope, $ionicScrollDelegate, $ionicLoading, $ionicPopup, $timeout, $stateParams, taskNetService,
                                   taskUtils, userNetService, impressUtils, timeUtils,SharePageWrapService,
                                   mainNearTaskDetailService,userUtils,$ionicTabsDelegate,$ionicActionSheet,
-                                  feedbackService)
+                                  feedbackService, taskNetWrapper)
   {
     console.log($stateParams);
 
@@ -187,7 +187,7 @@
       //  }).finally(function () {
       //  });
 
-      taskUtils.acceptTask(task, function () {
+      taskNetWrapper.acceptTask(task, function () {
         $timeout(function () {
           $state.go('main.near');
         }, 1500);

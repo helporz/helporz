@@ -23,10 +23,8 @@
     'app.user.utils.service',
     'app.ui.utils.service',
     'impress.utils.service',
-    'starter.controllers',
-    'starter.services',
 
-    'app.features.service',
+    'app.netwrapper.service',
 
     'com.helporz.login',
     'com.helporz.intro',
@@ -86,7 +84,7 @@
     'taskNetService',
     'loginService',
     'intervalCenter',
-    'checkUpdateFeature',
+    'checkUpdateNetWrapper',
     '$window',
   ];
 
@@ -112,7 +110,7 @@
                 taskNetService,
                 loginService,
                 intervalCenter,
-                checkUpdateFeature,
+                checkUpdateNetWrapper,
                 $window) {
     $log.info('app.run.init');
 
@@ -189,7 +187,7 @@
 
 
       //检查更新
-      checkUpdateFeature.check();
+      //checkUpdateNetWrapper.check();
 
       document.addEventListener("deviceready", function () {
         window.sqlitePlugin.openDatabase({name: 'helporz.db', location: 'default'}, function (dbConn) {

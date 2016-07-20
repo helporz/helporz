@@ -129,7 +129,7 @@
       //    console.log('accept taskid=' + task.id);
       //  });
 
-      taskUtils.acceptTask(task, _refreshList);
+      taskNetWrapper.acceptTask(task, _refreshList);
     }
 
     //////////////////////////////////////////////////

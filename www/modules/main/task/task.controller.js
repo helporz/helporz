@@ -161,7 +161,7 @@
             break;
           }
         }
-        if(isFound==false) {
+        if (isFound == false) {
           taskNetService.setCommentReadFlag(commentTaskId);
         }
       }
@@ -232,13 +232,15 @@
 
 
     function _changeTab(tab, subTab) {
-        widgetDelegate.getWidget('hoTabSet', 'task').select(tab);
-        if (tab==0) {
-          widgetDelegate.getWidget('hoTabSet', 'task-post').select(subTab);
-        }else {
-          widgetDelegate.getWidget('hoTabSet', 'task-accept').select(subTab);
-        }
+      //这里的调用顺序必须是先subTab,再tab,否则tab刷新时,调用刷新函数时subTabIndex还没有设置,于是ui不刷新或刷新错误
+      if (tab == 0) {
+        widgetDelegate.getWidget('hoTabSet', 'task-post').select(subTab);
+      } else {
+        widgetDelegate.getWidget('hoTabSet', 'task-accept').select(subTab);
+      }
+      widgetDelegate.getWidget('hoTabSet', 'task').select(tab);
     }
+
     //////////////////////////////////////////////////
     // taskNet
 
@@ -305,10 +307,10 @@
       if (taskNetService.cache.isPostTaskFinishNeedRefresh == true) {
         $ionicLoading.show();
         vm.isNetSynchronizing = true;
-        taskNetService.getCompletedPostTaskList(1, 15).then(function (taskList) {
-          _processTaskForUI(taskList, true);
+        taskNetService.cache.postTaskFinishCurPage = 1;
+        taskNetService.getCompletedPostTaskList(1).then(function () {
           if (vm.tabSelectedIndex == 0 && vm.postTabSelectedIndex == 1) {
-            vm.repeatList = taskList;
+            vm.repeatList = taskNetService.cache.postTaskFinishList;
             vm.taskScroll.scrollTop();
           }
           $ionicLoading.hide();
@@ -327,7 +329,7 @@
         vm.isNetSynchronizing = true;
         taskNetService.getUncompletedAcceptTaskList().then(function (taskList) {
           _processTaskForUI(taskList, false);
-          if (vm.tabSelectedIndex == 1 && vm.postTabSelectedIndex == 0) {
+          if (vm.tabSelectedIndex == 1 && vm.acceptTabSelectedIndex == 0) {
             vm.repeatList = taskList;
             vm.taskScroll.scrollTop();
           }
@@ -345,10 +347,10 @@
       if (taskNetService.cache.isAcceptTaskFinishNeedRefresh == true) {
         $ionicLoading.show();
         vm.isNetSynchronizing = true;
-        taskNetService.getCompletedAcceptTaskList(1, 15).then(function (taskList) {
-          _processTaskForUI(taskList, false);
-          if (vm.tabSelectedIndex == 1 && vm.postTabSelectedIndex == 1) {
-            vm.repeatList = taskList;
+        taskNetService.cache.acceptTaskFinishCurPage = 1;
+        taskNetService.getCompletedAcceptTaskList(1).then(function () {
+          if (vm.tabSelectedIndex == 1 && vm.acceptTabSelectedIndex == 1) {
+            vm.repeatList = taskNetService.cache.acceptTaskFinishList;
             vm.taskScroll.scrollTop();
           }
           $ionicLoading.hide();
@@ -527,8 +529,8 @@
       $ionicActionSheet.show({
         titleText: "联系Ta",
         buttons: [
-          {text: "<b>发消息</b>"},
-          {text: "<b>打电话</b>"}
+          {text: "<b>发送聊天消息</b>"},
+          {text: "<b>拨打手机</b>"}
         ],
         buttonClicked: function (index) {
           var task = vm.repeatList[$index];
@@ -604,7 +606,7 @@
           console.error('invalid task opt: going on overtime - post passive');
         }
         else if (task.status == 32) { //accepter cancel
-          console.error('invalid task opt: accepter cancel - post passive');
+          gotoTaskState(task.id);
         }
         else if (task.status == 64) { //accepter confirm success  -- 未完成援助
           $ionicLoading.show();
@@ -981,6 +983,52 @@
       }
     }
 
+
+    //////////////////////////////////////////////////
+    // load more
+    vm.FirstLoadMore = true;
+    vm.loadMore = function () {
+
+      if (vm.FirstLoadMore) {
+        vm.FirstLoadMore = false;
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+        return;
+      }
+
+      if (vm.tabSelectedIndex==0&&taskNetService.cache.hasMorePostTaskFinish==false){
+        return;
+      }else if(vm.tabSelectedIndex==1&&taskNetService.cache.hasMoreAcceptTaskFinish==false) {
+        return;
+      }
+
+      if(vm.tabSelectedIndex==0) {
+        taskNetService.getCompletedPostTaskList().then(loadMoreSuccess, loadFailedFn)
+          .finally(function() {
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+          })
+      }else{
+        taskNetService.getCompletedAcceptTaskList().then(loadMoreSuccess, loadFailedFn)
+          .finally(function() {
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+          })
+      }
+    };
+
+    function loadMoreSuccess() {
+      var isPost = vm.tabSelectedIndex==0;
+      vm.repeatList = isPost ? taskNetService.cache.postTaskFinishList : taskNetService.cache.acceptTaskFinishList;
+
+      $timeout(function () {
+        $scope.$apply();
+      })
+    }
+
+    function loadFailedFn(error) {
+      alert('main.task load more err=' + error);
+    }
+
+
+    //////////////////////////////////////////////////
   }
 })
 ()

@@ -171,6 +171,14 @@
     });
 
     vm.cb_submit = function () {
+      if(vm.starScore == 0) {
+        $ionicLoading.show({
+          duration: 1500,
+          template: '请点亮星星给予评价哦~'
+        });
+        return;
+      }
+
       $ionicLoading.show();
 
       //is acceptor

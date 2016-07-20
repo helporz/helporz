@@ -219,128 +219,17 @@
 
       </ion-item>
     </ion-list>
-    <!--</div>-->
 
-    <!--</ion-item>-->
-    <!--</ion-list>-->
-    <!--</div>-->
-    <!--<div ng-show="vm.tabSelectedIndex==1">-->
-    <!--<ion-list class="ho-list">-->
-    <!--<ion-item class="ho-item ho-item-header-icon-title" collection-repeat="item in vm.acceptList"-->
-    <!--item-width="100%" item-height="30px">-->
-    <!--<i class="side-icon icon ion-person color-theme"></i>-->
+    <ion-infinite-scroll immediate-check="false" on-infinite="vm.loadMore()" distance="1%"
+                         ng-if="(vm.tabSelectedIndex==0&&vm.postTabSelectedIndex==1&&vm.taskNetService.cache.hasMorePostTaskFinish) ||
+                         (vm.tabSelectedIndex==1&&vm.acceptTabSelectedIndex==1&&vm.taskNetService.cache.hasMoreAcceptTaskFinish)">
+    </ion-infinite-scroll>
 
-    <!--<p class="title">个人</p>-->
-    <!--</ion-item>-->
-    <!--</ion-list>-->
-    <!--</div>-->
-
-    <!--<ion-list ng-hide ng-show="vm.tabSelectedIndex==1">-->
-    <!--<ion-item class="task-item nopadding bottom-bordered bottom-bordered-small bgcolor-white"-->
-    <!--ng-repeat="item in vm.repeatList" item-width="100%"-->
-    <!--item-height="160px"-->
-    <!--ng-click="vm.cb_taskState($index)">-->
-    <!--&lt;!&ndash;href="#/main/task/task-state/{{item.id}}"&ndash;&gt;-->
-
-    <!--<div class="task-header">-->
-    <!--<div class="left">-->
-    <!--&lt;!&ndash;<img class="avatar" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g">&ndash;&gt;-->
-    <!--<img class="avatar color-text-thirdly"-->
-    <!--ng-src={{item.ui_avatar!==''?item.ui_avatar:'img/com/avatar-who.png'}} src="img/com/avatar-who.png">-->
-
-    <!--<p class="name">{{item.ui_nickname}}</p>-->
-
-    <!--<p class="desc">{{item.ui_identifier}}</p>-->
-    <!--</div>-->
-    <!--<div class="right">-->
-    <!--<button class="chat button button-icon icon ion-ios-chatbubble-outline"-->
-    <!--ng-click="vm.gotoComment($index)"></button>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="task-body">-->
-    <!--<div class="left">-->
-    <!--&lt;!&ndash;<img class="task-img" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1226112392,1303867474&fm=58g">&ndash;&gt;-->
-    <!--<img class="task-img" ng-src={{item.ui_taskIcon}}>-->
-
-    <!--<p class="task-desc">-->
-    <!--{{item.ui_taskTypeName}}-->
-    <!--</p>-->
-    <!--</div>-->
-
-    <!--<div class="div-line"></div>-->
-    <!--<div class="right">-->
-
-    <!--<div class="task-dot-ctn">-->
-
-    <!--<div class="dot dot-0">-->
-    <!--<div class="icon" ng-class="{-->
-    <!--'dot-small':item.ui_tagState1==0, 'dot-big':item.ui_tagState1>0, 'offset-right':item.ui_tagState1>0,-->
-    <!--'success-bg':item.ui_tagState1==0, 'success':item.ui_tagState1>1, 'failed':item.ui_tagState1==1,-->
-    <!--'ion-ios-refresh':item.ui_tagState1==2,'ion-checkmark-circled':item.ui_tagState1==3,'ion-close-circled':item.ui_tagState1==1}"></div>-->
-    <!--</div>-->
-
-    <!--<div class="div-line-0" ng-class="{'div-line-pending':item.ui_tagState2==-1, 'div-line-failed':item.ui_tagState2==1,-->
-    <!--'div-line-success':item.ui_tagState2==0 || item.ui_tagState2>1}"></div>-->
-
-    <!--<div class="dot dot-1">-->
-    <!--<div class="icon" ng-class="{'dot-small':item.ui_tagState2<=0, 'dot-big':item.ui_tagState2>0,-->
-    <!--'pending-bg':item.ui_tagState2==-1, 'success-bg':item.ui_tagState2==0, 'failed':item.ui_tagState2==1,-->
-    <!--'success':item.ui_tagState2>1,-->
-    <!--'ion-ios-refresh':item.ui_tagState2==2, 'ion-checkmark-circled':item.ui_tagState2==3,-->
-    <!--'ion-close-circled':item.ui_tagState2==1}"></div>-->
-    <!--</div>-->
-
-    <!--<div class="div-line-1"-->
-    <!--ng-class="{'div-line-pending':item.ui_tagState3==-1,'div-line-failed':item.ui_tagState3==1, 'div-line-success':item.ui_tagState3>1}"></div>-->
-
-    <!--<div class="dot dot-2">-->
-    <!--<div class="icon" ng-class="{'dot-small':item.ui_tagState3==-1, 'dot-big':item.ui_tagState3>0,-->
-    <!--'offset-left':item.ui_tagState3>0,-->
-    <!--'pending-bg':item.ui_tagState3==-1, 'failed':item.ui_tagState3==1, 'success':item.ui_tagState3>1,-->
-    <!--'ion-close-circled':item.ui_tagState3==1, 'ion-ios-refresh':item.ui_tagState3==2,-->
-    <!--'ion-checkmark-circled':item.ui_tagState3==3 }"></div>-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--<div class="task-desc-ctn">-->
-    <!--<p class="desc desc-0">{{item.ui_tagText1}}</p>-->
-
-    <!--<p class="desc desc-1">{{item.ui_tagText2}}</p>-->
-
-    <!--<p class="desc desc-2">{{item.ui_tagText3}}</p>-->
-    <!--</div>-->
-
-    <!--</div>-->
-    <!--</div>-->
-
-
-    <!--<div class="task-foot">-->
-    <!--&lt;!&ndash;<p ng-hide ng-show="false">等待大侠的援手</p>&ndash;&gt;-->
-    <!--&lt;!&ndash;<p ng-hide ng-show="item.status==4" class="align-right">等待对方完成援助吧</p>&ndash;&gt;-->
-    <!--&lt;!&ndash;<p ng-hide ng-show="true">等待对方确认援助完成</p>&ndash;&gt;-->
-    <!--<p ng-hide>{{item.ui_stateDesc}}</p>-->
-
-    <!--&lt;!&ndash;<div ng-hide ng-show="item.ui_showOptPassive==true"&ndash;&gt;-->
-    <!--&lt;!&ndash;class="align-right ho-button button-gray button-outline ho-button-small"&ndash;&gt;-->
-    <!--&lt;!&ndash;ng-click="vm.opt_passive($index)">{{item.ui_textOptPassive}}&ndash;&gt;-->
-    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-    <!--&lt;!&ndash;<div ng-hide ng-show="item.ui_showOptActive==true"&ndash;&gt;-->
-    <!--&lt;!&ndash;class="align-right ho-button button-light-red ho-button-small"&ndash;&gt;-->
-    <!--&lt;!&ndash;ng-click="vm.opt_active($index)">{{item.ui_textOptActive}}&ndash;&gt;-->
-    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-    <!--<div ng-if="item.ui_showOptPassive==true"-->
-    <!--class="align-right ho-button button-gray button-outline ho-button-small"-->
-    <!--ng-click="vm.opt_passive($index)">{{item.ui_textOptPassive}}-->
-    <!--</div>-->
-    <!--<div ng-if="item.ui_showOptActive==true"-->
-    <!--class="align-right ho-button button-light-red ho-button-small"-->
-    <!--ng-click="vm.opt_active($index)">{{item.ui_textOptActive}}-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--</ion-item>-->
-    <!--</ion-list>-->
+    <div class="string-empty"
+         ng-if="(vm.tabSelectedIndex==0&&!vm.taskNetService.cache.hasMorePostTaskFinish) ||
+         (vm.tabSelectedIndex==1&&!vm.taskNetService.cache.hasMoreAcceptTaskFinish)">
+      没有新内容了=￣ω￣=
+    </div>
 
     <div ng-if="vm.taskNetService.cache.isPostTaskGoingNeedRefresh==false && vm.repeatList.length==0 &&
                 vm.tabSelectedIndex==0 && vm.postTabSelectedIndex==0" class="content-empty">
