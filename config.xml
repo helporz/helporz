@@ -105,4 +105,5 @@
     <plugin name="ionic-plugin-keyboard" />
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
     <plugin name="com.phonegap.core.phonedialer" spec="https://github.com/j-mcnally/PhoneGap-ios-PhoneDialer" />
+    <plugin name="cordova-plugin-datepicker" spec="~0.9.3" />
 </widget>
