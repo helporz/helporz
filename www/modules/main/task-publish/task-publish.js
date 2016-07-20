@@ -274,10 +274,10 @@
 
     this.publish = function () {
 
-      function _popPublishSuccessPage() {
+      function _popPublishSuccessPage(taskId) {
         var _pov;
         function _share(index) {
-          SharePageService.shareTask(index);
+          SharePageService.shareTask(taskId,index);
         }
         function _close() {
           var po = _pov.$el[0].querySelector('#task-publish-success-popup');
@@ -383,7 +383,8 @@
         getDateSendString(_ctlSelf.deadline)
         , 0.0, 0.0,
         _ctlSelf.selectedRewardType,
-        _ctlSelf.selectedSubRewardType, 1, 0).then(function () {
+        _ctlSelf.selectedSubRewardType, 1, 0).then(function (res) {
+          var taskId = res.data.task_id;
 
           //$ionicLoading.show({
           //  duration: 1500,
@@ -398,7 +399,7 @@
           //}, 1500)
 
           $ionicLoading.hide();
-          _popPublishSuccessPage();
+          _popPublishSuccessPage(taskId);
 
           //alert("发布任务成功");
         }, function (error) {
