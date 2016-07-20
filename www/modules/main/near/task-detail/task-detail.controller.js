@@ -10,7 +10,7 @@
     .controller('mainNearTaskDetailCtrl', ['$state', '$scope', '$ionicScrollDelegate', '$ionicLoading', '$ionicPopup', '$timeout', '$stateParams', 'taskNetService',
       'taskUtils', 'userNetService', 'impressUtils', 'timeUtils','SharePageWrapService',
       'mainNearTaskDetailService','userUtils','$ionicTabsDelegate','$ionicActionSheet',
-      'feedbackService','taskNetWrapper',
+      'feedbackService','taskNetWrapper','promptService',
       mainNearTaskDetailCtrl]);
 
 
@@ -23,7 +23,7 @@
   function mainNearTaskDetailCtrl($state, $scope, $ionicScrollDelegate, $ionicLoading, $ionicPopup, $timeout, $stateParams, taskNetService,
                                   taskUtils, userNetService, impressUtils, timeUtils,SharePageWrapService,
                                   mainNearTaskDetailService,userUtils,$ionicTabsDelegate,$ionicActionSheet,
-                                  feedbackService, taskNetWrapper)
+                                  feedbackService, taskNetWrapper, promptService)
   {
     console.log($stateParams);
 
@@ -106,9 +106,8 @@
               duration: 1500,
               templateUrl: 'modules/components/templates/ionic-loading/com-submit-success.html'
             });
-          }, function (data) {
-            $ionicLoading.hide();
-            ho.alert('ionicLoading');
+          }, function (err) {
+            promptService.promptMessage(err, 1500);
           }).finally(function () {
           });
         return true;
@@ -244,15 +243,16 @@
             }, 1500);
           }
         }, function (data, status) {
-          $ionicPopup.alert({
-            title: '错误提示',
-            template: data.data.message
-          }).then(function (res) {
-            console.error(data);
-          })
-          //lkj temp:
-          vm.input = '发送中产生错误';
-          $ionicLoading.hide();
+          //$ionicPopup.alert({
+          //  title: '错误提示',
+          //  template: data.data.message
+          //}).then(function (res) {
+          //  console.error(data);
+          //})
+          ////lkj temp:
+          //vm.input = '发送中产生错误';
+          //$ionicLoading.hide();
+          promptService.promptErrorInfo(data, 1500);
         }).finally(function () {
         });
     }

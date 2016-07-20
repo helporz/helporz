@@ -13,8 +13,9 @@
     //////////////////////////////////////////////////
     // taskUtils
     .factory('userUtils', ['userNetService', '$state', '$ionicLoading', '$ionicPopup', '$location','$log','mainUserInfoService',
-      'imConversationService',
-      function (userNetService, $state, $ionicLoading, $ionicPopup, $location,$log, mainUserInfoService,imConversationService) {
+      'imConversationService','promptService',
+      function (userNetService, $state, $ionicLoading, $ionicPopup, $location,$log, mainUserInfoService,
+                imConversationService,promptService) {
 
         return {
           uiProcessFollow: uiProcessFollow,
@@ -57,13 +58,14 @@
                 $ionicLoading.hide();
               },
               function (data, status) {
-                $ionicPopup.alert({
-                  title: '错误提示',
-                  template: data.data.message
-                }).then(function (res) {
-                  console.error(data);
-                });
-                $ionicLoading.hide();
+                //$ionicPopup.alert({
+                //  title: '错误提示',
+                //  template: data.data.message
+                //}).then(function (res) {
+                //  console.error(data);
+                //});
+                //$ionicLoading.hide();
+                promptService.promptErrorInfo(data, 1500);
               });
           }
         }
@@ -95,6 +97,7 @@
                 }, function (error) {
                   $log.error('getUserInfo failed:userId(#userId#) error(#error#)'
                     .replace('#userId#', userId).replace('#error#', error));
+                  promptService.promptErrorInfo(error, 1500);
                 })
               }
             }

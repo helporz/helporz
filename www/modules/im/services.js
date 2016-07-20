@@ -607,9 +607,11 @@
     'UtilsService',
     'userUtils',
     'IMInterfaceService',
-    'debugHelpService',];
+    'debugHelpService',
+  'promptService'];
   function imMessageServiceFactoryFn($log, $q, $state, jimService, imMessageStorageService, imConversationService,
-                                     userNetService, UtilsService, userUtils, IMInterfaceService, debugHelpService) {
+                                     userNetService, UtilsService, userUtils, IMInterfaceService, debugHelpService,
+                                     promptService) {
     var msgObservers = {};
     var conversationObservers = {};
 
@@ -736,6 +738,7 @@
               }, function (error) {
                 $log.error('add Conversation failed:' + error);
                 console.log('add Conversation failed:' + error);
+                promptService.promptErrorInfo(error, 1500);
               });
             }, function (error) {
               $log.error('getUserInfo failed:userId(#userId#) error(#error#)'
@@ -835,6 +838,7 @@
               userUtils.gotoIM(messageDetail.cUserId);
             }, function (error) {
               $log.error('add Conversation failed:' + error);
+              promptService.promptErrorInfo(error, 1500);
             });
           }, function (error) {
             $log.error('getUserInfo failed:userId(#userId#) error(#error#)'
@@ -900,6 +904,7 @@
           $state.go('main.im-detail', {'cid': userInfo.userId});
         }, function (error) {
           $log.error('onOpenNotification failed:' + error);
+          promptService.promptErrorInfo(error, 1500);
         });
       }
     }

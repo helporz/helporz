@@ -8,12 +8,12 @@
   angular.module('main.edit')
     .controller('mainEditCtrl', ['$scope', '$timeout', '$state', '$stateParams', 'taskNetService', 'taskUtils',
       '$ionicHistory', '$ionicActionSheet', '$ionicLoading', '$ionicPopup', '$cordovaCamera', '$cordovaImagePicker', '$window',
-      'mainEditSheetService', 'userNetService',
+      'mainEditSheetService', 'userNetService','promptService',
       mainEditCtrl]);
 
   function mainEditCtrl($scope, $timeout, $state, $stateParams, taskNetService, taskUtils, $ionicHistory,
                         $ionicActionSheet, $ionicLoading, $ionicPopup, $cordovaCamera, $cordovaImagePicker, $window,
-                        mainEditSheetService, userNetService) {
+                        mainEditSheetService, userNetService,promptService) {
     var vm = $scope.vm = {};
 
     vm.cb_back = function () {
@@ -59,8 +59,7 @@
                   ho.alert('url=' + url);
                 },
                 function (data) {
-                  $ionicLoading.hide();
-                  ho.alert(ho.trace(obj));
+                  promptService.promptErrorInfo(data,1500);
                 }).finally(function () {
                 });
             }
@@ -150,7 +149,7 @@
               }, 1500);
 
             }, function (data) {
-              ho.alert('ionicLoading');
+              promptService.promptErrorInfo(data,1500);
             }).finally(function () {
             });
         }
@@ -212,12 +211,7 @@
               }, 1500);
 
             }, function (data) {
-              $ionicPopup.alert({
-                title: '错误提示',
-                template: data
-              }).then(function (res) {
-                console.error(data);
-              })
+              promptService.promptErrorInfo(data,1500);
             }).finally(function () {
             });
         }
@@ -244,12 +238,7 @@
               }, 1500);
 
             }, function (data) {
-              $ionicPopup.alert({
-                title: '错误提示',
-                template: data
-              }).then(function (res) {
-                console.error(data);
-              })
+              promptService.promptErrorInfo(data,1500);
             }).finally(function () {
             });
         }
@@ -276,13 +265,7 @@
                 userNetService.cache.selfInfo.gender = index + 1;
                 vm.edit.gender = userNetService.cache.selfInfo.gender == 1 ? "男" : "女";
               }, function (data) {
-
-                $ionicPopup.alert({
-                  title: '错误提示',
-                  template: data
-                }).then(function (res) {
-                  console.error(data);
-                })
+                promptService.promptErrorInfo(data, 1500);
               }).finally(function () {
               });
 
@@ -318,12 +301,7 @@
               }, 1500);
 
             }, function (data) {
-              $ionicPopup.alert({
-                title: '错误提示',
-                template: data
-              }).then(function (res) {
-                console.error(data);
-              })
+              promptService.promptErrorInfo(data,1500);
             }).finally(function () {
             });
         }
@@ -351,12 +329,7 @@
               }, 1500);
 
             }, function (data) {
-              $ionicPopup.alert({
-                title: '错误提示',
-                template: data
-              }).then(function (res) {
-                console.error(data);
-              })
+              promptService.promptErrorInfo(data,1500);
             }).finally(function () {
             });
         }

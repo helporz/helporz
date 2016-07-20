@@ -4,10 +4,10 @@
 ;(
   function(){
     'use strict';
-    angular.module('com.helporz.jim.services',['ionic']).
-      factory('jimService',['$log','$window','$document','$q',imServiceFactoryFn]);
+    angular.module('com.helporz.jim.services',['ionic','com.helporz.utils.service']).
+      factory('jimService',['$log','$window','$document','$q','promptService', imServiceFactoryFn]);
 
-    function imServiceFactoryFn($log,$window,$document,$q) {
+    function imServiceFactoryFn($log,$window,$document,$q,promptService) {
       // for browser
       //var _jmessagePlugin = {
       //  login:function() {},
@@ -73,7 +73,7 @@
           var ss = JSON.stringify(response);
           console.log("login callback fail" + ss);
 
-          alert("login fail. errcode:"+ response.errorCode + "  error discription:" +  response.errorDscription);
+          ho.alert("login fail. errcode:"+ response.errorCode + "  error discription:" +  response.errorDscription);
 
           //error code 请参考 http://docs.jpush.io/client/im_errorcode/
           console.log(device.platform);
@@ -83,6 +83,8 @@
           if(response.errorCode == "801003"){
             console.log("用户未注册");
           }
+
+          promptService.promptErrorInfo(response, 1500);
         });
       };
 
@@ -122,6 +124,8 @@
               console.log("用户未注册");
             }
             imLoginDefer.reject("im登录失败，错误码为" + response.errorCode);
+
+            promptService.promptErrorInfo(response, 1500);
           });
         }
         catch(e) {

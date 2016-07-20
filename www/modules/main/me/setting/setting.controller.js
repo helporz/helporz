@@ -8,12 +8,12 @@
   angular.module('main.setting')
     .controller('mainSettingCtrl', ['$scope', '$timeout', '$state', '$stateParams', 'taskNetService', 'taskUtils',
       'mainEditSheetService','SharePageWrapService', 'loginService',
-      '$ionicLoading','feedbackService','$ionicHistory',
+      '$ionicLoading','feedbackService','$ionicHistory','promptService',
       mainSettingCtrl]);
 
   function mainSettingCtrl($scope, $timeout, $state, $stateParams, taskNetService, taskUtils,
                            mainEditSheetService,SharePageWrapService, loginService,
-                           $ionicLoading, feedbackService,$ionicHistory) {
+                           $ionicLoading, feedbackService,$ionicHistory, promptService) {
     console.log($stateParams);
 
     var vm = $scope.vm = {};
@@ -40,9 +40,8 @@
             $timeout(function () {
               $ionicHistory.goBack(-1);
             }, 1500);
-          }, function (data) {
-            $ionicLoading.hide();
-            ho.alert('ionicLoading');
+          }, function (err) {
+            promptService.promptMessage(err, 1500);
           }).finally(function () {
           });
         return true;
@@ -70,8 +69,7 @@
           }, 1500);
 
         }, function (data) {
-          $ionicLoading.hide();
-          ho.alertObject(data);
+          promptService.promptErrorInfo(data, 1500);
         }).finally(function () {
         });
     }

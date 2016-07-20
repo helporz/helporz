@@ -9,7 +9,7 @@
     'com.helporz.playground', 'com.helporz.task.netservice', 'com.helporz.task.noticemessage'])
     .factory('loginService', loginServiceFn)
     .controller('loginCtrl', loginCtrl)
-    .directive('getsmscode', ['$http', '$log', 'pushService', function ($http, $log, pushService) {
+    .directive('getsmscode', ['$http', '$log', 'pushService', 'promptService', function ($http, $log, pushService, promptService) {
       return {
         restrict: 'E',
         replace: true,
@@ -71,6 +71,7 @@
             }).error(function (event) {
               $log.error('dynamic login failed');
               $log.error(event);
+              promptService.promptMessage(event, 1500);
             });
           });
         }
@@ -78,12 +79,22 @@
     }]);
 
 
-  loginCtrl.$inject = ['$scope', '$state', '$log', '$ionicLoading', 'loginService', 'userNetService','taskNetService'];
-  function loginCtrl($scope, $state, $log, $ionicLoading, loginService, userNetService, taskNetService) {
+  loginCtrl.$inject = ['$scope', '$state', '$log', '$ionicLoading', 'loginService', 'userNetService','taskNetService','promptService'];
+  function loginCtrl($scope, $state, $log, $ionicLoading, loginService, userNetService, taskNetService,promptService) {
     $scope.phoneno = '';
     $scope.smscode = '';
 
+    $scope.isAgreeProtocol = true;
+
     $scope.submitLogin = function (event) {
+      if($scope.isAgreeProtocol == false) {
+        //$ionicLoading.show({
+        //  duration: 1500,
+        //  template: '请同意《用户使用协议》'
+        //});
+        promptService.promptMessage('请同意《用户使用协议》', 1500);
+        return;
+      }
       var smsCode = $scope.smscode,
         phoneNo = $scope.phoneno;
       console.log(phoneNo);
@@ -107,8 +118,7 @@
           $state.go('info');
         }
       }, function (error) {
-        $ionicLoading.hide();
-        alert(error);
+        promptService.promptMessage(error, 1500);
       });
 
       return;
@@ -183,12 +193,14 @@
 
   }
 
-  loginServiceFn.$inject = ['$ionicHistory', '$q', '$http', '$log',
-    '$ionicLoading', 'deviceService', 'errorCodeService', 'httpErrorCodeService', 'userLoginInfoService', 'userNetService',
-    'jimService', 'debugHelpService', 'PlaygroundStartupService', 'utilConvertDateToString', 'taskNetService', 'NoticeMessageService', 'IMInterfaceService'];
+  loginServiceFn.$inject = ['$ionicHistory', '$q', '$http', '$log', '$ionicLoading', 'deviceService', 'errorCodeService', 'httpErrorCodeService',
+    'userLoginInfoService', 'userNetService', 'jimService', 'debugHelpService', 'PlaygroundStartupService',
+    'utilConvertDateToString', 'taskNetService', 'NoticeMessageService', 'IMInterfaceService',
+  'promptService'];
   function loginServiceFn($ionicHistory, $q, $http, $log, $ionicLoading, deviceService, errorCodeService, httpErrorCodeService,
                           userLoginInfoService, userNetService, jimService, debugHelpService, PlaygroundStartupService,
-                          utilConvertDateToString, taskNetService, NoticeMessageService, IMInterfaceService) {
+                          utilConvertDateToString, taskNetService, NoticeMessageService, IMInterfaceService,
+                          promptService) {
     var loginTicket;
     var _login = function (phoneNo, smsCode) {
       var deviceInfo = deviceService.getDeviceInfo();
@@ -272,12 +284,13 @@
         userLoginInfoService.clear();
         _innerDefer.resolve();
         $ionicHistory.clearHistory();
-      }, function () {
+      }, function (err) {
         //即使调用服务器接口失败也要清除本地用户登陆数据
         jimService.logout();
         userLoginInfoService.clear();
         _innerDefer.resolve();
         $ionicHistory.clearHistory();
+        promptService.promptErrorInfo(err, 1500);
       });
 
       return _innerDefer.promise;
@@ -328,6 +341,7 @@
     function processFailed(error) {
       var getUserInfoFailedDefer = $q.defer();
       getUserInfoFailedDefer.reject(error);
+      promptService.promptErrorInfo(error, 1500);
       return getUserInfoFailedDefer.promise;
     }
 
@@ -340,6 +354,7 @@
           return jimService.loginForPromise(userInfo.imLoginName, userInfo.imPassword);
         }, function (error) {
           $log.error("init im interface service failed:" + error);
+          promptService.promptErrorInfo(error, 1500);
           var _loginFailedDefer = $q.defer();
           _loginFailedDefer.reject(error);
           return _loginFailedDefer.promise;

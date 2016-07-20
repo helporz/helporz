@@ -9,12 +9,12 @@
     .controller('mainMeCtrl', ['$stateParams','$state', '$scope', '$ionicLoading', '$ionicPopup', '$ionicScrollDelegate', '$ionicActionSheet',
       '$timeout', '$interval', 'userNetService', 'impressUtils', 'userUtils',
       'errorCodeService', 'SharePageWrapService', 'mainUserTasksService','taskNetService', 'intervalCenter',
-      'IMInterfaceService', 'NoticeMessageDB', 'NoticeMessageService','imMessageService', mainMeCtrl])
+      'IMInterfaceService', 'NoticeMessageDB', 'NoticeMessageService','imMessageService','promptService', mainMeCtrl])
 
   function mainMeCtrl($stateParams,$state, $scope, $ionicLoading, $ionicPopup, $ionicScrollDelegate, $ionicActionSheet,
                       $timeout, $interval, userNetService, impressUtils, userUtils,
                       errorCodeService, SharePageWrapService, mainUserTasksService, taskNetService, intervalCenter,
-                      IMInterfaceService,NoticeMessageDB, NoticeMessageService,imMessageService) {
+                      IMInterfaceService,NoticeMessageDB, NoticeMessageService,imMessageService,promptService) {
     var vm = $scope.vm = {};
 
     vm.followBadge = 0;
@@ -388,8 +388,7 @@
                 userNetService.cache.selfInfo.attentionList.splice($index, 1);
 
               }, function (data) {
-                $ionicLoading.hide();
-                ho.alertObject(data);
+                promptService.promptErrorInfo(data,1500);
               }).finally(function () {
               });
           }

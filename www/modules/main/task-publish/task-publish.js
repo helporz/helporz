@@ -168,9 +168,9 @@
 
 
   taskPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', '$ionicPopup', '$ionicPopover', '$ionicLoading', '$timeout', '$cordovaDatePicker',
-    'taskPublishModalService', 'taskNetService', 'taskUtils', 'taskDesc'];
+    'taskPublishModalService', 'taskNetService', 'taskUtils', 'taskDesc','promptService'];
   function taskPublishControllerFn($scope, $log, $ionicModal, $ionicPopup, $ionicPopover, $ionicLoading, $timeout, $cordovaDatePicker,
-                                   taskPublishModalService, taskNetService, taskUtils, taskDesc) {
+                                   taskPublishModalService, taskNetService, taskUtils, taskDesc,promptService) {
     var _ctlSelf = this;
 
     this.setRewardType = function (reward, subReward) {
@@ -402,11 +402,12 @@
 
           //alert("发布任务成功");
         }, function (error) {
-          //alert("发布任务失败:" + error);
-          $ionicLoading.show({
-            duration: 1500,
-            templateUrl: 'modules/components/templates/ionic-loading/com-network-error.html'
-          })
+          ////alert("发布任务失败:" + error);
+          //$ionicLoading.show({
+          //  duration: 1500,
+          //  templateUrl: 'modules/components/templates/ionic-loading/com-network-error.html'
+          //})
+          promptService.promptMessage(error, 1500);
         });
     }
   }
