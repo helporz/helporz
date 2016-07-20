@@ -7,8 +7,8 @@
 
   angular.module('app.netwrapper.service')
 
-    .factory('taskNetWrapper', ['$rootScope', '$timeout', 'taskNetService', '$ionicLoading','taskUtils',
-      function ($rootScope, $timeout, taskNetService, $ionicLoading, taskUtils) {
+    .factory('taskNetWrapper', ['$rootScope', '$timeout', 'taskNetService', '$ionicLoading','taskUtils','promptService',
+      function ($rootScope, $timeout, taskNetService, $ionicLoading, taskUtils, promptService) {
 
         return {
           acceptTask: acceptTask
@@ -53,12 +53,13 @@
               }, 1500);
 
             },
-            function () {
-              //失败
-              $ionicLoading.show({
-                duration: 1500,
-                templateUrl: 'modules/components/templates/ionic-loading/task-not-exist.html'
-              });
+            function (err) {
+              ////失败
+              //$ionicLoading.show({
+              //  duration: 1500,
+              //  templateUrl: 'modules/components/templates/ionic-loading/task-not-exist.html'
+              //});
+              promptService.promptErrorInfo(err, 1500);
               $timeout(function () {
                 taskNetService.cache.isNearTaskNeedRefresh = true;
               }, 1200);

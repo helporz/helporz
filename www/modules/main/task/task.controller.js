@@ -8,7 +8,7 @@
   angular.module('main.task')
     .controller('mainTaskCtrl', ['$log', '$state', '$ionicLoading', '$ionicActionSheet', '$ionicPopup', 'widgetDelegate', '$ionicScrollDelegate',
       '$scope', 'taskNetService', 'taskUtils', '$timeout', 'intervalCenter', 'NoticeMessageDB', 'NoticeMessageService',
-      'userUtils', 'IMInterfaceService', 'imMessageService', '$window', 'mainTaskService',
+      'userUtils', 'IMInterfaceService', 'imMessageService', '$window', 'mainTaskService','promptService',
       mainTaskCtrl])
     .factory('mainTaskService', mainTaskService);
 
@@ -29,7 +29,7 @@
 
   function mainTaskCtrl($log, $state, $ionicLoading, $ionicActionSheet, $ionicPopup, widgetDelegate, $ionicScrollDelegate,
                         $scope, taskNetService, taskUtils, $timeout, intervalCenter, NoticeMessageDB, NoticeMessageService,
-                        userUtils, IMInterfaceService, imMessageService, $window, mainTaskService) {
+                        userUtils, IMInterfaceService, imMessageService, $window, mainTaskService,promptService) {
     var vm = $scope.vm = {};
 
     vm.tabsetSpace = ionic.Platform.isAndroid() ? '44px' : '64px';
@@ -253,6 +253,8 @@
       //出错后将轮训间隔调大,减小服务器压力
       vm.pollIntervalTime = POLL_MAX_TIME;
       vm.lastPollErrorOccurMS = (new Date()).getTime();
+
+      promptService.promptErrorInfo(error, 1500);
     }
 
     //--------------------------------------------------
@@ -261,7 +263,7 @@
       if (isPoster == true) {
         for (var i in taskList) {
           taskList[i].ui_identifier = taskList[i].accepter != null ? "联系援助人" : "";
-          taskList[i].ui_nickname = taskList[i].accepter != null ? taskList[i].accepter.nickname : "神秘大侠";
+          taskList[i].ui_nickname = taskList[i].accepter != null ? taskList[i].accepter.nickname : "等待大侠";
           taskList[i].ui_userId = taskList[i].accepter != null ? taskList[i].accepter.userId : '';
           taskList[i].ui_avatar = taskList[i].accepter != null ? taskList[i].accepter.avatar : "";
           taskList[i].ui_taskIcon = taskUtils.iconByTypeValue(taskList[i].taskTypesId);
@@ -599,14 +601,15 @@
                 }, 1500);
               } else {
               }
-            }, function (data) {
-              $ionicLoading.hide();
-              $ionicPopup.alert({
-                title: '错误提示',
-                template: data
-              }).then(function (res) {
-                console.error(data);
-              })
+            }, function (err) {
+              //$ionicLoading.hide();
+              //$ionicPopup.alert({
+              //  title: '错误提示',
+              //  template: data
+              //}).then(function (res) {
+              //  console.error(data);
+              //})
+              promptService.promptErrorInfo(err, 1500);
             }).finally(function () {
             });
         }
@@ -636,12 +639,7 @@
               }, 1500);
 
             }, function (data, status) {
-              $ionicPopup.alert({
-                title: '错误提示',
-                template: data
-              }).then(function (res) {
-                console.error(data);
-              })
+              promptService.promptErrorInfo(data, 1500);
             }).finally(function () {
             });
         }
@@ -682,15 +680,16 @@
                 taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
               }, 1500);
 
-            }, function (data) {
-              $ionicLoading.hide();
-              //temp
-              $ionicPopup.alert({
-                title: '错误提示',
-                template: data
-              }).then(function (res) {
-                console.error(data);
-              })
+            }, function (err) {
+              //$ionicLoading.hide();
+              ////temp
+              //$ionicPopup.alert({
+              //  title: '错误提示',
+              //  template: data
+              //}).then(function (res) {
+              //  console.error(data);
+              //})
+              promptService.promptErrorInfo(err, 1500);
             }).finally(function () {
             });
         }
@@ -766,11 +765,12 @@
               }, 1500);
 
             }, function (data, status) {
-              $ionicLoading.show({
-                duration: 1500,
-                templateUrl: 'modules/components/templates/ionic-loading/com-submit-fail.html'
-              });
-              ho.alert(data);
+              //$ionicLoading.show({
+              //  duration: 1500,
+              //  templateUrl: 'modules/components/templates/ionic-loading/com-submit-fail.html'
+              //});
+              //ho.alert(data);
+              promptService.promptErrorInfo(data, 1500);
             }).finally(function () {
             });
         }
@@ -822,12 +822,13 @@
               //}).then(function (res) {
               //  console.error(data);
               //})
-              $ionicLoading.show({
-                duration: 1500,
-                templateUrl: 'modules/components/templates/ionic-loading/com-submit-fail.html'
-              });
-
-              ho.alert(data);
+              //$ionicLoading.show({
+              //  duration: 1500,
+              //  templateUrl: 'modules/components/templates/ionic-loading/com-submit-fail.html'
+              //});
+              //
+              //ho.alert(data);
+              promptService.promptErrorInfo(data, 1500);
             }).finally(function () {
             });
         }
@@ -906,11 +907,12 @@
               }, 1500);
 
             }, function (data, status) {
-              $ionicLoading.show({
-                duration: 1500,
-                templateUrl: 'modules/components/templates/ionic-loading/com-submit-fail.html'
-              });
-              ho.alert(data);
+              //$ionicLoading.show({
+              //  duration: 1500,
+              //  templateUrl: 'modules/components/templates/ionic-loading/com-submit-fail.html'
+              //});
+              //ho.alert(data);
+              promptService.promptErrorInfo(data, 1500);
             }).finally(function () {
             });
         }
@@ -956,18 +958,14 @@
               }, 1500);
 
             }, function (data) {
-              //$ionicPopup.alert({
-              //  title: '错误提示',
-              //  template: data
-              //}).then(function (res) {
-              //  console.error(data);
-              //})
-              $ionicLoading.show({
-                duration: 1500,
-                templateUrl: 'modules/components/templates/ionic-loading/com-submit-fail.html'
-              });
+              //
+              //$ionicLoading.show({
+              //  duration: 1500,
+              //  templateUrl: 'modules/components/templates/ionic-loading/com-submit-fail.html'
+              //});
+              promptService.promptErrorInfo(data, 1500);
 
-              ho.alert(data);
+              //ho.alert(data);
             }).finally(function () {
             });
         }
@@ -1038,7 +1036,8 @@
     }
 
     function loadFailedFn(error) {
-      alert('main.task load more err=' + error);
+      ho.alert('main.task load more err=' + error);
+      promptService.promptErrorInfo(error, 1500);
     }
 
 

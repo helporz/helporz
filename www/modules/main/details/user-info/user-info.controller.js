@@ -7,7 +7,7 @@
 
   angular.module('main.userInfo')
     .controller('mainUserInfoCtrl', ['$scope', '$timeout', '$state', '$stateParams', '$ionicLoading', 'taskNetService', 'userNetService', 'taskUtils',
-      '$ionicHistory', '$ionicActionSheet', 'impressUtils', 'userUtils', 'mainUserInfoService', mainUserInfoCtrl])
+      '$ionicHistory', '$ionicActionSheet', 'impressUtils', 'userUtils', 'mainUserInfoService','promptService', mainUserInfoCtrl])
     .factory('mainUserInfoService', mainUserInfoService);
 
   function mainUserInfoService() {
@@ -17,7 +17,7 @@
   }
 
   function mainUserInfoCtrl($scope, $timeout, $state, $stateParams, $ionicLoading, taskNetService, userNetService,
-                            taskUtils, $ionicHistory, $ionicActionSheet, impressUtils, userUtils, mainUserInfoService) {
+                            taskUtils, $ionicHistory, $ionicActionSheet, impressUtils, userUtils, mainUserInfoService,promptService) {
     console.log($stateParams);
 
     var vm = $scope.vm = {};
@@ -128,8 +128,7 @@
             }
 
           }, function (data) {
-            $ionicLoading.hide();
-            ho.alertObject(data);
+            promptService.promptErrorInfo(data,1500);
           }).finally(function () {
           });
 
@@ -173,8 +172,7 @@
                     }
                   }
                 }, function (data) {
-                  $ionicLoading.hide();
-                  ho.alertObject(data);
+                  promptService.promptErrorInfo(data,1500);
                 }).finally(function () {
                 });
             }

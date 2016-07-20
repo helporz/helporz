@@ -8,11 +8,12 @@
   angular.module('main.comment')
     .controller('mainCommentCtrl', ['$state', '$stateParams', '$timeout', '$log', '$ionicLoading', '$ionicPopup',
       '$ionicActionSheet', '$cordovaCamera', '$cordovaImagePicker',
-      '$scope', 'taskNetService', 'taskUtils', 'impressUtils', 'mainTaskService', mainCommentCtrl]);
+      '$scope', 'taskNetService', 'taskUtils', 'impressUtils', 'mainTaskService', 'promptService',
+      mainCommentCtrl]);
 
   function mainCommentCtrl($state, $stateParams, $timeout, $log, $ionicLoading, $ionicPopup,
                            $ionicActionSheet, $cordovaCamera, $cordovaImagePicker,
-                           $scope, taskNetService, taskUtils, impressUtils, mainTaskService) {
+                           $scope, taskNetService, taskUtils, impressUtils, mainTaskService,promptService) {
     var vm = $scope.vm = {};
 
     //////////////////////////////////////////////////
@@ -202,10 +203,11 @@
             }, 1500);
 
           }, function (error) {
-            $ionicLoading.show({
-              duration: 1500,
-              templateUrl: 'modules/components/templates/ionic-loading/com-unknown-error.html'
-            });
+            //$ionicLoading.show({
+            //  duration: 1500,
+            //  templateUrl: 'modules/components/templates/ionic-loading/com-unknown-error.html'
+            //});
+            promptService.promptErrorInfo(error, 1500);
           }).finally(function () {
           });
       }
@@ -228,11 +230,12 @@
               $state.go('main.task');
             }, 1500);
 
-          }, function (error) {
-            $ionicLoading.show({
-              duration: 1500,
-              templateUrl: 'modules/components/templates/ionic-loading/com-unknown-error.html'
-            });
+          }, function (data) {
+            //$ionicLoading.show({
+            //  duration: 1500,
+            //  templateUrl: 'modules/components/templates/ionic-loading/com-unknown-error.html'
+            //});
+            promptService.promptErrorInfo(data, 1500);
           }).finally(function () {
           });
       }

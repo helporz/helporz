@@ -9,7 +9,7 @@
     .factory('mainUserTasksService', mainUserTasksService)
     .controller('mainUserTasksCtrl', ['$state', '$log', '$ionicLoading', '$interval', '$timeout', '$scope','$stateParams', 'taskNetService', 'userNetService',
       'taskUtils', 'timeUtils', 'impressUtils', 'intervalCenter', 'SharePageWrapService', 'mainUserTasksService',
-      'mainNearTaskDetailService', 'operationUtils', 'userUtils','$ionicTabsDelegate',
+      'mainNearTaskDetailService', 'operationUtils', 'userUtils','$ionicTabsDelegate','taskNetWrapper','promptService',
       mainUserTasksCtrl]);
 
   function mainUserTasksService() {
@@ -24,7 +24,7 @@
 
   function mainUserTasksCtrl($state, $log, $ionicLoading, $interval, $timeout, $scope, $stateParams,taskNetService, userNetService,
                              taskUtils, timeUtils, impressUtils, intervalCenter, SharePageWrapService, mainUserTasksService,
-                             mainNearTaskDetailService, operationUtils, userUtils, $ionicTabsDelegate) {
+                             mainNearTaskDetailService, operationUtils, userUtils, $ionicTabsDelegate,taskNetWrapper,promptService) {
 
     var vm = $scope.vm = {};
     $log.debug('mainUserTaskCtrl:' + JSON.stringify($stateParams));
@@ -167,7 +167,8 @@
     }
 
     function flushFailedFn(error) {
-      alert(error);
+      ho.alert(error);
+      promptService.promptErrorInfo(error, 1500);
     }
 
 

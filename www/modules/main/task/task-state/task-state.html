@@ -27,7 +27,8 @@
             <div class="top">
               <div class="line-1">
                 <p class="name">{{vm.task.poster.nickname}}</p>
-                <i class="gender-icon ho-gender-female color-woman font-size-12"></i>
+                <i class="gender-icon font-size-12"
+                   ng-class="{false:'ho-gender-female color-woman',true:'ho-gender-male color-man '}[vm.task.poster.gender == 1]"></i>
               </div>
 
               <p class="time">{{vm.task.created | DateShow}}</p>

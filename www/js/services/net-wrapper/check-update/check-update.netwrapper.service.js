@@ -7,8 +7,8 @@
 
   angular.module('app.netwrapper.service', [])
 
-    .factory('checkUpdateNetWrapper', ['$rootScope', '$ionicPopup', 'userNetService', 'deviceService',
-      function ($rootScope, $ionicPopup, userNetService, deviceService) {
+    .factory('checkUpdateNetWrapper', ['$rootScope', '$ionicPopup', 'userNetService', 'deviceService','promptService',
+      function ($rootScope, $ionicPopup, userNetService, deviceService,promptService) {
 
         return {
           check: check
@@ -50,7 +50,7 @@
 
           },
           function (code) {
-            ho.alert(code);
+            promptService.promptErrorInfo(code, 1500);
           });
         }
       }]);
