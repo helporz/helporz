@@ -168,9 +168,9 @@
 
 
   taskPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', '$ionicPopup', '$ionicPopover', '$ionicLoading', '$timeout', '$cordovaDatePicker',
-    'taskPublishModalService', 'taskNetService', 'taskUtils', 'taskDesc','promptService'];
+    'taskPublishModalService', 'taskNetService', 'taskUtils', 'taskDesc','promptService','SharePageService'];
   function taskPublishControllerFn($scope, $log, $ionicModal, $ionicPopup, $ionicPopover, $ionicLoading, $timeout, $cordovaDatePicker,
-                                   taskPublishModalService, taskNetService, taskUtils, taskDesc,promptService) {
+                                   taskPublishModalService, taskNetService, taskUtils, taskDesc,promptService,SharePageService) {
     var _ctlSelf = this;
 
     this.setRewardType = function (reward, subReward) {
@@ -277,7 +277,7 @@
       function _popPublishSuccessPage() {
         var _pov;
         function _share(index) {
-          alert("123");
+          SharePageService.shareTask(index);
         }
         function _close() {
           var po = _pov.$el[0].querySelector('#task-publish-success-popup');
@@ -394,7 +394,7 @@
           //
           //  // 加入标志量,以供其他页面update
           //  taskNetService.cache.isPostTaskGoingNeedRefresh = true;
-          //  taskNetService.cache.isNearTaskNeedRefresh = true;
+          //  taskNetService.cache.isNearTaskNeedRefresh = true
           //}, 1500)
 
           $ionicLoading.hide();
