@@ -290,7 +290,7 @@
       if (isPoster == true) {
         for (var i in taskList) {
           taskList[i].ui_identifier = taskList[i].accepter != null ? "联系援助人" : "";
-          taskList[i].ui_nickname = taskList[i].accepter != null ? taskList[i].accepter.nickname : "神秘大侠";
+          taskList[i].ui_nickname = taskList[i].accepter != null ? taskList[i].accepter.nickname : "等待大侠";
           taskList[i].ui_userId = taskList[i].accepter != null ? taskList[i].accepter.userId : '';
           taskList[i].ui_avatar = taskList[i].accepter != null ? taskList[i].accepter.avatar : "";
           taskList[i].ui_taskIcon = taskUtils.iconByTypeValue(taskList[i].taskTypesId);
