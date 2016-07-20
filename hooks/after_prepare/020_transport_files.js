@@ -22,15 +22,16 @@ if (1) {
   var str_pfs = JSON.stringify(platforms);
   process.stdout.write('platforms: ' + str_pfs + '\n');
 
-  var cmd = 'gulp transport';
+  var cmdPrefix = 'gulp transport';
 
   for (var i = 0; i < platforms.length; i++) {
     try {
 
+      var cmd;
       if (platforms[i] == 'ios') {
-        cmd = cmd + '-ios';
+        cmd = cmdPrefix + '-ios';
       } else if (platforms[i] == 'android') {
-        cmd = cmd + '-android';
+        cmd = cmdPrefix + '-android';
       }
 
       process.stdout.write('do gulp: ' + cmd + '\n');

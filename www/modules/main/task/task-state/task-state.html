@@ -182,7 +182,8 @@
       </div>
 
       <div class="comment-panel">
-        <p align="center">{{vm.ui_otherComment}}</p>
+        <!--<p align="center">{{vm.ui_otherComment}}</p>-->
+        <p align="center">{{vm.ui_otherComment==''?'这位小侠没有留下任何话':vm.ui_otherComment}}</p>
       </div>
     </div>
 
@@ -213,7 +214,7 @@
       </div>
 
       <div class="comment-panel">
-        <p align="center">{{vm.ui_myComment==''?'没有留言':vm.ui_myComment}}</p>
+        <p align="center">{{vm.ui_myComment==''?'这位小侠没有留下任何话':vm.ui_myComment}}</p>
       </div>
     </div>
 

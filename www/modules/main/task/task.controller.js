@@ -156,7 +156,11 @@
         var isFound = false;
         for (var j in taskCache.postTaskGoingList) {
           if (taskCache.postTaskGoingList[j].id == commentTaskId) {
-            taskCache.postTaskGoingList[j].ui_showPassive2Badge = true;
+            if(taskCache.postTaskGoingList[j].status == 0 ) {
+              taskCache.postTaskGoingList[j].ui_showPassive2Badge = true;
+            }else{
+              taskNetService.setCommentReadFlag(commentTaskId);
+            }
             isFound = true;
             break;
           }
@@ -469,6 +473,12 @@
       //    $ionicLoading.hide();
       //  });
       //});
+      vm.isNetSynchronizing = true;
+      taskNetService.cache.isPostTaskGoingNeedRefresh = true;
+      taskNetService.cache.isPostTaskFinishNeedRefresh = true;
+      taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
+      taskNetService.cache.isAcceptTaskFinishNeedRefresh = true;
+
 
       taskNetService.getTaskList().then(function (taskList) {
         vm.repeatList = taskList.uncompletedPostList;
@@ -491,6 +501,7 @@
         vm.taskScroll.scrollTop();
       }, _cb_failed).finally(function () {
         $scope.$broadcast('scroll.refreshComplete');
+        vm.isNetSynchronizing = false;
       })
     };
 
@@ -546,7 +557,10 @@
           if (index == 0) {
             userUtils.gotoIM(user.userId);
           } else if (index == 1) {
-            $window.location.href = 'tel:' + user.phoneNo;
+            //$window.location.href = 'tel:' + user.phoneNo;
+            if(window.phonedialer) {
+              window.phonedialer.dial('tel:' + user.phoneNo, alert);
+            }
           }
 
           return true;
@@ -986,14 +1000,14 @@
 
     //////////////////////////////////////////////////
     // load more
-    vm.FirstLoadMore = true;
+    //vm.FirstLoadMore = true;
     vm.loadMore = function () {
 
-      if (vm.FirstLoadMore) {
-        vm.FirstLoadMore = false;
-        $scope.$broadcast('scroll.infiniteScrollComplete');
-        return;
-      }
+      //if (vm.FirstLoadMore) {
+      //  vm.FirstLoadMore = false;
+      //  $scope.$broadcast('scroll.infiniteScrollComplete');
+      //  return;
+      //}
 
       if (vm.tabSelectedIndex==0&&taskNetService.cache.hasMorePostTaskFinish==false){
         return;

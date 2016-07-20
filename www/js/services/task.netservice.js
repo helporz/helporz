@@ -356,7 +356,7 @@
       };
 
       return httpBaseService.getForPromise('/task/query/accepted', params);
-    }
+    };
 
     var _getCompletedAcceptTaskList = function (pageNum) {
       if (ho.isValid(pageNum) && pageNum == 1) {
@@ -367,13 +367,14 @@
       }
       var params = {
         pageNum: cache.acceptTaskFinishCurPage,
-        pageSize: 2
+        pageSize: appConst.task_pageSize
       };
 
       var d = $q.defer();
       return httpBaseService.getForPromise('/task/query/accepted/completed', params).then(
         function (taskList) {
           cache.isAcceptTaskFinishNeedRefresh = false;
+          taskList = taskList || [];
           _processTaskForUI(taskList, true);
           if (pageNum == 1) {
             cache.acceptTaskFinishList = taskList;
@@ -427,13 +428,13 @@
       }
       var params = {
         pageNum: cache.postTaskFinishCurPage,
-        pageSize: 2
+        pageSize: appConst.task_pageSize
       };
 
       var d = $q.defer();
       return httpBaseService.getForPromise('/task/query/posted/completed', params).then(
         function (taskList) {
-          cache.isPostTaskFinishNeedRefresh = false;
+          taskList = taskList || [];
           _processTaskForUI(taskList, true);
           if (pageNum == 1) {
             cache.postTaskFinishList = taskList;
@@ -442,6 +443,7 @@
           }
           cache.hasMorePostTaskFinish = taskList.length > 0;
           d.resolve();
+          cache.isPostTaskFinishNeedRefresh = false;
           return d.promise;
         },
         function (err) {
@@ -472,10 +474,7 @@
       var d = $q.defer();
       return httpBaseService.getForPromise('/task/query').then(
         function (taskList) {
-          cache.isPostTaskGoingNeedRefresh = false;
-          cache.isPostTaskFinishNeedRefresh = false;
-          cache.isAcceptTaskGoingNeedRefresh = false;
-          cache.isAcceptTaskFinishNeedRefresh = false;
+
           //todo: 把缓存逻辑从外部调用移到这里(内部)
           cache.postTaskGoingList = taskList.uncompletedPostList || [];
           cache.postTaskFinishList = taskList.completedPostList || [];
@@ -486,6 +485,10 @@
           cache.hasMorePostTaskFinish = true;
           cache.hasMoreAcceptTaskFinish = true;
           d.resolve(taskList);
+          cache.isPostTaskGoingNeedRefresh = false;
+          cache.isPostTaskFinishNeedRefresh = false;
+          cache.isAcceptTaskGoingNeedRefresh = false;
+          cache.isAcceptTaskFinishNeedRefresh = false;
 
           ho.trace(taskList);
           return d.promise;
