@@ -197,8 +197,8 @@
       return httpBaseService.getForPromise('/playground/topic/tags', null);
     }
 
-    var getAdList = function() {
-      return httpBaseService.getForPromise('/playground/adList',null);
+    var getAdList = function () {
+      return httpBaseService.getForPromise('/playground/adList', null);
     }
 
     return {
@@ -223,7 +223,7 @@
       cancelCollectionTopic: _cancelCollectionTopic,
       //addShareCount: _addShareCount,
       getTopicTagList: _getTopicTagList,
-      getAdList:getAdList,
+      getAdList: getAdList,
     };
   };
 
@@ -686,8 +686,18 @@
       return _topicCacheTable.get(topicGroupId);
     }
 
-    var updateTopic2Cache = function(topicGroupId,topic) {
-      return _topicCacheTable.get(topicGroupId);
+    var updateTopic2Cache = function (topic) {
+      var topicList = _topicCacheTable.get(topic.groupId);
+      if (topicList == null) {
+        return;
+      }
+
+      for (var index = 0; index < topicList.length; ++index) {
+        if (topicList[index].id === topic.id) {
+          topicList[index] = preprocessTopic(topic);
+          break;
+        }
+      }
     }
 
     var _currentDetailTopic = {};
@@ -700,7 +710,7 @@
     }
 
     var _shareTopic = function (topic) {
-      SharePageWrapService.shareTopic(topic.id,1).then(function (res) {
+      SharePageWrapService.shareTopic(topic.id, 1).then(function (res) {
         topic.shareCount++;
       }, function (error) {
 
@@ -718,11 +728,11 @@
       return _topicTagList;
     }
 
-    var getADList = function() {
-      if( _topicADList == null || _topicADList.length == 0 ) {
-        PlaygroundNetService.getAdList().then(function(adList) {
+    var getADList = function () {
+      if (_topicADList == null || _topicADList.length == 0) {
+        PlaygroundNetService.getAdList().then(function (adList) {
           _topicADList = adList;
-        },function(error) {
+        }, function (error) {
           $log.error('getAddList failed:' + error);
         });
       }
@@ -731,38 +741,49 @@
     }
 
     var _currentDetailTopicCommentList = []
-    var setCurrentDetailTopicCommentList = function(commentList) {
-        _currentDetailTopicCommentList = commentList;
+    var setCurrentDetailTopicCommentList = function (commentList) {
+      _currentDetailTopicCommentList = commentList;
     }
 
-    var getCurrentDetailTopicCommentList = function() {
-        return _currentDetailTopicCommentList;
+    var getCurrentDetailTopicCommentList = function () {
+      return _currentDetailTopicCommentList;
     }
 
-    var getCollectionTopicListByUser = function(pageNum,pageSize) {
+    var getCollectionTopicListByUser = function (pageNum, pageSize) {
       var _innerDefer = $q.defer();
-      PlaygroundNetService.getCollectionTopicListByUser(pageNum,pageSize).then(function(data) {
+      PlaygroundNetService.getCollectionTopicListByUser(pageNum, pageSize).then(function (data) {
         var topicList = new Array();
         for (var index = 0; index < data.length; ++index) {
           topicList.push(preprocessTopic(data[index]));
         }
         _innerDefer.resolve(topicList);
 
-      },function(error) {
+      }, function (error) {
         _innerDefer.reject(error);
       });
       return _innerDefer.promise;
     }
 
-    var getOwnTopicListByUser = function(pageNum,pageSize) {
+    var getOwnTopicListByUser = function (pageNum, pageSize) {
       var _innerDefer = $q.defer();
-      PlaygroundNetService.getOwnTopicListByUser(0,pageNum,pageSize).then(function(data) {
+      PlaygroundNetService.getOwnTopicListByUser(0, pageNum, pageSize).then(function (data) {
         var topicList = new Array();
         for (var index = 0; index < data.length; ++index) {
           topicList.push(preprocessTopic(data[index]));
         }
         _innerDefer.resolve(topicList);
 
+      }, function (error) {
+        _innerDefer.reject(error);
+      });
+      return _innerDefer.promise;
+    }
+
+    var getTopicDetailInfo = function (topicId, startCommentId, pageNum, pageSize) {
+        var _innerDefer = $q.defer();
+      PlaygroundNetService.getTopicDetailInfo(topicId,startCommentId,pageNum,pageSize).then(function(res) {
+        res.topic = preprocessTopic(res.topic);
+        _innerDefer.resolve(res);
       },function(error) {
         _innerDefer.reject(error);
       });
@@ -773,8 +794,8 @@
       initService: _init,
       setCurrentDetailTopic: _setCurrentDetailTopic,
       getCurrentDetailTopic: _getCurrentDetailTopic,
-      setCurrentDetailTopicCommentList:setCurrentDetailTopicCommentList,
-      getCurrentDetailTopicCommentList:getCurrentDetailTopicCommentList,
+      setCurrentDetailTopicCommentList: setCurrentDetailTopicCommentList,
+      getCurrentDetailTopicCommentList: getCurrentDetailTopicCommentList,
       refreshSysTopic: _refreshSysTopic,
       refreshTopic: _refreshTopic,
       moreTopic: _moreTopic,
@@ -782,9 +803,11 @@
       getTopicList: _getTopicList,
       shareTopic: _shareTopic,
       getTopicTagList: _getTopicTagList,
-      getADList:getADList,
-      getCollectionTopicListByUser:getCollectionTopicListByUser,
-      getOwnTopicListByUser:getOwnTopicListByUser,
+      getADList: getADList,
+      getCollectionTopicListByUser: getCollectionTopicListByUser,
+      getOwnTopicListByUser: getOwnTopicListByUser,
+      updateTopic2Cache:updateTopic2Cache,
+      getTopicDetailInfo:getTopicDetailInfo,
     };
   }
 
@@ -864,7 +887,7 @@
   }
 
   PlaygroundStartupServiceFn.$inject = ['topicService', 'PlaygroundDBService', 'favouriteTopicService',
-                                        'topicBlacklistService', 'filterTopicService'];
+    'topicBlacklistService', 'filterTopicService'];
   function PlaygroundStartupServiceFn(topicService, PlaygroundDBService, favouriteTopicService,
                                       topicBlacklistService, filterTopicService) {
     var _init = function (currentUserId) {

@@ -512,7 +512,7 @@
         $log.info('完成删除会话：userId(#userId#) cUserId(#cUserId#)'.replace('#userId#', conversation.userId).replace('#cUserId#', conversation.cUserId));
         return imMessageStorageService.deleteMessageList(conversation.userId, conversation.cUserId);
       }).then(function () {
-        $log.info('我那层删除会话中的所有消息：userId(#userId#) cUserId(#cUserId#)'
+        $log.info('完成删除会话中的所有消息：userId(#userId#) cUserId(#cUserId#)'
           .replace('#userId#', conversation.userId).replace('#cUserId#', conversation.cUserId));
       });
     };

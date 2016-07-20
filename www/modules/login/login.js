@@ -267,7 +267,7 @@
           $ionicHistory.clearHistory();
           _innerDefer.resolve();
         }, function (error) {
-          _innerDefer.reject();
+          _innerDefer.reject(error);
         });
       return _innerDefer.promise;
     }

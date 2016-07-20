@@ -284,6 +284,8 @@
       var _innerDefer = $q.defer();
       imMessageStorageService.deleteConversation(conversation).then(function (res) {
           conversationCache[conversation.id] = null;
+          delete conversationCache[conversation.id];
+          _innerDefer.resolve();
         }, function (error) {
           $log.error(error);
           _innerDefer.reject(error);
@@ -304,7 +306,9 @@
     var noReadMessageCount = function () {
       var messageCount = 0;
       for (var cId in conversationCache) {
-        messageCount += conversationCache[cId].noReadMessages;
+        if( conversationCache[cId] != null) {
+          messageCount += conversationCache[cId].noReadMessages;
+        }
       }
       return messageCount;
     }
