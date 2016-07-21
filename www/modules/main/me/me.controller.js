@@ -41,7 +41,7 @@
       }
 
       if(vm.activeTab==1 && vm.self.tabFollow==0){
-        NoticeMessageDB.setReadFlagByType(NMT.FRIEND_TASK_MESSAGE_TYPE);
+        NoticeMessageService.setReadFlagByType(NMT.FRIEND_TASK_MESSAGE_TYPE);
         taskCache.nm_follow = [];
         taskCache.nm_main_changed = true;
         vm.followBadge = 0;
