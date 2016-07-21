@@ -33,7 +33,9 @@
 
         <div class="content-right">
           <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
-          <span class="body">{{vm.edit.department}}</span>
+          <span class="body" ng-class="{'holder': vm.edit.department==''}">
+            {{vm.edit.department==''?vm.appConst.holder_editDepartment: vm.edit.department}}
+          </span>
         </div>
       </ion-item>
 
@@ -42,7 +44,9 @@
 
         <div class="content-right">
           <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
-          <span class="body">{{vm.edit.dormitory}}</span>
+          <span class="body" ng-class="{'holder': vm.edit.dormitory==''}">
+            {{vm.edit.dormitory=='' ? vm.appConst.holder_editDormitory: vm.edit.dormitory}}
+          </span>
         </div>
       </ion-item>
 
@@ -51,7 +55,9 @@
 
         <div class="content-right">
           <i class="decoration icon ion-ios-arrow-right color-text-secondary"></i>
-          <span class="body">{{vm.edit.hometown}}</span>
+          <span class="body" ng-class="{'holder': vm.edit.hometown==''}">
+            {{vm.edit.hometown=='' ? vm.appConst.holder_editHometown: vm.edit.hometown}}
+          </span>
         </div>
       </ion-item>
 

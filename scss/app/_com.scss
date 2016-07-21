@@ -296,6 +296,10 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
 
       .body {
         color: $color-text-secondary;
+
+        &.holder {
+          color: $color-text-thirdly;
+        }
       }
       .avatar {
         width: 40px;

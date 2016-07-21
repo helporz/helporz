@@ -50,7 +50,7 @@
 
       <div class="row group-item group-item-input no-border left-align" ng-show="taskTypeIndex == 2">
         <div class="icon ho-alert-clock color-text-secondary font-size-14" style="margin: 0 1px 0 1px"/>
-        <input class="col-80" type="text" placeholder="请输入开始时间" ng-model="ctl.startTimeShow"
+        <input class="col-80" type="text" placeholder="起借时间" ng-model="ctl.startTimeShow"
                ng-click="ctl.setStartTime($event)" required readonly/>
       </div>
 
@@ -59,13 +59,13 @@
       <div class="row group-item group-item-input no-border left-align">
         <!--<img class="icon" src="./img/login/phone.png"/>-->
         <div class="icon ho-alert-clock color-text-secondary font-size-14" style="margin: 0 1px 0 1px"/>
-        <input class="col-80" type="text" placeholder="请输入截止时间" ng-model="ctl.deadlineShow"
+        <input class="col-80" type="text" placeholder="{{taskTypeIndex==2?'归还时间': '截止时间'}}" ng-model="ctl.deadlineShow"
                ng-click="ctl.setDeadline($event)" required readonly/>
       </div>
 
     </div>
 
-    <div class="big-split"></div>
+    <div class="big-split"  style="margin-top: 1px;"></div>
 
     <div class="task-group-wrapper">
       <div class="left-align row reward-header">

@@ -119,10 +119,10 @@
   color: #878787 !important; }
 
 .color-text-thirdly {
-  color: #dddddd !important; }
+  color: #c8c8c8 !important; }
 
 .color-text-thirdly-bg {
-  background-color: #dddddd !important; }
+  background-color: #c8c8c8 !important; }
 
 .color-man {
   color: #00c6f0; }
@@ -337,6 +337,8 @@
     align-items: center; }
     .ho-list .ho-item .content-right .body {
       color: #878787; }
+      .ho-list .ho-item .content-right .body.holder {
+        color: #c8c8c8; }
     .ho-list .ho-item .content-right .avatar {
       width: 40px;
       height: 40px;
@@ -681,9 +683,9 @@
       background-color: #ffd0ce;
       color: white; }
     .ho-bottom-input .send[disabled] {
-      background-color: #dddddd;
+      background-color: #c8c8c8;
       color: #878787;
-      border-color: #dddddd; }
+      border-color: #c8c8c8; }
 
 .loading-tpl-icon-text .tpl-icon {
   height: 28px;
@@ -987,7 +989,7 @@
       -moz-justify-content: center;
       justify-content: center;
       background-color: white;
-      color: #dddddd;
+      color: #c8c8c8;
       border-color: white; }
       .ho-tabset.ho-tabset-gray > ho-tab.tab-item-active {
         background-color: #f9f9f9;
@@ -1784,7 +1786,7 @@
 .wall .div-line {
   margin: 20px 20px 2px 20px;
   height: 1px;
-  background-color: #dddddd; }
+  background-color: #c8c8c8; }
 
 .wall .mid-panel {
   display: -webkit-box;
@@ -2459,7 +2461,7 @@
     .task-dot-ctn .dot-big.offset-right {
       margin-right: -5px; }
   .task-dot-ctn .pending-bg {
-    background-color: #dddddd; }
+    background-color: #c8c8c8; }
   .task-dot-ctn .success-bg {
     background-color: #30b845; }
   .task-dot-ctn .success {
@@ -2625,7 +2627,7 @@
       display: flex;
       height: 70px; }
     .comment .comment-panel .pic {
-      border: 2px solid #dddddd;
+      border: 2px solid #c8c8c8;
       margin: 5px  5px 0 0;
       height: 60px;
       width: 60px; }
@@ -2850,7 +2852,7 @@
   .task-state .div-text-panel .mid-text {
     margin: 0;
     font-size: 12px;
-    color: #dddddd;
+    color: #c8c8c8;
     -webkit-box-flex: 1;
     -webkit-flex: 1 0 auto;
     -moz-box-flex: 1;
@@ -3734,7 +3736,7 @@ ion-popover-view#task-publish-success-popup {
       background-color: transparent;
       border: none; }
     ion-popover-view#task-publish-success-popup .cancel-panel :before {
-      color: #dddddd; }
+      color: #c8c8c8; }
 
 .playground-list .slide-box .slide-item-wrap {
   width: 100%;
@@ -3959,7 +3961,7 @@ ion-popover-view#task-publish-success-popup {
       position: absolute;
       line-height: 25px;
       right: 15px;
-      color: #dddddd; }
+      color: #c8c8c8; }
   .topic-detail .user-info-panel .title-desc {
     font-size: 9px;
     line-height: 1.2em;

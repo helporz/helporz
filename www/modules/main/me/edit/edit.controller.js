@@ -32,6 +32,8 @@
       vm.edit.sign = selfInfo.sign;
     });
 
+    vm.appConst = appConst;
+
     vm.edit = {
 
       cb_avatar: function () {
@@ -193,7 +195,8 @@
       cb_department: function () {
         mainEditSheetService.title = '修改院系';
         mainEditSheetService.isInputOrTextarea = true;
-        mainEditSheetService.placeholder = appConst.holder_editDepartment;
+        //mainEditSheetService.placeholder = appConst.holder_editDepartment;
+        mainEditSheetService.placeholder = '';
         mainEditSheetService.max = appConst.max_editDepartment;
         mainEditSheetService.content = vm.edit.department;
         mainEditSheetService.className = '';
@@ -220,7 +223,8 @@
       cb_dormitory: function () {
         mainEditSheetService.title = '修改寝室楼栋';
         mainEditSheetService.isInputOrTextarea = true;
-        mainEditSheetService.placeholder = appConst.holder_editDormitory;
+        //mainEditSheetService.placeholder = appConst.holder_editDormitory;
+        mainEditSheetService.placeholder = '';
         mainEditSheetService.max = appConst.max_editDormitory;
         mainEditSheetService.content = vm.edit.dormitory;
         mainEditSheetService.className = '';
@@ -283,7 +287,8 @@
       cb_hometown: function () {
         mainEditSheetService.title = '修改家乡';
         mainEditSheetService.isInputOrTextarea = true;
-        mainEditSheetService.placeholder = appConst.holder_editHometown;
+        //mainEditSheetService.placeholder = appConst.holder_editHometown;
+        mainEditSheetService.placeholder = '';
         mainEditSheetService.content = vm.edit.hometown;
         mainEditSheetService.max = appConst.max_editHometown;
         mainEditSheetService.className = '';

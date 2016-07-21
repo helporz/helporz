@@ -536,7 +536,7 @@
     // notice message
     var _fetchNoticeMessage = function () {
 
-      ho.alert('_fetchMessage');
+      //ho.alert('_fetchMessage');
       NoticeMessageService.getAllNoticeMessage().then(function (noticeMessageList) {
 
         //old
