@@ -96,7 +96,7 @@
 
     vm.cb_moreOpt = function() {
       var sheet = {};
-      sheet.titleText = '举报该任务';
+      sheet.titleText = '举报该求助';
       sheet.cancelText = '取消';
       sheet.buttonClicked = function(index) {
         $ionicLoading.hide();

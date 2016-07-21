@@ -38,12 +38,12 @@
 .ho-task-wait:before,
 .ho-task-finish:before,
 .ho-task-confirm-wait:before,
+.ho-alert-clock:before,
 .ho-task-giveup:before,
 .ho-task-going-overtime:before,
 .ho-task-remark:before,
 .ho-gender-female:before,
 .ho-gender-male:before,
-.ho-alert-clock:before,
 .ho-add:before,
 .ho-star:before,
 .ho-chat-3:before,
@@ -145,6 +145,9 @@
 .ho-task-confirm-wait:before {
   content: ""; }
 
+.ho-alert-clock:before {
+  content: ""; }
+
 .ho-task-giveup:before {
   content: ""; }
 
@@ -159,9 +162,6 @@
 
 .ho-gender-male:before {
   content: ""; }
-
-.ho-alert-clock:before {
-  content: ""; }
 
 .ho-add:before {
   content: ""; }

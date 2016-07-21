@@ -105,7 +105,7 @@ var appConst = {
   max_editDepartment: 10,
   holder_editDormitory: '会得到同楼童鞋的帮助哦',
   max_editDormitory: 10,
-  holder_editHometown: '四川成都。会得到老乡的帮助哦',
+  holder_editHometown: '例如:四川成都。会得到老乡的帮助哦',
   max_editHometown: 10,
   holder_editSign: '这位江湖菜鸟尚无签名',
 }

@@ -27,12 +27,12 @@
 .#{$hoicons-prefix}task-wait:before,
 .#{$hoicons-prefix}task-finish:before,
 .#{$hoicons-prefix}task-confirm-wait:before,
+.#{$hoicons-prefix}alert-clock:before,
 .#{$hoicons-prefix}task-giveup:before,
 .#{$hoicons-prefix}task-going-overtime:before,
 .#{$hoicons-prefix}task-remark:before,
 .#{$hoicons-prefix}gender-female:before,
 .#{$hoicons-prefix}gender-male:before,
-.#{$hoicons-prefix}alert-clock:before,
 .#{$hoicons-prefix}add:before,
 .#{$hoicons-prefix}star:before,
 .#{$hoicons-prefix}chat-3:before,
@@ -73,12 +73,12 @@
 .#{$hoicons-prefix}task-wait:before{ content: $hoicon-var-task-wait; }
 .#{$hoicons-prefix}task-finish:before{ content: $hoicon-var-task-finish; }
 .#{$hoicons-prefix}task-confirm-wait:before{ content: $hoicon-var-task-confirm-wait; }
+.#{$hoicons-prefix}alert-clock:before{ content: $hoicon-var-alert-clock; }
 .#{$hoicons-prefix}task-giveup:before{ content: $hoicon-var-task-giveup; }
 .#{$hoicons-prefix}task-going-overtime:before{ content: $hoicon-var-task-going-overtime; }
 .#{$hoicons-prefix}task-remark:before{ content: $hoicon-var-task-remark; }
 .#{$hoicons-prefix}gender-female:before{ content: $hoicon-var-gender-female; }
 .#{$hoicons-prefix}gender-male:before{ content: $hoicon-var-gender-male; }
-.#{$hoicons-prefix}alert-clock:before{ content: $hoicon-var-alert-clock; }
 .#{$hoicons-prefix}add:before{ content: $hoicon-var-add; }
 .#{$hoicons-prefix}star:before{ content: $hoicon-var-star; }
 .#{$hoicons-prefix}chat-3:before{ content: $hoicon-var-chat-3; }

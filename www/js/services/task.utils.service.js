@@ -369,7 +369,7 @@
                 taskItem.ui_showOptPassive2 = false;
                 taskItem.ui_showOptActive = true;
                 taskItem.ui_textOptActive = "留言评价";
-                taskItem.ui_stateDesc = "接受对方的膜拜与致谢";
+                taskItem.ui_stateDesc = "去接受对方的感谢与膜拜吧";
               }
             }
 

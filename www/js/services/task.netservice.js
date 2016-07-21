@@ -51,7 +51,7 @@
       nm_follow_changed: false
     };
 
-    var _initFlags = function() {
+    var _initFlags = function () {
       cache.isPostTaskGoingNeedRefresh = true;
       cache.isPostTaskFinishNeedRefresh = true;
       cache.hasMorePostTaskFinish = true;
@@ -383,7 +383,6 @@
       var d = $q.defer();
       return httpBaseService.getForPromise('/task/query/accepted/completed', params).then(
         function (taskList) {
-          cache.isAcceptTaskFinishNeedRefresh = false;
           taskList = taskList || [];
           _processTaskForUI(taskList, true);
           if (pageNum == 1) {
@@ -399,7 +398,9 @@
           d.reject(err);
           return d.promise;
         }
-      )
+      ).finally(function () {
+          cache.isAcceptTaskFinishNeedRefresh = false;
+        });
     }
 
     var _getUncompletedAcceptTaskList = function () {
@@ -407,7 +408,6 @@
       return httpBaseService.getForPromise('/task/query/accepted/uncompleted', null).then(
         function (taskList) {
           d.resolve(taskList);
-          cache.isAcceptTaskGoingNeedRefresh = false;
           cache.acceptTaskGoingList = taskList;
           //todo: 把缓存逻辑从外部调用移到这里(内部)
           return d.promise;
@@ -416,7 +416,9 @@
           d.reject(err);
           return d.promise;
         }
-      )
+      ).finally(function () {
+          cache.isAcceptTaskGoingNeedRefresh = false;
+        });
     }
 
     var _getPostTaskList = function (pageIndex, pageSize) {
@@ -453,14 +455,15 @@
           }
           cache.hasMorePostTaskFinish = taskList.length > 0;
           d.resolve();
-          cache.isPostTaskFinishNeedRefresh = false;
           return d.promise;
         },
         function (err) {
           d.reject(err);
           return d.promise;
         }
-      );
+      ).finally(function () {
+          cache.isPostTaskFinishNeedRefresh = false;
+        });
     }
 
     var _getUncompletedPostTaskList = function () {
@@ -468,7 +471,6 @@
       return httpBaseService.getForPromise('/task/query/posted/uncompleted').then(
         function (taskList) {
           d.resolve(taskList);
-          cache.isPostTaskGoingNeedRefresh = false;
           cache.postTaskGoingList = taskList;
           //todo: 把缓存逻辑从外部调用移到这里(内部)
           return d.promise;
@@ -477,7 +479,9 @@
           d.reject(err);
           return d.promise;
         }
-      )
+      ).finally(function () {
+          cache.isPostTaskGoingNeedRefresh = false;
+        })
     }
 
     var _getTaskList = function () {
@@ -495,10 +499,6 @@
           cache.hasMorePostTaskFinish = true;
           cache.hasMoreAcceptTaskFinish = true;
           d.resolve(taskList);
-          cache.isPostTaskGoingNeedRefresh = false;
-          cache.isPostTaskFinishNeedRefresh = false;
-          cache.isAcceptTaskGoingNeedRefresh = false;
-          cache.isAcceptTaskFinishNeedRefresh = false;
 
           ho.trace(taskList);
           return d.promise;
@@ -507,7 +507,12 @@
           d.reject(err);
           return d.promise;
         }
-      )
+      ).finally(function () {
+          cache.isPostTaskGoingNeedRefresh = false;
+          cache.isPostTaskFinishNeedRefresh = false;
+          cache.isAcceptTaskGoingNeedRefresh = false;
+          cache.isAcceptTaskFinishNeedRefresh = false;
+        });
     }
 
     var _commentTask = function (taskId, comment) {
@@ -644,7 +649,7 @@
       var taskNoticeMessageMonitor = {
         onNotify: _onNotifyNoticeMessage
       }
-      NoticeMessageService.registerObserver('taskNetService',taskNoticeMessageMonitor);
+      NoticeMessageService.registerObserver('taskNetService', taskNoticeMessageMonitor);
     };
 
     return {

@@ -63,3 +63,18 @@
   position: relative;   //old: absolute
   left: 0;      // old: 16px;
 }
+
+//
+
+.popup-container {
+  &.active {
+    .popup {
+      border-radius: 10px;
+    }
+  }
+  &.popup-hidden {
+    .popup {
+      border-radius: 10px;
+    }
+  }
+}
