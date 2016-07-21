@@ -507,7 +507,6 @@
           });
           $timeout(function () {
             $ionicLoading.hide();
-            $state.go('login');
           }, 3000);
         }
         else {
