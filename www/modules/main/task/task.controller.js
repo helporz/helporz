@@ -102,14 +102,14 @@
       if (vm.tabSelectedIndex == 0) {
         if (vm.postTabSelectedIndex == 0) {
           if (taskCache.nm_postGoing.length != 0) {
-            NoticeMessageDB.setReadFlagByType(NMT.POSTER_UNCOMPLETED_TASK_MESSAGE_TYPE);
+            NoticeMessageService.setReadFlagByType(NMT.POSTER_UNCOMPLETED_TASK_MESSAGE_TYPE);
             taskCache.nm_postGoing = [];
             taskCache.nm_main_changed = true;
             vm.badges.postGoing = taskCache.nm_comment.length;
           }
         } else {
           if (vm.badges.postFinish != 0) {
-            NoticeMessageDB.setReadFlagByType(NMT.POSTER_COMPLETED_TASK_MESSAGE_TYPE);
+            NoticeMessageService.setReadFlagByType(NMT.POSTER_COMPLETED_TASK_MESSAGE_TYPE);
             taskCache.nm_postFinish = [];
             taskCache.nm_main_changed = true;
             vm.badges.postFinish = 0;
@@ -118,14 +118,14 @@
       } else {  // tab==1
         if (vm.acceptTabSelectedIndex == 0) {
           if (vm.badges.acceptGoing != 0) {
-            NoticeMessageDB.setReadFlagByType(NMT.ACCEPTER_UNCOMPLETED_TASK_MESSAGE_TYPE);
+            NoticeMessageService.setReadFlagByType(NMT.ACCEPTER_UNCOMPLETED_TASK_MESSAGE_TYPE);
             taskCache.nm_acceptGoing = [];
             taskCache.nm_main_changed = true;
             vm.badges.acceptGoing = 0;
           }
         } else {
           if (vm.badges.acceptFinish != 0) {
-            NoticeMessageDB.setReadFlagByType(NMT.ACCEPTER_COMPLETED_TASK_MESSAGE_TYPE);
+            NoticeMessageService.setReadFlagByType(NMT.ACCEPTER_COMPLETED_TASK_MESSAGE_TYPE);
             taskCache.nm_acceptFinish = [];
             taskCache.nm_main_changed = true;
             vm.badges.acceptFinish = 0;

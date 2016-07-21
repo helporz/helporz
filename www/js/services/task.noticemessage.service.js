@@ -159,6 +159,7 @@
           _observerList[observer].onNotify(noticeMessage);
         }
         _innerDefer.resolve(res);
+        updateBadge();
       }, function (error) {
         _innerDefer.reject(error);
       });
@@ -205,7 +206,7 @@
       _observerList[observerName] = observer;
     }
 
-    var _unregisterObserver = function(observerName) {
+    var _unregisterObserver = function (observerName) {
       $log.debug('unregister observer:' + observerName);
       delete _observerList[observerName];
     }
@@ -249,154 +250,225 @@
       return null;
     }
 
+    var getAllNoticeMessageFromDB = function () {
+      var _innerDefer = $q.defer();
+      NoticeMessageDB.getAllUnreadMessageEx(' correlationId desc ').then(function (res) {
+          var uncompleted_post_task_message_list = new Array();
+          var completed_post_task_message_list = new Array();
+          var uncompleted_accept_task_message_list = new Array();
+          var completed_accept_task_message_list = new Array();
+          var comment_task_message_list = new Array();
+          var friend_task_message_list = new Array();
+
+          var currentCorrelationId = null;
+          var correlationCompletedPostMessage = null;
+          var correlationUncompletedPostMessage = null;
+          var correlationCompletedAcceptMessage = null;
+          var correlationUncompletedAcceptMessage = null;
+          $log.info('raw notice message length:' + res.length);
+
+          for (var index = 0; index < res.length; ++index) {
+            if (res[index].type == NOTICE_TYPE.COMMENT_TASK_MESSAGE_TYPE) {
+              if (findNoticeMessageByCorrelationIdFromList(comment_task_message_list, res[index].correlationId) != null) {
+                comment_task_message_list.push(res[index]);
+              }
+              continue;
+            }
+
+            if (res[index].type == NOTICE_TYPE.FRIEND_TASK_MESSAGE_TYPE) {
+              friend_task_message_list.push(res[index]);
+            }
+
+            if (currentCorrelationId == null) {
+              currentCorrelationId = res[index].correlationId;
+            }
+
+            if (currentCorrelationId === res[index].correlationId) {
+              switch (res[index].type) {
+                case NOTICE_TYPE.POSTER_UNCOMPLETED_TASK_MESSAGE_TYPE:
+                  if (correlationCompletedPostMessage == null) {
+                    correlationUncompletedPostMessage = res[index];
+                  }
+                  break;
+                case NOTICE_TYPE.POSTER_COMPLETED_TASK_MESSAGE_TYPE:
+                  correlationCompletedPostMessage = res[index];
+                  correlationUncompletedPostMessage = null;
+                  break;
+                case NOTICE_TYPE.ACCEPTER_UNCOMPLETED_TASK_MESSAGE_TYPE:
+                  if (correlationCompletedAcceptMessage == null) {
+                    correlationUncompletedAcceptMessage = res[index];
+                  }
+                  break;
+                case NOTICE_TYPE.ACCEPTER_COMPLETED_TASK_MESSAGE_TYPE:
+                  correlationCompletedAcceptMessage = res[index];
+                  correlationUncompletedAcceptMessage = null;
+                  break;
+
+              }
+
+            }
+            else {
+              if (correlationCompletedPostMessage != null) {
+                completed_post_task_message_list.push(correlationCompletedPostMessage);
+              }
+
+              if (correlationUncompletedPostMessage != null) {
+                uncompleted_post_task_message_list.push(correlationUncompletedPostMessage);
+              }
+
+              if (correlationCompletedAcceptMessage != null) {
+                completed_accept_task_message_list.push(correlationCompletedAcceptMessage);
+              }
+
+              if (correlationUncompletedAcceptMessage != null) {
+                uncompleted_accept_task_message_list.push(correlationUncompletedAcceptMessage);
+              }
+
+              currentCorrelationId = res[index].correlationId;
+              correlationCompletedPostMessage = null;
+              correlationUncompletedPostMessage = null;
+              correlationCompletedAcceptMessage = null;
+              correlationUncompletedAcceptMessage = null;
+              --index; //下次循环再处理
+
+            }
+          }
+
+          //处理最后一的correlationId的消息
+          if (correlationCompletedPostMessage != null) {
+            completed_post_task_message_list.push(correlationCompletedPostMessage);
+          }
+
+          if (correlationUncompletedPostMessage != null) {
+            uncompleted_post_task_message_list.push(correlationUncompletedPostMessage);
+          }
+
+          if (correlationCompletedAcceptMessage != null) {
+            completed_accept_task_message_list.push(correlationCompletedAcceptMessage);
+          }
+
+          if (correlationUncompletedAcceptMessage != null) {
+            uncompleted_accept_task_message_list.push(correlationUncompletedAcceptMessage);
+          }
+          var noticeMessageData = {
+            uncompleted_post_task_message_list: uncompleted_post_task_message_list,
+            completed_post_task_message_list: completed_post_task_message_list,
+            uncompleted_accept_task_message_list: uncompleted_accept_task_message_list,
+            completed_accept_task_message_list: completed_accept_task_message_list,
+            comment_task_message_list: comment_task_message_list,
+            friend_task_message_list: friend_task_message_list,
+          }
+          _innerDefer.resolve(noticeMessageData);
+        },
+        function (error) {
+          _innerDefer.reject(error);
+        })
+      return _innerDefer.promise;
+    }
+
+    var updateBadge = function () {
+      console.log('enter updateBadge');
+      getAllNoticeMessageFromDB().then(function (noticeMessageData) {
+        console.log('updateBadge:get notice message count');
+        var badgeNumber = 0;
+        if (noticeMessageData != null) {
+          if (noticeMessageData.uncompleted_post_task_message_list != null
+            && noticeMessageData.uncompleted_post_task_message_list.length > 0) {
+            ++badgeNumber;
+          }
+
+          if (noticeMessageData.completed_post_task_message_list != null
+            && noticeMessageData.completed_post_task_message_list.length > 0) {
+            ++badgeNumber;
+          }
+
+          if (noticeMessageData.uncompleted_accept_task_message_list != null
+            && noticeMessageData.uncompleted_accept_task_message_list.length > 0) {
+            ++badgeNumber;
+          }
+
+          if (noticeMessageData.completed_accept_task_message_list != null
+            && noticeMessageData.completed_accept_task_message_list.length > 0) {
+            ++badgeNumber;
+          }
+
+          if (noticeMessageData.comment_task_message_list != null
+            && noticeMessageData.comment_task_message_list.length > 0) {
+            ++badgeNumber;
+          }
+
+          if (noticeMessageData.friend_task_message_list != null
+            && noticeMessageData.friend_task_message_list.length > 0) {
+            ++badgeNumber;
+          }
+
+          console.log('updateBadge: setBadge ' + badgeNumber);
+          console.log('updateBadge: currentPlatform ' + device.platform  + ' ' + window.plugins.jPushPlugin.isPlatformIOS());
+          window.plugins.jPushPlugin.setBadge(badgeNumber);
+          window.plugins.jPushPlugin.setApplicationIconBadgeNumber(badgeNumber);
+        }
+      });
+    }
+
     var getAllNoticeMessageEx = function () {
       var _innerDefer = $q.defer();
-      _refreshNoticeMessageListFromServer().then(function () {
-        NoticeMessageDB.getAllUnreadMessageEx(' correlationId desc ').then(function (res) {
-            var uncompleted_post_task_message_list = new Array();
-            var completed_post_task_message_list = new Array();
-            var uncompleted_accept_task_message_list = new Array();
-            var completed_accept_task_message_list = new Array();
-            var comment_task_message_list = new Array();
-            var friend_task_message_list = new Array();
-
-            //POSTER_UNCOMPLETED_TASK_MESSAGE_TYPE: 1,
-            //  ACCEPTER_UNCOMPLETED_TASK_MESSAGE_TYPE
-            //:
-            //2,
-            //  COMMENT_TASK_MESSAGE_TYPE
-            //:
-            //3,
-            //  FRIEND_TASK_MESSAGE_TYPE
-            //:
-            //4,
-            //  POSTER_COMPLETED_TASK_MESSAGE_TYPE
-            //:
-            //5,
-            //  ACCEPTER_COMPLETED_TASK_MESSAGE_TYPE
-            //:
-            //6,
-            var currentCorrelationId = null;
-            var correlationCompletedPostMessage = null;
-            var correlationUncompletedPostMessage = null;
-            var correlationCompletedAcceptMessage = null;
-            var correlationUncompletedAcceptMessage = null;
-            $log.info('raw notice message length:' + res.length);
-
-            for (var index = 0; index < res.length; ++index) {
-              if (res[index].type == NOTICE_TYPE.COMMENT_TASK_MESSAGE_TYPE) {
-                if (findNoticeMessageByCorrelationIdFromList(comment_task_message_list, res[index].correlationId) != null) {
-                  comment_task_message_list.push(res[index]);
-                }
-                continue;
-              }
-
-              if (res[index].type == NOTICE_TYPE.FRIEND_TASK_MESSAGE_TYPE) {
-                friend_task_message_list.push(res[index]);
-              }
-
-              if (currentCorrelationId == null) {
-                currentCorrelationId = res[index].correlationId;
-              }
-
-              if (currentCorrelationId === res[index].correlationId) {
-                switch (res[index].type) {
-                  case NOTICE_TYPE.POSTER_UNCOMPLETED_TASK_MESSAGE_TYPE:
-                    if (correlationCompletedPostMessage == null) {
-                      correlationUncompletedPostMessage = res[index];
-                    }
-                    break;
-                  case NOTICE_TYPE.POSTER_COMPLETED_TASK_MESSAGE_TYPE:
-                    correlationCompletedPostMessage = res[index];
-                    correlationUncompletedPostMessage = null;
-                    break;
-                  case NOTICE_TYPE.ACCEPTER_UNCOMPLETED_TASK_MESSAGE_TYPE:
-                    if (correlationCompletedAcceptMessage == null) {
-                      correlationUncompletedAcceptMessage = res[index];
-                    }
-                    break;
-                  case NOTICE_TYPE.ACCEPTER_COMPLETED_TASK_MESSAGE_TYPE:
-                    correlationCompletedAcceptMessage = res[index];
-                    correlationUncompletedAcceptMessage = null;
-                    break;
-
-                }
-
-              }
-              else {
-                if (correlationCompletedPostMessage != null) {
-                  completed_post_task_message_list.push(correlationCompletedPostMessage);
-                }
-
-                if (correlationUncompletedPostMessage != null) {
-                  uncompleted_post_task_message_list.push(correlationUncompletedPostMessage);
-                }
-
-                if (correlationCompletedAcceptMessage != null) {
-                  completed_accept_task_message_list.push(correlationCompletedAcceptMessage);
-                }
-
-                if (correlationUncompletedAcceptMessage != null) {
-                  uncompleted_accept_task_message_list.push(correlationUncompletedAcceptMessage);
-                }
-
-                currentCorrelationId = res[index].correlationId;
-                correlationCompletedPostMessage = null;
-                correlationUncompletedPostMessage = null;
-                correlationCompletedAcceptMessage = null;
-                correlationUncompletedAcceptMessage = null;
-                --index; //下次循环再处理
-
-              }
-            }
-
-            //处理最后一的correlationId的消息
-            if (correlationCompletedPostMessage != null) {
-              completed_post_task_message_list.push(correlationCompletedPostMessage);
-            }
-
-            if (correlationUncompletedPostMessage != null) {
-              uncompleted_post_task_message_list.push(correlationUncompletedPostMessage);
-            }
-
-            if (correlationCompletedAcceptMessage != null) {
-              completed_accept_task_message_list.push(correlationCompletedAcceptMessage);
-            }
-
-            if (correlationUncompletedAcceptMessage != null) {
-              uncompleted_accept_task_message_list.push(correlationUncompletedAcceptMessage);
-            }
-            var noticeMessageData = {
-              uncompleted_post_task_message_list: uncompleted_post_task_message_list,
-              completed_post_task_message_list: completed_post_task_message_list,
-              uncompleted_accept_task_message_list: uncompleted_accept_task_message_list,
-              completed_accept_task_message_list: completed_accept_task_message_list,
-              comment_task_message_list: comment_task_message_list,
-              friend_task_message_list: friend_task_message_list,
-            }
-            _innerDefer.resolve(noticeMessageData);
-          },
-          function (error) {
-            _innerDefer.reject(error);
-          })
+      _refreshNoticeMessageListFromServer().then(getAllNoticeMessageFromDB, function (error) {
+        _innerDefer.reject(error);
+        var errorDefer = $q.defer();
+        errorDefer.reject(error);
+        return errorDefer.promise;
+      }).then(function (noticeMessageData) {
+        _innerDefer.resolve(noticeMessageData);
+      }, function (error) {
+        _innerDefer.reject(error);
       });
       return _innerDefer.promise;
     }
 
     var _setReadFlagByCorrelationId = function (type, correlationId) {
-      return NoticeMessageDB.setReadFlagByCorrelationId(type, correlationId);
+      var _innerDefer = $q.defer();
+      console.log('enter set read flag by correlation id');
+      NoticeMessageDB.setReadFlagByCorrelationId(type, correlationId).then(function () {
+        console.log('set read flag by correlation id success');
+        _innerDefer.resolve();
+        updateBadge();
+      }, function (error) {
+        console.log('set read flag by correlation id failed:' + error);
+        _innerDefer.reject(error);
+      });
+      return _innerDefer.promise;
     }
 
     var _setReadFlagForLessAndEqualSerialNo = function (type, serialNo) {
-      return NoticeMessageDB.setReadFlagForLessAndEqualSerialNo(type, serialNo);
+      var _innerDefer = $q.defer();
+      NoticeMessageDB.setReadFlagForLessAndEqualSerialNo(type, serialNo).then(function () {
+        _innerDefer.resolve();
+        updateBadge();
+      }, function (error) {
+        _innerDefer.reject(error);
+      });
+      return _innerDefer.promise();
     }
 
     var setReadFlagByType = function (type) {
-      return NoticeMessageDB.setReadFlagByType(type);
+      var _innerDefer = $q.defer();
+      NoticeMessageDB.setReadFlagByType(type).then(function () {
+        _innerDefer.resolve();
+        updateBadge();
+      }, function (error) {
+        _innerDefer.reject(error);
+      });
+      return _innerDefer.promise;
     }
 
     var setReadFlagBySerialNo = function (serialNo) {
-      return NoticeMessageDB.setReadFlagBySerialNo(serialNo);
+      var _innerDefer = $q.defer();
+      NoticeMessageDB.setReadFlagBySerialNo(serialNo).then(function () {
+        _innerDefer.resolve();
+        updateBadge();
+      }, function (error) {
+        _innerDefer.reject(error);
+      });
     }
 
     return {
@@ -404,7 +476,7 @@
       onReceiveNoticeMessageList: _onReceiveNoticeMessageList,
       refreshNoticeMessageListFromServer: _refreshNoticeMessageListFromServer,
       registerObserver: _registerObserver,
-      unregisterObserver:_unregisterObserver,
+      unregisterObserver: _unregisterObserver,
       getNoticeMessageTypes: _getNoticeMessageTypes,
       getNoticeMessage: _getNoticeMessage,
       getAllNoticeMessage: getAllNoticeMessage,
@@ -413,6 +485,8 @@
       setReadFlagForLessAndEqualSerialNo: _setReadFlagForLessAndEqualSerialNo,
       setReadFlagByType: setReadFlagByType,
       setReadFlagBySerialNo: setReadFlagBySerialNo,
+      getAllNoticeMessageFromDB: getAllNoticeMessageFromDB,
+      updateBadge: updateBadge,
     };
 
 
