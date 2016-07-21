@@ -57,7 +57,7 @@
 
             <!--<p class="_desc-p">{{vm.task.deadline}}截止</p>-->
             <p class="_desc-p" ng-if="vm.task.taskTypesId<200">{{vm.task.deadline | IMDateShow}}{{' '}}截止</p>
-            <p class="_desc-p" ng-if="vm.task.taskTypesId>=200">{{vm.task.startTime | BorrowDateShowFn}}{{' ~ '}}{{vm.task.deadline | BorrowDateShowFn}}{{' 借用'}}</p>
+            <p class="_desc-p" ng-if="vm.task.taskTypesId>=200">{{vm.task.deadline | BorrowDateShowFn}}{{' ~ '}}{{vm.task.returnTime | BorrowDateShowFn}}{{' 借用'}}</p>
           </div>
           <div class="appendix">
             <i class="icon ho-location address"></i>

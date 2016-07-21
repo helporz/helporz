@@ -48,19 +48,19 @@
 
       <div class="left-align  split" ng-show="taskTypeIndex == 2"></div>
 
-      <div class="row group-item group-item-input no-border left-align" ng-show="taskTypeIndex == 2">
+      <div class="row group-item group-item-input no-border left-align" >
         <div class="icon ho-alert-clock color-text-secondary font-size-14" style="margin: 0 1px 0 1px"/>
-        <input class="col-80" type="text" placeholder="起借时间" ng-model="ctl.startTimeShow"
-               ng-click="ctl.setStartTime($event)" required readonly/>
+        <input class="col-80" type="text" placeholder="{{taskTypeIndex==2?'起借时间': '截止时间'}}" ng-model="ctl.deadlineShow"
+               ng-click="ctl.setDeadline($event)" required readonly/>
       </div>
 
       <div class="left-align  split"></div>
 
-      <div class="row group-item group-item-input no-border left-align">
+      <div class="row group-item group-item-input no-border left-align" ng-show="taskTypeIndex == 2">
         <!--<img class="icon" src="./img/login/phone.png"/>-->
         <div class="icon ho-alert-clock color-text-secondary font-size-14" style="margin: 0 1px 0 1px"/>
-        <input class="col-80" type="text" placeholder="{{taskTypeIndex==2?'归还时间': '截止时间'}}" ng-model="ctl.deadlineShow"
-               ng-click="ctl.setDeadline($event)" required readonly/>
+        <input class="col-80" type="text" placeholder="归还时间" ng-model="ctl.returnTimeShow"
+               ng-click="ctl.setReturnTime($event)" required readonly/>
       </div>
 
     </div>

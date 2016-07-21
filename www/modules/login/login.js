@@ -19,6 +19,11 @@
           console.log(element);
           element.bind('click', function (event) {
             var phoneNo = scope.phoneno;
+            if( phoneNo === null || phoneNo.length == 0 ) {
+              promptService.promptMessage('请输入手机号',2000);
+              return ;
+            }
+
             console.log(phoneNo);
             var deviceInfo = {
               type: 2,
@@ -71,7 +76,7 @@
             }).error(function (event) {
               $log.error('dynamic login failed');
               $log.error(event);
-              promptService.promptMessage(event, 1500);
+              promptService.promptMessage('发送验证码失败，请稍后重试', 1500);
             });
           });
         }
@@ -99,6 +104,16 @@
         phoneNo = $scope.phoneno;
       console.log(phoneNo);
       //var deviceInfo = deviceService.getDeviceInfo();
+
+      if( smsCode === null || smsCode.length == 0 ) {
+        promptService.promptMessage('请输入验证码',2000);
+        return ;
+      }
+
+      if( phoneNo === null || phoneNo.length == 0 ) {
+        promptService.promptMessage('请输入手机号',2000);
+        return ;
+      }
 
       $ionicLoading.show({
         template: "登录中..."
