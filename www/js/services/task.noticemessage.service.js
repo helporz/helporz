@@ -403,7 +403,7 @@
           }
 
           console.log('updateBadge: setBadge ' + badgeNumber);
-          console.log('updateBadge: currentPlatform ' + device.platform  + ' ' + window.plugins.jPushPlugin.isPlatformIOS());
+          console.log('updateBadge: currentPlatform ' + device.platform + ' ' + window.plugins.jPushPlugin.isPlatformIOS());
           window.plugins.jPushPlugin.setBadge(badgeNumber);
           window.plugins.jPushPlugin.setApplicationIconBadgeNumber(badgeNumber);
         }
@@ -471,7 +471,22 @@
       });
     }
 
+    var addLocalUnreadMessage = function (taskId, msgType, message) {
+      return NoticeMessageDB.addLocalUnreadMessage(taskId, msgType, message);
+    }
+
+    var createLocalUnreadMessage = function (taskId, msgType, message) {
+      var unreadMessageRecord = NoticeMessageDB.createRecord('noticeMessage');
+      unreadMessageRecord.userId = _currentUserId;
+      unreadMessageRecord.correlationId = taskId;
+      unreadMessageRecord.type = msgType;
+      unreadMessageRecord.serialNo = -1;
+      unreadMessageRecord.message = message;
+      return unreadMessageRecord;
+    }
+
     return {
+      NOTICE_TYPE: NOTICE_TYPE,
       initService: _initService,
       onReceiveNoticeMessageList: _onReceiveNoticeMessageList,
       refreshNoticeMessageListFromServer: _refreshNoticeMessageListFromServer,
@@ -487,6 +502,8 @@
       setReadFlagBySerialNo: setReadFlagBySerialNo,
       getAllNoticeMessageFromDB: getAllNoticeMessageFromDB,
       updateBadge: updateBadge,
+      addLocalUnreadMessage: addLocalUnreadMessage,
+      createLocalUnreadMessage: createLocalUnreadMessage,
     };
 
 
@@ -693,6 +710,17 @@
       return _innerDefer.promise;
     }
 
+    var addLocalUnreadMessage = function (taskId, msgType, message) {
+      var unreadMessageRecord = _createRecord('noticeMessage');
+      unreadMessageRecord.userId = _currentUserId;
+      unreadMessageRecord.correlationId = taskId;
+      unreadMessageRecord.type = msgType;
+      unreadMessageRecord.serialNo = -1;
+      unreadMessageRecord.message = message;
+
+      return dbService.addRecords('noticeMessage', unreadMessageRecord, patterns['noticeMessage']);
+    }
+
     return {
       initDB: _initDB,
       createRecord: _createRecord,
@@ -706,6 +734,7 @@
       getUnReadMessageByType: _getUnReadMessageByType,
       getAllUnreadMessage: _getAllUnreadMessage,
       getAllUnreadMessageEx: getAllUnreadMessageEx,
+      addLocalUnreadMessage: addLocalUnreadMessage,
     };
   }
 
