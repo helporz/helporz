@@ -7,8 +7,9 @@
 
   angular.module('app.netwrapper.service')
 
-    .factory('taskNetWrapper', ['$rootScope', '$timeout', 'taskNetService', '$ionicLoading','taskUtils','promptService',
-      function ($rootScope, $timeout, taskNetService, $ionicLoading, taskUtils, promptService) {
+    .factory('taskNetWrapper', ['$rootScope', '$timeout', 'taskNetService', '$ionicLoading', 'taskUtils', 'promptService',
+      'NoticeMessageService',
+      function ($rootScope, $timeout, taskNetService, $ionicLoading, taskUtils, promptService, NoticeMessageService) {
 
         return {
           acceptTask: acceptTask
@@ -19,6 +20,12 @@
           $ionicLoading.show();
           taskNetService.acceptTask(task.id).then(
             function (data) {
+              NoticeMessageService.addLocalUnreadMessage(task.id, NoticeMessageService.NOTICE_TYPE.ACCEPTER_UNCOMPLETED_TASK_MESSAGE_TYPE, '成功接单');
+              if (taskNetService.cache.nm_acceptGoing == null) {
+                taskNetService.cache.nm_acceptGoing = new Array();
+              }
+              taskNetService.cache.nm_acceptGoing.push(
+                NoticeMessageService.createLocalUnreadMessage(task.id, NoticeMessageService.NOTICE_TYPE.ACCEPTER_UNCOMPLETED_TASK_MESSAGE_TYPE, '成功接单'));
 
               //成功
               $ionicLoading.show({
@@ -29,22 +36,26 @@
 
 
                 //接物品,提示出示证件
-                if(taskUtils.mainByTypeValue(task.taskTypesId) == 2){
+                if (taskUtils.mainByTypeValue(task.taskTypesId) == 2) {
                   $ionicLoading.show({
                     duration: 2000,
                     template: '请记录对方出示的学生证以防欺诈'
                   });
-                  $timeout(function() {
+                  $timeout(function () {
                     taskNetService.cache.isNearTaskNeedRefresh = true;
                     taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
-                    if(cb_success) {
+                    taskNetService.cache.nm_main_changed = true;
+                    taskNetService.cache.nm_task_changed = true;
+                    if (cb_success) {
                       cb_success();
                     }
                   }, 1500);
 
-                }else{
+                } else {
                   taskNetService.cache.isNearTaskNeedRefresh = true;
                   taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
+                  taskNetService.cache.nm_main_changed = true;
+                  taskNetService.cache.nm_task_changed = true;
                   if (cb_success) {
                     cb_success();
                   }
