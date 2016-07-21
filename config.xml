@@ -106,4 +106,5 @@
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
     <plugin name="com.phonegap.core.phonedialer" spec="https://github.com/j-mcnally/PhoneGap-ios-PhoneDialer" />
     <plugin name="cordova-plugin-datepicker" spec="~0.9.3" />
+    <plugin name="cordova-plugin-badge" spec="https://github.com/katzer/cordova-plugin-badge" />
 </widget>
