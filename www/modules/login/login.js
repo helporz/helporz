@@ -195,11 +195,11 @@
 
   loginServiceFn.$inject = ['$ionicHistory', '$q', '$http', '$log', '$ionicLoading', 'deviceService', 'errorCodeService', 'httpErrorCodeService',
     'userLoginInfoService', 'userNetService', 'jimService', 'debugHelpService', 'PlaygroundStartupService',
-    'utilConvertDateToString', 'taskNetService', 'NoticeMessageService', 'IMInterfaceService',
+    'utilConvertDateToString', 'taskNetService', 'NoticeMessageService', 'IMInterfaceService','taskNetService',
   'promptService'];
   function loginServiceFn($ionicHistory, $q, $http, $log, $ionicLoading, deviceService, errorCodeService, httpErrorCodeService,
                           userLoginInfoService, userNetService, jimService, debugHelpService, PlaygroundStartupService,
-                          utilConvertDateToString, taskNetService, NoticeMessageService, IMInterfaceService,
+                          utilConvertDateToString, taskNetService, NoticeMessageService, IMInterfaceService,taskNetService,
                           promptService) {
     var loginTicket;
     var _login = function (phoneNo, smsCode) {
@@ -264,6 +264,7 @@
           var userId = userLoginInfoService.getLoginInfo().userInfo.userId;
           PlaygroundStartupService.initService(userId);
           NoticeMessageService.initService(userId);
+          taskNetService.initFlags();   //lkj: 换账号登陆后,任务列表需要重刷
           $ionicHistory.clearHistory();
           _innerDefer.resolve();
         }, function (error) {

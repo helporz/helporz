@@ -163,7 +163,8 @@
       .thank-what {
         display: inline;
         font-size: 11px;
-        margin-left: 2px;
+        margin-left: 0px;
+        padding-left: 0 !important;
         //color: #fff;
         //background-color: $color-theme;
 
@@ -196,7 +197,7 @@
         margin-bottom: 0;
       }
       .button-accept {
-        width: 70px;
+        width: 72px;
         //height: 24px;
         border-radius: 5px;
         //border-width: 1px;

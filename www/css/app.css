@@ -2079,7 +2079,8 @@
     .topics .content-right .summary-panel .thank-what {
       display: inline;
       font-size: 11px;
-      margin-left: 2px;
+      margin-left: 0px;
+      padding-left: 0 !important;
       color: #f78058; }
     .topics .content-right .bottom-panel {
       display: -webkit-box;
@@ -2126,7 +2127,7 @@
         color: #878787;
         margin-bottom: 0; }
       .topics .content-right .bottom-panel .button-accept {
-        width: 70px;
+        width: 72px;
         border-radius: 5px;
         font-size: 12px;
         font-weight: bold;

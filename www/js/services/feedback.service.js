@@ -32,8 +32,8 @@
     }
 
     var reportTypes = [
-      {text: '交易欺骗'},
-      {text: '聊天骚扰'},
+      //{text: '交易欺骗'},
+      //{text: '聊天骚扰'},
       {text: '不良信息'},
       {text: '垃圾广告'},
       {text: '侵犯隐私'},

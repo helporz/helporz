@@ -56,8 +56,8 @@
             <i class="icon ho-alert-clock deadline "></i>
 
             <!--<p class="_desc-p">{{vm.task.deadline}}截止</p>-->
-            <p class="_desc-p" ng-if="vm.task.taskTypesId<200">{{vm.task.deadline | IMDateShow}}截止</p>
-            <p class="_desc-p" ng-if="vm.task.taskTypesId>=200">{{vm.task.startTime | IMDateShow}}{{' ~ '}}{{vm.task.deadline | IMDateShow}}{{' 借用'}}</p>
+            <p class="_desc-p" ng-if="vm.task.taskTypesId<200">{{vm.task.deadline | IMDateShow}}{{' '}}截止</p>
+            <p class="_desc-p" ng-if="vm.task.taskTypesId>=200">{{vm.task.startTime | BorrowDateShowFn}}{{' ~ '}}{{vm.task.deadline | BorrowDateShowFn}}{{' 借用'}}</p>
           </div>
           <div class="appendix">
             <i class="icon ho-location address"></i>
@@ -65,7 +65,7 @@
             <p class="_desc-p">{{vm.task.pubLocation}}</p>
           </div>
           <div>
-            <p class="thank">感谢</p>
+            <p class="thank">感谢：</p>
 
             <p class="thank-what text-tag tabs-color-light">{{vm.task.rewardDescription}} </p>
           </div>
@@ -85,7 +85,7 @@
           <p class="my-task-txt" ng-if="vm.task.ui_isMyTask">我的求助</p>
           <button class="button-accept  button-light-red _accept-bt" ng-if="!vm.task.ui_isMyTask" ng-click="vm.cb_acceptTask($index)">
           <!--<button ng-show="!vm.ui_taskAccepte" class="button-accept  button-light-red _accept-bt" ng-click="vm.submit()">-->
-            接单
+            出手相助
           </button>
         </div>
       </div>

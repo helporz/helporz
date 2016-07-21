@@ -50,8 +50,8 @@
               <div class="appendix">
                 <i class="icon ho-alert-clock deadline "></i>
 
-                <p ng-if="item.taskTypesId<200">{{item.deadline | IMDateShow}}截止</p>
-                <p ng-if="item.taskTypesId>=200">{{item.startTime | IMDateShow}}{{' ~ '}}{{item.deadline | IMDateShow}}{{' 借用'}}</p>
+                <p ng-if="item.taskTypesId<200">{{item.deadline | IMDateShow}}{{' '}}截止</p>
+                <p ng-if="item.taskTypesId>=200">{{item.startTime | BorrowDateShowFn}}{{' ~ '}}{{item.deadline | BorrowDateShowFn}}{{' 借用'}}</p>
               </div>
               <div class="appendix">
                 <i class="icon ho-location address"></i>
@@ -59,7 +59,7 @@
                 <p>{{item.pubLocation}}</p>
               </div>
               <div>
-                <p class="thank">感谢:</p>
+                <p class="thank">感谢：</p>
 
                 <p class="thank-what tabs-color-light">{{item.rewardDescription}} </p>
               </div>
@@ -79,7 +79,7 @@
 
               <p class="my-task-txt" ng-if="item.ui_isMyTask">我的求助</p>
               <button class="button-accept  button-light-red" ng-if="!item.ui_isMyTask" ng-click="vm.cb_acceptTask($index)">
-                接单
+                出手相助
               </button>
             </div>
           </div>

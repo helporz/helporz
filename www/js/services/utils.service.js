@@ -415,6 +415,7 @@
     .constant('base64', (Base64ConstantFn)())
     .filter('DateShow', DateShowFn)
     .filter('IMDateShow', IMDateShowFn)
+    .filter('BorrowDateShowFn', BorrowDateShowFn)
     .filter('String2Date', String2DateFn)
     .directive('focusMe', focusMeFn);
 
@@ -555,7 +556,30 @@
         }
       }
 
-      return d.Format("yyyy-MM-dd hh:mm");
+      //return d.Format("yyyy-MM-dd hh:mm");
+      return d.Format("M月d日 hh:mm");
+    }
+
+    return filterFn;
+  }
+
+  // copy from IMDateShowFn..
+  function BorrowDateShowFn() {
+    var filterFn = function (dateString) {
+      var d = new Date(dateString.replace(/-/g, "/"));
+      var currentDate = new Date();
+      if (d.getFullYear() === currentDate.getFullYear() &&
+        d.getMonth() === currentDate.getMonth()) {
+
+        var diffDay = d.getDay() - currentDate.getDay()
+        if (diffDay == 0) {
+          return d.getHours() + ":" + d.getMinutes();
+        }
+        else if (-1) {
+          return "昨天" + " " + d.getHours() + ":" + d.getMinutes();
+        }
+      }
+      return d.Format("M月d日");
     }
 
     return filterFn;
