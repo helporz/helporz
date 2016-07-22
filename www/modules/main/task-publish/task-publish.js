@@ -168,9 +168,9 @@
 
 
   taskPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', '$ionicPopup', '$ionicPopover', '$ionicLoading', '$timeout', '$cordovaDatePicker',
-    'taskPublishModalService', 'taskNetService', 'taskUtils', 'taskDesc','promptService','SharePageService'];
+    'taskPublishModalService', 'taskNetService', 'taskUtils', 'taskDesc','promptService','SharePageService','NoticeMessageService'];
   function taskPublishControllerFn($scope, $log, $ionicModal, $ionicPopup, $ionicPopover, $ionicLoading, $timeout, $cordovaDatePicker,
-                                   taskPublishModalService, taskNetService, taskUtils, taskDesc,promptService,SharePageService) {
+                                   taskPublishModalService, taskNetService, taskUtils, taskDesc,promptService,SharePageService,NoticeMessageService) {
     var _ctlSelf = this;
 
     this.setRewardType = function (reward, subReward) {
@@ -286,10 +286,19 @@
           _pov.hide();
           //},300);
 
+          NoticeMessageService.addLocalUnreadMessage(taskId, NoticeMessageService.NOTICE_TYPE.POSTER_UNCOMPLETED_TASK_MESSAGE_TYPE, '发送求助成功');
+          if (taskNetService.cache.nm_postGoing == null) {
+            taskNetService.cache.nm_postGoing = new Array();
+          }
+          taskNetService.cache.nm_postGoing.push(
+            NoticeMessageService.createLocalUnreadMessage(taskId, NoticeMessageService.NOTICE_TYPE.POSTER_UNCOMPLETED_TASK_MESSAGE_TYPE, '发送求助成功'));
+
           _ctlSelf.closeModal();
           // 加入标志量,以供其他页面update
           taskNetService.cache.isPostTaskGoingNeedRefresh = true;
           taskNetService.cache.isNearTaskNeedRefresh = true;
+          taskNetService.cache.nm_main_changed = true;
+          taskNetService.cache.nm_task_changed = true;
         }
 
         var popupScope = $scope.$new();

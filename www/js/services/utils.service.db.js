@@ -128,7 +128,7 @@
               _dbDefer.reject(e);
             });
           });
-          //console.log(sql);
+          console.log(sql);
           return _dbDefer.promise;
         },
         findRecords: function (table, where) {

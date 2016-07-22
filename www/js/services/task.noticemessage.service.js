@@ -404,8 +404,15 @@
 
           console.log('updateBadge: setBadge ' + badgeNumber);
           console.log('updateBadge: currentPlatform ' + device.platform + ' ' + window.plugins.jPushPlugin.isPlatformIOS());
-          window.plugins.jPushPlugin.setBadge(badgeNumber);
-          window.plugins.jPushPlugin.setApplicationIconBadgeNumber(badgeNumber);
+          if( window.plugins.jPushPlugin.isPlatformIOS()) {
+            window.plugins.jPushPlugin.setBadge(badgeNumber);
+            window.plugins.jPushPlugin.setApplicationIconBadgeNumber(badgeNumber);
+          }
+          else {
+            if (window.cordova && window.cordova.plugins && window.cordova.plugins.notification) {
+              window.cordova.plugins.notification.badge.set(badgeNumber);
+            }
+          }
         }
       });
     }

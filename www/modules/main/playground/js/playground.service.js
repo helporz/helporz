@@ -201,6 +201,10 @@
       return httpBaseService.getForPromise('/playground/adList', null);
     }
 
+    var getCollectionBriefList = function () {
+      return httpBaseService.getForPromise('/playground/topic/collection/brief-list', null);
+    }
+
     return {
       getTopicGroupList: _getTopicGroupList,
       getTopicListByGroup: _getTopicListByGroup,
@@ -224,6 +228,7 @@
       //addShareCount: _addShareCount,
       getTopicTagList: _getTopicTagList,
       getAdList: getAdList,
+      getCollectionBriefList: getCollectionBriefList,
     };
   };
 
@@ -318,6 +323,11 @@
     var _currentUserId = '';
     var _buildCacheFromDB = function (currentUserId) {
       PlaygroundDBService.findRecords('filterTopic', 'userId = "' + currentUserId + '"').then(function (records) {
+        if( records == null ) {
+          return ;
+        }
+
+        $log.info('filterTopicService: current record length ' +  records.length);
         for (var index = 0; index < records.length; ++index) {
           var record = records[index];
           _cacheTable.put(record.topicId, record);
@@ -377,6 +387,11 @@
 
     var _buildCacheFromDB = function (currentUserId) {
       PlaygroundDBService.findRecords('favouriteTopic', 'userId = "' + currentUserId + '"').then(function (records) {
+        if( records == null ) {
+          return ;
+        }
+
+        $log.info('favouriteTopicService: current record length ' +  records.length);
         for (var index = 0; index < records.length; ++index) {
           var record = records[index];
           _cacheTable.put(record.topicId, record);
@@ -458,6 +473,11 @@
 
     var _buildCacheFromDB = function (currentUserId) {
       PlaygroundDBService.findRecords('collectionTopic', 'userId = "' + currentUserId + '"').then(function (records) {
+        if( records == null ) {
+          return ;
+        }
+
+        $log.info('collectionTopic: current record length ' +  records.length);
         for (var index = 0; index < records.length; ++index) {
           var record = records[index];
           _cacheTable.put(record.topicId, record);
@@ -470,6 +490,26 @@
 
     var _buildCacheFromServer = function (currentUserId) {
       _currentUserId = currentUserId;
+      $log.info('collectionTopic: buildCacheFromServer currentUserId ' +  currentUserId );
+      PlaygroundNetService.getCollectionBriefList().then(function (list) {
+        if (list == null) {
+          return;
+        }
+        $log.info('collectionTopic: current record length ' +  list.length);
+
+        var recordList = new Array();
+        for (var index = 0; index < list.length; ++index) {
+          var record = PlaygroundDBService.createRecord('collectionTopic');
+          record.topicId = list[index].topicId;
+          record.userId = list[index].userId;
+          recordList.push(record);
+          _cacheTable.put(record.topicId, record);
+        }
+        PlaygroundDBService.saveRecords('collectionTopic', recordList);
+
+      }, function (error) {
+        $log.error(' collectionTopicService:build cache from server failed ' + error);
+      });
     };
 
     var _addCollectionTopic = function (topicId, topicCreated) {
@@ -525,6 +565,7 @@
 
     return {
       buildCacheFromDB: _buildCacheFromDB,
+      buildCacheFromServer: _buildCacheFromServer,
       addCollectionTopic: _addCollectionTopic,
       cancelCollectionTopic: _cancelCollectionTopic,
       isCollectionTopic: _isCollectionTopic,
@@ -780,11 +821,11 @@
     }
 
     var getTopicDetailInfo = function (topicId, startCommentId, pageNum, pageSize) {
-        var _innerDefer = $q.defer();
-      PlaygroundNetService.getTopicDetailInfo(topicId,startCommentId,pageNum,pageSize).then(function(res) {
+      var _innerDefer = $q.defer();
+      PlaygroundNetService.getTopicDetailInfo(topicId, startCommentId, pageNum, pageSize).then(function (res) {
         res.topic = preprocessTopic(res.topic);
         _innerDefer.resolve(res);
-      },function(error) {
+      }, function (error) {
         _innerDefer.reject(error);
       });
       return _innerDefer.promise;
@@ -806,8 +847,8 @@
       getADList: getADList,
       getCollectionTopicListByUser: getCollectionTopicListByUser,
       getOwnTopicListByUser: getOwnTopicListByUser,
-      updateTopic2Cache:updateTopic2Cache,
-      getTopicDetailInfo:getTopicDetailInfo,
+      updateTopic2Cache: updateTopic2Cache,
+      getTopicDetailInfo: getTopicDetailInfo,
     };
   }
 
@@ -886,16 +927,21 @@
     };
   }
 
-  PlaygroundStartupServiceFn.$inject = ['topicService', 'PlaygroundDBService', 'favouriteTopicService',
-    'topicBlacklistService', 'filterTopicService'];
-  function PlaygroundStartupServiceFn(topicService, PlaygroundDBService, favouriteTopicService,
-                                      topicBlacklistService, filterTopicService) {
+  PlaygroundStartupServiceFn.$inject = ['$timeout', 'topicService', 'PlaygroundDBService', 'favouriteTopicService',
+    'topicBlacklistService', 'filterTopicService', 'collectionTopicService'];
+  function PlaygroundStartupServiceFn($timeout, topicService, PlaygroundDBService, favouriteTopicService,
+                                      topicBlacklistService, filterTopicService, collectionTopicService) {
     var _init = function (currentUserId) {
       PlaygroundDBService.createTable();
       topicService.initService();
       favouriteTopicService.buildCacheFromDB(currentUserId);
       topicBlacklistService.buildCacheFromDB(currentUserId);
       filterTopicService.buildCacheFromDB(currentUserId);
+      collectionTopicService.buildCacheFromDB(currentUserId);
+
+      $timeout(function () {
+        collectionTopicService.buildCacheFromServer(currentUserId);
+      });
     }
 
     return {

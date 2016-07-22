@@ -146,11 +146,6 @@
         window.open = window.cordova.plugins.InAppBrowser.open;
       }
 
-      //badge
-      if (window.cordova && window.cordova.plugins && window.cordova.plugins.notification) {
-        window.cordova.plugins.notification.badge.set(10);
-      }
-
       var hideSplashScreen = function(){
         if($window.navigator.splashscreen){ $cordovaSplashscreen.hide(); }
       }

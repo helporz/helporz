@@ -439,6 +439,10 @@
       var errorMessage = errorCodeService.getErrorCodeDescription(errorCode);
       if (errorMessage == null) {
         errorMessage = httpErrorCodeService.getErrorCodeDescription(errorCode);
+        if( errorMessage == null ) {
+          errorMessage = '出错啦！请将后面的信息告诉客服小弟：'+ errorCode;
+          duration = 5000;
+        }
       }
       promptMessage(errorMessage, duration);
     }
@@ -551,7 +555,7 @@
         if (diffDay == 0) {
           return d.getHours() + ":" + d.getMinutes();
         }
-        else if (-1) {
+        else if (diffDay == -1) {
           return "昨天" + " " + d.getHours() + ":" + d.getMinutes();
         }
       }
