@@ -126,6 +126,22 @@
   width: 80px;
 }
 
+.login-protocol-panel {
+  //margin-top: -5px;
+  @include display-flex();
+  @include align-items(center);
+  @include justify-content(center);
+}
+.login-check-icon {
+  color: #e3e3e3;
+  font-size: 18px;
+  display: inline-block;
+  + p {
+    display: inline-block;
+    margin: 0 0 0 10px;
+  }
+}
+
 ////////////////////
 .group-wrapper {
   -webkit-box-align: center;

@@ -257,8 +257,8 @@
         });
     }
 
-    vm.cb_contact = function() {
-
+    vm.cb_contact = function(item) {
+      userUtils.gotoIM(item.commentator);
     }
 
   }

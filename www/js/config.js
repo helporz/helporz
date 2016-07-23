@@ -101,11 +101,15 @@ var appConst = {
 
   task_pageSize : 15,
 
-  holder_editDepartment:'会得到同门的帮助哦',
+  holder_me_department: '填写后将获得同院系童鞋的支援哦',
+  holder_me_dormitory: '填写后将获得同栋童鞋的支援哦',
+  holder_me_hometown: '填写后将获得老乡的支援哦',
+
+  holder_editDepartment:'填写院系全称',
   max_editDepartment: 10,
-  holder_editDormitory: '会得到同楼童鞋的帮助哦',
+  holder_editDormitory: '例如：西区23栋',
   max_editDormitory: 10,
-  holder_editHometown: '例如:四川成都。会得到老乡的帮助哦',
+  holder_editHometown: '例如：四川成都',
   max_editHometown: 10,
   holder_editSign: '这位江湖菜鸟尚无签名',
 }

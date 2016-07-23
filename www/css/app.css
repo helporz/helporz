@@ -311,6 +311,8 @@
   .ho-list .ho-item .content {
     font-size: 15px;
     color: #878787; }
+    .ho-list .ho-item .content.holder {
+      color: #c8c8c8; }
   .ho-list .ho-item .content-right {
     display: -webkit-box;
     display: -webkit-flex;
@@ -587,6 +589,10 @@
   border-radius: 10px; }
 
 .popup-container.popup-hidden .popup {
+  border-radius: 10px; }
+
+.popup-container .popup {
+  overflow: hidden;
   border-radius: 10px; }
 
 [tab-view-state="entering"], [tab-view-state="leaving"] {
@@ -1575,6 +1581,32 @@
 
 .login-title img {
   width: 80px; }
+
+.login-protocol-panel {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  justify-content: center; }
+
+.login-check-icon {
+  color: #e3e3e3;
+  font-size: 18px;
+  display: inline-block; }
+  .login-check-icon + p {
+    display: inline-block;
+    margin: 0 0 0 10px; }
 
 .group-wrapper {
   -webkit-box-align: center;
@@ -2608,9 +2640,10 @@
         color: #2a2a2a; }
       .task-comment-panel .right-panel .comment-panel .comment-icon {
         height: 25px;
-        width: 25px;
-        font-size: 17px;
-        color: #FF432F; }
+        width: 35px;
+        font-size: 19px;
+        color: #FF432F;
+        padding: 0 10px 5px 5px; }
 
 .task-detail-footer-bar.bar-footer.has-tabs {
   bottom: 0px; }
@@ -4087,7 +4120,7 @@ ion-popover-view#task-publish-success-popup {
 .topic-group-popover {
   padding: 2px 0;
   width: 140px;
-  height: 192px; }
+  height: 202px; }
   .topic-group-popover .topic-group-popover-item {
     line-height: 43px;
     display: -webkit-box;

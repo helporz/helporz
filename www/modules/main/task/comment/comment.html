@@ -10,9 +10,10 @@
         <div ng-repeat="item in vm.selectedPics">
 
           <img class="pic" ng-src="{{item}}" live-image on-click="vm.cb_deletePic($index)">
+          <!--<img class="pic" ng-src="{{item}}" ng-click="vm.cb_deletePic($index)">-->
 
         </div>
-        <img class="pic add" ng-show="vm.selectedPics.length<4" src="img/main/task/camera-gray.png" ng-click="vm.cb_addPic()">
+        <img class="pic add" ng-if="vm.selectedPics.length<4" src="img/main/task/camera-gray.png" ng-click="vm.cb_addPic()">
       </div>
     </div>
 

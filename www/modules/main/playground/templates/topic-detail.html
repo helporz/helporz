@@ -20,7 +20,7 @@
     <button class="button icon ion-ios-more" ng-click="vm.operateTopic($event)">
     </button>
   </ion-nav-buttons>
-  <ion-content class="topic-detail has-header user-topic">
+  <ion-content class="topic-detail has-header has-footer user-topic">
     <!--<ion-content class="has-header topic-group">-->
     <ion-refresher pulling-text="刷新中" on-refresh="vm.doRefresh()"></ion-refresher>
 
@@ -219,7 +219,7 @@
 
                 </div>
                 <div class="topic-comment-panel-right">
-                  <div class="reply-bt icon ho-chat-3" ng-click="vm.setReplyCommentFocus(item,$event)"></div>
+                  <div class="reply-bt font-size-20 icon ho-chat-3" style="padding: 5px;" ng-click="vm.setReplyCommentFocus(item,$event)"></div>
                 </div>
               </div>
 
@@ -231,7 +231,7 @@
     </div>
     <ion-infinite-scroll ng-if="vm.moreDataCanBeLoaded()" on-infinite="vm.loadMore()"
                          distance="1%"></ion-infinite-scroll>
-    <div class="string-empty" ng-if="vm.moreDataCanBeLoaded()==false">没有新评论了=￣ω￣=</div>
+    <!--<div class="string-empty" ng-if="vm.topic.commentCount>0 && vm.moreDataCanBeLoaded()==false">没有新评论了=￣ω￣=</div>-->
   </ion-content>
 
   <ho-bottom-input input="vm.sendContent"

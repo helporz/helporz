@@ -259,10 +259,9 @@
                   duration: 1500,
                   templateUrl: 'modules/components/templates/ionic-loading/user-relogin-hint.html'
                 });
-                $timeout(function () {
-                  $ionicLoading.hide();
+                //$timeout(function () {
                   $state.go('login');
-                }, 3000);
+                //}, 3000);
               }
               else {
                 onFailedFn(resp.code, data, status, headers, config);
@@ -301,10 +300,9 @@
                   duration: 1500,
                   templateUrl: 'modules/components/templates/ionic-loading/user-relogin-hint.html'
                 });
-                $timeout(function () {
-                  $ionicLoading.hide();
+                //$timeout(function () {
                   $state.go('login');
-                }, 3000);
+                //}, 3000);
               }
               else {
                 _postDefer.reject(resp.code);
@@ -336,10 +334,9 @@
                   duration: 1500,
                   templateUrl: 'modules/components/templates/ionic-loading/user-relogin-hint.html'
                 });
-                $timeout(function () {
-                  $ionicLoading.hide();
+                //$timeout(function () {
                   $state.go('login');
-                }, 3000);
+                //}, 3000);
               }
               else {
                 onFailedFn(resp.code, data, status, headers, config);
@@ -372,10 +369,9 @@
                   duration: 1500,
                   templateUrl: 'modules/components/templates/ionic-loading/user-relogin-hint.html'
                 });
-                $timeout(function () {
-                  $ionicLoading.hide();
+                //$timeout(function () {
                   $state.go('login');
-                }, 3000);
+                //}, 3000);
               }
               else {
                 _getDefer.reject(resp);

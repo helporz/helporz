@@ -70,11 +70,20 @@
   &.active {
     .popup {
       border-radius: 10px;
+      //-webkit-animation-duration: 50s !important;     //调试时打开,放慢动作
+      //animation-duration: 50s !important;
     }
   }
   &.popup-hidden {
     .popup {
       border-radius: 10px;
+      //-webkit-animation-duration: 5s !important;
+      //animation-duration: 5s !important;
     }
+  }
+
+  .popup {
+    overflow: hidden;
+    border-radius: 10px;
   }
 }

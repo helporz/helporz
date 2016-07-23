@@ -17,6 +17,7 @@
 
       selfInfo: null,
 
+
       userInfo: {}
     };
 
@@ -70,9 +71,10 @@
     var _getSelfInfoForPromise = function () {
       var getSelfDefer = $q.defer();
       httpBaseService.get('/user/get_self_info', null, function (resp, status, headers, config) {
-        getSelfDefer.resolve(resp.data);
         //cache it
         _cache.selfInfo = resp.data;
+
+        getSelfDefer.resolve(resp.data);
       }, function (code, data, status, headers, config) {
         getSelfDefer.reject(errorCodeService.getErrorCodeDescription(code));
       }, function (data, status, headers, config) {

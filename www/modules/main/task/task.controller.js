@@ -84,6 +84,7 @@
     var NMT = NoticeMessageService.getNoticeMessageTypes();
 
     var intervalFunc = function () {
+      var isNeedApply = false;
       //检测未读消息产生的badge
       var taskCache = taskNetService.cache;
       if (taskCache.nm_task_changed) {
@@ -96,6 +97,8 @@
         vm.badges.acceptFinish = taskCache.nm_acceptFinish.length;
 
         _refreshPostGoingTaskCommentNoticeMessage();
+
+        isNeedApply = true;
       }
 
       //根据当前页面,消除badge
@@ -106,6 +109,7 @@
             taskCache.nm_postGoing = [];
             taskCache.nm_main_changed = true;
             vm.badges.postGoing = taskCache.nm_comment.length;
+            isNeedApply = true;
           }
         } else {
           if (vm.badges.postFinish != 0) {
@@ -113,6 +117,7 @@
             taskCache.nm_postFinish = [];
             taskCache.nm_main_changed = true;
             vm.badges.postFinish = 0;
+            isNeedApply = true;
           }
         }
       } else {  // tab==1
@@ -122,6 +127,7 @@
             taskCache.nm_acceptGoing = [];
             taskCache.nm_main_changed = true;
             vm.badges.acceptGoing = 0;
+            isNeedApply = true;
           }
         } else {
           if (vm.badges.acceptFinish != 0) {
@@ -129,8 +135,15 @@
             taskCache.nm_acceptFinish = [];
             taskCache.nm_main_changed = true;
             vm.badges.acceptFinish = 0;
+            isNeedApply = true;
           }
         }
+      }
+
+      if(isNeedApply) {
+        $timeout(function(){
+          $scope.$apply();
+        })
       }
 
       //如果正在同步,跳过本次轮训
@@ -139,13 +152,13 @@
       }
       checkTaskNewState();
       //网络条件不佳,或者从服务器读取数据出错的时候,会将轮训间隔调大,当一段时间不出错(网络恢复后),将轮询间隔重置成最小值
-      if (vm.lastPollErrorOccurMS > 0 || vm.timeChecker.getTime() - vm.lastPollErrorOccurMS > POLL_MAX_TIME + 2000) {
-        //vm.pollInterval = POLL_MIN_TIME;
-
-        //从快轮询移除,加到慢轮训
-        intervalCenter.remove(0, 'task.controller', intervalFunc);
-        intervalCenter.add(1, 'task.controller', intervalFunc);
-      }
+      //if (vm.lastPollErrorOccurMS > 0 || vm.timeChecker.getTime() - vm.lastPollErrorOccurMS > POLL_MAX_TIME + 2000) {
+      //  //vm.pollInterval = POLL_MIN_TIME;
+      //
+      //  //从快轮询移除,加到慢轮训
+      //  intervalCenter.remove(0, 'task.controller', intervalFunc);
+      //  intervalCenter.add(1, 'task.controller', intervalFunc);
+      //}
     }
 
     //刷新postGoing列表中comment红点
@@ -231,7 +244,7 @@
 
       // try to remove from intervalCenter
       intervalCenter.remove(0, 'task.controller', intervalFunc);
-      intervalCenter.remove(1, 'task.controller', intervalFunc);
+      //intervalCenter.remove(1, 'task.controller', intervalFunc);
     });
 
 

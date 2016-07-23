@@ -13,7 +13,7 @@ var path = require('path');
 var exec = require('child_process').exec;
 
 
-if (1) {
+if (0) {
 
   process.stdout.write('start transport js...\n');
 
