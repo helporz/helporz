@@ -178,14 +178,15 @@
       _ctlSelf.selectedSubRewardType = subReward;
     }
 
-
-    this.closeModal = function () {
+    var closeModalProcess = function() {
       var publishModal = taskPublishModalService.getTaskPublishModal();
       publishModal.hide();
       cleanTaskControllerStatus(_ctlSelf);
 
       $scope.selectedSubTask = null;
     }
+
+    this.closeModal = closeModalProcess;
 
     this.deadline = null;//new Date();
     this.returnTime = null;//new Date();
@@ -417,7 +418,14 @@
           //  duration: 1500,
           //  templateUrl: 'modules/components/templates/ionic-loading/com-network-error.html'
           //})
-          promptService.promptMessage(error, 1500);
+          $ionicLoading.hide();
+          if( error ==  501 || error == 510 ) {
+            closeModalProcess();
+          }
+          else {
+            promptService.promptMessage(error, 1500);
+          }
+
         });
     }
   }

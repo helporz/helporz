@@ -8,14 +8,15 @@
   angular.module('main.near')
     .controller('mainNearCtrl', ['$state', '$log', '$ionicLoading', '$interval', '$timeout', '$scope', 'taskNetService', 'userNetService',
       'taskUtils', 'timeUtils', 'impressUtils', 'intervalCenter','SharePageWrapService', 'userUtils','IMInterfaceService',
-      'imMessageService','taskNetWrapper','promptService',
+      'imMessageService','taskNetWrapper','promptService','userLoginInfoService',
       mainNearCtrl]);
 
   function mainNearCtrl($state, $log, $ionicLoading, $interval, $timeout, $scope, taskNetService, userNetService,
                         taskUtils, timeUtils, impressUtils, intervalCenter,SharePageWrapService, userUtils,IMInterfaceService,
-                        imMessageService, taskNetWrapper,promptService) {
+                        imMessageService, taskNetWrapper,promptService,userLoginInfoService) {
 
     //fixme:因为点击会穿透,同时触发多个事件,这里先用标记来屏蔽,点击按钮后间隔一段时间才可触发下一次点击回调
+
     var _isClicking = false;
     var canClick = function () {
       if (_isClicking == false) {
@@ -46,6 +47,12 @@
     vm.taskNetService = taskNetService;
 
     function _refreshTaskList (cb_finally) {
+      if( !userLoginInfoService.isLogging()) {
+        $state.go('login');
+        intervalCenter.remove(0, 'near', intervalFunc);
+        return;
+      }
+
       vm.hasMoreTask = true;
       taskNetService.queryNewTaskList().then(flushSuccessFn, loadFailedFn).finally(function () {
         if(cb_finally) {
@@ -55,6 +62,7 @@
     }
 
     vm.doRefresh = function () {
+
       _refreshTaskList(function() {
         $scope.$broadcast('scroll.refreshComplete');
       })
@@ -63,6 +71,12 @@
     vm.hasMoreTask = true;
     vm.FirstLoadMore = true;
     vm.loadMore = function () {
+      if( !userLoginInfoService.isLogging()) {
+        $state.go('login');
+        intervalCenter.remove(0, 'near', intervalFunc);
+        return;
+      }
+
       if (vm.FirstLoadMore) {
         vm.FirstLoadMore = false;
         $scope.$broadcast('scroll.infiniteScrollComplete');
@@ -89,6 +103,12 @@
     }
 
     $scope.$on("$ionicView.enter", function () {
+      if( !userLoginInfoService.isLogging()) {
+        $state.go('login');
+        intervalCenter.remove(0, 'near', intervalFunc);
+        return;
+      }
+
       vm.noReadMessageCount = IMInterfaceService.getNoReadMessageCount();
       if (ho.isValid(userNetService.cache.selfInfo)) {
         vm.orgName = userNetService.cache.selfInfo.orgList[0].name;

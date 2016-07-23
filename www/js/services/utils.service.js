@@ -151,7 +151,7 @@
     }
 
     var _clear = function () {
-      localStorageService.update('userLoginInfo', null);
+      localStorageService.clear('userLoginInfo');
     }
 
     var _isShowIntro = function () {
@@ -168,6 +168,14 @@
       //else {
       //  return false;
       //}
+    }
+
+    var isLogging = function() {
+      var loginInfo = _getLoginInfo();
+      if (loginInfo == null) {
+        return false;
+      }
+      return true;
     }
 
     var _updateShowIntroInfo = function () {
@@ -189,6 +197,7 @@
       clear: _clear,
       isShowIntro: _isShowIntro,
       updateShowIntroInfo: _updateShowIntroInfo,
+      isLogging:isLogging,
     };
   }]).factory('deviceService', ['$log', 'pushService', function ($log, pushService) {
     var deviceServiceFactory = {};
@@ -238,8 +247,23 @@
     deviceServiceFactory.getDeviceInfo = _getDeviceInfo;
     return deviceServiceFactory;
   }])
-    .factory('httpBaseService', ['$q', '$http', '$log', '$state', '$timeout', '$ionicLoading', 'userLoginInfoService', 'errorCodeService', 'httpErrorCodeService',
-      function ($q, $http, $log, $state, $timeout, $ionicLoading, userLoginInfoService, errorCodeService, httpErrorCodeService) {
+    .factory('httpBaseService', ['$q', '$http', '$log', '$state', '$timeout', '$ionicLoading', 'userLoginInfoService',
+      'errorCodeService', 'httpErrorCodeService', 'jimService',
+      function ($q, $http, $log, $state, $timeout, $ionicLoading, userLoginInfoService, errorCodeService, httpErrorCodeService, jimService) {
+
+        var reloginProcess = function () {
+          $ionicLoading.hide();
+          $ionicLoading.show({
+            duration: 1500,
+            templateUrl: 'modules/components/templates/ionic-loading/user-relogin-hint.html'
+          });
+          jimService.logout();
+          userLoginInfoService.clear();
+
+          $state.go('main.near');
+
+        }
+
         var _post = function (url, data, onSuccessFn, onFailedFn, onHttpFailedFn) {
           $http({
             method: 'POST', url: appConfig.API_SVC_URL + url, data: data,
@@ -254,19 +278,10 @@
             }
             else {
               if (resp.code == 501 || resp.code == 510) {
-                $ionicLoading.hide();
-                $ionicLoading.show({
-                  duration: 1500,
-                  templateUrl: 'modules/components/templates/ionic-loading/user-relogin-hint.html'
-                });
-                $timeout(function () {
-                  $ionicLoading.hide();
-                  $state.go('login');
-                }, 3000);
+                reloginProcess();
               }
-              else {
-                onFailedFn(resp.code, data, status, headers, config);
-              }
+
+              onFailedFn(resp.code, data, status, headers, config);
             }
           }).error(function (data, status, headers, config) {
             onHttpFailedFn(data, status, headers, config);
@@ -296,19 +311,10 @@
             }
             else {
               if (resp.code == 501 || resp.code == 510) {
-                $ionicLoading.hide();
-                $ionicLoading.show({
-                  duration: 1500,
-                  templateUrl: 'modules/components/templates/ionic-loading/user-relogin-hint.html'
-                });
-                $timeout(function () {
-                  $ionicLoading.hide();
-                  $state.go('login');
-                }, 3000);
+                reloginProcess();
               }
-              else {
-                _postDefer.reject(resp.code);
-              }
+
+              _postDefer.reject(resp.code);
             }
           }).error(function (data, status) {
             alert(data);
@@ -331,19 +337,10 @@
             }
             else {
               if (resp.code == 501 || resp.code == 510) {
-                $ionicLoading.hide();
-                $ionicLoading.show({
-                  duration: 1500,
-                  templateUrl: 'modules/components/templates/ionic-loading/user-relogin-hint.html'
-                });
-                $timeout(function () {
-                  $ionicLoading.hide();
-                  $state.go('login');
-                }, 3000);
+                reloginProcess();
               }
-              else {
-                onFailedFn(resp.code, data, status, headers, config);
-              }
+
+              onFailedFn(resp.code, data, status, headers, config);
             }
           }).error(function (data, status, headers, config) {
             onHttpFailedFn(data, status, headers, config);
@@ -367,19 +364,9 @@
             }
             else {
               if (resp.code == 501 || resp.code == 510) {
-                $ionicLoading.hide();
-                $ionicLoading.show({
-                  duration: 1500,
-                  templateUrl: 'modules/components/templates/ionic-loading/user-relogin-hint.html'
-                });
-                $timeout(function () {
-                  $ionicLoading.hide();
-                  $state.go('login');
-                }, 3000);
+                reloginProcess();
               }
-              else {
-                _getDefer.reject(resp);
-              }
+              _getDefer.reject(resp.code);
             }
           }).error(function (data, status) {
             _getDefer.reject(status);
@@ -439,8 +426,8 @@
       var errorMessage = errorCodeService.getErrorCodeDescription(errorCode);
       if (errorMessage == null) {
         errorMessage = httpErrorCodeService.getErrorCodeDescription(errorCode);
-        if( errorMessage == null ) {
-          errorMessage = '出错啦！请将后面的信息告诉客服小弟：'+ errorCode;
+        if (errorMessage == null) {
+          errorMessage = '出错啦！请将后面的信息告诉客服小弟：' + errorCode;
           duration = 5000;
         }
       }
