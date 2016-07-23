@@ -570,7 +570,7 @@
     var _fetchNoticeMessage = function () {
 
       //ho.alert('_fetchMessage');
-      NoticeMessageService.getAllNoticeMessage().then(function (noticeMessageList) {
+      NoticeMessageService.getAllNoticeMessageEx().then(function (noticeMessageData) {
 
         //old
         var postGoing_oldCount = cache.nm_postGoing.length;
@@ -589,6 +589,34 @@
         var follow = cache.nm_follow = [];
 
 
+        cache.nm_postGoing = noticeMessageData.uncompleted_post_task_message_list;
+        cache.nm_postFinish = noticeMessageData.completed_post_task_message_list;
+        cache.nm_acceptGoing = noticeMessageData.uncompleted_accept_task_message_list;
+        cache.nm_acceptFinish = noticeMessageData.completed_accept_task_message_list;
+        cache.nm_comment = noticeMessageData.comment_task_message_list;
+        cache.nm_follow = noticeMessageData.friend_task_message_list;
+
+        //未读消息如果有增加,则刷新对应页面
+        if (postGoing.length > postGoing_oldCount || comment.length > comment_oldCount) {
+          cache.isPostTaskGoingNeedRefresh = true;
+        }
+        if (postFinish.length > postFinish_oldCount) {
+          cache.isPostTaskFinishNeedRefresh = true;
+        }
+        if (acceptGoing.length > acceptGoing_oldCount) {
+          cache.isAcceptTaskGoingNeedRefresh = true;
+        }
+        if (acceptFinish.length > acceptFinish_oldFinish) {
+          cache.isAcceptTaskFinishNeedRefresh = true;
+        }
+
+        cache.nm_main_changed = true;
+        cache.nm_task_changed = true;
+
+        if (follow.length > follow_oldCount) {
+          cache.nm_follow_changed = true;
+        }
+
         // analyze fetched message
         //
         /*{
@@ -600,54 +628,54 @@
          ACCEPTER_COMPLETED_TASK_MESSAGE_TYPE: 6,
          }*/
 
-        var NMT = NoticeMessageService.getNoticeMessageTypes();
+        //var NMT = NoticeMessageService.getNoticeMessageTypes();
 
-        if (noticeMessageList != null && noticeMessageList.length > 0) {
-          var unreadMessageList = noticeMessageList;
-          for (var msgIndex = 0; msgIndex < unreadMessageList.length; ++msgIndex) {
-            //$log.info('noticemsg[#index#] serialNo[#serialNo#]'
-            //  .replace('#index#', msgIndex)
-            //  .replace('#serialNo#', unreadMessageList[msgIndex].serialNo));
-
-            var msg = unreadMessageList[msgIndex];
-            if (msg.type == NMT.POSTER_UNCOMPLETED_TASK_MESSAGE_TYPE) {
-              postGoing.push(msg);
-            } else if (msg.type == NMT.ACCEPTER_UNCOMPLETED_TASK_MESSAGE_TYPE) {
-              acceptGoing.push(msg);
-            } else if (msg.type == NMT.COMMENT_TASK_MESSAGE_TYPE) {
-              comment.push(msg);
-            } else if (msg.type == NMT.FRIEND_TASK_MESSAGE_TYPE) {
-              follow.push(msg);
-            } else if (msg.type == NMT.POSTER_COMPLETED_TASK_MESSAGE_TYPE) {
-              postFinish.push(msg);
-            } else if (msg.type == NMT.ACCEPTER_COMPLETED_TASK_MESSAGE_TYPE) {
-              acceptFinish.push(msg);
-            }
-          }
-
-          //未读消息如果有增加,则刷新对应页面
-          if (postGoing.length > postGoing_oldCount || comment.length > comment_oldCount) {
-            cache.isPostTaskGoingNeedRefresh = true;
-          }
-          if (postFinish.length > postFinish_oldCount) {
-            cache.isPostTaskFinishNeedRefresh = true;
-          }
-          if (acceptGoing.length > acceptGoing_oldCount) {
-            cache.isAcceptTaskGoingNeedRefresh = true;
-          }
-          if (acceptFinish.length > acceptFinish_oldFinish) {
-            cache.isAcceptTaskFinishNeedRefresh = true;
-          }
-
-          cache.nm_main_changed = true;
-          cache.nm_task_changed = true;
-
-          if (follow.length > follow_oldCount) {
-            cache.nm_follow_changed = true;
-          }
-
-          //NoticeMessageService.setReadFlagForLessAndEqualSerialNo(1,noticeMessageList[0].serialNo);
-        }
+        //if (noticeMessageList != null && noticeMessageList.length > 0) {
+        //  var unreadMessageList = noticeMessageList;
+        //  for (var msgIndex = 0; msgIndex < unreadMessageList.length; ++msgIndex) {
+        //    //$log.info('noticemsg[#index#] serialNo[#serialNo#]'
+        //    //  .replace('#index#', msgIndex)
+        //    //  .replace('#serialNo#', unreadMessageList[msgIndex].serialNo));
+        //
+        //    var msg = unreadMessageList[msgIndex];
+        //    if (msg.type == NMT.POSTER_UNCOMPLETED_TASK_MESSAGE_TYPE) {
+        //      postGoing.push(msg);
+        //    } else if (msg.type == NMT.ACCEPTER_UNCOMPLETED_TASK_MESSAGE_TYPE) {
+        //      acceptGoing.push(msg);
+        //    } else if (msg.type == NMT.COMMENT_TASK_MESSAGE_TYPE) {
+        //      comment.push(msg);
+        //    } else if (msg.type == NMT.FRIEND_TASK_MESSAGE_TYPE) {
+        //      follow.push(msg);
+        //    } else if (msg.type == NMT.POSTER_COMPLETED_TASK_MESSAGE_TYPE) {
+        //      postFinish.push(msg);
+        //    } else if (msg.type == NMT.ACCEPTER_COMPLETED_TASK_MESSAGE_TYPE) {
+        //      acceptFinish.push(msg);
+        //    }
+        //  }
+        //
+        //  //未读消息如果有增加,则刷新对应页面
+        //  if (postGoing.length > postGoing_oldCount || comment.length > comment_oldCount) {
+        //    cache.isPostTaskGoingNeedRefresh = true;
+        //  }
+        //  if (postFinish.length > postFinish_oldCount) {
+        //    cache.isPostTaskFinishNeedRefresh = true;
+        //  }
+        //  if (acceptGoing.length > acceptGoing_oldCount) {
+        //    cache.isAcceptTaskGoingNeedRefresh = true;
+        //  }
+        //  if (acceptFinish.length > acceptFinish_oldFinish) {
+        //    cache.isAcceptTaskFinishNeedRefresh = true;
+        //  }
+        //
+        //  cache.nm_main_changed = true;
+        //  cache.nm_task_changed = true;
+        //
+        //  if (follow.length > follow_oldCount) {
+        //    cache.nm_follow_changed = true;
+        //  }
+        //
+        //  //NoticeMessageService.setReadFlagForLessAndEqualSerialNo(1,noticeMessageList[0].serialNo);
+        //}
       }, function (error) {
         $log.error(error);
       });

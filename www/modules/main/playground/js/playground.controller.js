@@ -865,10 +865,16 @@
           })
         });
       }, function (error) {
-        $ionicLoading.show({
-          duration: 1500,
-          template: '发布不成功,' + appConst.strFail
-        })
+        if( error == 501 || error == 510 ) {
+          self.closeModal();
+        }
+        else {
+          $ionicLoading.show({
+            duration: 1500,
+            template: '发布不成功,' + appConst.strFail
+          })
+        }
+
       });
     }
 

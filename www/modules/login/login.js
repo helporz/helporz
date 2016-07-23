@@ -133,7 +133,8 @@
           $state.go('info');
         }
       }, function (error) {
-        promptService.promptMessage(error, 1500);
+        $ionicLoading.hide();
+        promptService.promptErrorInfo(error, 1500);
       });
 
       return;
@@ -344,7 +345,7 @@
 
     function processLoginFailedResponse(error) {
       var httpFailedDefer = $q.defer();
-      httpFailedDefer.reject('访问服务器失败，网络状态码为' + error);
+      httpFailedDefer.reject(error);
       return httpFailedDefer.promise;
     }
 
@@ -357,7 +358,7 @@
     function processFailed(error) {
       var getUserInfoFailedDefer = $q.defer();
       getUserInfoFailedDefer.reject(error);
-      promptService.promptErrorInfo(error, 1500);
+      //promptService.promptErrorInfo(error, 1500);
       return getUserInfoFailedDefer.promise;
     }
 
@@ -370,7 +371,7 @@
           return jimService.loginForPromise(userInfo.imLoginName, userInfo.imPassword);
         }, function (error) {
           $log.error("init im interface service failed:" + error);
-          promptService.promptErrorInfo(error, 1500);
+          //promptService.promptErrorInfo(error, 1500);
           var _loginFailedDefer = $q.defer();
           _loginFailedDefer.reject(error);
           return _loginFailedDefer.promise;
