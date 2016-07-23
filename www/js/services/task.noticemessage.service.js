@@ -250,6 +250,15 @@
       return null;
     }
 
+    var findNoticeMessageByExtFromList = function (list, ext) {
+      for (var innerIndex = 0; innerIndex < list.length; ++innerIndex) {
+        if (list[innerIndex].ext === ext) {
+          return list[innerIndex];
+        }
+      }
+      return null;
+    }
+
     var getAllNoticeMessageFromDB = function () {
       var _innerDefer = $q.defer();
       NoticeMessageDB.getAllUnreadMessageEx(' correlationId desc ').then(function (res) {
@@ -269,14 +278,19 @@
 
           for (var index = 0; index < res.length; ++index) {
             if (res[index].type == NOTICE_TYPE.COMMENT_TASK_MESSAGE_TYPE) {
-              if (findNoticeMessageByCorrelationIdFromList(comment_task_message_list, res[index].correlationId) != null) {
+              // 去除重复留言消息
+              if (findNoticeMessageByCorrelationIdFromList(comment_task_message_list, res[index].correlationId) == null) {
                 comment_task_message_list.push(res[index]);
               }
               continue;
             }
 
             if (res[index].type == NOTICE_TYPE.FRIEND_TASK_MESSAGE_TYPE) {
-              friend_task_message_list.push(res[index]);
+              // 去除重复好友任务消息
+              if( findNoticeMessageByExtFromList(friend_task_message_list,res[index].ext) == null) {
+                friend_task_message_list.push(res[index]);
+              }
+              continue;
             }
 
             if (currentCorrelationId == null) {
@@ -619,7 +633,7 @@
       sqlArray.push(maxSerialUpdateSql);
       sqlArray.push(saveNoticeMessageListSql);
       //$log.debug('maxSerialUpdateSql:' + maxSerialUpdateSql);
-      //$log.debug('saveNoticeMessageListSql:' + saveNoticeMessageListSql);
+      $log.debug('saveNoticeMessageListSql:' + saveNoticeMessageListSql);
 
       dbService.executeSqlList(sqlArray).then(function () {
         _innerDefer.resolve();
