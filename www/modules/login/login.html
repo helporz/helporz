@@ -70,11 +70,15 @@
     <div class="row">
       <button class="button button-login button-full" ng-click="submitLogin(event)">快捷登录</button>
     </div>
-    <div class="row">
-      <div class="col-offset-5">
-        <input type="checkbox" ng-model="isAgreeProtocol">
-      </div>
-      <p class="col-offset-5" style="color:#fff">看过并同意<a style="color:#fff" href="#/user/proto">《用户使用协议》</a></p>
+    <div class="login-protocol-panel">
+      <!--<div class="col-offset-5">-->
+        <!--<input type="checkbox" ng-model="isAgreeProtocol">-->
+
+        <i class="icon login-check-icon"
+          ng-class="{false: 'ion-android-checkbox-outline-blank', true: 'ion-android-checkbox-outline'}[isAgreeProtocol]"
+          ng-click="isAgreeProtocol=!isAgreeProtocol"></i>
+      <!--</div>-->
+      <p style="color:#e3e3e3">看过并同意<a style="color:#e3e3e3" href="#/user/proto">《用户使用协议》</a></p>
     </div>
 
 

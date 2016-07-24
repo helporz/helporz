@@ -8,11 +8,12 @@
   angular.module('app.netwrapper.service')
 
     .factory('taskNetWrapper', ['$rootScope', '$timeout', 'taskNetService', '$ionicLoading', 'taskUtils', 'promptService',
-      'NoticeMessageService',
-      function ($rootScope, $timeout, taskNetService, $ionicLoading, taskUtils, promptService, NoticeMessageService) {
+      'NoticeMessageService','userNetService',
+      function ($rootScope, $timeout, taskNetService, $ionicLoading, taskUtils, promptService,
+                NoticeMessageService, userNetService) {
 
         return {
-          acceptTask: acceptTask
+          acceptTask: acceptTask,
         };
 
         function acceptTask(task, cb_success, cb_fail) {
@@ -32,8 +33,20 @@
                 duration: 1500,
                 templateUrl: 'modules/components/templates/ionic-loading/task-accept-success.html'
               });
-              $timeout(function () {
+              //
+              ////从我的关注,粉丝 的任务列表中移除
+              //var friends = userNetService.cache.selfInfo.attentionList;
+              //for (var i in friends) {
+              //  friends[i].recentTaskIdArray[]
+              //}
 
+              //friends = userNetService.cache.selfInfo.funsList;
+              //for (var i in friends) {
+              //  userUtils.uiProcessFollowed(friends[i]);
+              //}
+
+              //
+              $timeout(function () {
 
                 //接物品,提示出示证件
                 if (taskUtils.mainByTypeValue(task.taskTypesId) == 2) {
@@ -46,6 +59,7 @@
                     taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
                     taskNetService.cache.nm_main_changed = true;
                     taskNetService.cache.nm_task_changed = true;
+                    taskNetService.cache.isSelfInfoNeedRefresh = true;
                     if (cb_success) {
                       cb_success();
                     }
@@ -56,6 +70,7 @@
                   taskNetService.cache.isAcceptTaskGoingNeedRefresh = true;
                   taskNetService.cache.nm_main_changed = true;
                   taskNetService.cache.nm_task_changed = true;
+                  taskNetService.cache.isSelfInfoNeedRefresh = true;
                   if (cb_success) {
                     cb_success();
                   }

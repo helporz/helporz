@@ -109,7 +109,8 @@
         <div class="first-line-panel">
           <div class="name-gender-panel">
             <span class="name">{{item.nickname}}</span>
-            <i class="gender-icon ho-gender-female color-woman font-size-12"></i>
+            <i class="gender-icon font-size-13"
+               ng-class="{false:'ho-gender-female color-woman',true:'ho-gender-male color-man '}[item.gender==1]"></i>
           </div>
 
           <span class="time">{{item.created | DateShow}} ∙ {{''+(1+$index)+'楼'}}</span>
@@ -121,7 +122,7 @@
           <p align="left" ng-class="{'comment-with-icon': item.ui_canContact,'comment-without-icon': !item.ui_canContact}">
 						{{item.comment}}
 					</p>
-          <i ng-if="item.ui_canContact" class="comment-icon icon ho-chat-2" ng-click="vm.cb_contact()"></i>
+          <i ng-if="item.ui_canContact" class="comment-icon icon ho-chat-2" ng-click="vm.cb_contact(item)"></i>
         </div>
 
       </div>

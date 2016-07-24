@@ -6,16 +6,18 @@
   'use strict';
 
   angular.module('main.me')
-    .controller('mainMeCtrl', ['$stateParams','$state', '$scope', '$ionicLoading', '$ionicPopup', '$ionicScrollDelegate', '$ionicActionSheet',
+    .controller('mainMeCtrl', ['$stateParams', '$state', '$scope', '$ionicLoading', '$ionicPopup', '$ionicScrollDelegate', '$ionicActionSheet',
       '$timeout', '$interval', 'userNetService', 'impressUtils', 'userUtils',
-      'errorCodeService', 'SharePageWrapService', 'mainUserTasksService','taskNetService', 'intervalCenter',
-      'IMInterfaceService', 'NoticeMessageDB', 'NoticeMessageService','imMessageService','promptService', mainMeCtrl])
+      'errorCodeService', 'SharePageWrapService', 'mainUserTasksService', 'taskNetService', 'intervalCenter',
+      'IMInterfaceService', 'NoticeMessageDB', 'NoticeMessageService', 'imMessageService', 'promptService', 'userNetWrapper',
+      mainMeCtrl])
 
-  function mainMeCtrl($stateParams,$state, $scope, $ionicLoading, $ionicPopup, $ionicScrollDelegate, $ionicActionSheet,
+  function mainMeCtrl($stateParams, $state, $scope, $ionicLoading, $ionicPopup, $ionicScrollDelegate, $ionicActionSheet,
                       $timeout, $interval, userNetService, impressUtils, userUtils,
                       errorCodeService, SharePageWrapService, mainUserTasksService, taskNetService, intervalCenter,
-                      IMInterfaceService,NoticeMessageDB, NoticeMessageService,imMessageService,promptService) {
+                      IMInterfaceService, NoticeMessageDB, NoticeMessageService, imMessageService, promptService, userNetWrapper) {
     var vm = $scope.vm = {};
+    vm.appConst = appConst;
 
     vm.followBadge = 0;
 
@@ -38,13 +40,24 @@
       if (taskCache.nm_follow_changed) {
         taskCache.nm_follow_changed = false;
         vm.followBadge = taskCache.nm_follow.length;
+        taskNetService.cache.isSelfInfoNeedRefresh = true;
       }
 
-      if(vm.activeTab==1 && vm.self.tabFollow==0){
+      if (vm.activeTab == 1 && vm.self.tabFollow == 0 && taskCache.nm_follow.length > 0) {
         NoticeMessageService.setReadFlagByType(NMT.FRIEND_TASK_MESSAGE_TYPE);
         taskCache.nm_follow = [];
         taskCache.nm_main_changed = true;
         vm.followBadge = 0;
+      }
+
+      if (taskNetService.cache.isSelfInfoNeedRefresh) {
+        userNetWrapper.refreshSelfInfo(function () {
+          vm.meInfo.remoteData = userNetService.cache.selfInfo;
+          _localSyn_follow();
+          $timeout(function () {
+            $scope.$apply();
+          });
+        });
       }
     }
 
@@ -91,7 +104,8 @@
       //  });
       //}
 
-      // pre-calc
+      //pre-calc
+      //lkj:note: 这里是重复代码,userNetWrapper.refreshSelfInfo()本来可以取代登录时获取用户信息,但代码不好改,就这样了
       var friends = userNetService.cache.selfInfo.attentionList;
       for (var i in friends) {
         userUtils.uiProcessFollow(friends[i]);
@@ -101,6 +115,7 @@
       for (var i in friends) {
         userUtils.uiProcessFollowed(friends[i]);
       }
+
 
       //add poll
       intervalCenter.add(0, 'me.controller', intervalFunc);
@@ -139,6 +154,7 @@
         return '';
       }
     }
+
 
     //////////////////////////////////////////////////
     // tab logic
@@ -252,8 +268,18 @@
 
     self.ui_showFriendList = true;
 
-    self.cb_gotoUser = function(userId) {
+    self.cb_gotoUser = function (userId) {
       userUtils.gotoUser(userId, 'me');
+    }
+
+    function _localSyn_follow() {
+      if (vm.activeTab == 1) {
+        if (self.tabFollow == 0) {
+          vm.self.repeatList = userNetService.cache.selfInfo.attentionList
+        } else {
+          vm.self.repeatList = userNetService.cache.selfInfo.funsList;
+        }
+      }
     }
 
     self.cb_tabFollow = function (index) {
@@ -275,34 +301,36 @@
       //  },200);
 
 
-      if (index == 0) {
-        vm.self.repeatList = (userNetService.cache.selfInfo.attentionList)
-        //.concat(userNetService.cache.selfInfo.attentionList);
-        //vm.self.repeatList = vm.self.repeatList.concat(userNetService.cache.selfInfo.attentionList)
-
-        //var xxx = []
-        //for(var i = 0; i < 3; i++){
-        //  xxx = xxx.concat(userNetService.cache.selfInfo.attentionList);
-        //}
-        //for(var i = 0; i < 300; i++){
-        //  vm.self.repeatList.push({
-        //    avatar: '',
-        //    nickname: 'fjjjjjjeeee',
-        //    sign: 'fjeifj'
-        //  });
-        //  //vm.self.repeatList.push(userNetService.cache.selfInfo.attentionList[i]);
-        //}
-        //vm.self.repeatList = xxx;
-        //vm.self.repeatList = vm._repeatList;
-
-        //vm.self.repeatList = vm.self.followList;
-
-      } else { //index==1
-        vm.self.repeatList = userNetService.cache.selfInfo.funsList;
-        //vm.self.funsList = userNetService.cache.selfInfo.funsList;
-      }
+      //if (index == 0) {
+      //  vm.self.repeatList = (userNetService.cache.selfInfo.attentionList)
+      //  //.concat(userNetService.cache.selfInfo.attentionList);
+      //  //vm.self.repeatList = vm.self.repeatList.concat(userNetService.cache.selfInfo.attentionList)
+      //
+      //  //var xxx = []
+      //  //for(var i = 0; i < 3; i++){
+      //  //  xxx = xxx.concat(userNetService.cache.selfInfo.attentionList);
+      //  //}
+      //  //for(var i = 0; i < 300; i++){
+      //  //  vm.self.repeatList.push({
+      //  //    avatar: '',
+      //  //    nickname: 'fjjjjjjeeee',
+      //  //    sign: 'fjeifj'
+      //  //  });
+      //  //  //vm.self.repeatList.push(userNetService.cache.selfInfo.attentionList[i]);
+      //  //}
+      //  //vm.self.repeatList = xxx;
+      //  //vm.self.repeatList = vm._repeatList;
+      //
+      //  //vm.self.repeatList = vm.self.followList;
+      //
+      //} else { //index==1
+      //  vm.self.repeatList = userNetService.cache.selfInfo.funsList;
+      //  //vm.self.funsList = userNetService.cache.selfInfo.funsList;
+      //}
 
       self.tabFollow = index;
+
+      _localSyn_follow();
 
       //$timeout(function () {
       //  $scope.$apply();
@@ -388,7 +416,7 @@
                 userNetService.cache.selfInfo.attentionList.splice($index, 1);
 
               }, function (data) {
-                promptService.promptErrorInfo(data,1500);
+                promptService.promptErrorInfo(data, 1500);
               }).finally(function () {
               });
           }

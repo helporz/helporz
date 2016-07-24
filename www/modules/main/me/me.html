@@ -175,17 +175,23 @@
           <ion-item class="ho-item">
             <p class="title">院系</p>
 
-            <p class="content">{{vm.meInfo.remoteData.department}}</p>
+            <p class="content" ng-class="{true: 'holder'}[vm.meInfo.remoteData.department=='']">
+              {{vm.meInfo.remoteData.department==''? vm.appConst.holder_me_department: vm.meInfo.remoteData.department}}
+            </p>
           </ion-item>
           <ion-item class="ho-item">
             <p class="title">楼栋</p>
 
-            <p class="content">{{vm.meInfo.remoteData.dormitory}}</p>
+            <p class="content" ng-class="{true: 'holder'}[vm.meInfo.remoteData.dormitory=='']">
+              {{vm.meInfo.remoteData.dormitory==''? vm.appConst.holder_me_dormitory: vm.meInfo.remoteData.dormitory}}
+            </p>
           </ion-item>
           <ion-item class="ho-item">
             <p class="title">家乡</p>
 
-            <p class="content">{{vm.meInfo.remoteData.hometown}}</p>
+            <p class="content" ng-class="{true: 'holder'}[vm.meInfo.remoteData.hometown=='']">
+              {{vm.meInfo.remoteData.hometown==''? vm.appConst.holder_me_hometown: vm.meInfo.remoteData.hometown}}
+            </p>
           </ion-item>
         </ion-list>
       </div>

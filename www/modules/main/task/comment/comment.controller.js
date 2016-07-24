@@ -74,13 +74,13 @@
             //});
 
             $cordovaImagePicker.getPictures(options).then(function (imgUrls) {
-              alert('imgUrls=' + imgUrls + ';imgUrls[0]=' + imgUrls[0]);
               for (var index = 0; index < imgUrls.length; ++index) {
                 resolveLocalFileSystemURL(imgUrls[index], function (entry) {
                   $log.info('image cvd file:' + entry.toInternalURL());
-                  alert('internal='+ entry.toInternalURL() + 'native=' + entry.toNativeURL());
+                  //alert('internal='+ entry.toInternalURL() + 'native=' + entry.toNativeURL());
                   if(vm.selectedPics.length < 4){
                     vm.selectedPics.push(entry.toNativeURL());
+                    $scope.$apply();  //lkj:note: 这里必须立即apply,就算 timeout(...apply()) 也不行,why?
                   }
                 });
               }

@@ -225,12 +225,12 @@
                          (vm.tabSelectedIndex==1&&vm.acceptTabSelectedIndex==1&&vm.taskNetService.cache.hasMoreAcceptTaskFinish)">
     </ion-infinite-scroll>
 
-    <div class="string-empty"
-         ng-if="((vm.tabSelectedIndex==0&&!vm.taskNetService.cache.hasMorePostTaskFinish) ||
-         (vm.tabSelectedIndex==1&&!vm.taskNetService.cache.hasMoreAcceptTaskFinish)) &&
-         (vm.repeatList.length!=0) && (vm.postTabSelectedIndex==1||vm.acceptTabSelectedIndex==1)">
-      没有新内容了=￣ω￣=
-    </div>
+    <!--<div class="string-empty"-->
+         <!--ng-if="((vm.tabSelectedIndex==0&&!vm.taskNetService.cache.hasMorePostTaskFinish) ||-->
+         <!--(vm.tabSelectedIndex==1&&!vm.taskNetService.cache.hasMoreAcceptTaskFinish)) &&-->
+         <!--(vm.repeatList.length!=0) && (vm.postTabSelectedIndex==1||vm.acceptTabSelectedIndex==1)">-->
+      <!--没有新内容了=￣ω￣=-->
+    <!--</div>-->
 
     <div ng-if="vm.taskNetService.cache.isPostTaskGoingNeedRefresh==false && vm.repeatList.length==0 &&
                 vm.tabSelectedIndex==0 && vm.postTabSelectedIndex==0" class="content-empty">

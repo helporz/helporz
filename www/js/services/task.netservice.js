@@ -24,7 +24,6 @@
       //isAcceptTaskNeedRefresh: true,
       acceptTaskList: [],
 
-
       isPostTaskGoingNeedRefresh: true,
       postTaskGoingList: [],
       isPostTaskFinishNeedRefresh: true,
@@ -48,7 +47,10 @@
       nm_follow: [],
       nm_main_changed: false,
       nm_task_changed: false,
-      nm_follow_changed: false
+      nm_follow_changed: false,
+
+      // me
+      isSelfInfoNeedRefresh: false,
     };
 
     var _initFlags = function () {
@@ -59,6 +61,8 @@
       cache.isAcceptTaskGoingNeedRefresh = true;
       cache.isAcceptTaskFinishNeedRefresh = true;
       cache.hasMoreAcceptTaskFinish = true;
+
+      cache.isSelfInfoNeedRefresh = true;
     }
 
     var _postTask = function (type, summary, pubLocation, returnTime, deadLine, posterLong,
@@ -258,7 +262,21 @@
       if (taskCount != null && taskCount > 0) {
         param.taskCount = taskCount;
       }
-      return httpBaseService.getForPromise('/task/query/random/new', param);
+
+      var d = $q.defer();
+
+      return httpBaseService.getForPromise('/task/query/random/new', param).then(
+        function(taskList) {
+          cache.isSelfInfoNeedRefresh = false;
+          d.resolve(taskList);
+          return d.promise;
+        },
+        function(err) {
+          d.reject(err);
+          return d.promise;
+        }
+      ).finally(function() {
+        });
     };
 
     var _queryTaskInfo = function (taskId) {
@@ -384,7 +402,7 @@
       return httpBaseService.getForPromise('/task/query/accepted/completed', params).then(
         function (taskList) {
           taskList = taskList || [];
-          _processTaskForUI(taskList, true);
+          _processTaskForUI(taskList, false);
           if (pageNum == 1) {
             cache.acceptTaskFinishList = taskList;
           } else {

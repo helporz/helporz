@@ -286,6 +286,9 @@ $user-tag-colors: $user-tag-color-0 $user-tag-color-1;
     .content {
       font-size: 15px;
       color: $color-text-secondary;
+      &.holder {
+        color: $color-text-thirdly;
+      }
     }
 
     .content-right {
