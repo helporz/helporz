@@ -4,15 +4,15 @@
 node_modules/
 
 # 屏蔽platforms下除了ios/helporz/Classes/的所有其他目录和文件
-platforms/*
+/platforms/*
 !/platforms/ios/
-platforms/ios/*
+/platforms/ios/*
 !/platforms/ios/helporz/
-platforms/ios/helporz/*
-!platforms/ios/helporz/Classes/
+/platforms/ios/helporz/*
+!/platforms/ios/helporz/Classes/
 #!platforms/ios/helporz/Plugins/
 
-
+/plugins
 
 # scss tool cache
 .sass-cache/
@@ -24,4 +24,4 @@ platforms/ios/helporz/*
 
 # idea
 .idea/
-plugins/
+
