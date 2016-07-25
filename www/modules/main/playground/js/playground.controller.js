@@ -826,6 +826,10 @@
           tagInfoArray.push(self.tagList[tagIndex].base);
         }
       }
+      if( self.content == null || self.content.length == 0 ) {
+        promptService.promptMessage("请填写话题内容");
+        return ;
+      }
 
       $ionicLoading.show();
       PlaygroundNetService.addTopic(groupId, self.content, self.imgList.length, 0, tagInfoArray).then(function (resp) {
