@@ -198,7 +198,9 @@
 
       var options = {
         date: currentDate,
-        mode: 'datetime'
+        mode: 'datetime',
+        doneButtonLabel: '完成',
+        cancelButtonLabel: '取消',
       };
       $cordovaDatePicker.show(options).then(function (date) {
         if (date - currentDate < 0) {
@@ -223,7 +225,9 @@
 
       var options = {
         date: currentDate,
-        mode: 'datetime'
+        mode: 'datetime',
+        doneButtonLabel: '完成',
+        cancelButtonLabel: '取消',
       };
       $cordovaDatePicker.show(options).then(function (date) {
         if (date - currentDate < 0) {
