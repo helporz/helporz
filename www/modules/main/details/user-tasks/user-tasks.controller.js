@@ -152,7 +152,7 @@
 
         //计算出发帖和现在的时间差
         var pieces = item.created.split(/[\:\-\s]/);
-        if (pieces.length != 6) promptService.promptMessage('network err: task created time is not valid')
+        if (pieces.length != 6) ho.alert('network err: task created time is not valid')
         var before = new Date(pieces[0], parseInt(pieces[1]) - 1, pieces[2], pieces[3], pieces[4], pieces[5]);
         item.ui_createTime = timeUtils.formatSimpleTimeBeforeNow(before);
 
