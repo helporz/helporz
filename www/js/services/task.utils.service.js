@@ -227,17 +227,45 @@
             taskItem.ui_tagText2 = "援助超时";
             taskItem.ui_tagText3 = "搞定";
             if (isPosterOrAccepter == true) {
-              taskItem.ui_stateDesc = "事随有憾,心怀感恩";
-              taskItem.ui_showOptPassive = false;
-              taskItem.ui_showOptPassive2 = false;
-              taskItem.ui_showOptActive = true;
-              taskItem.ui_textOptActive = "留言评价";
+              if(taskItem.posterCommentLevel == 0){
+                taskItem.ui_stateDesc = "事随有憾,心怀感恩";
+                taskItem.ui_showOptPassive = false;
+                taskItem.ui_showOptPassive2 = false;
+                taskItem.ui_showOptActive = true;
+                taskItem.ui_textOptActive = "留言评价";
+              }
+              else {
+                taskItem.ui_showOptPassive = true;
+                taskItem.ui_textOptPassive = "查看评价"
+                taskItem.ui_showOptPassive2 = false;
+                taskItem.ui_showOptActive = false;
+                if (taskItem.accepterCommentLevel != 0) {
+                  taskItem.ui_stateDesc = "双方已互评价";
+                } else {
+                  taskItem.ui_stateDesc = "等待对方的评价";
+                }
+              }
+
             } else {
-              taskItem.ui_stateDesc = "挫折常有,不忘初心";
-              taskItem.ui_showOptPassive = false;
-              taskItem.ui_showOptPassive2 = false;
-              taskItem.ui_showOptActive = true;
-              taskItem.ui_textOptActive = "留言评价";
+              if(taskItem.accepterCommentLevel == 0){
+                taskItem.ui_stateDesc = "挫折常有,不忘初心";
+                taskItem.ui_showOptPassive = false;
+                taskItem.ui_showOptPassive2 = false;
+                taskItem.ui_showOptActive = true;
+                taskItem.ui_textOptActive = "留言评价";
+              }
+              else {
+                taskItem.ui_showOptPassive = true;
+                taskItem.ui_textOptPassive = "查看评价"
+                taskItem.ui_showOptPassive2 = false;
+                taskItem.ui_showOptActive = false;
+                if (taskItem.posterCommentLevel != 0) {
+                  taskItem.ui_stateDesc = "双方已互评价";
+                } else {
+                  taskItem.ui_stateDesc = "等待对方的评价";
+                }
+              }
+
             }
           }
           else if (state == 16) {  //poster cancel

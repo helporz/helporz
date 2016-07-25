@@ -970,9 +970,9 @@
         status = error;
         return error;
       }).then(function (result) {
-        promptService.promptMessage("Success: " + result);
+        ho.alert("Success: " + result);
       }, function (error) {
-        promptService.promptMessage("Fail: " + error);
+        ho.alert("Fail: " + error);
       })
 
       var flag = false;

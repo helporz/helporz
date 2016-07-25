@@ -48,7 +48,6 @@
           buttonClicked: function (index) {
 
             function doUploadAvatar(url) {
-              ho.alert('doUploadAvatar url=' + url);
               $ionicLoading.show();
               userNetService.uploadAvatar(url).then(
                 function (data) {
@@ -58,7 +57,7 @@
                   });
                   userNetService.cache.selfInfo.avatar = url;
                   vm.edit.avatar = url;
-                  ho.alert('url=' + url);
+                  ho.alert('do upload avatar url=' + url);
                 },
                 function (data) {
                   promptService.promptErrorInfo(data,1500);
@@ -85,8 +84,10 @@
 
               $cordovaCamera.getPicture(options).then(function (imgUrl) {
                 doUploadAvatar(imgUrl);
+                return true;
               }, function (err) {
-                alert('err: camera get picture err=' + err);
+                //ho.alert('camera err=' + err);
+                return true;
               });
             }
             // 打开 ImagePicker
@@ -98,7 +99,7 @@
                 quality: 80
               };
               $cordovaImagePicker.getPictures(options).then(function (imgUrls) {
-                alert('imgUrls=' + imgUrls + ';imgUrls[0]=' + imgUrls[0]);
+                //alert('imgUrls=' + imgUrls + ';imgUrls[0]=' + imgUrls[0]);
                 //for (var index = 0; index < imgUrls.length; ++index) {
                 //  resolveLocalFileSystemURL(imgUrls[index], function (entry) {
                 //    $log.info('image cvd file:' + entry.toInternalURL());
@@ -107,9 +108,15 @@
                   //}
                  //);
                 //}
+                //ho.alert('get pictures ok')
+                if(imgUrls.length == 0){
+                  return true;
+                }
                 doUploadAvatar(imgUrls[0]);
+                return true;
               }, function(err) {
-                alert('err: pick image, err=' + err);
+                ho.alert('get pictures fail');
+                //alert('err: pick image, err=' + err);
               })
             }
 

@@ -46,7 +46,7 @@
         <input class="col-80" type="text" placeholder="你希望对方在哪里与你碰头" ng-model="ctl.pubLocation"/>
       </div>
 
-      <div class="left-align  split" ng-show="taskTypeIndex == 2"></div>
+      <div class="left-align  split"></div>
 
       <div class="row group-item group-item-input no-border left-align" >
         <div class="icon ho-alert-clock color-text-secondary font-size-15" style="margin: 0 1px 0 1px"/>
@@ -54,7 +54,7 @@
                ng-click="ctl.setDeadline($event)" required readonly/>
       </div>
 
-      <div class="left-align  split"></div>
+      <div class="left-align  split"  ng-show="taskTypeIndex == 2"></div>
 
       <div class="row group-item group-item-input no-border left-align" ng-show="taskTypeIndex == 2">
         <!--<img class="icon" src="./img/login/phone.png"/>-->

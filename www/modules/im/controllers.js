@@ -169,9 +169,7 @@
             $scope.cUser.avatar = $scope.conversation.cUserAvatar;
           }
           else if ($scope.cUser == null && $scope.conversation == null) {
-            if (g_isDebug) {
-              promptService.promptMessage('无法获取联系人用户信息');
-            }
+            ho.alert('无法获取联系人用户信息');
           }
 
           $log.info('cUser info:' + JSON.stringify($scope.cUser));

@@ -72,8 +72,7 @@
         }, function (response) {
           var ss = JSON.stringify(response);
           console.log("login callback fail" + ss);
-
-          promptService.promptMessage("login fail. errcode:"+ response.errorCode + "  error discription:" +  response.errorDscription);
+          ho.alert("login fail. errcode:"+ response.errorCode + "  error discription:" +  response.errorDscription);
 
           //error code 请参考 http://docs.jpush.io/client/im_errorcode/
           console.log(device.platform);
@@ -163,8 +162,7 @@
           //refreshConversation();
           onSuccessFn(response);
         }, function (response) {
-          promptService.promptMessage("getMessageHistory failed");
-          console.log("getMessageHistory fail" + response);
+          ho.alert("getMessageHistory failed resp=" + response);
           onFailedFn(response);
         });
       };
@@ -211,8 +209,7 @@
           //  addConversationCBFn(response[o]);
           //}
         }, function (response) {
-          promptService.promptMessage("getAllSingleConversation failed");
-          console.log("getAllSingleConversation fail" + response);
+          ho.alert("getAllSingleConversation fail resp=" + response);
           onFailedFn(response);
         });
       };

@@ -40,7 +40,6 @@
       if (taskCache.nm_follow_changed) {
         taskCache.nm_follow_changed = false;
         vm.followBadge = taskCache.nm_follow.length;
-        taskNetService.cache.isSelfInfoNeedRefresh = true;
       }
 
       if (vm.activeTab == 1 && vm.self.tabFollow == 0 && taskCache.nm_follow.length > 0) {

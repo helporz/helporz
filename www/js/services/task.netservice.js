@@ -267,7 +267,7 @@
 
       return httpBaseService.getForPromise('/task/query/random/new', param).then(
         function(taskList) {
-          cache.isSelfInfoNeedRefresh = false;
+          cache.isSelfInfoNeedRefresh = true;
           d.resolve(taskList);
           return d.promise;
         },
@@ -580,21 +580,21 @@
         var comment_oldCount = cache.nm_comment.length;
         var follow_oldCount = cache.nm_follow.length;
 
-        // clear notice message cache
-        var postGoing = cache.nm_postGoing = [];
-        var postFinish = cache.nm_postFinish = [];
-        var acceptGoing = cache.nm_acceptGoing = [];
-        var acceptFinish = cache.nm_acceptFinish = [];
-        var comment = cache.nm_comment = [];
-        var follow = cache.nm_follow = [];
+        //// clear notice message cache
+        //var postGoing = cache.nm_postGoing = [];
+        //var postFinish = cache.nm_postFinish = [];
+        //var acceptGoing = cache.nm_acceptGoing = [];
+        //var acceptFinish = cache.nm_acceptFinish = [];
+        //var comment = cache.nm_comment = [];
+        //var follow = cache.nm_follow = [];
 
 
-        cache.nm_postGoing = noticeMessageData.uncompleted_post_task_message_list;
-        cache.nm_postFinish = noticeMessageData.completed_post_task_message_list;
-        cache.nm_acceptGoing = noticeMessageData.uncompleted_accept_task_message_list;
-        cache.nm_acceptFinish = noticeMessageData.completed_accept_task_message_list;
-        cache.nm_comment = noticeMessageData.comment_task_message_list;
-        cache.nm_follow = noticeMessageData.friend_task_message_list;
+        var postGoing = cache.nm_postGoing = noticeMessageData.uncompleted_post_task_message_list;
+        var postFinish = cache.nm_postFinish = noticeMessageData.completed_post_task_message_list;
+        var acceptGoing = cache.nm_acceptGoing = noticeMessageData.uncompleted_accept_task_message_list;
+        var acceptFinish = cache.nm_acceptFinish = noticeMessageData.completed_accept_task_message_list;
+        var comment = cache.nm_comment = noticeMessageData.comment_task_message_list;
+        var follow = cache.nm_follow = noticeMessageData.friend_task_message_list;
 
         //未读消息如果有增加,则刷新对应页面
         if (postGoing.length > postGoing_oldCount || comment.length > comment_oldCount) {
@@ -615,6 +615,7 @@
 
         if (follow.length > follow_oldCount) {
           cache.nm_follow_changed = true;
+          cache.isSelfInfoNeedRefresh = true; //刷新friend列表(是否求助信息)
         }
 
         // analyze fetched message

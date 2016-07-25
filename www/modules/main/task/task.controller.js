@@ -633,7 +633,7 @@
           console.error('invalid task opt: going on - post passive');
         }
         else if (task.status == 8) {  //going on overtime
-          console.error('invalid task opt: going on overtime - post passive');
+          gotoTaskState(task.id);
         }
         else if (task.status == 32) { //accepter cancel
           gotoTaskState(task.id);

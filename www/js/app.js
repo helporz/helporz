@@ -135,9 +135,9 @@
       //wechat
       if (window.cordova && window.cordova.plugins && window.cordova.plugins.Wechat) {
         window.cordova.plugins.Wechat.isInstalled(function (installed) {
-          alert("Wechat installed: " + (installed ? "Yes" : "No"));
+          ho.alert("Wechat installed: " + (installed ? "Yes" : "No"));
         }, function (reason) {
-          alert("Failed: " + reason);
+          ho.alert("Failed: " + reason);
         });
       }
 
@@ -202,7 +202,7 @@
           $log.info("存储服务初始化成功");
         }, function () {
           $log.info("存储服务初始化失败");
-          alert('failed');
+          ho.alert('failed');
         });
 
 
@@ -217,6 +217,10 @@
         }
       }, false);
 
+      // 开启信息同步服务
+      intervalCenter.add(1, 'app.noticeMessage', function () {
+        taskNetService.fetchNoticeMessage();
+      })
 
     });
 
