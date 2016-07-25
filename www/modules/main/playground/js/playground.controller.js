@@ -536,10 +536,10 @@
 
   topicPublishControllerFn.$inject = ['$timeout', '$ionicLoading', '$scope', '$stateParams', '$state', '$log', '$ionicPopup', '$ionicActionSheet',
     '$cordovaCamera', '$cordovaImagePicker', '$ionicModal', '$q', 'topicModalService', 'PlaygroundNetService', 'uploadService',
-    'userLoginInfoService', 'topicService'];
+    'userLoginInfoService', 'topicService','promptService'];
   function topicPublishControllerFn($timeout, $ionicLoading, $scope, $stateParams, $state, $log, $ionicPopup, $ionicActionSheet,
                                     $cordovaCamera, $cordovaImagePicker, $ionicModal, $q, topicModalService,
-                                    PlaygroundNetService, uploadService, userLoginInfoService, topicService) {
+                                    PlaygroundNetService, uploadService, userLoginInfoService, topicService,promptService) {
     var self = this;
     var imgList = [];
     self.imgList = imgList;
@@ -711,7 +711,7 @@
           $scope.$apply();
         });
       }, function (message) {
-        alert(message);
+        //promptService.promptMessage('访问图片失败:' + message);
       }, cameraOptions);
     }
 

@@ -14,9 +14,9 @@
     .controller('imMessageListController', imMessageListControllerFn)
     .controller('imMessageDetailController', ['$ionicLoading','$log', '$q', '$scope', '$stateParams',
       '$ionicScrollDelegate', '$timeout', '$ionicPopup', 'imMessageService', 'jimService', 'imMessageStorageService',
-      'userNetService', 'imConversationService', 'UtilsService', 'userUtils','IMInterfaceService',
+      'userNetService', 'imConversationService', 'UtilsService', 'userUtils','IMInterfaceService','promptService',
       function ($ionicLoading,$log, $q, $scope, $stateParams, $ionicScrollDelegate, $timeout, $ionicPopup, imMessageService, jimService,
-                imMessageStorageService, userNetService, imConversationService, UtilsService, userUtils,IMInterfaceService) {
+                imMessageStorageService, userNetService, imConversationService, UtilsService, userUtils,IMInterfaceService,promptService) {
 
         //var popupScope = $scope.$new();
         //
@@ -170,7 +170,7 @@
           }
           else if ($scope.cUser == null && $scope.conversation == null) {
             if (g_isDebug) {
-              alert('im 模块无法获取联系人用户信息');
+              promptService.promptMessage('无法获取联系人用户信息');
             }
           }
 
