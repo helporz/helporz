@@ -925,8 +925,8 @@
     };
   }
 
-  IMInterfaceServiceFn.$inject = ['$log', '$q', 'imConversationService', 'imMessageStorageService'];
-  function IMInterfaceServiceFn($log, $q, imConversationService, imMessageStorageService) {
+  IMInterfaceServiceFn.$inject = ['$log', '$q', 'imConversationService', 'imMessageStorageService','promptService'];
+  function IMInterfaceServiceFn($log, $q, imConversationService, imMessageStorageService,promptService) {
 
     var initService = function (currentUserId) {
       var _innerDefer = $q.defer();
@@ -970,9 +970,9 @@
         status = error;
         return error;
       }).then(function (result) {
-        alert("Success: " + result);
+        promptService.promptMessage("Success: " + result);
       }, function (error) {
-        alert("Fail: " + error);
+        promptService.promptMessage("Fail: " + error);
       })
 
       var flag = false;

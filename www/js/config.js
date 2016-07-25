@@ -6,6 +6,7 @@ var appConfig = {
   APP_ID: "",
   //API_SVC_URL:"http://api.helporz.com:8080/api",
   //API_SVC_URL:"http://192.168.111.160:8080/api",
+  //API_SVC_URL: "http://api.helporz.com:19080",
   API_SVC_URL: "http://testapi.helporz.com:8080",
   //API_SVC_URL:"http://192.168.0.107:8080/api",
   JPUSH_APPKEY:"049e53804cad513c749bbd1c",
@@ -43,13 +44,13 @@ var ho = {
 
   alert: function (v) {
     if (g_isDebug) {
-      alert(v);
+      console.log(v);
     }
   },
 
   alertObject: function (v) {
     if (g_isDebug) {
-      alert(JSON.stringify(v));
+      console.log(JSON.stringify(v));
     }
   },
 

@@ -472,20 +472,27 @@
     var _currentUserId = '';
 
     var _buildCacheFromDB = function (currentUserId) {
+      var _innerDefer = $q.defer();
       PlaygroundDBService.findRecords('collectionTopic', 'userId = "' + currentUserId + '"').then(function (records) {
         if( records == null ) {
+          _innerDefer.resolve(new Array());
           return ;
         }
 
         $log.info('collectionTopic: current record length ' +  records.length);
+        $log.info('collectionTopic: current record ' +  JSON.stringify(records));
         for (var index = 0; index < records.length; ++index) {
           var record = records[index];
           _cacheTable.put(record.topicId, record);
         }
         _currentUserId = currentUserId;
+        _innerDefer.resolve();
       }, function (e) {
         $log.error("create collectionTopic topic cache from db failed:" + e.message);
+        _innerDefer.reject(e);
       });
+
+      return _innerDefer.promise;
     };
 
     var _buildCacheFromServer = function (currentUserId) {
@@ -495,13 +502,15 @@
         if (list == null) {
           return;
         }
-        $log.info('collectionTopic: current record length ' +  list.length);
+        $log.info('collectionTopic: remote record length ' +  list.length);
+        $log.info('collectionTopic: remote record ' +  JSON.stringify(list));
 
         var recordList = new Array();
         for (var index = 0; index < list.length; ++index) {
           var record = PlaygroundDBService.createRecord('collectionTopic');
-          record.topicId = list[index].topicId;
-          record.userId = list[index].userId;
+          //后台传过来的是数字类型，需要转成字符串类型,在前端都用String来标示Long类型.
+          record.topicId = list[index].topicId.toString();
+          record.userId = list[index].userId.toString();
           recordList.push(record);
           _cacheTable.put(record.topicId, record);
         }
@@ -544,18 +553,19 @@
             _innerDefer.resolve(topicId);
           },
           function (e) {
-            $log.error('从数据库中删除收藏话题失败:' + e.message);
+            $log.error('从数据库中删除收藏话题失败:' + e);
             _innerDefer.reject(e);
           }
         )
       }, function (e) {
-        $log.error('向服务器发送去掉收藏请求失败:' + e.message);
+        $log.error('向服务器发送去掉收藏请求失败:' + e);
         _innerDefer.reject(e);
       });
       return _innerDefer.promise;
     }
 
     var _isCollectionTopic = function (topicId) {
+      $log.info("isCollectionTopic:" + topicId);
       var info = _cacheTable.get(topicId);
       if (info == null || info == '') {
         return false;
@@ -937,9 +947,7 @@
       favouriteTopicService.buildCacheFromDB(currentUserId);
       topicBlacklistService.buildCacheFromDB(currentUserId);
       filterTopicService.buildCacheFromDB(currentUserId);
-      collectionTopicService.buildCacheFromDB(currentUserId);
-
-      $timeout(function () {
+      collectionTopicService.buildCacheFromDB(currentUserId).then(function() {
         collectionTopicService.buildCacheFromServer(currentUserId);
       });
     }

@@ -51,7 +51,6 @@
 
             $cordovaCamera.getPicture(options).then(function (imgUrl) {
               vm.selectedPics.push(imgUrl);
-              //ho.alert('selected:' + imgUrl);
             }, function (err) {
             });
           }

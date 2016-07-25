@@ -202,16 +202,10 @@
       };
       $cordovaDatePicker.show(options).then(function (date) {
         if (date - currentDate < 0) {
-          $ionicLoading.show({
-            duration: 2000,
-            template: '需要设置晚于当前时间的日期'
-          });
+          promptService.promptMessage("需要设置晚于当前时间的日期");
         }
         else if (_ctlSelf.returnTime != null && _ctlSelf.returnTime - date < 0) {
-          $ionicLoading.show({
-            duration: 2000,
-            template: '开始时间要设置早于截止时间'
-          });
+          promptService.promptMessage("开始时间要设置早于截止时间");
         }
         else {
           _ctlSelf.deadline = date;
@@ -233,10 +227,10 @@
       };
       $cordovaDatePicker.show(options).then(function (date) {
         if (date - currentDate < 0) {
-          alert("需要设置晚于当前时间的日期");
+          promptService.promptMessage("需要设置晚于当前时间的日期");
         }
         else if (_ctlSelf.deadline != null && _ctlSelf.deadline - date > 0) {
-          alert("截止时间要设置晚于开始时间");
+          promptService.promptMessage("截止时间要设置晚于开始时间");
         }
         else {
           _ctlSelf.returnTime = date;
@@ -244,7 +238,6 @@
           _ctlSelf.returnTimeShow = getDateShowString(date);
         }
       }, function (error) {
-        alert(error);
       });
     }
 
