@@ -2506,7 +2506,7 @@
   .task-dot-ctn .success {
     color: #30b845; }
   .task-dot-ctn .failed {
-    color: red; }
+    color: #FF432F; }
 
 .task-desc-ctn {
   display: -webkit-box;
@@ -4070,12 +4070,7 @@ ion-popover-view#task-publish-success-popup {
     -ms-flex-align: center;
     -webkit-align-items: center;
     -moz-align-items: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
-    justify-content: center; }
+    align-items: center; }
 
 .topic-comment .comment-content-panel {
   padding: 5px 0 10px 58px; }

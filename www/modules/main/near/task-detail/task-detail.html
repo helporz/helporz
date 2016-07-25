@@ -113,7 +113,7 @@
                ng-class="{false:'ho-gender-female color-woman',true:'ho-gender-male color-man '}[item.gender==1]"></i>
           </div>
 
-          <span class="time">{{item.created | DateShow}} ∙ {{''+(1+$index)+'楼'}}</span>
+          <span class="time">{{item.created | DateShow}} ∙ {{''+(vm.task.commentList.length-$index)+'楼'}}</span>
           <!--<span class="time">{{item.ui_createTime}}</span>-->
         </div>
 

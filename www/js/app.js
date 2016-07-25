@@ -217,6 +217,10 @@
         }
       }, false);
 
+      // 开启信息同步服务
+      intervalCenter.add(1, 'app.noticeMessage', function () {
+        taskNetService.fetchNoticeMessage();
+      })
 
     });
 

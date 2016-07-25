@@ -51,9 +51,8 @@
 
             $cordovaCamera.getPicture(options).then(function (imgUrl) {
               vm.selectedPics.push(imgUrl);
-              alert('selected:' + imgUrl);
+              //ho.alert('selected:' + imgUrl);
             }, function (err) {
-              alert('err: camera get picture err=' + err);
             });
           }
           // 打开 ImagePicker
@@ -85,18 +84,8 @@
                 });
               }
             }, function (err) {
-              alert('err: pick image, err=' + err);
+              ho.alert('err: pick image, err=' + err);
             });
-            //$window.imagePicker.getPictures(
-            //  function (results) {
-            //    for (var i = 0; i < results.length; i++) {
-            //      console.log('Image URI: ' + results[i]);
-            //      alert('img:' + results[i]);
-            //    }
-            //  }, function (error) {
-            //    console.log('Error: ' + error);
-            //  }
-            //);
 
           }
 

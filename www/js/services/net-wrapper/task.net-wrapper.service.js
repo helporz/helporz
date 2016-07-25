@@ -88,7 +88,7 @@
               promptService.promptErrorInfo(err, 1500);
               $timeout(function () {
                 taskNetService.cache.isNearTaskNeedRefresh = true;
-              }, 1200);
+              }, 1500);
 
             }).finally(function () {
               console.log('accept taskid=' + task.id);

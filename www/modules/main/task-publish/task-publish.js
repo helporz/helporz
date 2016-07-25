@@ -133,12 +133,12 @@
 
     var publishModal = taskPublishModalService.getTaskPublishModal();
     //$timeout(function() {
-      listModal.hide();
+    listModal.hide();
     //},1000);
     //$timeout(function(){
     //  $scope.selectedSubTask = null;
     //  $scope.$apply()
-      publishModal.show();
+    publishModal.show();
     //})
   }
 
@@ -168,9 +168,9 @@
 
 
   taskPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', '$ionicPopup', '$ionicPopover', '$ionicLoading', '$timeout', '$cordovaDatePicker',
-    'taskPublishModalService', 'taskNetService', 'taskUtils', 'taskDesc','promptService','SharePageService','NoticeMessageService'];
+    'taskPublishModalService', 'taskNetService', 'taskUtils', 'taskDesc', 'promptService', 'SharePageService', 'NoticeMessageService'];
   function taskPublishControllerFn($scope, $log, $ionicModal, $ionicPopup, $ionicPopover, $ionicLoading, $timeout, $cordovaDatePicker,
-                                   taskPublishModalService, taskNetService, taskUtils, taskDesc,promptService,SharePageService,NoticeMessageService) {
+                                   taskPublishModalService, taskNetService, taskUtils, taskDesc, promptService, SharePageService, NoticeMessageService) {
     var _ctlSelf = this;
 
     this.setRewardType = function (reward, subReward) {
@@ -178,7 +178,7 @@
       _ctlSelf.selectedSubRewardType = subReward;
     }
 
-    var closeModalProcess = function() {
+    var closeModalProcess = function () {
       var publishModal = taskPublishModalService.getTaskPublishModal();
       publishModal.hide();
       cleanTaskControllerStatus(_ctlSelf);
@@ -202,10 +202,16 @@
       };
       $cordovaDatePicker.show(options).then(function (date) {
         if (date - currentDate < 0) {
-          alert("需要设置晚于当前时间的日期");
+          $ionicLoading.show({
+            duration: 2000,
+            template: '需要设置晚于当前时间的日期'
+          });
         }
         else if (_ctlSelf.returnTime != null && _ctlSelf.returnTime - date < 0) {
-          alert("开始时间要设置早于截止时间");
+          $ionicLoading.show({
+            duration: 2000,
+            template: '开始时间要设置早于截止时间'
+          });
         }
         else {
           _ctlSelf.deadline = date;
@@ -213,7 +219,7 @@
           _ctlSelf.deadlineShow = getDateShowString(date);
         }
       }, function (error) {
-        alert(error);
+        //ho.alert(error);
       });
     }
 
@@ -271,15 +277,15 @@
     }
 
 
-
-
     this.publish = function () {
 
       function _popPublishSuccessPage(taskId) {
         var _pov;
+
         function _share(index) {
-          SharePageService.shareTask(taskId,index);
+          SharePageService.shareTask(taskId, index);
         }
+
         function _close() {
           var po = _pov.$el[0].querySelector('#task-publish-success-popup');
           po.style.opacity = '0';
@@ -315,7 +321,7 @@
           _pov.show();
 
           var po = _pov.$el[0].querySelector('#task-publish-success-popup');
-          $timeout(function(){
+          $timeout(function () {
             po.style.opacity = '1';
           })
         });
@@ -325,7 +331,7 @@
       ////////////////////////////////////////////////
       //为了方便浏览器调试增加如下代码
 
-      if( g_isDebug == true  && _ctlSelf.deadline == null) {
+      if (g_isDebug == true && _ctlSelf.deadline == null) {
         _ctlSelf.returnTime = new Date();
         _ctlSelf.deadline = new Date();
         _ctlSelf.deadline.setMonth(_ctlSelf.deadline.getMonth() + 1);
@@ -340,7 +346,7 @@
       //  _ctlSelf.deadline = new Date(_ctlSelf.deadlineShow);
       //}
       ////////////////////////////////////////////////
-      if(ho.isValid($scope.selectedSubTask)==false || ho.isValid($scope.selectedSubTask.type)==false){
+      if (ho.isValid($scope.selectedSubTask) == false || ho.isValid($scope.selectedSubTask.type) == false) {
         $ionicLoading.show({
           duration: 1500,
           template: '请选择求助类别'
@@ -348,7 +354,7 @@
         return;
       }
 
-      if (ho.isValid(_ctlSelf.summary)==false || _ctlSelf.summary === '') {
+      if (ho.isValid(_ctlSelf.summary) == false || _ctlSelf.summary === '') {
         //alert("请输入求助类型");
         $ionicLoading.show({
           duration: 1500,
@@ -357,7 +363,7 @@
         return;
       }
 
-      if (ho.isValid(_ctlSelf.pubLocation)==false || _ctlSelf.pubLocation ==='') {
+      if (ho.isValid(_ctlSelf.pubLocation) == false || _ctlSelf.pubLocation === '') {
         //alert("请输入见面地址");
         $ionicLoading.show({
           duration: 1500,
@@ -366,7 +372,7 @@
         return;
       }
 
-      if (ho.isValid(_ctlSelf.deadline)==false) {
+      if (ho.isValid(_ctlSelf.deadline) == false) {
         //alert("请选择截止时间");
         $ionicLoading.show({
           duration: 1500,
@@ -375,7 +381,7 @@
         return;
       }
 
-      if (ho.isValid(_ctlSelf.selectedRewardType)==false || ho.isValid(_ctlSelf.selectedSubRewardType)==false) {
+      if (ho.isValid(_ctlSelf.selectedRewardType) == false || ho.isValid(_ctlSelf.selectedSubRewardType) == false) {
         //alert("请选择感谢方式");
         $ionicLoading.show({
           duration: 1500,
@@ -419,7 +425,7 @@
           //  templateUrl: 'modules/components/templates/ionic-loading/com-network-error.html'
           //})
           $ionicLoading.hide();
-          if( error ==  501 || error == 510 ) {
+          if (error == 501 || error == 510) {
             closeModalProcess();
           }
           else {

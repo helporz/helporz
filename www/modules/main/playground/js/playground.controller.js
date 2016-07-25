@@ -711,7 +711,6 @@
           $scope.$apply();
         });
       }, function (message) {
-        alert(message);
       }, cameraOptions);
     }
 
