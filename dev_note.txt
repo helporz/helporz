@@ -1,0 +1,6 @@
+一关于app安装后显示名称问题:
+1 app显示的名称是config.xml中name，但是由于修改config.xml中的name会导致改变工程名称，而且ios不支持中文的工程名称；因此需要修改strings.xml和helporz-Info.plist。
+
+2 app的安装后显示名称分别记录在strings.xml和helporz-Info.plist中，在工程根目录增加config_mdf目录用于存放修改后的strings.xml和helporz-Info.plist。
+
+3 增加030_update_project_config.files.js，在ionic prepare后执行将strings.xml和helporz-Info.plist拷贝到android和ios工程对应目录下。
