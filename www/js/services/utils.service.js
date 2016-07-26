@@ -317,8 +317,8 @@
               _postDefer.reject(resp.code);
             }
           }).error(function (data, status) {
-            ho.alertObject(data);
-            ho.alert('error status:' + status)
+            //ho.alertObject(data);
+            //ho.alert('error status:' + status)
             _postDefer.reject(status);
           });
           return _postDefer.promise;
