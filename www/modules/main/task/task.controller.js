@@ -8,7 +8,7 @@
   angular.module('main.task')
     .controller('mainTaskCtrl', ['$log', '$state', '$ionicLoading', '$ionicActionSheet', '$ionicPopup', 'widgetDelegate', '$ionicScrollDelegate',
       '$scope', 'taskNetService', 'taskUtils', '$timeout', 'intervalCenter', 'NoticeMessageDB', 'NoticeMessageService',
-      'userUtils', 'IMInterfaceService', 'imMessageService', '$window', 'mainTaskService','promptService',
+      'userUtils', 'IMInterfaceService', 'imMessageService', '$window', 'mainTaskService','promptService','learnPublishService',
       mainTaskCtrl])
     .factory('mainTaskService', mainTaskService);
 
@@ -29,7 +29,7 @@
 
   function mainTaskCtrl($log, $state, $ionicLoading, $ionicActionSheet, $ionicPopup, widgetDelegate, $ionicScrollDelegate,
                         $scope, taskNetService, taskUtils, $timeout, intervalCenter, NoticeMessageDB, NoticeMessageService,
-                        userUtils, IMInterfaceService, imMessageService, $window, mainTaskService,promptService) {
+                        userUtils, IMInterfaceService, imMessageService, $window, mainTaskService,promptService,learnPublishService) {
     var vm = $scope.vm = {};
 
     vm.tabsetSpace = ionic.Platform.isAndroid() ? '44px' : '64px';
@@ -627,7 +627,7 @@
             });
         }
         else if (task.status == 2) {  //wait over time
-          console.error('invalid task opt: wait over time - post passive');
+          learnPublishService.show();
         }
         else if (task.status == 4) {  // going on
           console.error('invalid task opt: going on - post passive');

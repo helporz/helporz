@@ -5,7 +5,7 @@
 (function(){
   'use strict';
 
-  angular.module('main.editSheet')
+  angular.module('main')
 
     .factory('mainEditSheetService', function(){
       return {

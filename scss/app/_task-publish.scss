@@ -9,6 +9,12 @@
     border-radius: 10px;
     background-color: #e6e6e6;
   }
+
+  .header-button {
+    &.activated {
+      background-color: #efeff4
+    }
+  }
 }
 
 .task-group-wrapper {

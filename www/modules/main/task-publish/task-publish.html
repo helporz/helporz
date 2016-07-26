@@ -3,10 +3,17 @@
   <ion-header-bar align-title="center" class="task-publish-default bgcolor-bg ">
   <!--<ion-header-bar align-title="center" class="task-publish-default bgcolor-bg bgcolor-theme">-->
     <div class="buttons">
-      <button class="button icon ion-android-close bgcolor-bg" style="" ng-click="ctl.closeModal()">
+      <button class="button icon ion-android-close bgcolor-bg header-button" style="" ng-click="ctl.closeModal()">
       </button>
     </div>
+
     <div class="title tp-title col-center">召唤{{publishTaskTypeName}}</div>
+
+    <div class="buttons">
+      <button class="button icon ho-bulb bgcolor-bg header-button" style="" ng-click="ctl.cb_gotoLearnPublish()">
+      </button>
+    </div>
+
   </ion-header-bar>
   <ion-content class="color-task-publish" overflow-scroll="false" style="overflow: hidden;">
     <div class="task-group-wrapper">
@@ -40,13 +47,13 @@
 
       <div class="left-align  split"></div>
 
-      <div class="row group-item group-item-input no-border left-align">
+      <div class="row group-item group-item-input no-border left-align" ng-if="taskTypeIndex!=1">
         <!--<img class="icon" src="./img/login/phone.png"/>-->
         <div class="icon ho-location color-text-secondary font-size-17" style="margin:0 0 0 -1px;"/>
         <input class="col-80" type="text" placeholder="你希望对方在哪里与你碰头" ng-model="ctl.pubLocation"/>
       </div>
 
-      <div class="left-align  split"></div>
+      <div class="left-align  split" ng-if="taskTypeIndex!=1"></div>
 
       <div class="row group-item group-item-input no-border left-align" >
         <div class="icon ho-alert-clock color-text-secondary font-size-15" style="margin: 0 1px 0 1px"/>
@@ -56,7 +63,7 @@
 
       <div class="left-align  split"  ng-show="taskTypeIndex == 2"></div>
 
-      <div class="row group-item group-item-input no-border left-align" ng-show="taskTypeIndex == 2">
+      <div class="row group-item group-item-input no-border left-align" ng-show="taskTypeIndex==2">
         <!--<img class="icon" src="./img/login/phone.png"/>-->
         <div class="icon ho-alert-clock color-text-secondary font-size-15" style="margin: 0 1px 0 1px"/>
         <input class="col-80" type="text" placeholder="归还时间" ng-model="ctl.returnTimeShow"

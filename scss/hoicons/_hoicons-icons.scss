@@ -30,6 +30,7 @@
 .#{$hoicons-prefix}alert-clock:before,
 .#{$hoicons-prefix}task-giveup:before,
 .#{$hoicons-prefix}task-going-overtime:before,
+.#{$hoicons-prefix}bulb:before,
 .#{$hoicons-prefix}task-remark:before,
 .#{$hoicons-prefix}gender-female:before,
 .#{$hoicons-prefix}gender-male:before,
@@ -76,6 +77,7 @@
 .#{$hoicons-prefix}alert-clock:before{ content: $hoicon-var-alert-clock; }
 .#{$hoicons-prefix}task-giveup:before{ content: $hoicon-var-task-giveup; }
 .#{$hoicons-prefix}task-going-overtime:before{ content: $hoicon-var-task-going-overtime; }
+.#{$hoicons-prefix}bulb:before{ content: $hoicon-var-bulb; }
 .#{$hoicons-prefix}task-remark:before{ content: $hoicon-var-task-remark; }
 .#{$hoicons-prefix}gender-female:before{ content: $hoicon-var-gender-female; }
 .#{$hoicons-prefix}gender-male:before{ content: $hoicon-var-gender-male; }
