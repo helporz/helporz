@@ -41,6 +41,7 @@
 .ho-alert-clock:before,
 .ho-task-giveup:before,
 .ho-task-going-overtime:before,
+.ho-bulb:before,
 .ho-task-remark:before,
 .ho-gender-female:before,
 .ho-gender-male:before,
@@ -153,6 +154,9 @@
 
 .ho-task-going-overtime:before {
   content: ""; }
+
+.ho-bulb:before {
+  content: ""; }
 
 .ho-task-remark:before {
   content: ""; }

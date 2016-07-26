@@ -95,6 +95,7 @@
     };
 
 
+
     this.publishShaodai = function () {
       publishTask($scope, 0, taskPublishModalService, taskUtils, taskDesc, $timeout);
     };
@@ -168,9 +169,11 @@
 
 
   taskPublishControllerFn.$inject = ['$scope', '$log', '$ionicModal', '$ionicPopup', '$ionicPopover', '$ionicLoading', '$timeout', '$cordovaDatePicker',
-    'taskPublishModalService', 'taskNetService', 'taskUtils', 'taskDesc', 'promptService', 'SharePageService', 'NoticeMessageService'];
+    'taskPublishModalService', 'taskNetService', 'taskUtils', 'taskDesc', 'promptService', 'SharePageService', 'NoticeMessageService',
+    'learnPublishService'];
   function taskPublishControllerFn($scope, $log, $ionicModal, $ionicPopup, $ionicPopover, $ionicLoading, $timeout, $cordovaDatePicker,
-                                   taskPublishModalService, taskNetService, taskUtils, taskDesc, promptService, SharePageService, NoticeMessageService) {
+                                   taskPublishModalService, taskNetService, taskUtils, taskDesc, promptService, SharePageService, NoticeMessageService,
+                                   learnPublishService) {
     var _ctlSelf = this;
 
     this.setRewardType = function (reward, subReward) {
@@ -187,6 +190,11 @@
     }
 
     this.closeModal = closeModalProcess;
+
+    this.cb_gotoLearnPublish = function() {
+      learnPublishService.show();
+    }
+
 
     this.deadline = null;//new Date();
     this.returnTime = null;//new Date();

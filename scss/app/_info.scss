@@ -25,4 +25,27 @@
     }
   }
 
+  .school-panel {
+    @include display-flex();
+    @include align-items(center);
+    @include justify-content(center);
+    border-width: 1px 0 1px 0;
+    border-style: solid;
+    border-color: #ddd;
+    height: 48px;
+
+    .school-name {
+      color: $color-text-secondary;
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .school-arrow {
+      position: absolute;
+      top: 64px;
+      right: 20px;
+      color: $color-text-thirdly;
+    }
+  }
+
 }
