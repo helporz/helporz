@@ -47,19 +47,10 @@
           <span>美女</span></ho-tab>
       </ho-tab-set>
 
-      <div class="ho-item ho-item-icon"
-           ng-click="vm.info.cb_school()"
-           style="
-                  border-width: 1px 0 1px 0;
-                  border-style: solid;
-                  border-color: #ddd;
-                  ">
-        <i class="item-icon icon ho-graduation-cap color-text-secondary"></i>
+      <div class="school-panel" ng-click="vm.info.cb_school()">
 
-        <div class="item-content">
-          <p class="left-text">{{vm.info.schoolName}}</p>
-        </div>
-        <i class="right icon ion-ios-arrow-right color-text-secondary"></i>
+        <p class="school-name">{{vm.info.schoolName}}</p>
+        <i class="right icon ion-ios-arrow-right color-text-secondary school-arrow"></i>
       </div>
 
       <div style="padding:20px 10px 0px 10px">
