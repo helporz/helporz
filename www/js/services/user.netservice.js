@@ -268,6 +268,16 @@
     var getTagList = function () {
       return httpBaseService.getForPromise('/user/tag/list', null);
     }
+
+    var firstUpdateUserInfo = function(orgId,gender) {
+      var param = {
+        orgId:orgId,
+        gender:gender,
+      }
+
+      return httpBaseService.postForPromise('/user/firstUpdate',param);
+    }
+
     return {
       login: _login,
       loginByTicket: _loginByTicket,
@@ -296,6 +306,7 @@
       getOrgList: getOrgList,
       getOrgMemberCount: getOrgMemberCount,
       getTagList: getTagList,
+      firstUpdateUserInfo:firstUpdateUserInfo,
       cache: _cache
     };
   }
